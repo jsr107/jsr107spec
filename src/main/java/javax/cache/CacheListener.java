@@ -1,4 +1,4 @@
-package net.sf.jsr107cache;
+package javax.cache;
 
 /** Interface describing various events that can happen as elements are added to
  *  or removed from a cache

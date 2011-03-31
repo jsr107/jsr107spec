@@ -1,4 +1,4 @@
-package net.sf.jsr107cache;
+package javax.cache;
 
 import java.io.*;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import java.util.Properties;
  */
 public class CacheManager {
 
-    private static final String FACTORY_PROPERTY_NAME = "net.sf.jsr107cache.CacheFactory";
+    private static final String FACTORY_PROPERTY_NAME = "javax.cache.CacheFactory";
     private static final String DEFAULT_FACTORY_NAME = "ri.cache.BasicCacheFactory";
 
     protected static CacheManager instance = new CacheManager();

@@ -1,4 +1,4 @@
-package net.sf.jsr107cache;
+package javax.cache;
 
 
 /**
