@@ -9,10 +9,10 @@ About
   Provider Interface") for use by implementers.
 
 
-Releases
+Release
 --------
 
-The stable releases of this software are tagged with version numbers, starting with 0.1. Eventually, when the specification is furhter
+The stable releases of this software are tagged with version numbers, starting with 0.1. Eventually, when the specification is further
 along releases will match the specification number.
 
 
