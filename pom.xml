@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>javax.cache</groupId>
-    <artifactId>jsr107</artifactId>
+    <artifactId>jsr107-api</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>JSR107 API and SPI</name>
@@ -50,22 +50,23 @@
     </build>
 
 
+
     <!-- Note: site URL repeated here to ensure correct deployment path -->
-    <distributionManagement>
-        <!--
-          The server id here defined must also appear in ~/.m2/settings.xml with username
-        -->
-        <repository>
-            <id>sourceforge.net</id>
-            <name>SF EHCache Repository</name>
-            <url>scp://web.sourceforge.net:/home/groups/e/eh/ehcache/htdocs/repository</url>
-        </repository>
-        <snapshotRepository>
-            <id>sourceforge.net</id>
-            <name>SF EHCache Snapshot Repository</name>
-            <url>scp://web.sourceforge.net:/home/groups/e/eh/ehcache/htdocs/snapshotrepository</url>
-        </snapshotRepository>
-    </distributionManagement>
+        <distributionManagement>
+            <!--
+              The server id here defined must also appear in ~/.m2/settings.xml with username
+            -->
+            <repository>
+                <id>sourceforge-releases</id>
+                <name>Sourceforge Release Repository</name>
+                <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            </repository>
+            <snapshotRepository>
+                <id>sourceforge-snapshots</id>
+                <name>Sourceforge Snapshot Repository</name>
+                <url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots</url>
+            </snapshotRepository>
+        </distributionManagement>
 
 
 </project>
