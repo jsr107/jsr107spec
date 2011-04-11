@@ -40,6 +40,8 @@ IRC
 
 We will be using the `#jsr107` channel on Freenode for chat.
 
+We also have set up a commit hook which publishes commits to the channel.
+
 
 Issue tracker
 -------------
