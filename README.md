@@ -35,6 +35,12 @@ Mailing list
 Please join the mailing list if you're interested in using or developing the software: <http://groups.google.com/group/jsr107>
 
 
+IRC
+---
+
+We will be using the `#jsr107` channel on Freenode for chat.
+
+
 Issue tracker
 -------------
 
