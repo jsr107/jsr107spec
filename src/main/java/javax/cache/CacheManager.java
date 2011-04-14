@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * CacheManager is used in J2SE environments for looking up named caches.
@@ -16,9 +18,11 @@ public class CacheManager {
 
     protected static CacheManager instance = new CacheManager();
 
-    // REVIEW brian@quiotix.com
-    // Should this be a HashMap<String, WeakReference<Cache>>?
-    private final Map caches = Collections.synchronizedMap(new HashMap());
+
+    /**
+     * Caches managed by this manager.
+     */
+    private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
 
     /**
      * Returns the singleton CacheManager
@@ -27,8 +31,13 @@ public class CacheManager {
         return instance;
     }
 
+    /**
+     *
+     * @param cacheName
+     * @return a Cache or null, if no cache matching that name exists
+     */
     public Cache getCache(String cacheName) {
-        return (Cache) caches.get(cacheName);
+        return caches.get(cacheName);
     }
 
     public void registerCache(String cacheName, Cache cache) {

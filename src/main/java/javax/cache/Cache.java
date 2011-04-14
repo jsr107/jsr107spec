@@ -34,6 +34,8 @@ import java.util.Set;
  */
 public interface Cache<K, V> extends Map {
 
+    //todo should all methods throw CacheException?
+
 
     /**
      * The getAll method will return, from the cache, a Map of the objects
