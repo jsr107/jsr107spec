@@ -7,19 +7,17 @@ package javax.cache;
 public enum Status {
 
      /**
-     * The cache is uninitialised. It cannot be used.
+     * The CacheManager or Cache is uninitialised. It cannot be used.
      */
     UNITIALISED,
 
     /**
-     * The cache is alive. It can be used.
+     * The CacheManager or Cache is alive. It can be used.
      */
     ALIVE,
 
     /**
-     * The cache is shudown. It cannot be used.
+     * The CacheManager or Cache is shudown. It cannot be used.
      */
     SHUTDOWN
-
-
 }
