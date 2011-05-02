@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Brian Goetz
  */
-public interface CacheEntry extends Map.Entry {
+public interface CacheEntry<K,V> extends Map.Entry<K,V> {
 
     int getHits();
 

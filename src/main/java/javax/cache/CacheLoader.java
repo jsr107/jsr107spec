@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * 24/1/09 Changed so as to not throw CacheException, to ease implementation
  */
-public interface CacheLoader
+public interface CacheLoader<K,V>
 {
     /**
      * loads an object. Application writers should implement this
@@ -21,7 +21,7 @@ public interface CacheLoader
      *
      * @return The object that is to be stored in the cache.
      */
-    public Object load(Object key);
+    public V load(Object key);
 
     /**
      * loads multiple object. Application writers should implement this
@@ -34,6 +34,6 @@ public interface CacheLoader
      * @return A Map of objects that are to be stored in the cache.
      */
 
-    public Map loadAll(Collection keys);
+    public Map<K,V> loadAll(Collection keys);
 
 }
