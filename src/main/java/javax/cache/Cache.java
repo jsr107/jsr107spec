@@ -32,7 +32,7 @@ import java.util.Set;
  * @param <K> the type of keys maintained by this Cache
  * @param <V> the type of mapped values
  */
-public interface Cache<K, V> extends Map {
+public interface Cache<K, V> extends Map<K, V> {
 
     //todo should all methods throw CacheException?
 
@@ -52,7 +52,7 @@ public interface Cache<K, V> extends Map {
      * method will not distinguish returning a null stored in the cache and
      * not finding the object in the cache. In both cases a null is returned.
      */
-    Map getAll(Collection keys) throws CacheException;
+    Map<K,V> getAll(Collection keys) throws CacheException;
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -98,14 +98,14 @@ public interface Cache<K, V> extends Map {
      * returned.  With "peek" the CacheLoader will not be invoked and other
      * caches in the system will not be searched.
      */
-    Object peek(Object key);
+    V peek(Object key);
 
 
     /**
      * Returns the CacheEntry object associated with the object identified by
      * "key". If the object is not in the cache a null is returned.
      */
-    CacheEntry getCacheEntry(Object key);
+    CacheEntry<K,V> getCacheEntry(Object key);
 
     /**
      * Returns the CacheStatistics object associated with the cache.
