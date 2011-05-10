@@ -1,12 +1,20 @@
 package javax.cache;
 
 /**
+ * This is an alternative proposal to {@link Cache} which does NOT extend Map.
+ * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
+ * method signatures to better suit a distributed system by, for example,
+ * not returning values on put or remove.
+ *
+ * OPEN ISSUES:
+ * - do we use this :)
+ * - should all methods throw CacheException?
+ * - resolve overlap/conflict between inner interface Entry and CacheEntry
+ *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
 public interface CacheAlt<K,V> {
-    //TODO: should all methods throw CacheException?
-
     /**
      * @see Cache#getAll(java.util.Collection)
      */
