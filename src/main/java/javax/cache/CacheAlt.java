@@ -137,16 +137,9 @@ public interface CacheAlt<K,V> {
      */
     boolean remove(Object key, Object value);
 
-    /**
-     * @see java.util.Map#remove(Object)
-     */
-//    V remove(Object key);
-    V removeAndReturnPreviousValue(K key);
-
     // Bulk Operations
 
     /**
-     * TODO: should this (or a variant) take a Cache instead of a Map?
      * @see java.util.Map#putAll(java.util.Map)
      */
     void putAll(java.util.Map<? extends K, ? extends V> m);
