@@ -102,9 +102,17 @@ public interface CacheAlt<K,V> {
     boolean putIfAbsent(K key, V value);
 
     /**
+     * NOTE: different return value
      * @see java.util.Map#remove(Object)
      */
-    V remove(Object key);
+//    V remove(Object key);
+    boolean remove(Object key);
+
+    /**
+     * @see java.util.Map#remove(Object)
+     */
+//    V remove(Object key);
+    V removeAndReturnPreviousValue(Object key);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
@@ -156,7 +164,7 @@ public interface CacheAlt<K,V> {
      * @see java.util.Map#keySet()
      */
 //    Set<K> keySet();
-    java.util.Iterator<K> keySetIterator();
+    java.util.Iterator<K> keys();
 
     /**
      * NOTE: Iterator instead of Collection
