@@ -164,14 +164,14 @@ public interface CacheAlt<K,V> {
      * @see java.util.Map#keySet()
      */
 //    Set<K> keySet();
-    java.util.Iterator<K> keys();
+    Iterable<K> keys();
 
     /**
      * NOTE: Iterator instead of Collection
      * @see java.util.Map#values()
      */
 //    Collection<V> values();
-    java.util.Iterator<V> values();
+    Iterable<V> values();
 
     /**
      * NOTE: Iterator instead of Collection
@@ -179,7 +179,7 @@ public interface CacheAlt<K,V> {
      * @see java.util.Map#entrySet()
      */
 //    Set<Map.Entry<K, V>> entrySet();
-    java.util.Iterator<Entry<K, V>> entries();
+    Iterable<Entry<K, V>> entries();
 
     /**
      * TODO: Maybe CacheEntry should extend this
