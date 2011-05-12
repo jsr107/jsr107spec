@@ -129,4 +129,13 @@ public interface Cache<K, V> extends Map<K, V> {
      * Remove a listener from the list of cache listeners
      */
     void removeListener(CacheListener listener);
+
+
+    /**
+     * Whether the cache is a read-through cache. A CacheEntryFactory should be configured for read through caches
+     * which is called on a cache miss.
+     * @return
+     */
+    boolean isReadThrough();
+
 }
