@@ -5,44 +5,54 @@ package javax.cache;
  * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
  * method signatures to better suit a distributed system by, for example,
  * not returning values on put or remove.
- *
+ * <p/>
  * OPEN ISSUES:
  * - do we use this :)
  * - should all methods throw CacheException?
  * - resolve overlap/conflict between inner interface Entry and CacheEntry
+ * - Cache Statistics? JMX?
+ * - evictAll? removeAll?
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
-public interface CacheAlt<K,V> {
+public interface CacheAlt<K, V> {
+
     /**
      * @see Cache#getAll(java.util.Collection)
      */
-    java.util.Map<K,V> getAll(java.util.Collection keys);
+    java.util.Map<K, V> getAll(java.util.Collection keys);
+
     /**
      * @see Cache#load(Object)
      */
     void load(Object key);
+
     /**
-     * @see Cache#load(Object)
+     * @see Cache#loadAll(java.util.Collection)
      */
     void loadAll(java.util.Collection keys);
+
     /**
      * @see Cache#getCacheEntry(Object)
      */
-    CacheEntry<K,V> getCacheEntry(Object key);
+    CacheEntry<K, V> getCacheEntry(Object key);
+
     /**
      * @see Cache#getCacheEntry(Object)
      */
     CacheStatistics getCacheStatistics();
+
     /**
      * @see javax.cache.Cache#evict()
      */
     void evict();
+
     /**
      * @see javax.cache.Cache#addListener(CacheListener)
      */
     void addListener(CacheListener listener);
+
     /**
      * @see javax.cache.Cache#removeListener(CacheListener)
      */
@@ -69,11 +79,6 @@ public interface CacheAlt<K,V> {
      */
     boolean containsKey(Object key);
 
-//    /**
-//     * @see java.util.Map#containsValue(Object)
-//     */
-//    boolean containsValue(Object value);
-
     /**
      * @see java.util.Map#get(Object)
      */
@@ -83,19 +88,15 @@ public interface CacheAlt<K,V> {
 
     /**
      * NOTE: different return value
+     *
      * @see java.util.Map#put(Object, Object)
      */
 //    V put(K key, V value);
     void put(K key, V value);
 
     /**
-     * @see java.util.Map#put(Object, Object)
-     */
-//    V put(K key, V value);
-    V putAndReturnPreviousValue(K key, V value);
-
-    /**
      * NOTE: different return value
+     *
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
 //    V putIfAbsent(K key, V value);
@@ -103,6 +104,7 @@ public interface CacheAlt<K,V> {
 
     /**
      * NOTE: different return value
+     *
      * @see java.util.Map#remove(Object)
      */
 //    V remove(Object key);
@@ -121,6 +123,7 @@ public interface CacheAlt<K,V> {
 
     /**
      * NOTE: different return value
+     *
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
 //    V replace(K key, V value);
@@ -154,6 +157,7 @@ public interface CacheAlt<K,V> {
 
     /**
      * NOTE: Iterator instead of Set
+     *
      * @see java.util.Map#keySet()
      */
 //    Set<K> keySet();
@@ -161,6 +165,7 @@ public interface CacheAlt<K,V> {
 
     /**
      * NOTE: Iterator instead of Collection
+     *
      * @see java.util.Map#values()
      */
 //    Collection<V> values();
@@ -169,6 +174,7 @@ public interface CacheAlt<K,V> {
     /**
      * NOTE: Iterator instead of Collection
      * TODO: Maybe CacheEntry is used instead of Entry
+     *
      * @see java.util.Map#entrySet()
      */
 //    Set<Map.Entry<K, V>> entrySet();
@@ -177,13 +183,15 @@ public interface CacheAlt<K,V> {
     /**
      * TODO: Maybe CacheEntry should extend this
      * TODO: Maybe CacheEntry is used instead of this
+     *
      * @see java.util.Map.Entry
      */
-    interface Entry<K,V> {
+    interface Entry<K, V> {
         /**
          * see java.util.Map.Entry#getKey
          */
         K getKey();
+
         /**
          * see java.util.Map.Entry#getValue
          */
@@ -194,13 +202,13 @@ public interface CacheAlt<K,V> {
          * see java.util.Map.Entry#setValue
          */
 //    	V setValue(V value);
-    	void setValue(V value);
+        void setValue(V value);
 
         /**
          * see java.util.Map.Entry#setValue
          */
 //    	V setValue(V value);
-    	V setValueAndReturnPreviousValue(V value);
+        V setValueAndReturnPreviousValue(V value);
 
 //    	boolean equals(Object o);
 //    	int hashCode();
@@ -211,4 +219,10 @@ public interface CacheAlt<K,V> {
 //    boolean equals(Object o);
 
 //    int hashCode();
+
+    /**
+     * @return the CacheConfiguration, which is immutable
+     */
+    CacheConfiguration getCacheConfiguration();
+
 }

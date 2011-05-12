@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * CacheEntry
  *
- * @author Brian Goetz
+ *
  */
 public interface CacheEntry<K,V> extends Map.Entry<K,V> {
 
