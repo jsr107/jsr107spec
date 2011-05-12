@@ -147,10 +147,9 @@ public interface CacheAlt<K, V> {
      */
     void putAll(java.util.Map<? extends K, ? extends V> m);
 
-    /**
-     * @see java.util.Map#clear()
-     */
-    void clear();
+
+    void removeAll();
+
 
 
     // Views
