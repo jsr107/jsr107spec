@@ -8,19 +8,19 @@ package javax.cache;
  *
  *
  * OPEN ISSUES:
- * - do we use this :)
  * - should all methods throw CacheException?
  * - resolve overlap/conflict between inner interface Entry and CacheEntry
  * - Cache Statistics? JMX?
- * - evictAll? removeAll?
  *
- * These methods are ?blocking synchronous?.
+ * These methods are ?blocking synchronous?. We need to define what that means.
+ *
+ * todo this is only partially done
  *
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
-public interface CacheAlt<K, V> extends Iterable<CacheAlt.Entry<K, V>> {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * Cache specific things
