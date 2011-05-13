@@ -1,11 +1,7 @@
 package javax.cache;
 
 /**
- * Created by IntelliJ IDEA.
- * User: gluck
- * Date: 12/05/11
- * Time: 10:59 AM
- * To change this template use File | Settings | File Templates.
+ * This interface supports setter injection and also the fluent builder pattern.
  */
 public interface CacheConfiguration {
 
@@ -20,12 +16,35 @@ public interface CacheConfiguration {
      */
     boolean isReadThrough();
 
+    /**
+     * Sets whether the cache is a read-through cache.
+     * @param readThrough the value for readThrough
+     * @throws IllegalStateException if the configuration can no longer be changed
+     */
+    void setReadThrough(boolean readThrough);
+
+
 
     /**
+     * Blurbage about blurbage
+     *
+     *
      * Whether storeByValue (true) or storeByRefernce (false)
      * @return
      */
     boolean isStoreByValue();
+
+    /**
+     *
+     *
+     *
+     * Sets whether the cache is store-by-value cache.
+     * @param storeByValue the value for storeByValue
+     * @throws IllegalStateException if the configuration can no longer be changed
+     * @see #isStoreByValue()
+     */
+    void setStoreByValue(boolean storeByValue);
+
 
 
 }

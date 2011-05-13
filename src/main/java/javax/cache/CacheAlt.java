@@ -5,7 +5,8 @@ package javax.cache;
  * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
  * method signatures to better suit a distributed system by, for example,
  * not returning values on put or remove.
- * <p/>
+ *
+ *
  * OPEN ISSUES:
  * - do we use this :)
  * - should all methods throw CacheException?
@@ -13,10 +14,17 @@ package javax.cache;
  * - Cache Statistics? JMX?
  * - evictAll? removeAll?
  *
+ * These methods are ?blocking synchronous?.
+ *
+ *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
-public interface CacheAlt<K, V> {
+public interface CacheAlt<K, V> extends Iterable<CacheAlt.Entry<K, V>> {
+
+    /**
+     * Cache specific things
+     */
 
     /**
      * @see Cache#getAll(java.util.Collection)
@@ -62,24 +70,14 @@ public interface CacheAlt<K, V> {
     // Methods below based on java.util.Map
     // ************************************
 
-    // Query Operations
-
-    /**
-     * @see java.util.Map#size()
-     */
-    int size();
-
-    /**
-     * @see java.util.Map#isEmpty()
-     */
-    boolean isEmpty();
 
     /**
      * @see java.util.Map#containsKey(Object)
      */
-    boolean containsKey(Object key);
+    boolean containsKey(K key);
 
     /**
+     * Todo Should this be K? Why does Map do this?
      * @see java.util.Map#get(Object)
      */
     V get(Object key);
@@ -91,8 +89,8 @@ public interface CacheAlt<K, V> {
      *
      * @see java.util.Map#put(Object, Object)
      */
-//    V put(K key, V value);
     void put(K key, V value);
+
 
     /**
      * NOTE: different return value
@@ -104,17 +102,15 @@ public interface CacheAlt<K, V> {
 
     /**
      * NOTE: different return value
-     *
+     * @return returns false if there was no matching key
      * @see java.util.Map#remove(Object)
      */
-//    V remove(Object key);
     boolean remove(Object key);
 
     /**
      * @see java.util.Map#remove(Object)
      */
-//    V remove(Object key);
-    V removeAndReturnPreviousValue(Object key);
+    V getAndRemove(Object key);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
@@ -148,13 +144,16 @@ public interface CacheAlt<K, V> {
     void putAll(java.util.Map<? extends K, ? extends V> m);
 
 
-    void removeAll();
-
+    /**
+     * Note: can fire an event on a listener.
+     */
+    void clear();
 
 
     // Views
 
     /**
+     * Potentially expensive.
      * NOTE: Iterator instead of Set
      *
      * @see java.util.Map#keySet()
@@ -163,6 +162,7 @@ public interface CacheAlt<K, V> {
     Iterable<K> keys();
 
     /**
+     * Potentially expensive.
      * NOTE: Iterator instead of Collection
      *
      * @see java.util.Map#values()
@@ -171,6 +171,7 @@ public interface CacheAlt<K, V> {
     Iterable<V> values();
 
     /**
+     * Potentially expensive.
      * NOTE: Iterator instead of Collection
      * TODO: Maybe CacheEntry is used instead of Entry
      *
@@ -223,5 +224,41 @@ public interface CacheAlt<K, V> {
      * @return the CacheConfiguration, which is immutable
      */
     CacheConfiguration getCacheConfiguration();
+
+    /**
+     * Suspect potential high cost
+     */
+
+    /**
+     * This is a potentially expensive operation in a distributed cache.
+     * <p/>
+     * This is not implemented by memcache.
+     * <p/>
+     * Terracotta ok.
+     * <p/>
+     * Coherence and grids. You need to go to each node/partition.
+     * <p/>
+     * Should this be in JMX?
+     *
+     * @see java.util.Map#size()
+     */
+    int size();
+
+    /**
+     * @param value
+     * @return
+     */
+    boolean containsValue(V value);
+
+
+    /**
+     * Suspect Usefulness only
+     */
+
+    /**
+     * @see java.util.Map#isEmpty()
+     */
+    boolean isEmpty();
+
 
 }

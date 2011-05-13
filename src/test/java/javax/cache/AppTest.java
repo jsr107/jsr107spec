@@ -12,6 +12,9 @@ public class AppTest extends TestCase {
      * Rigourous Test :-)
      */
     public void testCacheManager() {
+
+
+
         CacheManagerImpl cacheManager = new CacheManagerImpl();
     }
 }
