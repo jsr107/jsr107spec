@@ -11,6 +11,7 @@ package javax.cache;
  * - should all methods throw CacheException?
  * - resolve overlap/conflict between inner interface Entry and CacheEntry
  * - Cache Statistics? JMX?
+ * - do we need the Iterable methods?
  *
  * These methods are ?blocking synchronous?. We need to define what that means.
  *
@@ -77,7 +78,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean containsKey(K key);
 
     /**
-     * Todo Should this be K? Why does Map do this?
+     * TODO: Should this be K? Why does Map do this?
      * @see java.util.Map#get(Object)
      */
     V get(Object key);
@@ -149,12 +150,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     void clear();
 
-
     // Views
 
     /**
      * Potentially expensive.
-     * NOTE: Iterator instead of Set
+     * NOTE: Iterable instead of Set
      *
      * @see java.util.Map#keySet()
      */
@@ -163,7 +163,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * Potentially expensive.
-     * NOTE: Iterator instead of Collection
+     * NOTE: Iterable instead of Collection
      *
      * @see java.util.Map#values()
      */
@@ -172,7 +172,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * Potentially expensive.
-     * NOTE: Iterator instead of Collection
+     * NOTE: Iterable instead of Collection
      * TODO: Maybe CacheEntry is used instead of Entry
      *
      * @see java.util.Map#entrySet()
@@ -188,24 +188,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     interface Entry<K, V> {
         /**
-         * see java.util.Map.Entry#getKey
+         * @see java.util.Map.Entry#getKey()
          */
         K getKey();
 
         /**
-         * see java.util.Map.Entry#getValue
+         * @see java.util.Map.Entry#getValue()
          */
         V getValue();
 
         /**
          * NOTE: different signature
-         * see java.util.Map.Entry#setValue
+         * @see java.util.Map.Entry#setValue(Object)
          */
 //    	V setValue(V value);
         void setValue(V value);
 
         /**
-         * see java.util.Map.Entry#setValue
+         * @see java.util.Map.Entry#setValue(Object)
          */
 //    	V setValue(V value);
         V setValueAndReturnPreviousValue(V value);
@@ -236,7 +236,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * <p/>
      * Terracotta ok.
      * <p/>
-     * Coherence and grids. You need to go to each node/partition.
+     * Coherence and grids. You need to go to each shard/partition.
      * <p/>
      * Should this be in JMX?
      *
@@ -245,11 +245,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     int size();
 
     /**
-     * @param value
-     * @return
+     * @see java.util.Map#containsValue(Object)
      */
-    boolean containsValue(V value);
-
+    boolean containsValue(Object value);
 
     /**
      * Suspect Usefulness only
@@ -259,6 +257,4 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @see java.util.Map#isEmpty()
      */
     boolean isEmpty();
-
-
 }
