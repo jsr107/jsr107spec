@@ -15,8 +15,7 @@ package javax.cache;
  *
  * These methods are ?blocking synchronous?. We need to define what that means.
  *
- * todo this is only partially done
- *
+ * TODO: this is only partially done
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
@@ -28,42 +27,85 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
 
     /**
-     * @see Cache#getAll(java.util.Collection)
+     * The getAll method will return, from the cache, a Map of the objects
+     * associated with the Collection of keys in argument "keys". If the objects
+     * are not in the cache, the associated cache loader will be called. If no
+     * loader is associated with an object, a null is returned.  If a problem
+     * is encountered during the retrieving or loading of the objects, an
+     * exception will be thrown.
+     * If the "arg" argument is set, the arg object will be passed to the
+     * CacheLoader.loadAll method.  The cache will not dereference the object.
+     * If no "arg" value is provided a null will be passed to the loadAll
+     * method.
+     * The storing of null values in the cache is permitted, however, the get
+     * method will not distinguish returning a null stored in the cache and
+     * not finding the object in the cache. In both cases a null is returned.
      */
     java.util.Map<K, V> getAll(java.util.Collection keys);
 
     /**
-     * @see Cache#load(Object)
+     * The load method provides a means to "pre load" the cache. This method
+     * will, asynchronously, load the specified object into the cache using
+     * the associated cacheloader. If the object already exists in the cache,
+     * no action is taken. If no loader is associated with the object, no object
+     * will be loaded into the cache.  If a problem is encountered during the
+     * retrieving or loading of the object, an exception should
+     * be logged.
+     * If the "arg" argument is set, the arg object will be passed to the
+     * CacheLoader.load method.  The cache will not dereference the object. If
+     * no "arg" value is provided a null will be passed to the load method.
+     * The storing of null values in the cache is permitted, however, the get
+     * method will not distinguish returning a null stored in the cache and not
+     * finding the object in the cache. In both cases a null is returned.
      */
     void load(Object key);
 
     /**
-     * @see Cache#loadAll(java.util.Collection)
+     * The loadAll method provides a means to "pre load" objects into the cache.
+     * This method will, asynchronously, load the specified objects into the
+     * cache using the associated cache loader. If the an object already exists
+     * in the cache, no action is taken. If no loader is associated with the
+     * object, no object will be loaded into the cache.  If a problem is
+     * encountered during the retrieving or loading of the objects, an
+     * exception (to be defined) should be logged.
+     * The getAll method will return, from the cache, a Map of the objects
+     * associated with the Collection of keys in argument "keys". If the objects
+     * are not in the cache, the associated cache loader will be called. If no
+     * loader is associated with an object, a null is returned.  If a problem
+     * is encountered during the retrieving or loading of the objects, an
+     * exception (to be defined) will be thrown.
+     * If the "arg" argument is set, the arg object will be passed to the
+     * CacheLoader.loadAll method.  The cache will not dereference the object.
+     * If no "arg" value is provided a null will be passed to the loadAll
+     * method.
      */
     void loadAll(java.util.Collection keys);
 
     /**
-     * @see Cache#getCacheEntry(Object)
+     * Returns the CacheEntry object associated with the object identified by
+     * "key". If the object is not in the cache a null is returned.
      */
     CacheEntry<K, V> getCacheEntry(Object key);
 
     /**
-     * @see Cache#getCacheEntry(Object)
+     * Returns the CacheStatistics object associated with the cache.
+     * May return null if the cache does not support statistics gathering.
      */
     CacheStatistics getCacheStatistics();
 
     /**
-     * @see javax.cache.Cache#evict()
+     * The evict method will remove objects from the cache that are no longer
+     * valid.  Objects where the specified expiration time has been reached.
      */
     void evict();
 
     /**
-     * @see javax.cache.Cache#addListener(CacheListener)
+     * Add a listener to the list of cache listeners
      */
     void addListener(CacheListener listener);
 
     /**
-     * @see javax.cache.Cache#removeListener(CacheListener)
+     * Remove a listener from the list of cache listeners
      */
     void removeListener(CacheListener listener);
 
