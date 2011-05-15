@@ -43,6 +43,4 @@ public @interface CacheRemoveAll {
      * Defaults to resolving the cache by name from the default {@link CacheManager}
      */
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
-
-//    Qualifier[] cacheResolverQualifiers() default {};
 }

@@ -44,14 +44,10 @@ public @interface CacheRemoveEntry {
      */
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
-//    Qualifier[] cacheResolverQualifiers() default {};
-
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#remove(K)}
      * <p/>
      * Defaults to {@link DefaultCacheKeyGenerator}
      */
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default DefaultCacheKeyGenerator.class;
-
-//    Qualifier[] cacheKeyGeneratorQualifiers() default {};
 }

@@ -1,6 +1,7 @@
 
 package javax.cache.interceptor;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,7 +52,7 @@ public @interface CacheResult {
      */
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
-//    Qualifier[] cacheResolverQualifiers() default {};
+    Class<? extends Annotation>[] cacheResolverQualifiers() default {};
 
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#get(K)} abd
@@ -61,5 +62,5 @@ public @interface CacheResult {
      */
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default DefaultCacheKeyGenerator.class;
 
-//    Qualifier[] cacheKeyGeneratorQualifiers() default {};
+    Class<? extends Annotation>[] cacheKeyGeneratorQualifiers() default {};
 }
