@@ -3,3 +3,6 @@ jsr107cache.ipr
 jsr107cache.iws
 .idea
 target
+/.settings
+/.project
+/.classpath
