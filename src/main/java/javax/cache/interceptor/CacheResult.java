@@ -14,13 +14,12 @@ import javax.interceptor.InterceptorBinding;
 
 /**
  * When a method annotated with {@link CacheResult} is invoked a {@link CacheKey} will be generated and 
- * {@link Cache#get(k)} is called before the invoked method actually executes. If a value is found in the
+ * {@link Cache#get(Object)} is called before the invoked method actually executes. If a value is found in the
  * cache it is returned and the annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache with the generated key.
  * 
  * null return values and thrown exceptions are never cached.
- * 
- * 
+ *
  * @author Eric Dalquist
  * @version $Revision$
  */
@@ -56,7 +55,7 @@ public @interface CacheResult {
 
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#get(K)} abd
-     * {@link Cache#put(K, V)}
+     * {@link Cache#put(Object, Object)}
      * <p/>
      * Defaults to {@link DefaultCacheKeyGenerator}
      */

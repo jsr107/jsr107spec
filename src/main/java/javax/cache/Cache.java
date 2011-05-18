@@ -1,5 +1,9 @@
 package javax.cache;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.Future;
+
 /**
  * This is an alternative proposal to {@link Cache} which does NOT extend Map.
  * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
@@ -12,6 +16,7 @@ package javax.cache;
  * - resolve overlap/conflict between inner interface Entry and CacheEntry
  * - Cache Statistics? JMX?
  * - do we need the Iterable methods?
+ * - cache loading defined. warming which is in the cache lifecycle is not.
  *
  * These methods are ?blocking synchronous?. We need to define what that means.
  *
@@ -33,15 +38,19 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * loader is associated with an object, a null is returned.  If a problem
      * is encountered during the retrieving or loading of the objects, an
      * exception will be thrown.
+     * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
      * CacheLoader.loadAll method.  The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
+     * <p/>
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and
      * not finding the object in the cache. In both cases a null is returned.
+     * @param keys The keys whose associated values are to be returned.
+     * @return     The entries for the specified keys.
      */
-    java.util.Map<K, V> getAll(java.util.Collection keys);
+    Map<K, V> getAll(Collection<? extends K> keys);
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -51,14 +60,20 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * will be loaded into the cache.  If a problem is encountered during the
      * retrieving or loading of the object, an exception should
      * be logged.
+     * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
      * CacheLoader.load method.  The cache will not dereference the object. If
      * no "arg" value is provided a null will be passed to the load method.
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and not
      * finding the object in the cache. In both cases a null is returned.
+     *
+     * @param key
+     * @param specificLoader a specific loader to use. If null the default loader is used.
+     * @param loaderArgument provision for additional parameters to be passed to the loader
+     * @return a Future which can be used to monitor execution
      */
-    void load(Object key);
+    Future load(K key, CacheLoader specificLoader, Object loaderArgument);
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -68,18 +83,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * object, no object will be loaded into the cache.  If a problem is
      * encountered during the retrieving or loading of the objects, an
      * exception (to be defined) should be logged.
+     * <p/>
      * The getAll method will return, from the cache, a Map of the objects
      * associated with the Collection of keys in argument "keys". If the objects
      * are not in the cache, the associated cache loader will be called. If no
      * loader is associated with an object, a null is returned.  If a problem
      * is encountered during the retrieving or loading of the objects, an
      * exception (to be defined) will be thrown.
+     * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
      * CacheLoader.loadAll method.  The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
+     * @param keys
+     * @param specificLoader a specific loader to use. If null the default loader is used.
+     * @param loaderArgument provision for additional parameters to be passed to the loader
+     * @return a Future which can be used to monitor execution
      */
-    void loadAll(java.util.Collection keys);
+    Future loadAll(Collection<? extends K> keys, CacheLoader specificLoader, Object loaderArgument);
 
     /**
      * Returns the CacheEntry object associated with the object identified by
