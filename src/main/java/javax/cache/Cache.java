@@ -9,18 +9,19 @@ import java.util.concurrent.Future;
  * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
  * method signatures to better suit a distributed system by, for example,
  * not returning values on put or remove.
- *
- *
+ * <p/>
+ * <p/>
  * OPEN ISSUES:
  * - should all methods throw CacheException?
  * - resolve overlap/conflict between inner interface Entry and CacheEntry
  * - Cache Statistics? JMX?
  * - do we need the Iterable methods?
  * - cache loading defined. warming which is in the cache lifecycle is not.
- *
+ * <p/>
  * These methods are ?blocking synchronous?. We need to define what that means.
- *
- * TODO: this is only partially done
+ * <p/>
+ * Cache extends Iterable, providing support for simplified iteration. Iteration
+ * is an O(n) operation. Large caches may however take a long time to iterate.
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
@@ -28,8 +29,20 @@ import java.util.concurrent.Future;
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
-     * Cache specific things
+     * Gets an entry from the cache.
+     * <p/>
+     * A return value of
+     * {@code null} does not <i>necessarily</i> indicate that the map
+     * contains no mapping for the key; it's also possible that the map
+     * explicitly maps the key to {@code null}.  The {@link #containsKey(Object)}
+     * operation may be used to distinguish these two cases.
+     *
+     * @param key the key whose associated value is to be returned
+     * @return the element, or null, if it does not exist.
+     * @throws IllegalStateException if the cache is not {@link Status#STATUS_ALIVE}
      */
+    V get(Object key);
+
 
     /**
      * The getAll method will return, from the cache, a Map of the objects
@@ -47,10 +60,26 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and
      * not finding the object in the cache. In both cases a null is returned.
+     *
      * @param keys The keys whose associated values are to be returned.
-     * @return     The entries for the specified keys.
+     * @return The entries for the specified keys.
      */
     Map<K, V> getAll(Collection<? extends K> keys);
+
+
+    /**
+     * Returns <tt>true</tt> if this cache contains a mapping for the specified
+     * key.  More formally, returns <tt>true</tt> if and only if
+     * this cache contains a mapping for a key <tt>k</tt> such that
+     * <tt>(key==null ? k==null : key.equals(k))</tt>.  (There can be
+     * at most one such mapping.)
+     * <p/>
+     *
+     * @param key key whose presence in this cache is to be tested. null is permitted but the cache will always return null
+     * @return <tt>true</tt> if this map contains a mapping for the specified key
+     */
+    boolean containsKey(K key);
+
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -95,6 +124,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * CacheLoader.loadAll method.  The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
+     *
      * @param keys
      * @param specificLoader a specific loader to use. If null the default loader is used.
      * @param loaderArgument provision for additional parameters to be passed to the loader
@@ -106,19 +136,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * Returns the CacheEntry object associated with the object identified by
      * "key". If the object is not in the cache a null is returned.
      */
-    CacheEntry<K, V> getCacheEntry(Object key);
+    Cache.Entry<K, V> getCacheEntry(Object key);
 
     /**
      * Returns the CacheStatistics object associated with the cache.
      * May return null if the cache does not support statistics gathering.
      */
     CacheStatistics getCacheStatistics();
-
-    /**
-     * The evict method will remove objects from the cache that are no longer
-     * valid.  Objects where the specified expiration time has been reached.
-     */
-    void evict();
 
     /**
      * Add a listener to the list of cache listeners
@@ -130,21 +154,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     void removeListener(CacheListener listener);
 
-    // ************************************
-    // Methods below based on java.util.Map
-    // ************************************
-
-
-    /**
-     * @see java.util.Map#containsKey(Object)
-     */
-    boolean containsKey(K key);
-
-    /**
-     * TODO: Should this be K? Why does Map do this?
-     * @see java.util.Map#get(Object)
-     */
-    V get(Object key);
 
     // Modification Operations
 
@@ -166,6 +175,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * NOTE: different return value
+     *
      * @return returns false if there was no matching key
      * @see java.util.Map#remove(Object)
      */
@@ -209,45 +219,25 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
 
     /**
-     * Note: can fire an event on a listener.
+     * Removes all of the mappings from this cache.
+     * The cache will be empty after this call returns.
+     * <p/>
+     * This is potentially an expensive operation.
+     * <p/>
      */
     void clear();
 
-    // Views
 
     /**
-     * Potentially expensive.
-     * NOTE: Iterable instead of Set
-     *
-     * @see java.util.Map#keySet()
-     */
-//    Set<K> keySet();
-    Iterable<K> keys();
-
-    /**
-     * Potentially expensive.
-     * NOTE: Iterable instead of Collection
-     *
-     * @see java.util.Map#values()
-     */
-//    Collection<V> values();
-    Iterable<V> values();
-
-    /**
-     * Potentially expensive.
-     * NOTE: Iterable instead of Collection
-     * TODO: Maybe CacheEntry is used instead of Entry
-     *
-     * @see java.util.Map#entrySet()
-     */
-//    Set<Map.Entry<K, V>> entrySet();
-    Iterable<Entry<K, V>> entries();
-
-    /**
-     * TODO: Maybe CacheEntry should extend this
-     * TODO: Maybe CacheEntry is used instead of this
-     *
-     * @see java.util.Map.Entry
+     * A cache entry (key-value pair). The <i>only</i> way to obtain a reference
+     * to a cache entry is from the iterator of Cache.
+     * <p/>
+     * Todo evaluate following comment
+     * These <tt>Cache.Entry</tt> objects are
+     * valid <i>only</i> for the duration of the iteration; more formally,
+     * the behavior of a map entry is undefined if the backing map has been
+     * modified after the entry was returned by the iterator, except through
+     * the <tt>setValue</tt> operation on the map entry.
      */
     interface Entry<K, V> {
         /**
@@ -262,6 +252,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
         /**
          * NOTE: different signature
+         *
          * @see java.util.Map.Entry#setValue(Object)
          */
 //    	V setValue(V value);
@@ -273,8 +264,60 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 //    	V setValue(V value);
         V setValueAndReturnPreviousValue(V value);
 
-//    	boolean equals(Object o);
-//    	int hashCode();
+
+        //???? Everyting below is TBD
+
+        int getHits();
+
+        long getLastAccessTime();
+
+        long getLastUpdateTime();
+
+        long getCreationTime();
+
+        long getExpirationTime();
+
+        /**
+         * Returns a version counter.
+         * An implementation may use timestamps for this or an incrementing
+         * number. Timestamps usually have issues with granularity and are harder
+         * to use across clusteres or threads, so an incrementing counter is often safer.
+         */
+        long getVersion();
+
+        boolean isValid();
+
+        long getCost();
+
+
+        /**
+         * Compares the specified object with this map for equality.  Returns
+         * <tt>true</tt> if the given object is also a map and the two maps
+         * represent the same mappings.  More formally, two maps <tt>m1</tt> and
+         * <tt>m2</tt> represent the same mappings if
+         * <tt>m1.entrySet().equals(m2.entrySet())</tt>.  This ensures that the
+         * <tt>equals</tt> method works properly across different implementations
+         * of the <tt>Map</tt> interface.
+         *
+         * @param o object to be compared for equality with this map
+         * @return <tt>true</tt> if the specified object is equal to this map
+         */
+        boolean equals(Object o);
+
+        /**
+         * Returns the hash code value for this map.  The hash code of a map is
+         * defined to be the sum of the hash codes of each entry in the map's
+         * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
+         * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two maps
+         * <tt>m1</tt> and <tt>m2</tt>, as required by the general contract of
+         * {@link Object#hashCode}.
+         *
+         * @return the hash code value for this map
+         * @see Map.Entry#hashCode()
+         * @see Object#equals(Object)
+         * @see #equals(Object)
+         */
+        int hashCode();
     }
 
     // Comparison and hashing
