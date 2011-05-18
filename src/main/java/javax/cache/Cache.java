@@ -329,7 +329,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * @return the CacheConfiguration, which is immutable
      */
-    CacheConfiguration getCacheConfiguration();
+    CacheConfiguration getConfiguration();
 
     /**
      * Suspect potential high cost
