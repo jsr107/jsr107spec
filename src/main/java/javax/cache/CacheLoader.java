@@ -4,36 +4,37 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * User should implement this CacheLoader interface to
- * provide a loader object to load the objects into cache.
+ * Used for read-through caching and loading data into a cache.
+ * <p/>
+ * See CacheWriter which is used for write-through caching.
  *
- * 24/1/09 Changed so as to not throw CacheException, to ease implementation
+ * @author Greg Luck
+ * @param <K> the type of keys maintained by this map
+ * @param <V> the type of mapped values
  */
-public interface CacheLoader<K,V>
-{
+public interface CacheLoader<K, V> {
+
     /**
      * loads an object. Application writers should implement this
      * method to customize the loading of cache object. This method is called
      * by the caching service when the requested object is not in the cache.
-     * <P>
+     * <p/>
      *
      * @param key the key identifying the object being loaded
-     *
      * @return The object that is to be stored in the cache.
      */
-    public V load(Object key);
+    public V load(K key);
 
     /**
      * loads multiple object. Application writers should implement this
      * method to customize the loading of cache object. This method is called
      * by the caching service when the requested object is not in the cache.
-     * <P>
+     * <p/>
      *
-     * @param keys a Collection of keys identifying the objects to be loaded
-     *
+     * @param keys keys identifying the values to be loaded
      * @return A Map of objects that are to be stored in the cache.
      */
 
-    public Map<K,V> loadAll(Collection keys);
+    public Map<K, V> loadAll(Collection<? extends K> keys);
 
 }

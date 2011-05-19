@@ -23,6 +23,7 @@ import java.util.concurrent.Future;
  * Cache extends Iterable, providing support for simplified iteration. Iteration
  * is an O(n) operation. Large caches may however take a long time to iterate.
  *
+ * @author Greg Luck
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
@@ -40,8 +41,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STATUS_ALIVE}
+     * @throws CacheException
      */
-    V get(Object key);
+    V get(Object key) throws CacheException;
 
 
     /**
@@ -142,7 +144,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * Returns the CacheStatistics object associated with the cache.
      * May return null if the cache does not support statistics gathering.
      */
-    CacheStatistics getCacheStatistics();
+    CacheStatisticsMBean getCacheStatistics();
 
     /**
      * Add a listener to the list of cache listeners
@@ -166,11 +168,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
 
     /**
+     * @see java.util.Map#putAll(java.util.Map)
+     */
+    void putAll(java.util.Map<? extends K, ? extends V> m);
+
+
+    /**
      * NOTE: different return value
      *
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
-//    V putIfAbsent(K key, V value);
     boolean putIfAbsent(K key, V value);
 
     /**
@@ -180,6 +187,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @see java.util.Map#remove(Object)
      */
     boolean remove(Object key);
+
+    /**
+     * @see java.util.concurrent.ConcurrentMap#remove(Object, Object)
+     */
+    boolean remove(Object key, Object value);
+
 
     /**
      * @see java.util.Map#remove(Object)
@@ -192,30 +205,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean replace(K key, V oldValue, V newValue);
 
     /**
-     * NOTE: different return value
      *
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-//    V replace(K key, V value);
     boolean replace(K key, V value);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-//    V replace(K key, V value);
-    V replaceAndReturnPreviousValue(K key, V value);
-
-    /**
-     * @see java.util.concurrent.ConcurrentMap#remove(Object, Object)
-     */
-    boolean remove(Object key, Object value);
-
-    // Bulk Operations
-
-    /**
-     * @see java.util.Map#putAll(java.util.Map)
-     */
-    void putAll(java.util.Map<? extends K, ? extends V> m);
+    V getAndReplace(K key, V value);
 
 
     /**
@@ -225,21 +223,21 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * This is potentially an expensive operation.
      * <p/>
      */
-    void clear();
-
+    void removeAll();
 
     /**
-     * A cache entry (key-value pair). The <i>only</i> way to obtain a reference
-     * to a cache entry is from the iterator of Cache.
+     * @return the CacheConfiguration, which is immutable
+     */
+    CacheConfiguration getConfiguration();
+
+    /**
+     * A cache entry (key-value pair).
      * <p/>
-     * Todo evaluate following comment
-     * These <tt>Cache.Entry</tt> objects are
-     * valid <i>only</i> for the duration of the iteration; more formally,
-     * the behavior of a map entry is undefined if the backing map has been
-     * modified after the entry was returned by the iterator, except through
-     * the <tt>setValue</tt> operation on the map entry.
+     * The <i>only</i> way to obtain a reference to a cache entry is from the iterator of Cache.
+     * <p/>
      */
     interface Entry<K, V> {
+
         /**
          * @see java.util.Map.Entry#getKey()
          */
@@ -249,45 +247,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
          * @see java.util.Map.Entry#getValue()
          */
         V getValue();
-
-        /**
-         * NOTE: different signature
-         *
-         * @see java.util.Map.Entry#setValue(Object)
-         */
-//    	V setValue(V value);
-        void setValue(V value);
-
-        /**
-         * @see java.util.Map.Entry#setValue(Object)
-         */
-//    	V setValue(V value);
-        V setValueAndReturnPreviousValue(V value);
-
-
-        //???? Everyting below is TBD
-
-        int getHits();
-
-        long getLastAccessTime();
-
-        long getLastUpdateTime();
-
-        long getCreationTime();
-
-        long getExpirationTime();
-
-        /**
-         * Returns a version counter.
-         * An implementation may use timestamps for this or an incrementing
-         * number. Timestamps usually have issues with granularity and are harder
-         * to use across clusteres or threads, so an incrementing counter is often safer.
-         */
-        long getVersion();
-
-        boolean isValid();
-
-        long getCost();
 
 
         /**
@@ -320,47 +279,4 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
         int hashCode();
     }
 
-    // Comparison and hashing
-
-//    boolean equals(Object o);
-
-//    int hashCode();
-
-    /**
-     * @return the CacheConfiguration, which is immutable
-     */
-    CacheConfiguration getConfiguration();
-
-    /**
-     * Suspect potential high cost
-     */
-
-    /**
-     * This is a potentially expensive operation in a distributed cache.
-     * <p/>
-     * This is not implemented by memcache.
-     * <p/>
-     * Terracotta ok.
-     * <p/>
-     * Coherence and grids. You need to go to each shard/partition.
-     * <p/>
-     * Should this be in JMX?
-     *
-     * @see java.util.Map#size()
-     */
-    int size();
-
-    /**
-     * @see java.util.Map#containsValue(Object)
-     */
-    boolean containsValue(Object value);
-
-    /**
-     * Suspect Usefulness only
-     */
-
-    /**
-     * @see java.util.Map#isEmpty()
-     */
-    boolean isEmpty();
 }

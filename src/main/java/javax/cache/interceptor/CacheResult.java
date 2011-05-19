@@ -21,7 +21,6 @@ import javax.interceptor.InterceptorBinding;
  * null return values and thrown exceptions are never cached.
  *
  * @author Eric Dalquist
- * @version $Revision$
  */
 @Target( { ElementType.METHOD, ElementType.TYPE } )
 @Retention(RetentionPolicy.RUNTIME)

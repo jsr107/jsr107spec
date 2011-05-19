@@ -2,7 +2,7 @@ package javax.cache;
 
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle.
- * Greg Luck
+ * @author Greg Luck
  */
 public interface CacheManager {
 
@@ -14,6 +14,13 @@ public interface CacheManager {
      */
     javax.transaction.UserTransaction getUserTransaction();
 
+
+    /**
+     *
+     * @param cacheName
+     * @return
+     */
+    Cache getCache(String cacheName);
 
 
 }

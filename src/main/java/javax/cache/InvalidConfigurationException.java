@@ -8,5 +8,9 @@ package javax.cache;
  * @author Greg Luck
  *
  */
-public class InvalidConfigurationException {
+public class InvalidConfigurationException  extends CacheException {
+
+
+
+
 }

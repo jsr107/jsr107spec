@@ -1,4 +1,3 @@
-
 package javax.cache.interceptor;
 
 import java.lang.annotation.ElementType;
@@ -14,10 +13,10 @@ import javax.interceptor.InterceptorBinding;
 /**
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in the specified cache
  * will be removed via the {@link Cache#removeAll()} method
- * 
+ *
  * @author Eric Dalquist
  */
-@Target( { ElementType.METHOD } )
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @InterceptorBinding
 public @interface CacheRemoveAll {

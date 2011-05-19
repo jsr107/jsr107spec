@@ -11,6 +11,7 @@ import javax.cache.Cache;
  * @author Eric Dalquist
  */
 public interface CacheResolver {
+
     /**
      * @param cacheName The name of the cache specified in the {@link CacheResult}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll} annotation
      * @param method The annotated method

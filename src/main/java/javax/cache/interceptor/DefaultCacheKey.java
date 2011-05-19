@@ -12,9 +12,9 @@ import javax.interceptor.InvocationContext;
  * {@link #equals(Object)} 
  * 
  * @author Eric Dalquist
- * @version $Revision$
  */
 public class DefaultCacheKey implements CacheKey {
+
     private static final long serialVersionUID = 1L;
 
     private final Object[] parameters;

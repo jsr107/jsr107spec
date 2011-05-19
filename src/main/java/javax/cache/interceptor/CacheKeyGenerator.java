@@ -9,6 +9,7 @@ import javax.interceptor.InvocationContext;
  * @author Eric Dalquist
  */
 public interface CacheKeyGenerator {
+
     /**
      * Called for each intercepted method invocation. Generate a {@link CacheKey} from the {@link InvocationContext} data.
      * 

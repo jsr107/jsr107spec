@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Eric Dalquist
  */
 public interface CacheKey extends Serializable {
+
     /**
      * The immutable hash code of the object.
      */
