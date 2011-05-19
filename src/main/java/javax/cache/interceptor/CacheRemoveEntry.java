@@ -13,7 +13,7 @@ import javax.interceptor.InterceptorBinding;
 
 /**
  * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link CacheKey} will be generated and 
- * {@link Cache#remove(K)} will be invoked on the specified cache.
+ * {@link Cache#remove(Object)} will be invoked on the specified cache.
  * 
  * @author Eric Dalquist
  */
@@ -30,7 +30,7 @@ public @interface CacheRemoveEntry {
     String cacheName() default "";
 
     /**
-     * (Optional) When {@link Cache#remove(K)} should be called. If true it is called after the annotated method
+     * (Optional) When {@link Cache#remove(Object)}  should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
@@ -45,7 +45,7 @@ public @interface CacheRemoveEntry {
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#remove(K)}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#remove(Object)}
      * <p/>
      * Defaults to {@link DefaultCacheKeyGenerator}
      */

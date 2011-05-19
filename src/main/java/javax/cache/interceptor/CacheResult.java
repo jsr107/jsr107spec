@@ -53,7 +53,7 @@ public @interface CacheResult {
     Class<? extends Annotation>[] cacheResolverQualifiers() default {};
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#get(K)} abd
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link Cache#get(Object)}
      * {@link Cache#put(Object, Object)}
      * <p/>
      * Defaults to {@link DefaultCacheKeyGenerator}
