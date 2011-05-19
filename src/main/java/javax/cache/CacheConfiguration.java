@@ -11,7 +11,7 @@ public interface CacheConfiguration {
      * Whether the cache is a read-through cache. A CacheLoader should be configured for read through caches
      * which is called on a cache miss.
      *
-     * @return
+     * @return true if the cache is read-through
      */
     boolean isReadThrough();
 
@@ -38,13 +38,11 @@ public interface CacheConfiguration {
      */
     void setWriteThrough(boolean writeThrough);
 
-
-
     /**
      * <p/>
      * Whether storeByValue (true) or storeByRefernce (false)
      *
-     * @return
+     * @return true if the cache is store by value
      */
     boolean isStoreByValue();
 
@@ -56,6 +54,8 @@ public interface CacheConfiguration {
      * @see #isStoreByValue()
      */
     void setStoreByValue(boolean storeByValue);
+
+
 
 
 }

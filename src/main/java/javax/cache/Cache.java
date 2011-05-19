@@ -23,9 +23,9 @@ import java.util.concurrent.Future;
  * Cache extends Iterable, providing support for simplified iteration. Iteration
  * is an O(n) operation. Large caches may however take a long time to iterate.
  *
- * @author Greg Luck
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
+ * @author Greg Luck
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
@@ -40,7 +40,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
-     * @throws IllegalStateException if the cache is not {@link Status#STATUS_ALIVE}
+     * @throws IllegalStateException if the cache is not {@link Status#ALIVE}
      * @throws CacheException
      */
     V get(Object key) throws CacheException;
@@ -205,7 +205,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean replace(K key, V oldValue, V newValue);
 
     /**
-     *
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
     boolean replace(K key, V value);
@@ -239,40 +238,55 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     interface Entry<K, V> {
 
         /**
-         * @see java.util.Map.Entry#getKey()
+         * Returns the key corresponding to this entry.
+         *
+         * @return the key corresponding to this entry
          */
         K getKey();
 
         /**
-         * @see java.util.Map.Entry#getValue()
+         * Returns the value corresponding to this entry.  If the mapping
+         * has been removed from the backing map (by the iterator's
+         * <tt>remove</tt> operation), the results of this call are undefined.
+         *
+         * @return the value corresponding to this entry
          */
         V getValue();
 
 
         /**
-         * Compares the specified object with this map for equality.  Returns
-         * <tt>true</tt> if the given object is also a map and the two maps
-         * represent the same mappings.  More formally, two maps <tt>m1</tt> and
-         * <tt>m2</tt> represent the same mappings if
-         * <tt>m1.entrySet().equals(m2.entrySet())</tt>.  This ensures that the
-         * <tt>equals</tt> method works properly across different implementations
-         * of the <tt>Map</tt> interface.
+         * Compares the specified object with this entry for equality.
+         * Returns <tt>true</tt> if the given object is also a map entry and
+         * the two entries represent the same mapping.  More formally, two
+         * entries <tt>e1</tt> and <tt>e2</tt> represent the same mapping
+         * if<pre>
+         *     (e1.getKey()==null ?
+         *      e2.getKey()==null : e1.getKey().equals(e2.getKey()))  &amp;&amp;
+         *     (e1.getValue()==null ?
+         *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
+         * </pre>
+         * This ensures that the <tt>equals</tt> method works properly across
+         * different implementations of the <tt>Map.Entry</tt> interface.
          *
-         * @param o object to be compared for equality with this map
-         * @return <tt>true</tt> if the specified object is equal to this map
+         * @param o object to be compared for equality with this cache entry
+         * @return <tt>true</tt> if the specified object is equal to this cache
+         *         entry
          */
         boolean equals(Object o);
 
         /**
-         * Returns the hash code value for this map.  The hash code of a map is
-         * defined to be the sum of the hash codes of each entry in the map's
-         * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
-         * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two maps
-         * <tt>m1</tt> and <tt>m2</tt>, as required by the general contract of
-         * {@link Object#hashCode}.
+         * Returns the hash code value for this cache entry.  The hash code
+         * of a cache entry <tt>e</tt> is defined to be: <pre>
+         *     (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
+         *     (e.getValue()==null ? 0 : e.getValue().hashCode())
+         * </pre>
+         * This ensures that <tt>e1.equals(e2)</tt> implies that
+         * <tt>e1.hashCode()==e2.hashCode()</tt> for any two Entries
+         * <tt>e1</tt> and <tt>e2</tt>, as required by the general
+         * contract of <tt>Object.hashCode</tt>.
          *
-         * @return the hash code value for this map
-         * @see Map.Entry#hashCode()
+         * @return the hash code value for this cache entry
+         * @see Object#hashCode()
          * @see Object#equals(Object)
          * @see #equals(Object)
          */
