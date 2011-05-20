@@ -1,23 +1,23 @@
 package javax.cache;
 
 /**
- * Indicate the status in it's lifecycle of a {@link CacheManager} or {@link Cache}.
+ * Indicates the status in it's lifecycle of a resource.
  * @author Greg Luck
  */
 public enum Status {
 
      /**
-     * The CacheManager or Cache is uninitialised. It cannot be used.
+     * The resource has been created but not yet initialised. It cannot be used.
      */
     UNITIALISED,
 
     /**
-     * The CacheManager or Cache is alive. It can be used.
+     * The resoure has been started and is ready for service.
      */
-    ALIVE,
+    STARTED,
 
     /**
-     * The CacheManager or Cache is shudown. It cannot be used.
+     * The resource has been stopped. It can no longer service requests.
      */
-    SHUTDOWN
+    STOPPED
 }

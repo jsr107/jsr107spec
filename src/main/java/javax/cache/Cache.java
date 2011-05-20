@@ -5,29 +5,39 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 /**
- * This is an alternative proposal to {@link Cache} which does NOT extend Map.
- * It is based on {@link java.util.concurrent.ConcurrentMap} but adjusts some
- * method signatures to better suit a distributed system by, for example,
- * not returning values on put or remove.
+ * A Cache provides temporary storage for later fase retrieval.
+ *
+ * The interface is map-like and will be familiar. However the map-like
+ * methods have been modified to enable efficient implementation of
+ * distributed caches.
  * <p/>
+ * The API provides the atomic operations from {@link java.util.concurrent.ConcurrentMap}.
+ * <p/>
+ * The API provides batch operations suited to network storage.
  * <p/>
  * OPEN ISSUES:
- * - should all methods throw CacheException?
- * - resolve overlap/conflict between inner interface Entry and CacheEntry
+ * - should all methods throw CacheException? If not what?
  * - Cache Statistics? JMX?
- * - do we need the Iterable methods?
  * - cache loading defined. warming which is in the cache lifecycle is not.
  * <p/>
  * These methods are ?blocking synchronous?. We need to define what that means.
  * <p/>
- * Cache extends Iterable, providing support for simplified iteration. Iteration
- * is an O(n) operation. Large caches may however take a long time to iterate.
+ * Cache implements Iterable, providing support for simplified iteration. However
+ * iteration should be used with caution. It is an O(n) operation and may be
+ * slow on large or distributed caches.
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  * @author Greg Luck
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
+
+
+    /**
+     * A reserved word for cache names. It denotes a default configuration
+     * which is applied to caches created without configuration.
+     */
+    static final String DEFAULT_CACHE_NAME = "__default__";
 
     /**
      * Gets an entry from the cache.
@@ -40,7 +50,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
-     * @throws IllegalStateException if the cache is not {@link Status#ALIVE}
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException
      */
     V get(Object key) throws CacheException;
@@ -77,7 +87,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * at most one such mapping.)
      * <p/>
      *
-     * @param key key whose presence in this cache is to be tested. null is permitted but the cache will always return null
+     * @param key key whose presence in this cache is to be tested.
+     *  null is permitted but the cache will always return null
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      */
     boolean containsKey(K key);
@@ -189,13 +200,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean remove(Object key);
 
     /**
-     * @see java.util.concurrent.ConcurrentMap#remove(Object, Object)
-     */
-    boolean remove(Object key, Object value);
-
-
-    /**
-     * @see java.util.Map#remove(Object)
+     * Removes the entry for a key only if currently mapped to a given value.
+     *
+     * This is equivalent to
+     * <pre>
+     *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(value)) {
+     *       cache.remove(key);
+     *       return true;
+     *   } else return false;</pre>
+     * except that the action is performed atomically.
+     *
+     * @param key key with which the specified value is associated
+     * @return <tt>true</tt> if the value was removed
+     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     *         is not supported by this cache
+     * @throws ClassCastException if the key or value is of an inappropriate
+     *         type for this cache (optional)
+     * @throws NullPointerException if the specified key or value is null,
+     *         and this cache does not permit null keys or values (optional)
      */
     V getAndRemove(Object key);
 

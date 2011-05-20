@@ -33,7 +33,7 @@ public interface CacheManager {
      *
      * @param cacheName the cache name to check for
      * @return true if it exists
-     * @throws IllegalStateException if the cache is not {@link Status#ALIVE}
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      */
     boolean cacheExists(String cacheName) throws IllegalStateException;
 
@@ -51,7 +51,7 @@ public interface CacheManager {
      * Remove a cache from the CacheManager. The cache is disposed of.
      *
      * @param cacheName the cache name
-     * @throws IllegalStateException if the cache is not {@link Status#ALIVE}
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      */
     public void removeCache(String cacheName) throws IllegalStateException;
 
