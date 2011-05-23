@@ -76,7 +76,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
      */
-    Map<K, V> getAll(Collection<? extends K> keys);
+    Map<K, V> getAll(Collection keys);
 
 
     /**
@@ -91,7 +91,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *  null is permitted but the cache will always return null
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      */
-    boolean containsKey(K key);
+    boolean containsKey(Object key);
 
 
     /**
