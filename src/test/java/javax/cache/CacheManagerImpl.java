@@ -34,6 +34,7 @@ public class CacheManagerImpl implements CacheManager {
      * @param cacheName
      * @return a Cache or null, if no cache matching that name exists
      */
+    @Override
     public Cache getCache(String cacheName) {
         return caches.get(cacheName);
     }
@@ -118,7 +119,28 @@ public class CacheManagerImpl implements CacheManager {
         return DEFAULT_FACTORY_NAME;
     }
 
+    @Override
     public UserTransaction getUserTransaction() {
         return null;
+    }
+
+    @Override
+    public void addCache(Cache<?, ?> cache) throws IllegalStateException, CacheException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean cacheExists(String cacheName) throws IllegalStateException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void removeCache(String cacheName) throws IllegalStateException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void shutdown() {
+        throw new UnsupportedOperationException();
     }
 }
