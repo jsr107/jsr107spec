@@ -52,6 +52,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws IllegalArgumentException if the key is null
      * @throws CacheException
      */
     V get(Object key) throws CacheException;
