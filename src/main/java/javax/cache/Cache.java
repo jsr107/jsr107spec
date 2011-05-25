@@ -1,5 +1,6 @@
 package javax.cache;
 
+import javax.cache.listeners.CacheEntryListener;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -159,13 +160,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * Add a listener to the list of cache listeners
+     * TODO: maybe we want multiple addListeners - one per CacheEntryListener type
      */
-    void addListener(CacheListener listener);
+    void addListener(CacheEntryListener listener);
 
     /**
      * Remove a listener from the list of cache listeners
+     * TODO: maybe we want multiple removeListeners - one per CacheEntryListener type
      */
-    void removeListener(CacheListener listener);
+    void removeListener(CacheEntryListener listener);
 
 
     // Modification Operations
