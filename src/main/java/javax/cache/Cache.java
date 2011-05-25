@@ -76,7 +76,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
      */
-    Map<K, V> getAll(Collection keys);
+    Map<K, V> getAll(Collection<? extends K> keys);
 
 
     /**
@@ -149,7 +149,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * Returns the CacheEntry object associated with the object identified by
      * "key". If the object is not in the cache a null is returned.
      */
-    Cache.Entry<K, V> getCacheEntry(Object key);
+    Entry<K, V> getCacheEntry(Object key);
 
     /**
      * Returns the CacheStatistics object associated with the cache.
