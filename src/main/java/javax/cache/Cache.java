@@ -146,6 +146,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * Returns the {@link Entry} object associated with the object identified by
      * "key". If the object is not in the cache a null is returned.
+     * TODO: why do we need this?
+     * @throws NullPointerException if key is null
      */
     Entry<K, V> getCacheEntry(Object key);
 
