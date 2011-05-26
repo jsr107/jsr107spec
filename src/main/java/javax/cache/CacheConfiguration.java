@@ -39,8 +39,7 @@ public interface CacheConfiguration {
     void setWriteThrough(boolean writeThrough);
 
     /**
-     * <p/>
-     * Whether storeByValue (true) or storeByRefernce (false)
+     * Whether storeByValue (true) or storeByReference (false)
      *
      * @return true if the cache is store by value
      */
