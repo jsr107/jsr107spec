@@ -52,10 +52,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws IllegalArgumentException if the key is null
+     * @throws NullPointerException if the key is null
      * @throws CacheException if there is a problem fetching the value
      */
-    V get(Object key) throws CacheException, IllegalArgumentException, IllegalStateException;
+    V get(Object key) throws CacheException;
 
 
     /**
@@ -66,18 +66,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * is encountered during the retrieving or loading of the objects, an
      * exception will be thrown.
      * <p/>
-     * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#loadAll(java.util.Collection)} method.
-     * The cache will not dereference the object.
-     * If no "arg" value is provided a null will be passed to the loadAll
-     * method.
-     * <p/>
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and
      * not finding the object in the cache. In both cases a null is returned.
      *
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
+     * @throws NullPointerException if keys is null or if keys contains a null
      */
     Map<K, V> getAll(Collection<? extends K> keys);
 
@@ -95,7 +90,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      */
     boolean containsKey(Object key);
-
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -118,7 +112,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
      */
-    Future load(K key, CacheLoader specificLoader, Object loaderArgument);
+    Future load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument);
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -178,16 +172,19 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * NOTE: different return value
      *
-     * @see java.util.Map#put(Object, Object)
      *
-     * @throws IllegalArgumentException if key or value are null
+     * @throws NullPointerException if key or value are null
+     * @see java.util.Map#put(Object, Object)
      */
-    void put(K key, V value) throws IllegalArgumentException;
+    void put(K key, V value);
 
     /**
      * @see java.util.Map#putAll(java.util.Map)
+     *
+     * @throws NullPointerException if map is null, if map contains null keys,
+     * if map returns null values.
      */
-    void putAll(java.util.Map<? extends K, ? extends V> m);
+    void putAll(java.util.Map<? extends K, ? extends V> map);
 
     /**
      * NOTE: different return value
@@ -203,7 +200,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @see java.util.Map#remove(Object)
      * @throws IllegalArgumentException if key is null
      */
-    boolean remove(Object key) throws IllegalArgumentException;
+    boolean remove(Object key);
 
     /**
      * Removes the entry for a key only if currently mapped to a given value.
@@ -245,6 +242,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
     V getAndReplace(K key, V value);
+
+    /**
+     * Removes entries for the specified keys
+     * <p/>
+     * @param keys the keys to remove
+     */
+    void removeAll(Collection<? extends K> keys);
 
     /**
      * Removes all of the mappings from this cache.
