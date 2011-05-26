@@ -23,7 +23,7 @@ import java.util.concurrent.Future;
  * <p/>
  * These methods are ?blocking synchronous?. We need to define what that means.
  * <p/>
- * Cache implements Iterable, providing support for simplified iteration. However
+ * Cache implements {@link Iterable}, providing support for simplified iteration. However
  * iteration should be used with caution. It is an O(n) operation and may be
  * slow on large or distributed caches.
  *
@@ -59,7 +59,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
 
     /**
-     * The getAll method will return, from the cache, a Map of the objects
+     * The getAll method will return, from the cache, a {@link Map} of the objects
      * associated with the Collection of keys in argument "keys". If the objects
      * are not in the cache, the associated cache loader will be called. If no
      * loader is associated with an object, a null is returned.  If a problem
@@ -67,7 +67,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * exception will be thrown.
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * CacheLoader.loadAll method.  The cache will not dereference the object.
+     * {@link CacheLoader#loadAll(java.util.Collection)} method.
+     * The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
      * <p/>
@@ -99,14 +100,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * The load method provides a means to "pre load" the cache. This method
      * will, asynchronously, load the specified object into the cache using
-     * the associated cacheloader. If the object already exists in the cache,
+     * the associated {@link CacheLoader}. If the object already exists in the cache,
      * no action is taken. If no loader is associated with the object, no object
      * will be loaded into the cache.  If a problem is encountered during the
      * retrieving or loading of the object, an exception should
      * be logged.
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * CacheLoader.load method.  The cache will not dereference the object. If
+     * {@link CacheLoader#load(Object)} method.  The cache will not dereference the object. If
      * no "arg" value is provided a null will be passed to the load method.
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and not
@@ -136,7 +137,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * exception (to be defined) will be thrown.
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * CacheLoader.loadAll method.  The cache will not dereference the object.
+     * {@link CacheLoader#loadAll(java.util.Collection)} method.
+     * The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
      *
@@ -148,13 +150,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     Future loadAll(Collection<? extends K> keys, CacheLoader specificLoader, Object loaderArgument);
 
     /**
-     * Returns the CacheEntry object associated with the object identified by
+     * Returns the {@link Entry} object associated with the object identified by
      * "key". If the object is not in the cache a null is returned.
      */
     Entry<K, V> getCacheEntry(Object key);
 
     /**
-     * Returns the CacheStatistics object associated with the cache.
+     * Returns the {@link CacheStatisticsMBean} object associated with the cache.
      * May return null if the cache does not support statistics gathering.
      */
     CacheStatisticsMBean getCacheStatistics();
@@ -171,7 +173,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     void removeListener(CacheEntryListener listener);
 
-
     // Modification Operations
 
     /**
@@ -183,12 +184,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     void put(K key, V value) throws IllegalArgumentException;
 
-
     /**
      * @see java.util.Map#putAll(java.util.Map)
      */
     void putAll(java.util.Map<? extends K, ? extends V> m);
-
 
     /**
      * NOTE: different return value
@@ -212,19 +211,23 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(value)) {
+     *       V oldValue = cache.get(key);
      *       cache.remove(key);
-     *       return true;
-     *   } else return false;</pre>
+     *       return oldValue;
+     *   } else {
+     *       return null;
+     *   }</pre>
      * except that the action is performed atomically.
      *
      * @param key key with which the specified value is associated
      * @return <tt>true</tt> if the value was removed
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * @throws UnsupportedOperationException if the <tt>getAndRemove</tt> operation
      *         is not supported by this cache
      * @throws ClassCastException if the key or value is of an inappropriate
      *         type for this cache (optional)
      * @throws NullPointerException if the specified key or value is null,
      *         and this cache does not permit null keys or values (optional)
+     * @see java.util.Map#remove(Object)
      */
     V getAndRemove(Object key);
 
@@ -243,7 +246,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      */
     V getAndReplace(K key, V value);
 
-
     /**
      * Removes all of the mappings from this cache.
      * The cache will be empty after this call returns.
@@ -254,7 +256,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     void removeAll();
 
     /**
-     * @return the CacheConfiguration, which is immutable
+     * @return the {@link CacheConfiguration}, which is immutable
      */
     CacheConfiguration getConfiguration();
 
@@ -282,7 +284,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
          */
         V getValue();
 
-
         /**
          * Compares the specified object with this entry for equality.
          * Returns <tt>true</tt> if the given object is also a map entry and
@@ -295,7 +296,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
          *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
          * </pre>
          * This ensures that the <tt>equals</tt> method works properly across
-         * different implementations of the <tt>Map.Entry</tt> interface.
+         * different implementations of the <tt>Cache.Entry</tt> interface.
          *
          * @param o object to be compared for equality with this cache entry
          * @return <tt>true</tt> if the specified object is equal to this cache
@@ -321,5 +322,4 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
          */
         int hashCode();
     }
-
 }
