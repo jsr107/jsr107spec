@@ -53,9 +53,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws IllegalArgumentException if the key is null
-     * @throws CacheException
+     * @throws CacheException if there is a problem fetching the value
      */
-    V get(Object key) throws CacheException;
+    V get(Object key) throws CacheException, IllegalArgumentException, IllegalStateException;
 
 
     /**
@@ -178,8 +178,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * NOTE: different return value
      *
      * @see java.util.Map#put(Object, Object)
+     *
+     * @throws IllegalArgumentException if key or value are null
      */
-    void put(K key, V value);
+    void put(K key, V value) throws IllegalArgumentException;
 
 
     /**
@@ -200,8 +202,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *
      * @return returns false if there was no matching key
      * @see java.util.Map#remove(Object)
+     * @throws IllegalArgumentException if key is null
      */
-    boolean remove(Object key);
+    boolean remove(Object key) throws IllegalArgumentException;
 
     /**
      * Removes the entry for a key only if currently mapped to a given value.
