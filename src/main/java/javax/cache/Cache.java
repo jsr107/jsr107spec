@@ -167,7 +167,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * NOTE: different return value
      *
      *
-     * @throws NullPointerException if key or value are null
+     * @throws NullPointerException if key is null
      * @see java.util.Map#put(Object, Object)
      */
     void put(K key, V value);
@@ -175,8 +175,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * @see java.util.Map#putAll(java.util.Map)
      *
-     * @throws NullPointerException if map is null, if map contains null keys,
-     * if map returns null values.
+     * @throws NullPointerException if map is null or if map contains null keys.
      */
     void putAll(java.util.Map<? extends K, ? extends V> map);
 
@@ -184,6 +183,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * NOTE: different return value
      *
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
+     * @throws NullPointerException if key is null
      */
     boolean putIfAbsent(K key, V value);
 
@@ -192,7 +192,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *
      * @return returns false if there was no matching key
      * @see java.util.Map#remove(Object)
-     * @throws IllegalArgumentException if key is null
+     * @throws NullPointerException if key is null
      */
     boolean remove(Object key);
 
@@ -216,19 +216,20 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *         is not supported by this cache
      * @throws ClassCastException if the key or value is of an inappropriate
      *         type for this cache (optional)
-     * @throws NullPointerException if the specified key or value is null,
-     *         and this cache does not permit null keys or values (optional)
+     * @throws NullPointerException if the specified key is null.
      * @see java.util.Map#remove(Object)
      */
     V getAndRemove(Object key);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
+     * @throws NullPointerException if key is null
      */
     boolean replace(K key, V oldValue, V newValue);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
+     * @throws NullPointerException if key is null
      */
     boolean replace(K key, V value);
 
