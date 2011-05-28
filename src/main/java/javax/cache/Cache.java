@@ -144,14 +144,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     Future loadAll(Collection<? extends K> keys, CacheLoader specificLoader, Object loaderArgument);
 
     /**
-     * Returns the {@link Entry} object associated with the object identified by
-     * "key". If the object is not in the cache a null is returned.
-     * TODO: why do we need this? Let's delete
-     * @throws NullPointerException if key is null
-     */
-    Entry<K, V> getCacheEntry(Object key);
-
-    /**
      * Returns the {@link CacheStatisticsMBean} object associated with the cache.
      * May return null if the cache does not support statistics gathering.
      */
@@ -242,6 +234,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
+     * @throws NullPointerException if key is null
      */
     V getAndReplace(K key, V value);
 
