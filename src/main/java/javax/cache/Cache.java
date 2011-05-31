@@ -1,13 +1,21 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache;
 
-import javax.cache.listeners.CacheEntryListener;
+import javax.cache.event.CacheEntryListener;
+import javax.cache.event.NotificationScope;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.Future;
 
 /**
  * A Cache provides temporary storage for later fase retrieval.
- *
+ * <p/>
  * The interface is map-like and will be familiar. However the map-like
  * methods have been modified to enable efficient implementation of
  * distributed caches.
@@ -31,14 +39,14 @@ import java.util.concurrent.Future;
  * @param <V> the type of mapped values
  * @author Greg Luck
  */
-public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
 
 
     /**
      * A reserved word for cache names. It denotes a default configuration
      * which is applied to caches created without configuration.
      */
-    static final String DEFAULT_CACHE_NAME = "__default__";
+    String DEFAULT_CACHE_NAME = "__default__";
 
     /**
      * Gets an entry from the cache.
@@ -52,8 +60,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws NullPointerException if the key is null
-     * @throws CacheException if there is a problem fetching the value
+     * @throws NullPointerException  if the key is null
+     * @throws CacheException        if there is a problem fetching the value
      */
     V get(Object key) throws CacheException;
 
@@ -86,7 +94,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * <p/>
      *
      * @param key key whose presence in this cache is to be tested.
-     *  null is permitted but the cache will always return null
+     *            null is permitted but the cache will always return null
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      */
     boolean containsKey(Object key);
@@ -166,24 +174,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     /**
      * NOTE: different return value
      *
-     *
      * @throws NullPointerException if key is null
      * @see java.util.Map#put(Object, Object)
      */
     void put(K key, V value);
 
     /**
-     * @see java.util.Map#putAll(java.util.Map)
-     *
      * @throws NullPointerException if map is null or if map contains null keys.
+     * @see java.util.Map#putAll(java.util.Map)
      */
     void putAll(java.util.Map<? extends K, ? extends V> map);
 
     /**
      * NOTE: different return value
      *
-     * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      * @throws NullPointerException if key is null
+     * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
     boolean putIfAbsent(K key, V value);
 
@@ -191,14 +197,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * NOTE: different return value
      *
      * @return returns false if there was no matching key
-     * @see java.util.Map#remove(Object)
      * @throws NullPointerException if key is null
+     * @see java.util.Map#remove(Object)
      */
     boolean remove(Object key);
 
     /**
      * Removes the entry for a key only if currently mapped to a given value.
-     *
+     * <p/>
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(value)) {
@@ -213,35 +219,33 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * @param key key with which the specified value is associated
      * @return <tt>true</tt> if the value was removed
      * @throws UnsupportedOperationException if the <tt>getAndRemove</tt> operation
-     *         is not supported by this cache
-     * @throws ClassCastException if the key or value is of an inappropriate
-     *         type for this cache (optional)
-     * @throws NullPointerException if the specified key is null.
+     *                                       is not supported by this cache
+     * @throws ClassCastException            if the key or value is of an inappropriate
+     *                                       type for this cache (optional)
+     * @throws NullPointerException          if the specified key is null.
      * @see java.util.Map#remove(Object)
      */
     V getAndRemove(Object key);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
-     * @throws NullPointerException if key is null
      */
     boolean replace(K key, V oldValue, V newValue);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
-     * @throws NullPointerException if key is null
      */
     boolean replace(K key, V value);
 
     /**
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
-     * @throws NullPointerException if key is null
      */
     V getAndReplace(K key, V value);
 
     /**
      * Removes entries for the specified keys
      * <p/>
+     *
      * @param keys the keys to remove
      */
     void removeAll(Collection<? extends K> keys);
@@ -256,15 +260,37 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     void removeAll();
 
     /**
-     * @return the {@link CacheConfiguration}, which is immutable
+     * Returns a CacheConfiguration.
+     * <p/>
+     * Whether the configuration is mutable after the cache has {@link Status#STARTED} is up to the implementation,
+     * however the confiuration cannot be changed unless the changes are applied to the cache.
+     *
+     * @return the {@link CacheConfiguration}
      */
     CacheConfiguration getConfiguration();
 
     /**
-     * A cache entry (key-value pair).
+     * Adds a listener to the notification service. No guarantee is made that listeners will be
+     * notified in the order they were added.
      * <p/>
-     * The <i>only</i> way to obtain a reference to a cache entry is from the iterator of Cache.
-     * <p/>
+     *
+     * @param cacheEntryListener The listener to add
+     * @param scope              The notification scope. If this parameter is null, the {@link NotificationScope#ALL} scope is used.
+     * @return true if the listener is being added and was not already added
+     */
+    boolean registerCacheEntryListener(CacheEntryListener cacheEntryListener, NotificationScope scope);
+
+    /**
+     * Removes a call back listener.
+     *
+     * @param cacheEntryListener the listener to remove
+     * @return true if the listener was present
+     */
+    boolean unregisterCacheEntryListener(CacheEntryListener cacheEntryListener);
+
+
+    /**
+     * A cache entry (key-alue pair).
      */
     interface Entry<K, V> {
 

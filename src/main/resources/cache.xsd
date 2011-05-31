@@ -5,7 +5,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element maxOccurs="1" minOccurs="0" ref="transactionManagerLookup"/>
-                <xs:element maxOccurs= "1" minOccurs="0" ref="defaultCache"/>
+                <xs:element maxOccurs="1" minOccurs="0" ref="defaultCache"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0" ref="cache"/>
             </xs:sequence>
             <xs:attribute name="name" use="optional"/>
@@ -14,7 +14,7 @@
             <xs:attribute default="true" name="dynamicConfig" type="xs:boolean" use="optional"/>
         </xs:complexType>
     </xs:element>
-     <xs:element name="transactionManagerLookup">
+    <xs:element name="transactionManagerLookup">
         <xs:complexType>
             <xs:attribute name="class" use="required"/>
             <xs:attribute name="properties" use="optional"/>
@@ -38,7 +38,7 @@
             <xs:attribute name="evictionPolicy" type="xs:string" use="optional"/>
             <xs:attribute name="name" type="xs:string" use="required"/>
             <xs:attribute name="timeToLive" type="xs:integer" use="optional"/>
-            <xs:attribute name="transactionalMode" type="transactionalMode" use="optional" default="off" />
+            <xs:attribute name="transactionalMode" type="transactionalMode" use="optional" default="off"/>
             <xs:attribute name="statistics" type="xs:boolean" use="optional" default="false"/>
             <xs:attribute name="copyOnRead" type="xs:boolean" use="optional" default="false"/>
             <xs:attribute name="copyOnWrite" type="xs:boolean" use="optional" default="false"/>
@@ -62,7 +62,7 @@
             <xs:attribute name="evictionPolicy" type="xs:string" use="optional"/>
             <xs:attribute name="name" type="xs:string" use="required"/>
             <xs:attribute name="timeToLive" type="xs:integer" use="optional"/>
-            <xs:attribute name="transactionalMode" type="transactionalMode" use="optional" default="off" />
+            <xs:attribute name="transactionalMode" type="transactionalMode" use="optional" default="off"/>
             <xs:attribute name="statistics" type="xs:boolean" use="optional" default="false"/>
             <xs:attribute name="copyOnRead" type="xs:boolean" use="optional" default="false"/>
             <xs:attribute name="copyOnWrite" type="xs:boolean" use="optional" default="false"/>
@@ -125,7 +125,7 @@
 
     <xs:element name="cacheWriter">
         <xs:complexType>
-            <xs:sequence >
+            <xs:sequence>
                 <xs:element minOccurs="0" maxOccurs="1" ref="cacheWriterFactory"/>
             </xs:sequence>
             <xs:attribute name="writeMode" use="optional" type="writeModeType" default="write-through"/>
@@ -144,8 +144,8 @@
 
     <xs:simpleType name="writeModeType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="write-through" />
-            <xs:enumeration value="write-behind" />
+            <xs:enumeration value="write-through"/>
+            <xs:enumeration value="write-behind"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -159,13 +159,13 @@
 
     <xs:element name="copyStrategy">
         <xs:complexType>
-            <xs:attribute name="class" use="required" type="xs:string" />
+            <xs:attribute name="class" use="required" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="elementValueComparator">
         <xs:complexType>
-            <xs:attribute name="class" use="required" type="xs:string" />
+            <xs:attribute name="class" use="required" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 

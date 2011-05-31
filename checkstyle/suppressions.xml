@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+
+    <!-- Suppress duplicate checking of copyright notice -->
+    <suppress checks="StrictDuplicateCode" files=".java" lines="1-6"/>
+
+    <suppress checks="WhitespaceAround" files="[\\/]interceptor[\\/]"/>
+    <suppress checks="ParenPad" files="[\\/]interceptor[\\/]"/>
+
+</suppressions>

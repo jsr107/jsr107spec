@@ -1,7 +1,21 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache;
 
 /**
- * This interface supports setter injection and also the fluent builder pattern.
+ * Information on how a cache is configured. This information may be used.
+ *
+ * A Cache may be constructed by {@link CacheManager} using a configuration instance.
+ *
+ * At runtime it is used by javax.cache to decide how to behave. For example the behaviour of put
+ * will vary depending on whether the cache is write-through.
+ *
+ * Finally, a cache makes it's configuration visible via this interface.
  *
  * @author Greg Luck
  */
@@ -34,7 +48,6 @@ public interface CacheConfiguration {
      * Whether the cache is a write-through cache. A CacheWriter should be configured.
      *
      * @param writeThrough set to true for a write-through cache
-     *
      */
     void setWriteThrough(boolean writeThrough);
 
@@ -53,8 +66,5 @@ public interface CacheConfiguration {
      * @see #isStoreByValue()
      */
     void setStoreByValue(boolean storeByValue);
-
-
-
 
 }

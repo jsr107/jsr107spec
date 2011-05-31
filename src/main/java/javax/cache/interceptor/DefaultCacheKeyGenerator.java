@@ -1,3 +1,10 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache.interceptor;
 
 import javax.interceptor.InvocationContext;
@@ -6,11 +13,11 @@ import javax.interceptor.InvocationContext;
  * Creates a {@link DefaultCacheKey} for the {@link InvocationContext}.
  *
  * @author Eric Dalquist
- * @version $Revision$
  */
 public class DefaultCacheKeyGenerator implements CacheKeyGenerator {
 
-    /* (non-Javadoc)
+    /**
+     *
      * @see javax.cache.interceptor.CacheKeyGenerator#generateCacheKey(javax.interceptor.InvocationContext)
      */
     public CacheKey generateCacheKey(InvocationContext invocationContext) {

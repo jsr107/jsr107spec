@@ -1,3 +1,10 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache;
 
 import java.util.Collection;
@@ -8,9 +15,9 @@ import java.util.Map;
  * <p/>
  * See CacheWriter which is used for write-through caching.
  *
- * @author Greg Luck
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
+ * @author Greg Luck
  */
 public interface CacheLoader<K, V> {
 
@@ -23,7 +30,7 @@ public interface CacheLoader<K, V> {
      * @param key the key identifying the object being loaded
      * @return The object that is to be stored in the cache.
      */
-    public V load(K key);
+    V load(K key);
 
     /**
      * loads multiple object. Application writers should implement this
@@ -34,7 +41,6 @@ public interface CacheLoader<K, V> {
      * @param keys keys identifying the values to be loaded
      * @return A Map of objects that are to be stored in the cache.
      */
-
-    public Map<K, V> loadAll(Collection<? extends K> keys);
+    Map<K, V> loadAll(Collection<? extends K> keys);
 
 }
