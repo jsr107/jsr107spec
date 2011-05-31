@@ -14,7 +14,7 @@ import javax.cache.Cache;
  * for example through a {@link Cache#get(Object)} call.
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
- * @author ycosmado
+ * @author Yannis Cosmadopoulos
  * @author Greg Luck
  *
  */

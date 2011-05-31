@@ -16,7 +16,7 @@ import javax.cache.Cache;
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
  * @see CacheEntryUpdatedListener
- * @author ycosmado
+ * @author Yannis Cosmadopoulos
  * @author Greg Luck
  *
  */
