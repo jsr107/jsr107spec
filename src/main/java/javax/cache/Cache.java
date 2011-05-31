@@ -158,21 +158,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     CacheStatisticsMBean getCacheStatistics();
 
     /**
-     * Add a listener to the list of cache listeners
-     * TODO: maybe we want multiple addListeners - one per CacheEntryListener type
-     */
-    void addListener(CacheEntryListener listener);
-
-    /**
-     * Remove a listener from the list of cache listeners
-     * TODO: maybe we want multiple removeListeners - one per CacheEntryListener type
-     */
-    void removeListener(CacheEntryListener listener);
-
-    // Modification Operations
-
-    /**
-     * NOTE: different return value
      *
      * @throws NullPointerException if key is null
      * @see java.util.Map#put(Object, Object)
@@ -186,7 +171,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     void putAll(java.util.Map<? extends K, ? extends V> map);
 
     /**
-     * NOTE: different return value
      *
      * @throws NullPointerException if key is null
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
@@ -194,7 +178,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     boolean putIfAbsent(K key, V value);
 
     /**
-     * NOTE: different return value
      *
      * @return returns false if there was no matching key
      * @throws NullPointerException if key is null
