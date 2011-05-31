@@ -26,6 +26,8 @@ public interface Lifecycle {
      * This method is called during the resource's initialise method after it has changed it's
      * status to alive. Cache operations are legal in this method.
      *
+     * At the completion of this method invocation {@link #getStatus()} must return {@link Status#STARTED}.
+     *
      * @throws CacheException
      */
     void initialise() throws CacheException;
