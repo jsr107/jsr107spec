@@ -95,14 +95,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
      * The load method provides a means to "pre load" the cache. This method
      * will, asynchronously, load the specified object into the cache using
-     * the associated {@link CacheLoader}. If the object already exists in the cache,
-     * no action is taken. If no loader is associated with the object, no object
-     * will be loaded into the cache.  If a problem is encountered during the
+     * the associated {@link CacheLoader}.
+     * If the object already exists in the cache, no action is taken and null is returned.
+     * If no loader is associated with the cache, and specific loader is null,
+     * no object will be loaded into the cache and null is returned.
+     * If a problem is encountered during the
      * retrieving or loading of the object, an exception should
      * be logged.
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#load(Object)} method.  The cache will not dereference the object. If
+     * {@link CacheLoader#load(K, Object)} method.  The cache will not dereference the object. If
      * no "arg" value is provided a null will be passed to the load method.
      * The storing of null values in the cache is permitted, however, the get
      * method will not distinguish returning a null stored in the cache and not
@@ -113,7 +115,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
      */
-    Future load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument);
+    Future<V> load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument);
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -132,7 +134,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * exception (to be defined) will be thrown.
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#loadAll(java.util.Collection)} method.
+     * {@link CacheLoader#loadAll(java.util.Collection, Object)} method.
      * The cache will not dereference the object.
      * If no "arg" value is provided a null will be passed to the loadAll
      * method.
@@ -142,7 +144,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
      */
-    Future loadAll(Collection<? extends K> keys, CacheLoader specificLoader, Object loaderArgument);
+    Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument);
 
     /**
      * Returns the {@link CacheStatisticsMBean} object associated with the cache.

@@ -28,9 +28,10 @@ public interface CacheLoader<K, V> {
      * <p/>
      *
      * @param key the key identifying the object being loaded
+     * @param arg the argument passed
      * @return The object that is to be stored in the cache.
      */
-    V load(K key);
+    V load(K key, Object arg);
 
     /**
      * loads multiple object. Application writers should implement this
@@ -39,8 +40,9 @@ public interface CacheLoader<K, V> {
      * <p/>
      *
      * @param keys keys identifying the values to be loaded
+     * @param arg the argument passed
      * @return A Map of objects that are to be stored in the cache.
      */
-    Map<K, V> loadAll(Collection<? extends K> keys);
+    Map<K, V> loadAll(Collection<? extends K> keys, Object arg);
 
 }

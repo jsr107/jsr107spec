@@ -21,27 +21,27 @@ package javax.cache;
 public interface Lifecycle {
 
     /**
-     * Notifies providers to initialise themselves.
+     * Notifies providers to start themselves.
      * <p/>
-     * This method is called during the resource's initialise method after it has changed it's
+     * This method is called during the resource's start method after it has changed it's
      * status to alive. Cache operations are legal in this method.
      *
      * At the completion of this method invocation {@link #getStatus()} must return {@link Status#STARTED}.
      *
      * @throws CacheException
      */
-    void initialise() throws CacheException;
+    void start() throws CacheException;
 
     /**
      * Providers may be doing all sorts of exotic things and need to be able to clean up on
-     * stopAndDispose.
+     * stop.
      * <p/>
      * Cache operations are illegal when this method is called. The cache itself is partly
      * disposed when this method is called.
      *
      * @throws CacheException
      */
-    void stopAndDispose() throws CacheException;
+    void stop() throws CacheException;
 
     /**
      * Returns the cache status.
@@ -49,5 +49,4 @@ public interface Lifecycle {
      * @return one of {@link Status}
      */
     Status getStatus();
-
 }
