@@ -36,8 +36,12 @@ public interface Lifecycle {
      * Providers may be doing all sorts of exotic things and need to be able to clean up on
      * stop.
      * <p/>
-     * Cache operations are illegal when this method is called. The cache itself is partly
-     * disposed when this method is called.
+     * Cache operations are illegal after this method is called.
+     * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
+     * they are stopping or are a stopped.
+     * <p/>
+     * Resources will change status to {@link Status#STOPPING} when this method is called. Once they are stopoed they will change
+     * status to {@link Status#STOPPED}.
      *
      * @throws CacheException
      */

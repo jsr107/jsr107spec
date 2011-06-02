@@ -92,12 +92,11 @@ public interface CacheManager {
 
 
     /**
-     * This method will return a TransactionManager which can only be used for
-     * local transactions, not XA Transactions.
+     * This method will return a UserTransaction.
      *
-     * @return the UserTransaction
+     * @return the UserTransaction. This should be cast to {@link javax.transaction.UserTransaction}.
      */
-    javax.transaction.UserTransaction getUserTransaction();
+    Object getUserTransaction();
 
 
     /**

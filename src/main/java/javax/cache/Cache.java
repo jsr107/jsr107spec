@@ -336,7 +336,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * notified in the order they were added.
      * <p/>
      *
-     * @param cacheEntryListener The listener to add
+     * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
+     * is not allowed.
      * @param scope              The notification scope. If this parameter is null, the {@link NotificationScope#ALL} scope is used.
      * @return true if the listener is being added and was not already added
      */
