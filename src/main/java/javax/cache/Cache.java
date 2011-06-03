@@ -99,9 +99,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * If the object already exists in the cache, no action is taken and null is returned.
      * If no loader is associated with the cache, and specific loader is null,
      * no object will be loaded into the cache and null is returned.
-     * If a problem is encountered during the
-     * retrieving or loading of the object, an exception should
-     * be logged.
+     * If a problem is encountered during the retrieving or loading of the object, an exception
+     * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
      * {@link CacheLoader#load(K, Object)} method.  The cache will not dereference the object. If
@@ -113,7 +112,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param key the key
      * @param specificLoader a specific loader to use. If null the default loader is used.
      * @param loaderArgument provision for additional parameters to be passed to the loader
-     * @return a Future which can be used to monitor execution
+     * @return a Future which can be used to monitor execution.
+     * @throws NullPointerException if key is null.
      */
     Future<V> load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument);
 
@@ -143,7 +143,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param specificLoader a specific loader to use. If null the default loader is used.
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
-     * @throws NullPointerException if keys is null
+     * @throws NullPointerException if keys is null or if keys contains a null.
      */
     Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument);
 
