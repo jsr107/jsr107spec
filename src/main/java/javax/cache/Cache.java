@@ -89,6 +89,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param key key whose presence in this cache is to be tested.
      *            null is permitted but the cache will always return null
      * @return <tt>true</tt> if this map contains a mapping for the specified key
+     * @throws NullPointerException  if the key is null
      */
     boolean containsKey(Object key);
 
@@ -309,6 +310,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * <p/>
      *
      * @param keys the keys to remove
+     * @throws NullPointerException  if keys is null or if it contains a null key
      */
     void removeAll(Collection<? extends K> keys);
 
@@ -379,8 +381,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
          * the two entries represent the same mapping.  More formally, two
          * entries <tt>e1</tt> and <tt>e2</tt> represent the same mapping
          * if<pre>
-         *     (e1.getKey()==null ?
-         *      e2.getKey()==null : e1.getKey().equals(e2.getKey()))  &amp;&amp;
+         *     e1.getKey().equals(e2.getKey())  &amp;&amp;
          *     (e1.getValue()==null ?
          *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
          * </pre>
@@ -396,7 +397,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
         /**
          * Returns the hash code value for this cache entry.  The hash code
          * of a cache entry <tt>e</tt> is defined to be: <pre>
-         *     (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
+         *     e.getKey().hashCode() ^
          *     (e.getValue()==null ? 0 : e.getValue().hashCode())
          * </pre>
          * This ensures that <tt>e1.equals(e2)</tt> implies that
