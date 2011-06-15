@@ -17,6 +17,7 @@ package javax.cache;
  * <p/>
  * The {@link Status} of a newly created resource is {@link Status#UNITIALISED}.
  * @author Greg Luck
+ * @since 1.0
  */
 public interface Lifecycle {
 
@@ -40,7 +41,7 @@ public interface Lifecycle {
      * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
      * they are stopping or are a stopped.
      * <p/>
-     * Resources will change status to {@link Status#STOPPING} when this method is called. Once they are stopoed they will change
+     * Resources will change status to {@link Status#STOPPING} when this method is called. Once they are stopped they will change
      * status to {@link Status#STOPPED}.
      *
      * @throws CacheException

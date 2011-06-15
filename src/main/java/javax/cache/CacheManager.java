@@ -13,6 +13,8 @@ import java.util.List;
  * A CacheManager is used for looking up Caches and controls their lifecycle.
  *
  * @author Greg Luck
+ * @author Yannis Cosmadopoulos
+ * @since 1.0
  */
 public interface CacheManager {
 
@@ -21,11 +23,12 @@ public interface CacheManager {
     /**
      * Adds an unitialised {@link Cache} to the CacheManager.
      * <p/>
+     * @param cacheName the name of the cache
      * @param cache the cache to add
      * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
-    void addCache(Cache<?, ?> cache) throws IllegalStateException, CacheException;
+    void addCache(String cacheName, Cache<?, ?> cache) throws IllegalStateException, CacheException;
 
     /**
      * Creates a {@link Cache} cache using defaults.
@@ -40,14 +43,15 @@ public interface CacheManager {
     /**
      * Creates a {@link Cache} in the the CacheManager from the provided configuration.
      * <p/>
+     * @param cacheName the cache name
      * @param configuration The configuration.
      * @throws InvalidConfigurationException thrown if the configuration is invalid
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
-    <K, V> Cache<K, V> createCache(CacheConfiguration configuration) throws CacheException;
+    <K, V> Cache<K, V> createCache(String cacheName, CacheConfiguration configuration) throws CacheException;
 
     /**
-     * Checks whether a cache of type ehcache exists.
+     * Checks whether a cache exists.
      * <p/>
      *
      * @param cacheName the cache name to check for

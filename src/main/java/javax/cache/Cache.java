@@ -42,6 +42,7 @@ import java.util.concurrent.Future;
  * @param <V> the type of mapped values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
+ * @since 1.0
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
@@ -70,8 +71,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
      * @throws NullPointerException if keys is null or if keys contains a null
+     * @throws CacheException if there is a problem fetching the values.
      */
-    Map<K, V> getAll(Collection<? extends K> keys);
+    Map<K, V> getAll(Collection<? extends K> keys) throws CacheException;
 
 
     /**
@@ -85,8 +87,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      * @throws NullPointerException  if key is null
      * @see java.util.Map#containsKey(Object)
+     * @throws CacheException it there is a problem checking the mapping
      */
-    boolean containsKey(Object key);
+    boolean containsKey(Object key) throws CacheException;
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -107,8 +110,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution.
      * @throws NullPointerException if key is null.
+     * @throws CacheException if there is a problem doing the load
      */
-    Future<V> load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument);
+    Future<V> load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument) throws CacheException;
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -137,8 +141,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
      * @throws NullPointerException if keys is null or if keys contains a null.
+     * @throws CacheException if there is a problem doing the load
      */
-    Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument);
+    Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument) throws CacheException;
 
     /**
      * Returns the {@link CacheStatisticsMBean} object associated with the cache.
@@ -164,8 +169,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @throws NullPointerException if key is null or if value is null
      * @see java.util.Map#put(Object, Object)
      * @see #getAndReplace(Object, Object)
+     * @throws CacheException if there is a problem doing the put
      */
-    void put(K key, V value);
+    void put(K key, V value) throws CacheException;
 
     /**
      * Copies all of the mappings from the specified map to this cache.
@@ -177,9 +183,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *
      * @param map mappings to be stored in this cache
      * @throws NullPointerException if map is null or if map contains null keys or values.
+     * @throws CacheException if there is a problem doing the put
      * @see java.util.Map#putAll(java.util.Map)
      */
-    void putAll(java.util.Map<? extends K, ? extends V> map);
+    void putAll(java.util.Map<? extends K, ? extends V> map) throws CacheException;
 
     /**
      * If the specified key is not already associated
@@ -201,9 +208,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param value value to be associated with the specified key
      * @return true if a value was set.
      * @throws NullPointerException if key is null or value is null
+     * @throws CacheException if there is a problem doing the put
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
-    boolean putIfAbsent(K key, V value);
+    boolean putIfAbsent(K key, V value) throws CacheException;
 
     /**
      * Removes the mapping for a key from this cache if it is present.
@@ -221,9 +229,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param key key whose mapping is to be removed from the cache
      * @return returns false if there was no matching key
      * @throws NullPointerException if key is null
+     * @throws CacheException if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
-    boolean remove(Object key);
+    boolean remove(Object key) throws CacheException;
 
     /**
      * Removes the entry for a key only if currently mapped to a given value.
@@ -246,9 +255,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @throws ClassCastException            if the key or value is of an inappropriate
      *                                       type for this cache (optional)
      * @throws NullPointerException          if the specified key is null.
+     * @throws CacheException                if there is a problem during the remove
      * @see java.util.Map#remove(Object)
      */
-    V getAndRemove(Object key);
+    V getAndRemove(Object key) throws CacheException;
 
     /**
      * Replaces the entry for a key only if currently mapped to a given value.
@@ -267,9 +277,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param newValue value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
      * @throws NullPointerException if key is null or if the values are null
+     * @throws CacheException if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
      */
-    boolean replace(K key, V oldValue, V newValue);
+    boolean replace(K key, V oldValue, V newValue) throws CacheException;
 
     /**
      * Replaces the entry for a key only if currently mapped to some value.
@@ -290,10 +301,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param value value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
      * @throws NullPointerException if key is null or if value is null
+     * @throws CacheException if there is a problem during the replace
      * @see #getAndReplace(Object, Object)
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-    boolean replace(K key, V value);
+    boolean replace(K key, V value) throws CacheException;
 
     /**
      * Replaces the entry for a key only if currently mapped to some value.
@@ -316,9 +328,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *         previously associated <tt>null</tt> with the key,
      *         if the implementation supports null values.)
      * @throws NullPointerException if key is null or if value is null
+     * @throws CacheException if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-    V getAndReplace(K key, V value);
+    V getAndReplace(K key, V value) throws CacheException;
 
     /**
      * Removes entries for the specified keys
@@ -326,8 +339,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *
      * @param keys the keys to remove
      * @throws NullPointerException  if keys is null or if it contains a null key
+     * @throws CacheException if there is a problem during the remove
      */
-    void removeAll(Collection<? extends K> keys);
+    void removeAll(Collection<? extends K> keys) throws CacheException;
 
     /**
      * Removes all of the mappings from this cache.
@@ -335,9 +349,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * <p/>
      * This is potentially an expensive operation.
      * <p/>
+     * @throws CacheException if there is a problem during the remove
      * @see java.util.Map#clear()
      */
-    void removeAll();
+    void removeAll() throws CacheException;
 
     /**
      * Returns a CacheConfiguration.

@@ -11,6 +11,7 @@ package javax.cache;
  * todo: finish this
  * Starter for a statistics MBean.
  * @author Greg Luck
+ * @since 1.0
  */
 public interface CacheStatisticsMBean {
 

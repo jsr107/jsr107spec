@@ -18,6 +18,8 @@ package javax.cache;
  * Finally, a cache makes it's configuration visible via this interface.
  *
  * @author Greg Luck
+ * @author Yannis Cosmadopoulos
+ * @since 1.0
  */
 public interface CacheConfiguration {
 

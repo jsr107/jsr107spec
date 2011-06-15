@@ -18,6 +18,8 @@ import java.util.Map;
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  * @author Greg Luck
+ * @author Yannis Cosmadopoulos
+ * @since 1.0
  */
 public interface CacheLoader<K, V> {
 
