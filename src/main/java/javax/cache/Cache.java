@@ -161,7 +161,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      *
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException if key is null or if value is null
      * @see java.util.Map#put(Object, Object)
      * @see #getAndReplace(Object, Object)
      */
@@ -176,7 +176,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * specified cache or map is modified while the operation is in progress.
      *
      * @param map mappings to be stored in this cache
-     * @throws NullPointerException if map is null or if map contains null keys.
+     * @throws NullPointerException if map is null or if map contains null keys or values.
      * @see java.util.Map#putAll(java.util.Map)
      */
     void putAll(java.util.Map<? extends K, ? extends V> map);
@@ -200,7 +200,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return true if a value was set.
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException if key is null or value is null
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
     boolean putIfAbsent(K key, V value);
@@ -266,7 +266,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param oldValue value expected to be associated with the specified key
      * @param newValue value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
-     * @throws NullPointerException if the specified key is null
+     * @throws NullPointerException if key is null or if the values are null
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
      */
     boolean replace(K key, V oldValue, V newValue);
@@ -282,11 +282,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *       return false;
      *   }</pre>
      * except that the action is performed atomically.
+     * <p/>
+     * In contrast to the corresponding ConcurrentMap operation, does not return
+     * the previous value.
      *
      * @param key key with which the specified value is associated
      * @param value value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
-     * @throws NullPointerException if the specified key is null
+     * @throws NullPointerException if key is null or if value is null
+     * @see #getAndReplace(Object, Object)
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
     boolean replace(K key, V value);
@@ -311,7 +315,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *         (A <tt>null</tt> return can also indicate that the cache
      *         previously associated <tt>null</tt> with the key,
      *         if the implementation supports null values.)
-     * @throws NullPointerException if the specified key is null
+     * @throws NullPointerException if key is null or if value is null
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
     V getAndReplace(K key, V value);
@@ -331,6 +335,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * <p/>
      * This is potentially an expensive operation.
      * <p/>
+     * @see java.util.Map#clear()
      */
     void removeAll();
 
@@ -338,7 +343,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * Returns a CacheConfiguration.
      * <p/>
      * Whether the configuration is mutable after the cache has {@link Status#STARTED} is up to the implementation,
-     * however the confiuration cannot be changed unless the changes are applied to the cache.
+     * however the configuration cannot be changed unless the changes are applied to the cache.
      *
      * @return the {@link CacheConfiguration}
      */
