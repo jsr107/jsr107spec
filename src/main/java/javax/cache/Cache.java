@@ -154,7 +154,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
      * if {@link #containsKey(Object) c.containsKey(k)} would return
      * <tt>true</tt>.)
-     * </p>
+     * <p/>
      * In contrast to the corresponding Map operation, does not return
      * the previous value.
      *
