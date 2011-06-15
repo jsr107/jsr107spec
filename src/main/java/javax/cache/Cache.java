@@ -24,6 +24,9 @@ import java.util.concurrent.Future;
  * <p/>
  * The API provides batch operations suited to network storage.
  * <p/>
+ * A Cache does not allow null keys or values. Attempts to store a null value or
+ * to use a null key either in a get or put operation will result in a {@link NullPointerException}.
+ * <p/>
  * OPEN ISSUES:
  * - should all methods throw CacheException? If not what?
  * - Cache Statistics? JMX?
@@ -44,17 +47,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
      * Gets an entry from the cache.
      * <p/>
-     * A return value of
-     * {@code null} does not <i>necessarily</i> indicate that the cache
-     * contains no mapping for the key; it's also possible that the cache
-     * explicitly maps the key to {@code null}.  The {@link #containsKey(Object)}
-     * operation may be used to distinguish these two cases.
      *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws NullPointerException  if the key is null
      * @throws CacheException        if there is a problem fetching the value
+     * @see java.util.Map#get(Object)
      */
     V get(Object key) throws CacheException;
 
@@ -67,9 +66,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * is encountered during the retrieving or loading of the objects, an
      * exception will be thrown.
      * <p/>
-     * The storing of null values in the cache is permitted, however, the get
-     * method will not distinguish returning a null stored in the cache and
-     * not finding the object in the cache. In both cases a null is returned.
      *
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
@@ -82,14 +78,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * Returns <tt>true</tt> if this cache contains a mapping for the specified
      * key.  More formally, returns <tt>true</tt> if and only if
      * this cache contains a mapping for a key <tt>k</tt> such that
-     * <tt>(key==null ? k==null : key.equals(k))</tt>.  (There can be
-     * at most one such mapping.)
+     * <tt>key.equals(k)</tt>.  (There can be at most one such mapping.)
      * <p/>
      *
      * @param key key whose presence in this cache is to be tested.
-     *            null is permitted but the cache will always return null
      * @return <tt>true</tt> if this map contains a mapping for the specified key
-     * @throws NullPointerException  if the key is null
+     * @throws NullPointerException  if key is null
+     * @see java.util.Map#containsKey(Object)
      */
     boolean containsKey(Object key);
 
@@ -106,9 +101,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * If the "arg" argument is set, the arg object will be passed to the
      * {@link CacheLoader#load(K, Object)} method.  The cache will not dereference the object. If
      * no "arg" value is provided a null will be passed to the load method.
-     * The storing of null values in the cache is permitted, however, the get
-     * method will not distinguish returning a null stored in the cache and not
-     * finding the object in the cache. In both cases a null is returned.
      *
      * @param key the key
      * @param specificLoader a specific loader to use. If null the default loader is used.
@@ -137,7 +129,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * If the "arg" argument is set, the arg object will be passed to the
      * {@link CacheLoader#loadAll(java.util.Collection, Object)} method.
      * The cache will not dereference the object.
-     * If no "arg" value is provided a null will be passed to the loadAll
+     * If no "arg" value is provided a null will be passed to the CacheLoader loadAll
      * method.
      *
      * @param keys the keys
@@ -162,12 +154,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
      * if {@link #containsKey(Object) c.containsKey(k)} would return
      * <tt>true</tt>.)
+     * </p>
+     * In contrast to the corresponding Map operation, does not return
+     * the previous value.
      *
      * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      *
      * @throws NullPointerException if key is null
      * @see java.util.Map#put(Object, Object)
+     * @see #getAndReplace(Object, Object)
      */
     void put(K key, V value);
 
@@ -193,9 +189,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *   if (!cache.containsKey(key)) {}
      *       cache.put(key, value);
      *       return true;
-     *   } else
-     *       return false;</pre>
+     *   } else {
+     *       return false;
+     *   }</pre>
      * except that the action is performed atomically.
+     * <p/>
+     * In contrast to the corresponding ConcurrentMap operation, does not return
+     * the previous value.
      *
      * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
@@ -234,7 +234,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *       V oldValue = cache.get(key);
      *       cache.remove(key);
      *       return oldValue;
-     *   } else return null;</pre>
+     *   } else {
+     *       return null;
+     *   }</pre>
      * except that the action is performed atomically.
      *
      * @param key key with which the specified value is associated
@@ -255,7 +257,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(oldValue)) {
      *       cache.put(key, newValue);
      *       return true;
-     *   } else return false;</pre>
+     *   } else {
+     *       return false;
+     *   }</pre>
      * except that the action is performed atomically.
      *
      * @param key key with which the specified value is associated
@@ -272,8 +276,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key)) {
-     *       return cache.put(key, value);
-     *   } else return null;</pre>
+     *       cache.put(key, value);
+     *       return true;
+     *   } else {
+     *       return false;
+     *   }</pre>
      * except that the action is performed atomically.
      *
      * @param key key with which the specified value is associated
@@ -289,8 +296,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key)) {
-     *       return cache.getAndReplace(key, value);
-     *   } else return null;</pre>
+     *       V value = cache.get(key, value);
+     *       cache.put(key, value);
+     *       return value;
+     *   } else {
+     *       return null;
+     *   }</pre>
      * except that the action is performed atomically.
      *
      * @param key key with which the specified value is associated
@@ -382,8 +393,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
          * entries <tt>e1</tt> and <tt>e2</tt> represent the same mapping
          * if<pre>
          *     e1.getKey().equals(e2.getKey())  &amp;&amp;
-         *     (e1.getValue()==null ?
-         *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
+         *     e1.getValue().equals(e2.getValue())
          * </pre>
          * This ensures that the <tt>equals</tt> method works properly across
          * different implementations of the <tt>Cache.Entry</tt> interface.
@@ -398,7 +408,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
          * Returns the hash code value for this cache entry.  The hash code
          * of a cache entry <tt>e</tt> is defined to be: <pre>
          *     e.getKey().hashCode() ^
-         *     (e.getValue()==null ? 0 : e.getValue().hashCode())
+         *     e.getValue().hashCode()
          * </pre>
          * This ensures that <tt>e1.equals(e2)</tt> implies that
          * <tt>e1.hashCode()==e2.hashCode()</tt> for any two Entries
