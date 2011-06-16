@@ -384,6 +384,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      */
     boolean unregisterCacheEntryListener(CacheEntryListener cacheEntryListener);
 
+    /**
+     * Return the name of the cache.
+     *
+     * @return the name of the cache.
+     */
+    String getCacheName();
 
     /**
      * A cache entry (key-value pair).

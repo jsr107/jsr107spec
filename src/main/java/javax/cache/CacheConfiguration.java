@@ -69,4 +69,9 @@ public interface CacheConfiguration {
      */
     void setStoreByValue(boolean storeByValue);
 
+    /**
+     * Return the cache name.
+     * @return the cache name
+     */
+    String getCacheName();
 }
