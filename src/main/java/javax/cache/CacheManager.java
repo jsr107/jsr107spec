@@ -7,8 +7,6 @@
 
 package javax.cache;
 
-import java.util.List;
-
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle.
  *
@@ -18,29 +16,14 @@ import java.util.List;
  */
 public interface CacheManager {
     /**
-     * Adds an unitialised {@link Cache} to the CacheManager and starts it.
+     * Adds an uninitialised {@link Cache} to the CacheManager and starts it.
+     * If a cache with the same name has been previously added that cache will be stopped.
      * <p/>
      * @param cache the cache to add
      * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     void addCache(Cache<?, ?> cache);
-
-    /**
-     * Checks whether a cache exists.
-     * <p/>
-     *
-     * @param cacheName the cache name to check for
-     * @return true if it exists
-     */
-    boolean cacheExists(String cacheName);
-
-    /**
-     * Returns a list of the names of the caches.
-     *
-     * @return the names
-     */
-    List<String> getCacheNames();
 
     /**
      * Looks up a named cache.
@@ -53,7 +36,7 @@ public interface CacheManager {
     <K, V> Cache getCache(String cacheName);
 
     /**
-     * Remove a cache from the CacheManager. The cache will be is disposed of.
+     * Remove a cache from the CacheManager. The cache will be stopped.
      *
      * @param cacheName the cache name
      * @return true if the cache was removed
