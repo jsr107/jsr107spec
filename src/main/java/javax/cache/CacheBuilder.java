@@ -26,6 +26,7 @@ public interface CacheBuilder {
      * @param <K> the key type
      * @param <V> the value type
      * @throws InvalidConfigurationException thrown if the configuration is invalid
+     * @throws NullPointerException is cacheName is null
      * @return a new instance of the named cache
      * @see CacheManager
      */
@@ -41,6 +42,7 @@ public interface CacheBuilder {
      * @param <K> the key type
      * @param <V> the value type
      * @throws InvalidConfigurationException thrown if the configuration is invalid
+     * @throws NullPointerException is cacheName is null or configuration is null
      * @return a new instance of the named cache
      * @see CacheManager
      */
