@@ -17,38 +17,14 @@ import java.util.List;
  * @since 1.0
  */
 public interface CacheManager {
-
-
-
     /**
-     * Adds an unitialised {@link Cache} to the CacheManager.
+     * Adds an unitialised {@link Cache} to the CacheManager and starts it.
      * <p/>
-     * @param cacheName the name of the cache
      * @param cache the cache to add
      * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
-    void addCache(String cacheName, Cache<?, ?> cache) throws IllegalStateException, CacheException;
-
-    /**
-     * Creates a {@link Cache} cache using defaults.
-     * <p/>
-     *
-     * @param cacheName the cache name
-     * @return the newly create cache
-     * @throws CacheException  if there was an error adding the cache to the CacheManager
-     */
-     <K, V> Cache<K, V> createCache(String cacheName) throws CacheException;
-
-    /**
-     * Creates a {@link Cache} in the the CacheManager from the provided configuration.
-     * <p/>
-     * @param cacheName the cache name
-     * @param configuration The configuration.
-     * @throws InvalidConfigurationException thrown if the configuration is invalid
-     * @throws CacheException        if there was an error adding the cache to the CacheManager
-     */
-    <K, V> Cache<K, V> createCache(String cacheName, CacheConfiguration configuration) throws CacheException;
+    void addCache(Cache<?, ?> cache);
 
     /**
      * Checks whether a cache exists.
@@ -58,7 +34,6 @@ public interface CacheManager {
      * @return true if it exists
      */
     boolean cacheExists(String cacheName);
-
 
     /**
      * Returns a list of the names of the caches.
@@ -70,20 +45,12 @@ public interface CacheManager {
     /**
      * Looks up a named cache.
      *
+     *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
      * @throws IllegalStateException if the Cache is not {@link Status#STARTED}
      */
-    <K, V> Cache<K, V> getCache(String cacheName);
-
-    /**
-     * Looks up a named cache, creating it using defaults if it does not exist.
-     *
-     * @param cacheName the name of the cache to look for
-     * @return the Cache or null if it does exist
-     * @throws CacheException if there was an error adding the cache to the CacheManager
-     */
-    <K, V> Cache<K, V> getOrCreateCache(String cacheName);
+    <K, V> Cache getCache(String cacheName);
 
     /**
      * Remove a cache from the CacheManager. The cache will be is disposed of.
@@ -94,14 +61,12 @@ public interface CacheManager {
      */
     boolean removeCache(String cacheName) throws IllegalStateException;
 
-
     /**
      * This method will return a UserTransaction.
      *
      * @return the UserTransaction. This should be cast to {@link javax.transaction.UserTransaction}.
      */
     Object getUserTransaction();
-
 
     /**
      * Shuts down the CacheManager.
@@ -116,5 +81,4 @@ public interface CacheManager {
      * A given CacheManager instance cannot be restarted after it has been stopped. A new one must be created.
      */
     void shutdown();
-
 }
