@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 /**
- * A Cache provides temporary storage for later fase retrieval.
+ * A Cache provides temporary storage for later fast retrieval.
  * <p/>
  * The interface is map-like and will be familiar. However the map-like
  * methods have been modified to enable efficient implementation of
