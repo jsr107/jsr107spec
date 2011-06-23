@@ -47,7 +47,7 @@ public interface CacheManager {
     /**
      * This method will return a UserTransaction.
      *
-     * @return the UserTransaction. This should be cast to {@link javax.transaction.UserTransaction}.
+     * @return the UserTransaction. This should be cast to javax.transaction.UserTransaction.
      */
     Object getUserTransaction();
 

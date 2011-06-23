@@ -38,8 +38,8 @@ public enum CacheManagerFactory {
 
     private ServiceFactory getServiceFactory() {
         ServiceLoader<ServiceFactory> serviceLoader = ServiceLoader.load(ServiceFactory.class);
-        for (ServiceFactory serviceFactory : serviceLoader) {
-            return serviceFactory;
+        for (ServiceFactory sf : serviceLoader) {
+            return sf;
         }
         return null;
     }
