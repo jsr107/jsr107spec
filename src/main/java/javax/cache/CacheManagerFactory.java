@@ -13,7 +13,7 @@ import java.util.ServiceLoader;
 /**
  * Singleton used to access Cache top level elements.
  *
- * For a provider to hook into the Factory, the jar must contain a file:
+ * For a provider to hook into the CacheManagerFactory, the jar must contain a file:
  * <pre>
  *   META-INF/services/javax.cache.spi.ServiceFactory
  * </pre>
@@ -23,7 +23,7 @@ import java.util.ServiceLoader;
  * @author Yannis Cosmadopoulos
  * @since 1.0
  */
-public enum Factory {
+public enum CacheManagerFactory {
     /**
      * the singleton instance.
      */
@@ -32,7 +32,7 @@ public enum Factory {
     private final ServiceFactory serviceFactory;
     private CacheManager cacheManager;
 
-    private Factory() {
+    private CacheManagerFactory() {
         serviceFactory = getServiceFactory();
     }
 
