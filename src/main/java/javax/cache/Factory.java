@@ -29,17 +29,17 @@ public enum Factory {
      */
     instance;
 
-    private final CacheManager cacheManager;
+    private final ServiceFactory serviceFactory;
+    private CacheManager cacheManager;
 
     private Factory() {
-        cacheManager = createCacheManager();
+        serviceFactory = getServiceFactory();
     }
 
-    private CacheManager createCacheManager() {
+    private ServiceFactory getServiceFactory() {
         ServiceLoader<ServiceFactory> serviceLoader = ServiceLoader.load(ServiceFactory.class);
         for (ServiceFactory serviceFactory : serviceLoader) {
-            System.out.println("createCacheManager 2");
-            return serviceFactory.createCacheManager();
+            return serviceFactory;
         }
         return null;
     }
@@ -50,6 +50,13 @@ public enum Factory {
      * @return the cache manager
      */
     public CacheManager getCacheManager() {
+        if (cacheManager == null) {
+            synchronized (this) {
+                if (cacheManager == null && serviceFactory != null) {
+                    cacheManager = serviceFactory.createCacheManager();
+                }
+            }
+        }
         return cacheManager;
     }
 }
