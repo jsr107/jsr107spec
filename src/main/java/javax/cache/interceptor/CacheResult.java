@@ -7,6 +7,7 @@
 
 package javax.cache.interceptor;
 
+import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -35,6 +36,7 @@ public @interface CacheResult {
      * <p/>
      * Defaults to ClassName.methodName
      */
+    @Nonbinding
     String cacheName() default "";
 
     /**
@@ -44,6 +46,7 @@ public @interface CacheResult {
      * <p/>
      * Defaults to false
      */
+    @Nonbinding
     boolean skipGet() default false;
 
     /**
@@ -51,10 +54,12 @@ public @interface CacheResult {
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
+    @Nonbinding
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
     /**
      */
+    @Nonbinding
     Class<? extends Annotation>[] cacheResolverQualifiers() default { };
 
     /**
@@ -63,9 +68,11 @@ public @interface CacheResult {
      * <p/>
      * Defaults to {@link DefaultCacheKeyGenerator}
      */
+    @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default DefaultCacheKeyGenerator.class;
 
     /**
      */
+    @Nonbinding
     Class<? extends Annotation>[] cacheKeyGeneratorQualifiers() default { };
 }
