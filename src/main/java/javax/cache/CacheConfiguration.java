@@ -8,7 +8,7 @@
 package javax.cache;
 
 /**
- * Information on how a cache is configured. This information may be used.
+ * Information on how a cache is configured.
  *
  * A Cache may be constructed by {@link CacheManager} using a configuration instance.
  *
