@@ -42,7 +42,7 @@ import java.util.concurrent.Future;
  * @param <V> the type of mapped values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
@@ -102,7 +102,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      * <p/>
      * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#load(K, Object)} method.  The cache will not dereference the object. If
+     * {@link CacheLoader#load(Object, Object)} method.  The cache will not dereference the object. If
      * no "arg" value is provided a null will be passed to the load method.
      *
      * @param key the key

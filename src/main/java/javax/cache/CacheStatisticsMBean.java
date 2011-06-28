@@ -11,25 +11,25 @@ package javax.cache;
  * todo: finish this
  * Starter for a statistics MBean.
  * @author Greg Luck
- * @since 1.0
+ * @since 1.7
  */
 public interface CacheStatisticsMBean {
 
     /**
      *
-     * @return
+     * @return the number of entries
      */
     long getEntryCount();
 
     /**
      *
-     * @return
+     * @return the number if hits
      */
     long getCacheHits();
 
     /**
      *
-     * @return
+     * @return the number of misses
      */
     long getCacheMisses();
 

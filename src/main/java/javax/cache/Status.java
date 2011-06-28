@@ -11,6 +11,7 @@ package javax.cache;
  * Indicates the status in it's lifecycle of a resource.
  *
  * @author Greg Luck
+ * @since 1.7
  */
 public enum Status {
 

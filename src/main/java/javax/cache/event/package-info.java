@@ -10,5 +10,7 @@
 
 
  @author Greg Luck
+ @author Yannis Cosmadopoulos
+ @since 1.7
  */
 package javax.cache.event;

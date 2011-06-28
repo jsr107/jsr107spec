@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
  * will be removed via the {@link javax.cache.Cache#removeAll()} method
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

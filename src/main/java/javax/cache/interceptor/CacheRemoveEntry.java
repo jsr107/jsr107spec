@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
  * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

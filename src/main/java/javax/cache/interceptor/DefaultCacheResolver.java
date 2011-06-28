@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  * using {@link CacheManager#getCache(String)}, {@link CacheBuilder#createCache(String)}.
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 public class DefaultCacheResolver implements CacheResolver {
 

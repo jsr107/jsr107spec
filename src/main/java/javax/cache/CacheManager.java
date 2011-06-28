@@ -12,7 +12,7 @@ package javax.cache;
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public interface CacheManager {
     /**

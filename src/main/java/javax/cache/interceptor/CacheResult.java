@@ -25,6 +25,7 @@ import java.lang.annotation.Target;
  * null return values and thrown exceptions are never cached.
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 @Target( {ElementType.METHOD, ElementType.TYPE} )
 @Retention(RetentionPolicy.RUNTIME)

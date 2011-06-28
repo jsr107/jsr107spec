@@ -17,6 +17,7 @@ import java.util.Arrays;
  * {@link #equals(Object)}
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 public class DefaultCacheKey implements CacheKey {
 

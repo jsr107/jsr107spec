@@ -14,7 +14,7 @@ package javax.cache;
  * This is the base class for all cache exceptions.
  *
  * @author Greg Luck
- * @since 1.0
+ * @since 1.7
  */
 public class CacheException extends RuntimeException {
 

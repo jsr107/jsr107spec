@@ -19,7 +19,7 @@ import java.util.Map;
  * @param <V> the type of mapped values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public interface CacheLoader<K, V> {
 

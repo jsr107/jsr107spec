@@ -10,5 +10,6 @@
 
 
  @author Greg Luck
+ @since 1.7
  */
 package javax.cache.interceptor;

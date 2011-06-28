@@ -11,7 +11,7 @@ package javax.cache;
  * A CacheBuilder is used for creating Caches.
  *
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public interface CacheBuilder {
 

@@ -13,7 +13,7 @@ import javax.cache.CacheManager;
  * Interface that should be implemented by Cache implementers
  *
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public interface ServiceFactory {
 

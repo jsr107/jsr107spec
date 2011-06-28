@@ -16,6 +16,7 @@ package javax.cache.event;
  *
  * There may be large cost difference between receipt of local versus remote events thus allowing the
  * choice.
+ * @since 1.7
  */
 public enum NotificationScope {
 

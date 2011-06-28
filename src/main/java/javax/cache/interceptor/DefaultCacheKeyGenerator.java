@@ -13,6 +13,7 @@ import javax.interceptor.InvocationContext;
  * Creates a {@link DefaultCacheKey} for the {@link InvocationContext}.
  *
  * @author Eric Dalquist
+ * @since 1.7
  */
 public class DefaultCacheKeyGenerator implements CacheKeyGenerator {
 

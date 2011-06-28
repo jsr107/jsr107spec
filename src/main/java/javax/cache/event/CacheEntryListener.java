@@ -28,6 +28,7 @@ import java.util.EventListener;
  *
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
+ * @since 1.7
  */
 public interface CacheEntryListener extends EventListener {
 

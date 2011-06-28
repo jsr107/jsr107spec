@@ -15,7 +15,7 @@ import java.util.Collection;
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
- * @since 1.0
+ * @since 1.7
  */
 public interface CacheWriter<K, V> {
 

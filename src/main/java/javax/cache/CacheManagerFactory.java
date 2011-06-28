@@ -21,7 +21,7 @@ import java.util.ServiceLoader;
  * @see ServiceLoader
  *
  * @author Yannis Cosmadopoulos
- * @since 1.0
+ * @since 1.7
  */
 public enum CacheManagerFactory {
     /**
