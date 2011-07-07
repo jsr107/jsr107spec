@@ -11,21 +11,28 @@ import javax.cache.spi.ServiceFactory;
 import java.util.ServiceLoader;
 
 /**
- * Singleton used to access Cache top level elements.
+ * A factory for creating CacheManager using the SPI conventions in the JDK's {@link ServiceLoader}
  *
- * For a provider to hook into the CacheManagerFactory, the jar must contain a file:
+ * For a provider to be discovered by the CacheManagerFactory, it's jar must contain a resource
+ * called:
  * <pre>
  *   META-INF/services/javax.cache.spi.ServiceFactory
  * </pre>
  * containing the class name implementing {@link ServiceFactory}
+ *
+ * e.g. For the reference implementation:
+ *
+ * "javax.cache.implementation.RIServiceFactory"
+ *
  * @see ServiceLoader
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
  */
 public enum CacheManagerFactory {
+
     /**
-     * the singleton instance.
+     * The singleton instance.
      */
     instance;
 
@@ -46,6 +53,7 @@ public enum CacheManagerFactory {
 
     /**
      * Get the cache manager.
+     * todo how do we create multiple CacheManagers with this approach?
      *
      * @return the cache manager
      */
