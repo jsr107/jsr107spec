@@ -8,6 +8,7 @@
 package javax.cache;
 
 import javax.cache.spi.ServiceFactory;
+import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
@@ -45,15 +46,12 @@ public enum CacheManagerFactory {
 
     private ServiceFactory getServiceFactory() {
         ServiceLoader<ServiceFactory> serviceLoader = ServiceLoader.load(ServiceFactory.class);
-        for (ServiceFactory sf : serviceLoader) {
-            return sf;
-        }
-        return null;
+        Iterator<ServiceFactory> it = serviceLoader.iterator();
+        return it.hasNext() ? it.next() : null;
     }
 
     /**
      * Get the cache manager.
-     * todo how do we create multiple CacheManagers with this approach?
      *
      * @return the cache manager
      */
@@ -66,5 +64,19 @@ public enum CacheManagerFactory {
             }
         }
         return cacheManager;
+    }
+
+    /**
+     * Create a new cache manager.
+     * TODO: not sure why this is needed, and if it is should we store the CacheManager?
+     *
+     * @return the new cache manager
+     */
+    public CacheManager createCacheManager() {
+        if (serviceFactory != null) {
+            return serviceFactory.createCacheManager();
+        } else {
+            return null;
+        }
     }
 }
