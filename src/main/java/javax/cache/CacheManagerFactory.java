@@ -25,7 +25,8 @@ import java.util.ServiceLoader;
  *
  * "javax.cache.implementation.RIServiceFactory"
  *
- * @see ServiceLoader
+ * @see ServiceFactory
+ * @see java.util.ServiceLoader
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7

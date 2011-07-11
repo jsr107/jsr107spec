@@ -10,7 +10,9 @@ package javax.cache.spi;
 import javax.cache.CacheManager;
 
 /**
- * Interface that should be implemented by Cache implementers
+ * Interface that should be implemented by Cache implementers.
+ *
+ * @see javax.cache.CacheManagerFactory
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
