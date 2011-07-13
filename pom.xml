@@ -121,6 +121,8 @@
         <url>git@github.com:juven/git-demo.git</url>
     </scm>
 
+
+
     <!-- Note: site URL repeated here to ensure correct deployment path -->
     <!--<distributionManagement>-->
     <!--&lt;!&ndash;-->

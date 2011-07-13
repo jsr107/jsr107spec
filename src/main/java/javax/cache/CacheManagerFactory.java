@@ -25,6 +25,10 @@ import java.util.ServiceLoader;
  *
  * "javax.cache.implementation.RIServiceFactory"
  *
+ * Subsequent calls to {@link #getCacheManager()} will return a singleton instance of a CacheManager.
+ * In a caching framework singletons are often useful. However this API supports creation of
+ * non-singleton CacheManager implementations by simply newing them.
+ *
  * @see ServiceLoader
  *
  * @author Yannis Cosmadopoulos
@@ -33,9 +37,9 @@ import java.util.ServiceLoader;
 public enum CacheManagerFactory {
 
     /**
-     * The singleton instance.
+     * The singleton instance using the Joshua Bloc enum-based singleton pattern.
      */
-    instance;
+    INSTANCE;
 
     private final ServiceFactory serviceFactory;
     private CacheManager cacheManager;
@@ -66,17 +70,4 @@ public enum CacheManagerFactory {
         return cacheManager;
     }
 
-    /**
-     * Create a new cache manager.
-     * TODO: not sure why this is needed, and if it is should we store the CacheManager?
-     *
-     * @return the new cache manager
-     */
-    public CacheManager createCacheManager() {
-        if (serviceFactory != null) {
-            return serviceFactory.createCacheManager();
-        } else {
-            return null;
-        }
-    }
 }
