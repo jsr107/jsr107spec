@@ -9,12 +9,16 @@ package javax.cache;
 
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle.
+ * <p/>
+ * CacheManagers may be created as singletons via {@link CacheManagerFactory} or if instances,
+ * are required should be newed.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.7
  */
 public interface CacheManager {
+
     /**
      * Adds an uninitialised {@link Cache} to the CacheManager and starts it.
      * If a cache with the same name has been previously added that cache will be stopped.

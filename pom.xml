@@ -1,6 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
     <groupId>javax.cache</groupId>
     <artifactId>cache-api</artifactId>
     <version>0.1-SNAPSHOT</version>
@@ -30,10 +35,10 @@
         </dependency>
         <!--Only required for ee profile implementations-->
         <!--<dependency>-->
-            <!--<groupId>javax.transaction</groupId>-->
-            <!--<artifactId>jta</artifactId>-->
-            <!--<version>1.1</version>-->
-            <!--<scope>provided</scope>-->
+        <!--<groupId>javax.transaction</groupId>-->
+        <!--<artifactId>jta</artifactId>-->
+        <!--<version>1.1</version>-->
+        <!--<scope>provided</scope>-->
         <!--</dependency>-->
     </dependencies>
 
@@ -110,21 +115,29 @@
         </plugins>
     </build>
 
+    <scm>
+        <connection>scm:git:git@github.com:juven/git-demo.git</connection>
+        <developerConnection>scm:git:git@github.com:juven/git-demo.git</developerConnection>
+        <url>git@github.com:juven/git-demo.git</url>
+    </scm>
+
+
+
     <!-- Note: site URL repeated here to ensure correct deployment path -->
     <!--<distributionManagement>-->
-        <!--&lt;!&ndash;-->
-          <!--The server id here defined must also appear in ~/.m2/settings.xml with username-->
-        <!--&ndash;&gt;-->
-        <!--<repository>-->
-            <!--<id>sourceforge-releases</id>-->
-            <!--<name>Sourceforge Release Repository</name>-->
-            <!--<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>sourceforge-snapshots</id>-->
-            <!--<name>Sourceforge Snapshot Repository</name>-->
-            <!--<url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots</url>-->
-        <!--</snapshotRepository>-->
+    <!--&lt;!&ndash;-->
+    <!--The server id here defined must also appear in ~/.m2/settings.xml with username-->
+    <!--&ndash;&gt;-->
+    <!--<repository>-->
+    <!--<id>sourceforge-releases</id>-->
+    <!--<name>Sourceforge Release Repository</name>-->
+    <!--<url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>sourceforge-snapshots</id>-->
+    <!--<name>Sourceforge Snapshot Repository</name>-->
+    <!--<url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots</url>-->
+    <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
 </project>
