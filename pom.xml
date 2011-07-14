@@ -12,7 +12,8 @@
     <packaging>jar</packaging>
 
     <name>JSR107 API and SPI</name>
-    <url>https://github.com/jsr107/jsr107spec</url>
+    <url>http://maven.apache.org</url>
+    <!--<url>https://github.com/jsr107/jsr107spec</url>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
