@@ -22,7 +22,9 @@ public interface ServiceFactory {
     /**
      * Create a CacheManager.
      *
+     * @param name the name of this cache manager
      * @return a new cache manager.
+     * @throws NullPointerException if name is null
      */
-    CacheManager createCacheManager();
+    CacheManager createCacheManager(String name);
 }

@@ -20,6 +20,13 @@ package javax.cache;
 public interface CacheManager {
 
     /**
+     * Get the name of this cache manager
+     *
+     * @return the name of this cache manager
+     */
+    String getName();
+
+    /**
      * Adds an uninitialised {@link Cache} to the CacheManager and starts it.
      * If a cache with the same name has been previously added that cache will be stopped.
      * <p/>

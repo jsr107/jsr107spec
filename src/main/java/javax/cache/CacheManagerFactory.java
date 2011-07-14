@@ -8,6 +8,7 @@
 package javax.cache;
 
 import javax.cache.spi.ServiceFactory;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
@@ -25,24 +26,27 @@ import java.util.ServiceLoader;
  *
  * "javax.cache.implementation.RIServiceFactory"
  *
- * Calls to {@link #getCacheManager()} will return a singleton instance of a CacheManager.
- * In a caching framework singletons are often useful. However this API supports creation of
- * non-singleton CacheManager implementations by using {@link #createCacheManager()}.
- *
  * @see java.util.ServiceLoader
+ * @see ServiceFactory
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
  */
 public enum CacheManagerFactory {
-
     /**
      * The singleton instance using the Joshua Bloc enum-based singleton pattern.
      */
     INSTANCE;
 
+    /**
+     * The name of the default cache manager.
+     * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
+     * The default CacheManager is always created.
+     */
+    public static final String DEFAULT_CACHE_MANAGER_NAME = "default";
+
     private final ServiceFactory serviceFactory;
-    private CacheManager cacheManager;
+    private final HashMap<String, CacheManager> cacheManagers = new HashMap<String, CacheManager>();
 
     private CacheManagerFactory() {
         serviceFactory = getServiceFactory();
@@ -55,32 +59,41 @@ public enum CacheManagerFactory {
     }
 
     /**
-     * Get the cache manager.
+     * Get the default cache manager.
+     * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
-     * @return the cache manager
+     * @return the default cache manager
+     * @throws IllegalStateException if no ServiceFactory was found
      */
     public CacheManager getCacheManager() {
-        if (cacheManager == null) {
-            synchronized (this) {
-                if (cacheManager == null && serviceFactory != null) {
-                    cacheManager = serviceFactory.createCacheManager();
-                }
-            }
-        }
-        return cacheManager;
+        return getCacheManager(DEFAULT_CACHE_MANAGER_NAME);
     }
 
     /**
-     * Create a new cache manager.
-     * TODO: not sure why this is needed, and if it is should we store the CacheManager?
+     * Get a named cache manager.
+     * The first time a name is used, the cache manager will be created.
+     * Subsequent calls will return the same cache manager.
      *
+     * @param name the name of this cache manager
      * @return the new cache manager
+     * @throws NullPointerException if name is null
+     * @throws IllegalStateException if no ServiceFactory was found
      */
-    public CacheManager createCacheManager() {
-        if (serviceFactory != null) {
-            return serviceFactory.createCacheManager();
+    public CacheManager getCacheManager(String name) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (serviceFactory == null) {
+            throw new IllegalStateException("ServiceFactory");
         } else {
-            return null;
+            synchronized (cacheManagers) {
+                CacheManager cacheManager = cacheManagers.get(name);
+                if (cacheManager == null) {
+                    cacheManager = serviceFactory.createCacheManager(name);
+                    cacheManagers.put(name, cacheManager);
+                }
+                return cacheManager;
+            }
         }
     }
 }
