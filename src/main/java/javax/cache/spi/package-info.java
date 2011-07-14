@@ -6,7 +6,8 @@
  */
 
 /**
- This package contains the spi API for JCache..
+ The javax.cache.spi package defines the classes and interfaces that are implemented by the
+ persistence provider for use by the {@link javax.cache.CacheManagerFactory} class
 
  @author Yannis Cosmadopoulos
  @since 1.7

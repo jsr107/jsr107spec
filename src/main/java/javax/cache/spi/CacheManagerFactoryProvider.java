@@ -10,17 +10,23 @@ package javax.cache.spi;
 import javax.cache.CacheManager;
 
 /**
- * Interface that should be implemented by Cache implementers.
+ * Interface that should be implemented by Cache provider.
+ *
+ * It is invoked by the {@link javax.cache.CacheManagerFactory} class to create
+ * a {@link CacheManager}
  *
  * @see javax.cache.CacheManagerFactory
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
  */
-public interface ServiceFactory {
+public interface CacheManagerFactoryProvider {
 
     /**
-     * Create a CacheManager.
+     * Called by the {@link javax.cache.CacheManagerFactory} class when a
+     * new CacheManager needs to be created.
+     *
+     * An implementation of this interface must have a public no-arg constructor.
      *
      * @param name the name of this cache manager
      * @return a new cache manager.

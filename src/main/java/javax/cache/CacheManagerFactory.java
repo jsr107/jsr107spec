@@ -7,7 +7,7 @@
 
 package javax.cache;
 
-import javax.cache.spi.ServiceFactory;
+import javax.cache.spi.CacheManagerFactoryProvider;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -18,16 +18,16 @@ import java.util.ServiceLoader;
  * For a provider to be discovered by the CacheManagerFactory, it's jar must contain a resource
  * called:
  * <pre>
- *   META-INF/services/javax.cache.spi.ServiceFactory
+ *   META-INF/services/javax.cache.spi.CacheManagerFactoryProvider
  * </pre>
- * containing the class name implementing {@link ServiceFactory}
+ * containing the class name implementing {@link javax.cache.spi.CacheManagerFactoryProvider}
  *
  * e.g. For the reference implementation:
  *
  * "javax.cache.implementation.RIServiceFactory"
  *
  * @see java.util.ServiceLoader
- * @see ServiceFactory
+ * @see javax.cache.spi.CacheManagerFactoryProvider
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
@@ -45,16 +45,16 @@ public enum CacheManagerFactory {
      */
     public static final String DEFAULT_CACHE_MANAGER_NAME = "default";
 
-    private final ServiceFactory serviceFactory;
+    private final CacheManagerFactoryProvider serviceFactory;
     private final HashMap<String, CacheManager> cacheManagers = new HashMap<String, CacheManager>();
 
     private CacheManagerFactory() {
         serviceFactory = getServiceFactory();
     }
 
-    private ServiceFactory getServiceFactory() {
-        ServiceLoader<ServiceFactory> serviceLoader = ServiceLoader.load(ServiceFactory.class);
-        Iterator<ServiceFactory> it = serviceLoader.iterator();
+    private CacheManagerFactoryProvider getServiceFactory() {
+        ServiceLoader<CacheManagerFactoryProvider> serviceLoader = ServiceLoader.load(CacheManagerFactoryProvider.class);
+        Iterator<CacheManagerFactoryProvider> it = serviceLoader.iterator();
         return it.hasNext() ? it.next() : null;
     }
 
@@ -63,7 +63,7 @@ public enum CacheManagerFactory {
      * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
      * @return the default cache manager
-     * @throws IllegalStateException if no ServiceFactory was found
+     * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager() {
         return getCacheManager(DEFAULT_CACHE_MANAGER_NAME);
@@ -77,14 +77,14 @@ public enum CacheManagerFactory {
      * @param name the name of this cache manager
      * @return the new cache manager
      * @throws NullPointerException if name is null
-     * @throws IllegalStateException if no ServiceFactory was found
+     * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager(String name) {
         if (name == null) {
             throw new NullPointerException("name");
         }
         if (serviceFactory == null) {
-            throw new IllegalStateException("ServiceFactory");
+            throw new IllegalStateException("CacheManagerFactoryProvider");
         } else {
             synchronized (cacheManagers) {
                 CacheManager cacheManager = cacheManagers.get(name);
