@@ -9,7 +9,7 @@ package javax.cache;
 
 /**
  * A management bean for caches.
- *
+ * <p/>
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
  *
  * @author Greg Luck
