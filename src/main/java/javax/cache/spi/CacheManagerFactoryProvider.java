@@ -10,7 +10,7 @@ package javax.cache.spi;
 import javax.cache.CacheManager;
 
 /**
- * Interface that should be implemented by Cache provider.
+ * Interface that should be implemented by a CacheManager factory provider.
  *
  * It is invoked by the {@link javax.cache.CacheManagerFactory} class to create
  * a {@link CacheManager}

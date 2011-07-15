@@ -8,10 +8,15 @@
 package javax.cache;
 
 /**
- * A CacheManager is used for looking up Caches and controls their lifecycle.
+ * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
+ * To the extent that implementations have configuration at the CacheManager level, it is a way for these caches
+ * to share common configuration. For example a CacheManager might be clustered so all caches in that CacheManager
+ * will participate in the same cluster.
  * <p/>
  * CacheManagers may be created as singletons via {@link CacheManagerFactory} or if instances,
  * are required should be newed.
+ * <p/>
+ * CacheManagers
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos

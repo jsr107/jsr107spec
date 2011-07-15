@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
- * A factory for creating CacheManager using the SPI conventions in the JDK's {@link ServiceLoader}
+ * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
  *
  * For a provider to be discovered by the CacheManagerFactory, it's jar must contain a resource
  * called:
@@ -26,6 +26,9 @@ import java.util.ServiceLoader;
  *
  * "javax.cache.implementation.RIServiceFactory"
  *
+ * The CacheManagerFactory also keeps track of all CacheManagers created by the factory. Subsequent calls
+ * to {@link #getCacheManager()} return the same CacheManager.
+ *
  * @see java.util.ServiceLoader
  * @see javax.cache.spi.CacheManagerFactoryProvider
  *
@@ -33,6 +36,7 @@ import java.util.ServiceLoader;
  * @since 1.7
  */
 public enum CacheManagerFactory {
+
     /**
      * The singleton instance using the Joshua Bloc enum-based singleton pattern.
      */
