@@ -68,4 +68,18 @@ public interface CacheConfiguration {
      * @see #isStoreByValue()
      */
     void setStoreByValue(boolean storeByValue);
+
+    /**
+     * @return true if statistics collection is enabled
+     */
+    boolean isStatisticsEnabled();
+
+
+    /**
+     * Sets whether statistics gathering is set on this cache.
+     *
+     * @param enableStatistics true fo enable statistics, false to disable
+     */
+    void setStatisticsEnabled(boolean enableStatistics);
+
 }
