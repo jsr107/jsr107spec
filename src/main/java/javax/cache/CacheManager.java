@@ -13,8 +13,7 @@ package javax.cache;
  * to share common configuration. For example a CacheManager might be clustered so all caches in that CacheManager
  * will participate in the same cluster.
  * <p/>
- * CacheManagers may be created as singletons via {@link CacheManagerFactory} or if instances,
- * are required should be newed.
+ * CacheManagers are created by {@link CacheManagerFactory}.
  * <p/>
  * CacheManagers
  *
