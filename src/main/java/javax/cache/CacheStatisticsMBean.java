@@ -70,9 +70,10 @@ public interface CacheStatisticsMBean {
     /**
      * The total number of requests to the cache. This will be equal to the sum of the hits and misses.
      * <p/>
-     * A "get" is an operation that returns the current or previous value.
+     * A "get" is an operation that returns the current or previous value. It does not include checking for the existence
+     * of a key.
      *
-     * @return the number of hits
+     * @return the number of gets
      */
     long getCacheGets();
 
@@ -89,7 +90,7 @@ public interface CacheStatisticsMBean {
      * The total number of removals from the cache. This does not include evictions, where the cache itself
      * initiates the removal to make space.
      * <p/>
-     * A replace invcludes a put and remove.
+     * A replace is a put that overwrites a mapping and is not considered a remove.
      *
      * @return the number of hits
      */
