@@ -9,11 +9,14 @@ package javax.cache;
 
 /**
  * A CacheBuilder is used for creating Caches.
+
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author Yannis Cosmadopoulos
  * @since 1.7
  */
-public interface CacheBuilder {
+public interface CacheBuilder<K, V> {
 
     /**
      * Create an instance of the named {@link Cache}.
@@ -22,29 +25,25 @@ public interface CacheBuilder {
      * Implementations may use a default configuration or use the cache name to select
      * a suitable configuration.
      *
-     * @param cacheName the name of the cache
-     * @param <K> the key type
-     * @param <V> the value type
      * @throws InvalidConfigurationException thrown if the configuration is invalid
-     * @throws NullPointerException is cacheName is null
      * @return a new instance of the named cache
      * @see CacheManager
      */
-    <K, V> Cache<K, V> createCache(String cacheName);
+    Cache<K, V> build();
 
     /**
-     * Create an instance of the named {@link Cache}.
-     * Solely responsible for creating uninitialized cache instances.
-     * Lookup and Lifecycle management are the responsibility of {@link CacheManager}.
+     * Set the cache configuration.
      *
-     * @param cacheName the name of the cache
-     * @param configuration the configuration for the new cache
-     * @param <K> the key type
-     * @param <V> the value type
-     * @throws InvalidConfigurationException thrown if the configuration is invalid
-     * @throws NullPointerException is cacheName is null or configuration is null
-     * @return a new instance of the named cache
-     * @see CacheManager
+     * @param configuration the cache configuration
+     * @return the builder
      */
-    <K, V> Cache<K, V> createCache(String cacheName, CacheConfiguration configuration);
+    CacheBuilder<K, V> setCacheConfiguration(CacheConfiguration configuration);
+
+    /**
+     * Set the cache loader.
+     *
+     * @param cacheLoader the CacheLoader
+     * @return the builder
+     */
+    CacheBuilder<K, V> setCacheLoader(CacheLoader<K, V> cacheLoader);
 }

@@ -31,14 +31,23 @@ public interface CacheManager {
     String getName();
 
     /**
-     * Adds an uninitialised {@link Cache} to the CacheManager and starts it.
-     * If a cache with the same name has been previously added that cache will be stopped.
+     * Creates a new {@link CacheBuilder} for the named cache to be managed by this cache manager.
      * <p/>
-     * @param cache the cache to add
+     * The cache manager will be created and started when {@link javax.cache.CacheBuilder#build()} is called.
+     * Example usage
+     * <pre>
+     *    cacheManager.createCacheBuilder("myCache").
+     *      setCacheConfiguration(config).
+     *      setCacheLoader(cl).
+     *      build();
+     * </pre>
+     *
+     * @param cacheName the name of the cache to build
+     * @return the CacheBuilder for the named cache
      * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
-    void addCache(Cache<?, ?> cache);
+    <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
 
     /**
      * Looks up a named cache.

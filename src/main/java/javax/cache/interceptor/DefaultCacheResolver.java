@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  * Default {@link CacheResolver} that uses the default {@link CacheManager}, {@link CacheBuilder} and finds the {@link Cache}
- * using {@link CacheManager#getCache(String)}, {@link CacheBuilder#createCache(String)}.
+ * using {@link CacheManager#getCache(String)}, {@link CacheManager#createCacheBuilder(String)}}.
  *
  * @author Eric Dalquist
  * @since 1.7
@@ -26,15 +26,13 @@ public class DefaultCacheResolver implements CacheResolver {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private final CacheManager cacheManager;
-    private final CacheBuilder cacheBuilder;
 
     /**
      * Constructs the resolver
      * @param cacheManager the cache manager to use
      */
-    public DefaultCacheResolver(CacheManager cacheManager, CacheBuilder cacheBuilder) {
+    public DefaultCacheResolver(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
-        this.cacheBuilder = cacheBuilder;
     }
 
     /**
@@ -45,8 +43,8 @@ public class DefaultCacheResolver implements CacheResolver {
         Cache<K, V> cache = (Cache<K, V>) cacheManager.getCache(cacheName);
         if (cache == null) {
             logger.warning("No Cache named '" + cacheName + "' was found in the CacheManager, a copy of the default cache will be created.");
-            cache = cacheBuilder.createCache(cacheName);
-            cacheManager.addCache(cache);
+            CacheBuilder<K, V> cb = cacheManager.createCacheBuilder(cacheName);
+            cache = cb.build();
         }
         return cache;
     }
