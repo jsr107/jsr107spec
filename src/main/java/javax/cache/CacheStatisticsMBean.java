@@ -77,6 +77,28 @@ public interface CacheStatisticsMBean {
     long getCacheGets();
 
     /**
+     * The total number of puts to the cache.
+     * <p/>
+     * A put is counted even if it is immediately evicted. A replace invcludes a put and remove.
+     *
+     * @return the number of hits
+     */
+    long getCachePuts();
+
+    /**
+     * The total number of removals from the cache. This does not include evictions, where the cache itself
+     * initiates the removal to make space.
+     * <p/>
+     * A replace invcludes a put and remove.
+     *
+     * @return the number of hits
+     */
+    long getCacheRemovals();
+
+    /**
+     * The total number of evictions from the cache. An eviction is a removal initiated by the cache itself to free
+     * up space. An eviction is not treated as a removal and does not appear in the removal counts.
+     *
      * @return the number of evictions from the cache
      */
     long getCacheEvictions();
