@@ -9,7 +9,9 @@ package javax.cache;
 
 /**
  * A CacheBuilder is used for creating Caches.
-
+ * A CacheBuilder is created by {@link CacheManager#createCacheBuilder(String)} and is associated with that
+ * manager.
+ *
  * @param <K> the key type
  * @param <V> the value type
  *
@@ -20,14 +22,14 @@ public interface CacheBuilder<K, V> {
 
     /**
      * Create an instance of the named {@link Cache}.
-     * Solely responsible for creating uninitialized cache instances.
-     * Lookup and Lifecycle management are the responsibility of {@link CacheManager}.
-     * Implementations may use a default configuration or use the cache name to select
-     * a suitable configuration.
+     * <p/>
+     * The Cache will be created, added to the caches controlled by its associated CacheManager and started.
+     * If there is an existing Cache of the same name associated with this CacheManager when build is invoked,
+     * the old Cache will be stopped.
      *
      * @throws InvalidConfigurationException thrown if the configuration is invalid
      * @return a new instance of the named cache
-     * @see CacheManager
+     * @see CacheManager#createCacheBuilder(String)
      */
     Cache<K, V> build();
 

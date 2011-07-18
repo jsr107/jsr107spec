@@ -33,7 +33,6 @@ public interface CacheManager {
     /**
      * Creates a new {@link CacheBuilder} for the named cache to be managed by this cache manager.
      * <p/>
-     * The cache manager will be created and started when {@link javax.cache.CacheBuilder#build()} is called.
      * Example usage
      * <pre>
      *    cacheManager.createCacheBuilder("myCache").
@@ -41,6 +40,12 @@ public interface CacheManager {
      *      setCacheLoader(cl).
      *      build();
      * </pre>
+     *
+     * The returned CacheBuilder is associated with this CacheManager.
+     * The Cache will be created, added to the caches controlled by this CacheManager and started when
+     * {@link javax.cache.CacheBuilder#build()} is called.
+     * If there is an existing Cache of the same name associated with this CacheManager when build is invoked,
+     * the old Cache will be stopped.
      *
      * @param cacheName the name of the cache to build
      * @return the CacheBuilder for the named cache
