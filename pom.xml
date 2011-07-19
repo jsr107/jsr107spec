@@ -112,6 +112,20 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>generate-javadoc</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                     </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -120,6 +134,10 @@
         <developerConnection>scm:git:git@github.com:juven/git-demo.git</developerConnection>
         <url>git@github.com:juven/git-demo.git</url>
     </scm>
+
+
+
+
 
 
 
@@ -139,5 +157,22 @@
     <!--<url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots</url>-->
     <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
+
+
+
+    <distributionManagement>
+        <!--
+              The server id here defined must also appear in ~/.m2/settings.xml
+              with username Note: site URL repeated here to ensure correct
+              deployment path
+          -->
+        <site>
+            <id>ehcache.org</id>
+            <name>EHCache Site</name>
+            <url>dav:https://echache-stage.terracotta.lan/export1/ehcache.org
+            </url>
+        </site>
+
+    </distributionManagement>
 
 </project>

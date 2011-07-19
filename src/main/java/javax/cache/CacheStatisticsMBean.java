@@ -12,6 +12,14 @@ package javax.cache;
  * <p/>
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
  *
+ * todo
+ * distributed stores - what is a miss. vendor specific
+ * consistency of stats - up to vendor free to have relaxed consistency. no locking
+ *
+ * Might be local, might be
+ *
+ * Implementations should give further guidance...
+ *
  * @author Greg Luck
  * @since 1.0
  */
@@ -56,6 +64,9 @@ public interface CacheStatisticsMBean {
     float getCacheHitPercentage();
 
     /**
+     * A miss is a get request which is not satisfied by the cache.
+     *
+     *
      * @return the number of misses
      */
     long getCacheMisses();
@@ -80,7 +91,7 @@ public interface CacheStatisticsMBean {
     /**
      * The total number of puts to the cache.
      * <p/>
-     * A put is counted even if it is immediately evicted. A replace invcludes a put and remove.
+     * A put is counted even if it is immediately evicted. A replace includes a put and remove.
      *
      * @return the number of hits
      */
