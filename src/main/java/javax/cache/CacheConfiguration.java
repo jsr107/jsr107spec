@@ -26,6 +26,8 @@ public interface CacheConfiguration {
     /**
      * Whether the cache is a read-through cache. A CacheLoader should be configured for read through caches
      * which is called on a cache miss.
+     * <p/>
+     * Default value is false.
      *
      * @return true if the cache is read-through
      */
@@ -41,6 +43,8 @@ public interface CacheConfiguration {
 
     /**
      * Whether the cache is a write-through cache. A CacheWriter should be configured.
+     * <p/>
+     * Default value is false.
      *
      * @return true if the cache is write-through
      */
@@ -54,7 +58,9 @@ public interface CacheConfiguration {
     void setWriteThrough(boolean writeThrough);
 
     /**
-     * Whether storeByValue (true) or storeByReference (false)
+     * Whether storeByValue (true) or storeByReference (false).
+     * <p/>
+     * Default value is true.
      *
      * @return true if the cache is store by value
      */
@@ -71,6 +77,8 @@ public interface CacheConfiguration {
 
     /**
      * Checks whether statistics collection is enabled in this cache.
+     * <p/>
+     * Default value is false.
      *
      * @return true if statistics collection is enabled
      */
