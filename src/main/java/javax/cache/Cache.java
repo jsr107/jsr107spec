@@ -392,6 +392,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     String getCacheName();
 
     /**
+     * Gets the CacheManager managing this cache. For a newly created cache this will be null until
+     * it has been added to a CacheManager.
+     * <p/>
+     * A cache can be in only have one CacheManager.
+     * <em>TODO (yannis): Not clear why this is required.</em>
+     *
+     * @return the manager or null if there is none
+     */
+    CacheManager getCacheManager();
+
+    /**
      * A cache entry (key-value pair).
      */
     interface Entry<K, V> {

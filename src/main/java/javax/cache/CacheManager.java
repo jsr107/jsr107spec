@@ -17,6 +17,7 @@ package javax.cache;
  * <p/>
  * Implementations may also support creation directly through CacheManager constructors which may be simpler to use
  * where multiple vendor implementations are present.
+ * <em>TODO (yannis): Not clear what this means in a prescriptive sense; implementations may, and indeed always do, support any number of constructors for concrete classes, as well as implement methods beyond the spec. Why do we need to enumerate them.</em>
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
@@ -54,6 +55,17 @@ public interface CacheManager {
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
+
+    /**
+     * Adds an uninitialised {@link Cache} to the CacheManager and starts it.
+     * If a cache with the same name has been previously added that cache will be stopped.
+     * <p/>
+     * <em>TODO (yannis): Not clear why this is required.</em>
+     * @param cache the cache to add
+     * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
+     * @throws CacheException        if there was an error adding the cache to the CacheManager
+     */
+    void addCache(Cache<?, ?> cache);
 
     /**
      * Looks up a named cache.
