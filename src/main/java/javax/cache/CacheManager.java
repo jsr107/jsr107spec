@@ -15,7 +15,8 @@ package javax.cache;
  * <p/>
  * CacheManagers are created by {@link CacheManagerFactory}.
  * <p/>
- * CacheManagers
+ * Implementations may also support creation directly through CacheManager constructors which may be simpler to use
+ * where multiple vendor implementations are present.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos

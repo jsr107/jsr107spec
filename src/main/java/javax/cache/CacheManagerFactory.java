@@ -47,7 +47,7 @@ public enum CacheManagerFactory {
      * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
      * The default CacheManager is always created.
      */
-    public static final String DEFAULT_CACHE_MANAGER_NAME = "default";
+    public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
 
     private final CacheManagerFactoryProvider serviceFactory;
     private final HashMap<String, CacheManager> cacheManagers = new HashMap<String, CacheManager>();
