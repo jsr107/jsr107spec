@@ -154,19 +154,19 @@
 
 
 
-    <distributionManagement>
-        <!--
-              The server id here defined must also appear in ~/.m2/settings.xml
-              with username Note: site URL repeated here to ensure correct
-              deployment path
-          -->
-        <site>
-            <id>ehcache.org</id>
-            <name>EHCache Site</name>
-            <url>dav:https://echache-stage.terracotta.lan/export1/ehcache.org
-            </url>
-        </site>
+    <!--<distributionManagement>-->
+        <!--&lt;!&ndash;-->
+              <!--The server id here defined must also appear in ~/.m2/settings.xml-->
+              <!--with username Note: site URL repeated here to ensure correct-->
+              <!--deployment path-->
+          <!--&ndash;&gt;-->
+        <!--<site>-->
+            <!--<id>ehcache.org</id>-->
+            <!--<name>EHCache Site</name>-->
+            <!--<url>dav:https://echache-stage.terracotta.lan/export1/ehcache.org-->
+            <!--</url>-->
+        <!--</site>-->
 
-    </distributionManagement>
+    <!--</distributionManagement>-->
 
 </project>
