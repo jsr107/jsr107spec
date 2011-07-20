@@ -7,6 +7,8 @@
 
 package javax.cache;
 
+import sun.security.krb5.internal.KdcErrException;
+
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
  * To the extent that implementations have configuration at the CacheManager level, it is a way for these caches
@@ -75,7 +77,7 @@ public interface CacheManager {
      * @return the Cache or null if it does exist
      * @throws IllegalStateException if the Cache is not {@link Status#STARTED}
      */
-    <K, V> Cache getCache(String cacheName);
+    <K, V> Cache<K, V> getCache(String cacheName);
 
     /**
      * Remove a cache from the CacheManager. The cache will be stopped.
