@@ -7,6 +7,8 @@
 
 package javax.cache;
 
+import java.util.Date;
+
 /**
  * A management bean for caches.
  * <p/>
@@ -42,11 +44,12 @@ public interface CacheStatisticsMBean {
      */
     void clearStatistics();
 
-
     /**
-     * @return the number of entries
+     * The date from which statistics have been accumulated. Because statistics can be cleared, this is not necessarily
+     * since the cache was started.
+     * @return the date statistics started being accumulated
      */
-    long getEntryCount();
+    Date statsAccumulatingFrom();
 
     /**
      * The number of get requests that were satisfied by the cache.
@@ -114,6 +117,27 @@ public interface CacheStatisticsMBean {
      * @return the number of evictions from the cache
      */
     long getCacheEvictions();
+
+    /**
+     * The mean time to execute gets.
+     * @return the time in milliseconds
+     */
+    long getAverageGetMillis();
+
+    /**
+     * The mean time to execute puts.
+     * @return the time in milliseconds
+     */
+    long getAveragePutMillis();
+
+    /**
+     * The mean time to execute removes.
+     * @return the time in milliseconds
+     */
+    long getAverageRemoveMillis();
+
+
+
 
 
 }
