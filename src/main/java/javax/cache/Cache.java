@@ -38,8 +38,8 @@ import java.util.concurrent.Future;
  * iteration should be used with caution. It is an O(n) operation and may be
  * slow on large or distributed caches.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.7
