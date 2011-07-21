@@ -19,21 +19,25 @@ public interface Serializer<V> {
      * Convert a value to a binary.
      *
      * @param value the value
-     * @return binary representation of key
+     * @return binary representation of value
      * @throws CacheException is an error occurred during serialization
      * @throws NullPointerException if value is null
      */
-    Binary toBinary(V value);
+    Binary<V> createBinary(V value);
 
     /**
-     * Convert binary to a value. The binary must be one obtained by a previous invocation of
-     * {@link #toBinary(Object)}of a compatible serializer.
+     * Internal storage
      *
-     * @param binary the binary representation of the value
-     * @return the value
-     * @throws CacheException is an error occurred during de-serialization or if binary is not
-     * a Binary obtained from a call to keyToBinary of a compatible serializer.
-     * @throws NullPointerException if binary is null
+     * @param <V> type being stored
      */
-    V fromBinary(Binary binary);
+    interface Binary<V> {
+        /**
+         * Get the stored value
+         *
+         * @return the value
+         * @throws CacheException is an error occurred during de-serialization or if binary is not
+         * a Binary obtained from a call to keyToBinary of a compatible serializer.
+         */
+        V get();
+    }
 }
