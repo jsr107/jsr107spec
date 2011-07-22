@@ -31,21 +31,9 @@ public interface CacheLoader<K, V> {
      *
      * @param key the key identifying the object being loaded
      * @param arg the argument passed
-     * @return The object that is to be stored in the cache.
-     */
-    V load(K key, Object arg);
-
-    /**
-     * loads an object. Application writers should implement this
-     * method to customize the loading of cache object. This method is called
-     * by the caching service when the requested object is not in the cache.
-     * <p/>
-     *
-     * @param key the key identifying the object being loaded
-     * @param arg the argument passed
      * @return The entry for the object that is to be stored in the cache.
      */
-    Cache.Entry<K, V> loadEntry(Object key, Object arg);
+    Cache.Entry<K, V> load(Object key, Object arg);
 
     /**
      * loads multiple object. Application writers should implement this
