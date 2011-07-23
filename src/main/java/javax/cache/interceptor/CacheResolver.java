@@ -24,5 +24,5 @@ public interface CacheResolver {
      * @param method    The annotated method
      * @return The {@link Cache} instance to be used by the intercepter
      */
-    <K, V> Cache<K, V> resolveCacheManger(String cacheName, Method method);
+    <K, V> Cache<K, V> resolveCache(String cacheName, Method method);
 }

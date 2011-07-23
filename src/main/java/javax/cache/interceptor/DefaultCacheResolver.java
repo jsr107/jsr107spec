@@ -11,6 +11,7 @@ package javax.cache.interceptor;
 import javax.cache.Cache;
 import javax.cache.CacheBuilder;
 import javax.cache.CacheManager;
+import javax.cache.CacheManagerFactory;
 
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  * using {@link CacheManager#getCache(String)}, {@link CacheManager#createCacheBuilder(String)}}.
  *
  * @author Eric Dalquist
+ * @author Rick Hightower
  * @since 1.7
  */
 public class DefaultCacheResolver implements CacheResolver {
@@ -37,9 +39,16 @@ public class DefaultCacheResolver implements CacheResolver {
     }
 
     /**
-     * @see javax.cache.interceptor.CacheResolver#resolveCacheManger(java.lang.String, java.lang.reflect.Method)
+     * Constructs the resolver
      */
-    public <K, V> Cache<K, V> resolveCacheManger(String cacheName, Method method) {
+    public DefaultCacheResolver() {
+        this.cacheManager = CacheManagerFactory.INSTANCE.getCacheManager();
+    }
+
+    /**
+     * @see javax.cache.interceptor.CacheResolver#resolveCache(java.lang.String, java.lang.reflect.Method)
+     */
+    public <K, V> Cache<K, V> resolveCache(String cacheName, Method method) {
 
         Cache<K, V> cache = (Cache<K, V>) cacheManager.getCache(cacheName);
         if (cache == null) {
