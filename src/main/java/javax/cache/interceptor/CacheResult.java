@@ -9,7 +9,6 @@ package javax.cache.interceptor;
 
 import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,6 +24,7 @@ import java.lang.annotation.Target;
  * null return values and thrown exceptions are never cached.
  *
  * @author Eric Dalquist
+ * @author Rick Hightower
  * @since 1.7
  */
 @Target( {ElementType.METHOD, ElementType.TYPE} )
@@ -35,7 +35,7 @@ public @interface CacheResult {
     /**
      * (Optional) name of the cache.
      * <p/>
-     * Defaults to ClassName.methodName
+     * Defaults to ClassName.methodName(argument type, argument type)
      */
     @Nonbinding
     String cacheName() default "";
@@ -59,21 +59,12 @@ public @interface CacheResult {
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
     /**
-     */
-    @Nonbinding
-    Class<? extends Annotation>[] cacheResolverQualifiers() default { };
-
-    /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#get(Object)}
      * {@link javax.cache.Cache#put(Object, Object)}
      * <p/>
-     * Defaults to {@link DefaultCacheKeyGenerator}
+     * Defaults to {@link CacheKeyGenerator}
      */
     @Nonbinding
-    Class<? extends CacheKeyGenerator> cacheKeyGenerator() default DefaultCacheKeyGenerator.class;
+    Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
 
-    /**
-     */
-    @Nonbinding
-    Class<? extends Annotation>[] cacheKeyGeneratorQualifiers() default { };
 }

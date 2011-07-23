@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
  * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
  *
  * @author Eric Dalquist
+ * @author Rick Hightower
  * @since 1.7
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
@@ -56,8 +57,8 @@ public @interface CacheRemoveEntry {
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#remove(Object)}
      * <p/>
-     * Defaults to {@link DefaultCacheKeyGenerator}
+     * Defaults to {@link CacheKeyGenerator}
      */
     @Nonbinding
-    Class<? extends CacheKeyGenerator> cacheKeyGenerator() default DefaultCacheKeyGenerator.class;
+    Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
 }
