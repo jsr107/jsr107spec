@@ -168,10 +168,34 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *
      * @throws NullPointerException if key is null or if value is null
      * @see java.util.Map#put(Object, Object)
+     * @see #getAndPut(Object, Object)
      * @see #getAndReplace(Object, Object)
      * @throws CacheException if there is a problem doing the put
      */
     void put(K key, V value) throws CacheException;
+
+    /**
+     * Associates the specified value with the specified key in this cache
+     * If the cache previously contained a mapping for
+     * the key, the old value is replaced by the specified value.  (A cache
+     * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
+     * if {@link #containsKey(Object) c.containsKey(k)} would return
+     * <tt>true</tt>.)
+     * <p/>
+     * The the previous value is returned, or null if there was no value associated
+     * with the key previously.
+     *
+     * @param key key with which the specified value is to be associated
+     * @param value value to be associated with the specified key
+     *
+     * @throws NullPointerException if key is null or if value is null
+     * @see java.util.Map#put(Object, Object)
+     * @see #put(Object, Object)
+     * @see #getAndReplace(Object, Object)
+     * @throws CacheException if there is a problem doing the put
+     * @return the value associated with the key at the start of the operation or null if none was associated
+     */
+    V getAndPut(K key, V value) throws CacheException;
 
     /**
      * Copies all of the mappings from the specified map to this cache.
@@ -324,9 +348,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * @param value value to be associated with the specified key
      * @return the previous value associated with the specified key, or
      *         <tt>null</tt> if there was no mapping for the key.
-     *         (A <tt>null</tt> return can also indicate that the cache
-     *         previously associated <tt>null</tt> with the key,
-     *         if the implementation supports null values.)
      * @throws NullPointerException if key is null or if value is null
      * @throws CacheException if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
