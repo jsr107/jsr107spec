@@ -7,12 +7,17 @@
 
 package javax.cache.interceptor;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.interceptor.InvocationContext;
 
 /**
  * Creates a {@link DefaultCacheKey} for the {@link InvocationContext}.
  *
  * @author Eric Dalquist
+ * @author Rick Hightower
  * @since 1.7
  */
 public class DefaultCacheKeyGenerator implements CacheKeyGenerator {
@@ -23,12 +28,30 @@ public class DefaultCacheKeyGenerator implements CacheKeyGenerator {
      */
     public CacheKey generateCacheKey(InvocationContext invocationContext) {
         final Object[] parameters = invocationContext.getParameters();
-
-        //TODO is this needed or does InvocationContext.getParameters() return an array we can be sure wont be modified
-        final Object[] parametersClone = new Object[parameters.length];
-        System.arraycopy(parameters, 0, parametersClone, 0, parameters.length);
-
-        return new DefaultCacheKey(parametersClone);
+        Annotation[][] parameterAnnotations = invocationContext.getMethod().getParameterAnnotations();
+        List<Object> keyParams = null;
+        boolean foundKeyParams=false;
+        
+        int index = 0;
+        for (Annotation[] paramAnnotations : parameterAnnotations) {
+            for (Annotation ann : paramAnnotations) {
+                if (ann.annotationType()==CacheKeyParam.class) {
+                    foundKeyParams = true;
+                    /* Lazy initialize the keyParams. */
+                    if (keyParams==null) {
+                        keyParams = new ArrayList<Object>();
+                    }
+                    keyParams.add(parameters[index]);
+                }
+            }
+            index++;
+        }
+        
+        if (!foundKeyParams) {
+            return new DefaultCacheKey(parameters);            
+        } else {
+            return new DefaultCacheKey(keyParams.toArray(new Object[keyParams.size()]));                        
+        }
     }
 
 }
