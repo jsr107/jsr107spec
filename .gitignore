@@ -1,6 +1,7 @@
 jsr107-api.iml
 jsr107-api.ipr
 jsr107-api.iws
+cache-api.iml
 .idea
 target
 /.settings
