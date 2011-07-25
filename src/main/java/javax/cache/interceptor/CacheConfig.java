@@ -43,7 +43,7 @@ public @interface CacheConfig {
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
-    Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
+    Class<? extends CacheResolver> cacheResolver() default CacheResolver.class;
 
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#get(Object)}
