@@ -38,7 +38,7 @@ import java.util.ServiceLoader;
 public enum CacheManagerFactory {
 
     /**
-     * The singleton instance using the Joshua Bloc enum-based singleton pattern.
+     * The singleton instance.
      */
     INSTANCE;
 
