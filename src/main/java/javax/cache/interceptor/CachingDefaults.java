@@ -7,8 +7,6 @@
 
 package javax.cache.interceptor;
 
-import javax.enterprise.util.Nonbinding;
-import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,15 +24,13 @@ import java.lang.annotation.Target;
  */
 @Target( {ElementType.TYPE} )
 @Retention(RetentionPolicy.RUNTIME)
-@InterceptorBinding
-public @interface CacheConfig {
+public @interface CachingDefaults {
 
     /**
      * (Optional) name of the cache.
      * <p/>
      * Defaults to ClassName.methodName(argument type, argument type)
      */
-    @Nonbinding
     String cacheName() default "";
 
     /**
@@ -42,7 +38,6 @@ public @interface CacheConfig {
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
-    @Nonbinding
     Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
 
     /**
@@ -51,7 +46,6 @@ public @interface CacheConfig {
      * <p/>
      * Defaults to {@link CacheKeyGenerator}
      */
-    @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
 
 }
