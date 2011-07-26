@@ -51,5 +51,5 @@ public @interface CacheRemoveAll {
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
-    Class<? extends CacheResolver> cacheResovler() default CacheResolver.class;
+    Class<? extends CacheResolver> cacheResolver() default CacheResolver.class;
 }

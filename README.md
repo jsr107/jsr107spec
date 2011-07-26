@@ -66,11 +66,9 @@ The RI is there to ensure that the specification and API works.
 For example, some things that we leave out:
 
 - implementation of transactions.
-- eviction does not use an LRU or similar algorithm it just evicts an entry when full.
 - concurrency. The RI is not exhaustively tested for thread safety.
 - tiered storage. A simple on heap store is used.
 - replicated or distributed caching
-- cache sizing. All caches are hard coded to be of size 100 entries.
 
 Why did we do this? Because a much greater engineering effort, which gets put into the open source and commercial caches
 which implement this API, is required to accomplish these things.
