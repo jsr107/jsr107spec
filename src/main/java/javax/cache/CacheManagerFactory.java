@@ -100,4 +100,26 @@ public enum CacheManagerFactory {
             }
         }
     }
+
+    /**
+     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
+     * The configuration returned should have the default values.
+     *
+     * @return a cache configuration
+     */
+    public CacheConfiguration createCacheConfiguration() {
+        return serviceFactory.createCacheConfiguration();
+    }
+
+    /**
+     * Creates a cache instance.
+     * <p/>
+     * <em>TODO (yannis): Not clear why this is required.</em>
+     *
+     * @param name the cache name
+     * @return a new cache
+     */
+    public <K, V> Cache<K, V> createCache(String name) {
+        return serviceFactory.createCache(name);
+    }
 }

@@ -7,6 +7,8 @@
 
 package javax.cache.spi;
 
+import javax.cache.Cache;
+import javax.cache.CacheConfiguration;
 import javax.cache.CacheManager;
 
 /**
@@ -33,4 +35,22 @@ public interface CacheManagerFactoryProvider {
      * @throws NullPointerException if name is null
      */
     CacheManager createCacheManager(String name);
+
+    /**
+     * Creates a cache instance.
+     * <p/>
+     * <em>TODO (yannis): Not clear why this is required.</em>
+     *
+     * @param name the cache name
+     * @return a new cache
+     */
+    <K, V> Cache<K, V> createCache(String name);
+
+    /**
+     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
+     * The configuration returned should have the default values.
+     *
+     * @return a cache configuration
+     */
+    CacheConfiguration createCacheConfiguration();
 }
