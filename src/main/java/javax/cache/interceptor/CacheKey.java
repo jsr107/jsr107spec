@@ -10,9 +10,9 @@ package javax.cache.interceptor;
 import java.io.Serializable;
 
 /**
- * A serializable, immutable, thread-safe object that can be used for a cache key.
+ * A serializable, immutable, thread-safe object that is used as a cache key.
  * <p/>
- * The implementation MUST follow the java contract for {@link Object#hashCode()} and
+ * The implementation MUST follow the Java contract for {@link Object#hashCode()} and
  * {@link Object#equals(Object)} to ensure correct behavior.
  *
  * @author Eric Dalquist
@@ -23,6 +23,7 @@ public interface CacheKey extends Serializable {
     /**
      * The immutable hash code of the object.
      */
+    @Override
     int hashCode();
 
     /**
@@ -32,5 +33,6 @@ public interface CacheKey extends Serializable {
      * @param o The other object to compare to.
      * @return true if the objects are equal
      */
+    @Override
     boolean equals(Object o);
 }
