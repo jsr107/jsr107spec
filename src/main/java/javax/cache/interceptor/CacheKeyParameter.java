@@ -11,8 +11,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Set;
 
-import javax.interceptor.InvocationContext;
-
 /**
  * A method invocation parameter that should be considered when generating a {@link CacheKey}
  * 
@@ -29,7 +27,7 @@ public interface CacheKeyParameter {
      */
     Class<?> getRawType();
     /**
-     * @return Index of the parameter in the array returned by {@link InvocationContext#getParameters()}
+     * @return Index of the parameter in the array returned by {@link javax.interceptor.InvocationContext#getParameters()}
      */
     int getPosition();
     /**

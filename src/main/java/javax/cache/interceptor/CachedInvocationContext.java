@@ -21,5 +21,5 @@ public interface CachedInvocationContext extends InvocationContext {
     /**
      * @return The list of method parameters that should be considered when generating a cache key
      */
-    public List<CacheKeyParameter> getCacheKeyParameters();
+    List<CacheKeyParameter> getCacheKeyParameters();
 }
