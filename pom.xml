@@ -29,7 +29,7 @@
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <version>1.0-SP1</version>
+            <version>1.0-SP4</version>
             <scope>compile</scope>
         </dependency>
         <!--Only required for ee profile implementations-->
