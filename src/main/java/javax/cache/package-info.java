@@ -8,6 +8,8 @@
 /**
  This package contains the API for JCache..
 
+ The main components are a CacheManager that holds and controls a collection of Caches. A cache is an association of key to value.
+
 
  @author Greg Luck
  @author Yannis Cosmadopoulos

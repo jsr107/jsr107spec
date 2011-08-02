@@ -59,6 +59,7 @@ public interface CacheConfiguration {
 
     /**
      * Whether storeByValue (true) or storeByReference (false).
+     * When true both keys and values are stored by value.
      * <p/>
      * Default value is true.
      *
@@ -71,6 +72,7 @@ public interface CacheConfiguration {
      *
      * @param storeByValue the value for storeByValue
      * @throws IllegalStateException if the configuration can no longer be changed
+     * @throws InvalidConfigurationException if the cache does not support store by reference
      * @see #isStoreByValue()
      */
     void setStoreByValue(boolean storeByValue);
