@@ -35,7 +35,7 @@ public interface Serializer<V> {
          * Get the stored value
          *
          * @return the value
-         * @throws CacheException is an error occurred during de-serialization or if binary is not
+         * @throws CacheException if an error occurred during de-serialization or if binary is not
          * a Binary obtained from a call to keyToBinary of a compatible serializer.
          */
         V get();

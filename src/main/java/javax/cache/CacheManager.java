@@ -51,7 +51,7 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to build
      * @return the CacheBuilder for the named cache
-     * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
+     * @throws IllegalStateException if the cache is not {@link Status#UNINITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
@@ -62,7 +62,7 @@ public interface CacheManager {
      * <p/>
      * <em>TODO (yannis): Not clear why this is required.</em>
      * @param cache the cache to add
-     * @throws IllegalStateException if the cache is not {@link Status#UNITIALISED} before this method is called.
+     * @throws IllegalStateException if the cache is not {@link Status#UNINITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     void addCache(Cache<?, ?> cache);

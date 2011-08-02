@@ -15,7 +15,7 @@ package javax.cache;
  * This interface defines a lifecycle for these resources and associates a {@link Status}
  * with each.
  * <p/>
- * The {@link Status} of a newly created resource is {@link Status#UNITIALISED}.
+ * The {@link Status} of a newly created resource is {@link Status#UNINITIALISED}.
  * @author Greg Luck
  * @since 1.7
  */

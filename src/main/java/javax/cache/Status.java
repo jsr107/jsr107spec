@@ -18,7 +18,7 @@ public enum Status {
     /**
      * The resource has been created but not yet initialised. It cannot be used.
      */
-    UNITIALISED,
+    UNINITIALISED,
 
     /**
      * The resource is in the process of starting
