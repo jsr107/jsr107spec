@@ -79,8 +79,22 @@ implementations.
 Building From Source
 --------------------
 
-`mvn clean install`
+Building uses Maven in all modules. Maven 2.2.1 and 3.0.3 have been tested.
 
+See each module's README.md for build instructions.
+
+
+Testing Implementions of JSR107
+-------------------------------
+
+The jsr107tck module contains a domain, tests and an implementation-tester. The implementation-tester allows an implementation, packaged
+as a Maven module, to be specified on the command line and tested. For example a fictional Acme company implementation could be tested as follows:
+
+    mvn -Dtest=CacheManagerFactoryTest \
+        -Dimplementation-groupId=acme.cache \
+        -Dimplementation-artifactId=acme-cache \
+        -Dimplementation-version=0.1-SNAPSHOT \
+        test
 
 Mailing list
 ------------
