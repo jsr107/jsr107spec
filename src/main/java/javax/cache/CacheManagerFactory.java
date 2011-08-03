@@ -142,5 +142,4 @@ public enum CacheManagerFactory {
     public boolean isSupported(OptionalFeature optionalFeature) {
         return serviceFactory.isSupported(optionalFeature);
     }
-
 }
