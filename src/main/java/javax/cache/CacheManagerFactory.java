@@ -118,6 +118,9 @@ public enum CacheManagerFactory {
      * @return a cache configuration
      */
     public CacheConfiguration createCacheConfiguration() {
+        if (serviceFactory == null) {
+            throw new IllegalStateException("CacheManagerFactoryProvider");
+        }
         return serviceFactory.createCacheConfiguration();
     }
 
@@ -130,6 +133,9 @@ public enum CacheManagerFactory {
      * @return a new cache
      */
     public <K, V> Cache<K, V> createCache(String name) {
+        if (serviceFactory == null) {
+            throw new IllegalStateException("CacheManagerFactoryProvider");
+        }
         return serviceFactory.createCache(name);
     }
 
@@ -140,6 +146,9 @@ public enum CacheManagerFactory {
      * @return true if the feature is supported
      */
     public boolean isSupported(OptionalFeature optionalFeature) {
+        if (serviceFactory == null) {
+            throw new IllegalStateException("CacheManagerFactoryProvider");
+        }
         return serviceFactory.isSupported(optionalFeature);
     }
 }
