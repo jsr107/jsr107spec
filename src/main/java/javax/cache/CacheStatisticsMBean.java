@@ -13,16 +13,8 @@ import java.util.Date;
  * A management bean for cache statistics.
  * <p/>
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
- *
- * todo
- *
- *
- * distributed stores - what is a miss. vendor specific
- * consistency of stats - up to vendor free to have relaxed consistency. no locking
- *
- * Might be local, might be
- *
- * Implementations should give further guidance...
+ * <p/>
+ * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
  *
  * @author Greg Luck
  * @since 1.0
@@ -49,6 +41,7 @@ public interface CacheStatisticsMBean {
     /**
      * The date from which statistics have been accumulated. Because statistics can be cleared, this is not necessarily
      * since the cache was started.
+     *
      * @return the date statistics started being accumulated
      */
     Date statsAccumulatingFrom();
@@ -69,8 +62,13 @@ public interface CacheStatisticsMBean {
     float getCacheHitPercentage();
 
     /**
-     * A miss is a get request which is not satisfied by the cache.
-     *
+     * A miss is a get request which is not satisfied.
+     * <p/>
+     * In a simple cache a miss occurs when the cache does not satisfy the request.
+     * In a caches with multiple tiered storage, a miss may be implemented as a miss
+     * to the cache or to the first tier.
+     * <p/>
+     * Refer to the implementation for precise semantics.
      *
      * @return the number of misses
      */
@@ -122,24 +120,24 @@ public interface CacheStatisticsMBean {
 
     /**
      * The mean time to execute gets.
+     *
      * @return the time in milliseconds
      */
     long getAverageGetMillis();
 
     /**
      * The mean time to execute puts.
+     *
      * @return the time in milliseconds
      */
     long getAveragePutMillis();
 
     /**
      * The mean time to execute removes.
+     *
      * @return the time in milliseconds
      */
     long getAverageRemoveMillis();
-
-
-
 
 
 }
