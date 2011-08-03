@@ -13,7 +13,7 @@ package javax.cache;
  * This indicates a configuration is invalid for the cache implementation.
  *
  * @author Greg Luck
- * @since 1.7
+ * @since 1.0
  */
 public class InvalidConfigurationException extends CacheException {
 

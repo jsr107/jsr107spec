@@ -13,6 +13,6 @@
 
  @author Greg Luck
  @author Yannis Cosmadopoulos
- @since 1.7
+ @since 1.0
  */
 package javax.cache;

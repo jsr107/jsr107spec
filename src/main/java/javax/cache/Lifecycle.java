@@ -17,7 +17,7 @@ package javax.cache;
  * <p/>
  * The {@link Status} of a newly created resource is {@link Status#UNINITIALISED}.
  * @author Greg Luck
- * @since 1.7
+ * @since 1.0
  */
 public interface Lifecycle {
 

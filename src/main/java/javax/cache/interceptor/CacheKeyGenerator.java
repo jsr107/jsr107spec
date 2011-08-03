@@ -13,7 +13,7 @@ import javax.interceptor.InvocationContext;
  * Generates cache keys for intercepted method invocations. Implementations MUST be thread-safe
  *
  * @author Eric Dalquist
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheKeyGenerator {
 

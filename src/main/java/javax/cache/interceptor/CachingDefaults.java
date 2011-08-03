@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * <p/>
  *
  * @author Rick Hightower
- * @since 1.7
+ * @since 1.0
  */
 @Target( {ElementType.TYPE} )
 @Retention(RetentionPolicy.RUNTIME)

@@ -18,7 +18,7 @@ import javax.cache.Cache;
  * @see CacheEntryUpdatedListener
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener {
 

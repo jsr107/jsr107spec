@@ -16,7 +16,7 @@ package javax.cache;
  * @param <V> the value type
  *
  * @author Yannis Cosmadopoulos
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheBuilder<K, V> {
 

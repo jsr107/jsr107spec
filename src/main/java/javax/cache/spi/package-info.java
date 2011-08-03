@@ -10,6 +10,6 @@
  persistence provider for use by the {@link javax.cache.CacheManagerFactory} class
 
  @author Yannis Cosmadopoulos
- @since 1.7
+ @since 1.0
  */
 package javax.cache.spi;

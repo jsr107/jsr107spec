@@ -59,7 +59,7 @@ import java.util.concurrent.Future;
  * @param <V> the type of cached values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @since 1.7
+ * @since 1.0
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**

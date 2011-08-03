@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
  * Determines the {@link Cache} to use for a specified cache name and annotated method. Implementations MUST be thread-safe
  *
  * @author Eric Dalquist
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheResolver {
 

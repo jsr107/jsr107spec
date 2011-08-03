@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * Marks a method argument as part of the cache key.
  * If no arguments are marked all arguments are used.
  * @author Rick Hightower
- * @since 1.7
+ * @since 1.0
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

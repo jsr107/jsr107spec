@@ -16,7 +16,7 @@ import java.io.Serializable;
  * {@link Object#equals(Object)} to ensure correct behavior.
  *
  * @author Eric Dalquist
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheKey extends Serializable {
 

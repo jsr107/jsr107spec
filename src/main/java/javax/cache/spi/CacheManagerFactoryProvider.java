@@ -20,7 +20,7 @@ import javax.cache.CacheManager;
  * @see javax.cache.CacheManagerFactory
  *
  * @author Yannis Cosmadopoulos
- * @since 1.7
+ * @since 1.0
  */
 public interface CacheManagerFactoryProvider {
 

@@ -12,7 +12,7 @@ package javax.cache;
  *
  * @param <V> the type of cached values
  * @author Yannis Cosmadopoulos
- * @since 1.7
+ * @since 1.0
  */
 public interface Serializer<V> {
     /**
