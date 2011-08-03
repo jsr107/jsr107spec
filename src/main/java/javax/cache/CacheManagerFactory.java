@@ -8,6 +8,7 @@
 package javax.cache;
 
 import javax.cache.spi.CacheManagerFactoryProvider;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -132,4 +133,15 @@ public enum CacheManagerFactory {
     public <K, V> Cache<K, V> createCache(String name) {
         return serviceFactory.createCache(name);
     }
+
+
+    /**
+     * Indicates whether a optional feature is supported by this implementation
+     * @param optionalFeature the feature to check for
+     * @return true if the feature is supported
+     */
+    public boolean isSupported(OptionalFeature optionalFeature) {
+        return serviceFactory.isSupported(optionalFeature);
+    }
+
 }

@@ -10,6 +10,7 @@ package javax.cache.spi;
 import javax.cache.Cache;
 import javax.cache.CacheConfiguration;
 import javax.cache.CacheManager;
+import javax.cache.OptionalFeature;
 
 /**
  * Interface that should be implemented by a CacheManager factory provider.
@@ -55,4 +56,11 @@ public interface CacheManagerFactoryProvider {
      * @return a cache configuration
      */
     CacheConfiguration createCacheConfiguration();
+
+    /**
+     * Indicates whether a optional feature is supported by this implementation
+     * @param optionalFeature the feature to check for
+     * @return true if the feature is supported
+     */
+    boolean isSupported(OptionalFeature optionalFeature);
 }
