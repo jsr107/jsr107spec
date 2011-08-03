@@ -75,8 +75,18 @@ public enum CacheManagerFactory {
 
     /**
      * Get a named cache manager.
-     * The first time a name is used, the cache manager will be created.
+     * <p/>
+     * The first time a name is used, a new CacheManager is created.
      * Subsequent calls will return the same cache manager.
+     * <p/>
+     * During creation, the name of the CacheManager is passed through to {@link CacheManagerFactoryProvider}
+     * so that an implementation it to concrete implementations may use it to point to a specific configuration
+     * used to configure the CacheManager. This allows CacheManagers to have different configurations. For example,
+     * one CacheManager might be configured for standalone operation and another might be configured to participate
+     * in a cluster.
+     *
+     * The name may be used to associate a configuration with this CacheManager instance.
+     *
      *
      * @param name the name of this cache manager
      * @return the new cache manager
@@ -112,10 +122,10 @@ public enum CacheManagerFactory {
     }
 
     /**
-     * Creates a cache instance.
+     * Creates an unitialised cache instance with the given name and default configuration.
+     * The returned cache much be added to a {@link CacheManager} to be started and used.
      * <p/>
-     * <em>TODO (yannis): Not clear why this is required.</em>
-     *
+     * todo Greg this only exists to allow TCK testing of the new creational pattern.
      * @param name the cache name
      * @return a new cache
      */

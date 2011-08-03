@@ -10,11 +10,13 @@ package javax.cache;
 import java.util.Date;
 
 /**
- * A management bean for caches.
+ * A management bean for cache statistics.
  * <p/>
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
  *
  * todo
+ *
+ *
  * distributed stores - what is a miss. vendor specific
  * consistency of stats - up to vendor free to have relaxed consistency. no locking
  *

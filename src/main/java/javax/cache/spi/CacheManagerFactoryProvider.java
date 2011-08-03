@@ -27,8 +27,10 @@ public interface CacheManagerFactoryProvider {
     /**
      * Called by the {@link javax.cache.CacheManagerFactory} class when a
      * new CacheManager needs to be created.
-     *
+     * <p/>
      * An implementation of this interface must have a public no-arg constructor.
+     * <p/>
+     * The name may be used to associate a configuration with this CacheManager instance.
      *
      * @param name the name of this cache manager
      * @return a new cache manager.
@@ -37,10 +39,10 @@ public interface CacheManagerFactoryProvider {
     CacheManager createCacheManager(String name);
 
     /**
-     * Creates a cache instance.
+     * Creates an unitialised cache instance with the given name and default configuration.
+     * The returned cache much be added to a {@link CacheManager} to be started and used.
      * <p/>
-     * <em>TODO (yannis): Not clear why this is required.</em>
-     *
+     * todo Greg this only exists to allow TCK testing of the new creational pattern.
      * @param name the cache name
      * @return a new cache
      */

@@ -434,7 +434,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      * it has been added to a CacheManager.
      * <p/>
      * A cache can be in only have one CacheManager.
-     * <em>TODO (yannis): Not clear why this is required.</em>
      *
      * @return the manager or null if there is none
      */
