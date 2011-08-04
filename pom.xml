@@ -33,13 +33,6 @@
             <version>1.0-SP4</version>
             <scope>compile</scope>
         </dependency>
-        <!--Only required for ee profile implementations-->
-        <!--<dependency>-->
-        <!--<groupId>javax.transaction</groupId>-->
-        <!--<artifactId>jta</artifactId>-->
-        <!--<version>1.1</version>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
     </dependencies>
 
     <build>
