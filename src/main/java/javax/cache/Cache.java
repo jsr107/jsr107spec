@@ -427,7 +427,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param cacheEntryListener the listener to remove
      * @return true if the listener was present
      */
-    boolean unregisterCacheEntryListener(CacheEntryListener cacheEntryListener);
+    boolean unregisterCacheEntryListener(CacheEntryListener<?, ?> cacheEntryListener);
 
     /**
      * Return the name of the cache.
