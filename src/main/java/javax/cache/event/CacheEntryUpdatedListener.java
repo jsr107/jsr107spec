@@ -21,7 +21,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener {
+public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
      * Called after the entry has been updated (put into the cache where a previous mapping existed).

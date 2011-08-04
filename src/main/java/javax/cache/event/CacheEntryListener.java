@@ -25,12 +25,13 @@ import java.util.EventListener;
  * @see CacheEntryReadListener
  * @see CacheEntryRemovedListener
  * @see CacheEntryExpiredListener
- *
+ * @param <K> the type of keys maintained by the associated cache
+ * @param <V> the type of values maintained by the associated cache
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryListener extends EventListener {
+public interface CacheEntryListener<K, V> extends EventListener {
 
     /**
      * @return the notification scope for this listener

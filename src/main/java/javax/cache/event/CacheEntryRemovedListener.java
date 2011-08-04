@@ -19,7 +19,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener {
+public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
      * Called after the entry has been removed. If no entry existed for key the event is not called.

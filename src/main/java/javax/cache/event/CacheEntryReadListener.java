@@ -18,7 +18,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryReadListener<K, V> extends CacheEntryListener {
+public interface CacheEntryReadListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
      * Called after the entry has been read. If no entry existed for the key the event is not called.

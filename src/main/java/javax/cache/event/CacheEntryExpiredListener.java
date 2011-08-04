@@ -17,7 +17,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener {
+public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
      * Called after the entry has expired and has thus been removed from the Cache.

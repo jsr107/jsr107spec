@@ -20,7 +20,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener {
+public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
      * Called after the entry has been created (put into the cache where no previous mapping existed).

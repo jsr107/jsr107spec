@@ -419,7 +419,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param scope              The notification scope. If this parameter is null, the {@link NotificationScope#ALL} scope is used.
      * @return true if the listener is being added and was not already added
      */
-    boolean registerCacheEntryListener(CacheEntryListener cacheEntryListener, NotificationScope scope);
+    boolean registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, NotificationScope scope);
 
     /**
      * Removes a call back listener.
