@@ -382,7 +382,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
 
     /**
      * Removes all of the mappings from this cache.
-     * The cache will be empty after this call returns.
      * <p/>
      * This is potentially an expensive operation.
      * <p/>
@@ -405,7 +404,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
      * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
      * an attempt to mutate the configuration.
-     * @return the {@link CacheConfiguration}
+     * @return the {@link CacheConfiguration} of this cache
      */
     CacheConfiguration getConfiguration();
 
@@ -416,10 +415,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
      *                           is not allowed.
-     * @param scope              The notification scope. If this parameter is null, the {@link NotificationScope#ALL} scope is used.
+     * @param scope              The notification scope.
+     * @param synchronous        whether to listener should be invoked synchronously
      * @return true if the listener is being added and was not already added
+     * @throws NullPointerException if any of the arguments are null.
      */
-    boolean registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, NotificationScope scope);
+    boolean registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, NotificationScope scope, boolean synchronous);
 
     /**
      * Removes a call back listener.

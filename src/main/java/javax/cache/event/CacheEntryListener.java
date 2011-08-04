@@ -19,6 +19,15 @@ import java.util.EventListener;
  * <p/>
  * Listeners should be implemented with care. In particular it is important to consider the impact on perforamnce
  * and latency.
+ * <p/>
+ * A listener is a user supplied object instance and therefore can only be registered programmatically.
+ * <p/>
+ * The listeners are fired:
+ * <ul>
+ *     <li>in order in which they were registered</li>
+ *     <li>after the entry is added to the cache</li>
+ *     <li>synchronously in the same thread if in the same JVM</li>
+ * </ul>
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
