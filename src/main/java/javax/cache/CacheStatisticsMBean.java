@@ -27,9 +27,9 @@ public interface CacheStatisticsMBean {
     String getName();
 
     /**
-     * Gets the {@link Status} attribute of the Cache expressed as a String.
+     * Gets the {@link CacheStatus} attribute of the Cache expressed as a String.
      *
-     * @return The status value from the Status enum class
+     * @return The status value from the CacheStatus enum class
      */
     String getStatus();
 

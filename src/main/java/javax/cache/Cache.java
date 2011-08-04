@@ -61,14 +61,14 @@ import java.util.concurrent.Future;
  * @author Yannis Cosmadopoulos
  * @since 1.0
  */
-public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle {
     /**
      * Gets an entry from the cache.
      * <p/>
      *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the cache is not {@link CacheStatus#STARTED}
      * @throws NullPointerException  if the key is null
      * @throws CacheException        if there is a problem fetching the value
      * @see java.util.Map#get(Object)
@@ -168,7 +168,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *
      * @return the CacheStatisticsMBean
      */
-    CacheStatisticsMBean getCacheStatistics();
+    CacheStatisticsMBean getStatistics();
 
     /**
      * Associates the specified value with the specified key in this cache
@@ -395,7 +395,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
      * Returns a CacheConfiguration.
      * <p/>
-     * When status is {@link Status#STARTED} an implementation must respect the following:
+     * When status is {@link CacheStatus#STARTED} an implementation must respect the following:
      * <ul>
      *  <li>Statistics must be mutable when status is {@link Status#STARTED} ({@link CacheConfiguration#setStatisticsEnabled(boolean)})</li>
      *  <li>Transactions must be immutable ({@link CacheConfiguration#setTransactionEnabled(boolean)} must throw a {@link InvalidConfigurationException}</li>
@@ -434,7 +434,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
      *
      * @return the name of the cache.
      */
-    String getCacheName();
+    String getName();
 
     /**
      * Gets the CacheManager managing this cache. For a newly created cache this will be null until

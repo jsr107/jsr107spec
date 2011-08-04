@@ -69,21 +69,21 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to build
      * @return the CacheBuilder for the named cache
-     * @throws IllegalStateException if the cache is not {@link Status#UNINITIALISED} before this method is called.
+     * @throws IllegalStateException if the cache is not {@link CacheStatus#UNINITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
 
     /**
      * To support simple cache creation of a new concrete instance, this method will
-     * add a {@link Cache} to the CacheManager and {@link javax.cache.Lifecycle#start()} it.
+     * add a {@link Cache} to the CacheManager and {@link CacheLifecycle#start()} it.
      *
      * If a cache with the same name has been previously added that cache will be stopped
      * and removed.
      * todo Greg throw an exception if you add a cache with the same name as an existing cache
      * <p/>
      * @param cache the cache to add
-     * @throws IllegalStateException if the cache is not {@link Status#UNINITIALISED} before this method is called.
+     * @throws IllegalStateException if the cache is not {@link CacheStatus#UNINITIALISED} before this method is called.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     void addCache(Cache<?, ?> cache);
@@ -94,7 +94,7 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
-     * @throws IllegalStateException if the Cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the Cache is not {@link CacheStatus#STARTED}
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 
@@ -103,7 +103,7 @@ public interface CacheManager {
      *
      * @param cacheName the cache name
      * @return true if the cache was removed
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the cache is not {@link CacheStatus#STARTED}
      */
     boolean removeCache(String cacheName) throws IllegalStateException;
 
@@ -119,8 +119,8 @@ public interface CacheManager {
      * Shuts down the CacheManager.
      * <p/>
      * Each cache will be shut down in no guaranteed order. While caches are being shut down their status and the status of
-     * CacheManager is {@link Status#STOPPING}. As they are shut down their status is change to {@link Status#STOPPED}. Finally
-     * the CacheManager's status is changed to {@link Status#STOPPED}
+     * CacheManager is {@link CacheStatus#STOPPING}. As they are shut down their status is change to {@link CacheStatus#STOPPED}. Finally
+     * the CacheManager's status is changed to {@link CacheStatus#STOPPED}
      * <p/>
      * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
      * they are stopping or are a stopped.
