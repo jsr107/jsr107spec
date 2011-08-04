@@ -89,8 +89,26 @@ public interface CacheConfiguration {
     /**
      * Sets whether statistics gathering is enabled  on this cache.
      *
+     *
+     *
      * @param enableStatistics true fo enable statistics, false to disable
      */
     void setStatisticsEnabled(boolean enableStatistics);
+
+    /**
+     * Checks whether transactions are enabled for this cache.
+     * <p/>
+     * Default value is false.
+     *
+     * @return true if statistics collection is enabled
+     */
+    boolean isTransactionEnabled();
+
+    /**
+     * Sets whether transactions are enabled for this cache
+     *
+     * @param enableStatistics true fo enable statistics, false to disable
+     */
+    void setTransactionEnabled(boolean enableStatistics);
 
 }

@@ -5,6 +5,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>7</version>
+        <!--Fixes broken Maven 3 warning-->
         <relativePath/>
     </parent>
     <groupId>javax.cache</groupId>
@@ -21,17 +22,18 @@
     </properties>
 
     <dependencies>
+        <!--This is only needed if you are using annotations in which case your Java EE 6 Web Profile or later-->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>1.0-SP4</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>1.0-SP4</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
