@@ -107,8 +107,8 @@ public interface CacheConfiguration {
     /**
      * Sets whether transactions are enabled for this cache
      *
-     * @param enableStatistics true fo enable statistics, false to disable
+     * @param enableTransactions true fo enable transactions, false to disable
      */
-    void setTransactionEnabled(boolean enableStatistics);
+    void setTransactionEnabled(boolean enableTransactions);
 
 }
