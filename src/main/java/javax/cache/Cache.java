@@ -55,6 +55,7 @@ import java.util.concurrent.Future;
  * cache.put(key, value1);
  * Date value2 = cache.get(key);
  * </pre>
+ *
  * @param <K> the type of keys maintained by this cache
  * @param <V> the type of cached values
  * @author Greg Luck
@@ -396,14 +397,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      * When status is {@link CacheStatus#STARTED} an implementation must respect the following:
      * <ul>
-     *  <li>Statistics must be mutable when status is {@link CacheStatus#STARTED} ({@link CacheConfiguration#setStatisticsEnabled(boolean)})</li>
-     *  <li>Transactions must be immutable ({@link CacheConfiguration#setTransactionEnabled(boolean)} must throw a {@link InvalidConfigurationException}</li>
-     *  <li>Store by value must be immutable {@link CacheConfiguration#setStoreByValue(boolean)}  must throw a {@link InvalidConfigurationException}</li>
+     * <li>Statistics must be mutable when status is {@link CacheStatus#STARTED} ({@link CacheConfiguration#setStatisticsEnabled(boolean)})</li>
+     * <li>Transactions must be immutable ({@link CacheConfiguration#setTransactionEnabled(boolean)} must throw a {@link InvalidConfigurationException}</li>
+     * <li>Store by value must be immutable {@link CacheConfiguration#setStoreByValue(boolean)}  must throw a {@link InvalidConfigurationException}</li>
      * </ul>
      * <p/>
      * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
      * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
      * an attempt to mutate the configuration.
+     *
      * @return the {@link CacheConfiguration} of this cache
      */
     CacheConfiguration getConfiguration();
@@ -460,9 +462,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
         K getKey();
 
         /**
-         * Returns the value corresponding to this entry.  If the mapping
-         * has been removed from the backing map (by the iterator's
-         * <tt>remove</tt> operation), the results of this call are undefined.
+         * Returns the value stored in the cache when this entry was created.
          *
          * @return the value corresponding to this entry
          */

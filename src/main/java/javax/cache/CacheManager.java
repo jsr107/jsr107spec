@@ -75,20 +75,6 @@ public interface CacheManager {
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
 
     /**
-     * To support simple cache creation of a new concrete instance, this method will
-     * add a {@link Cache} to the CacheManager and {@link CacheLifecycle#start()} it.
-     *
-     * If a cache with the same name has been previously added that cache will be stopped
-     * and removed.
-     * todo Greg throw an exception if you add a cache with the same name as an existing cache
-     * <p/>
-     * @param cache the cache to add
-     * @throws IllegalStateException if the cache is not {@link CacheStatus#UNINITIALISED} before this method is called.
-     * @throws CacheException        if there was an error adding the cache to the CacheManager
-     */
-    void addCache(Cache<?, ?> cache);
-
-    /**
      * Looks up a named cache.
      *
      *
@@ -106,6 +92,16 @@ public interface CacheManager {
      * @throws IllegalStateException if the cache is not {@link CacheStatus#STARTED}
      */
     boolean removeCache(String cacheName) throws IllegalStateException;
+
+
+    /**
+     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
+     * The configuration returned will have the default values defined for the CacheManager .
+     *
+     * @return a cache configuration
+     */
+    CacheConfiguration createCacheConfiguration();
+
 
     /**
      * This method will return a UserTransaction.

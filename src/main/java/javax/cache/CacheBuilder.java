@@ -15,6 +15,8 @@ import javax.cache.event.NotificationScope;
  * A CacheBuilder is created by {@link CacheManager#createCacheBuilder(String)} and is associated with that
  * manager.
  *
+ * Additional configuration methods may be available on a builder instance by casting to a concrete implementation.
+ *
  * @param <K> the key type
  * @param <V> the value type
  * @author Yannis Cosmadopoulos

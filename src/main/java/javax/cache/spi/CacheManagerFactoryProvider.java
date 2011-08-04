@@ -7,7 +7,6 @@
 
 package javax.cache.spi;
 
-import javax.cache.Cache;
 import javax.cache.CacheConfiguration;
 import javax.cache.CacheManager;
 import javax.cache.OptionalFeature;
@@ -38,16 +37,6 @@ public interface CacheManagerFactoryProvider {
      * @throws NullPointerException if name is null
      */
     CacheManager createCacheManager(String name);
-
-    /**
-     * Creates an unitialised cache instance with the given name and default configuration.
-     * The returned cache much be added to a {@link CacheManager} to be started and used.
-     * <p/>
-     * todo Greg this only exists to allow TCK testing of the new creational pattern.
-     * @param name the cache name
-     * @return a new cache
-     */
-    <K, V> Cache<K, V> createCache(String name);
 
     /**
      * Create a mutable {@link javax.cache.CacheConfiguration} instance.

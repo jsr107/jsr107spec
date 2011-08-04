@@ -111,34 +111,6 @@ public enum CacheManagerFactory {
         }
     }
 
-    /**
-     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
-     * The configuration returned should have the default values.
-     *
-     * @return a cache configuration
-     */
-    public CacheConfiguration createCacheConfiguration() {
-        if (serviceFactory == null) {
-            throw new IllegalStateException("CacheManagerFactoryProvider");
-        }
-        return serviceFactory.createCacheConfiguration();
-    }
-
-    /**
-     * Creates an unitialised cache instance with the given name and default configuration.
-     * The returned cache much be added to a {@link CacheManager} to be started and used.
-     * <p/>
-     * todo Greg this only exists to allow TCK testing of the new creational pattern.
-     * @param name the cache name
-     * @return a new cache
-     */
-    public <K, V> Cache<K, V> createCache(String name) {
-        if (serviceFactory == null) {
-            throw new IllegalStateException("CacheManagerFactoryProvider");
-        }
-        return serviceFactory.createCache(name);
-    }
-
 
     /**
      * Indicates whether a optional feature is supported by this implementation
