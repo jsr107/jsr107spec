@@ -395,11 +395,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Lifecycle {
     /**
      * Returns a CacheConfiguration.
      * <p/>
-     * Whether the configuration is mutable after the cache has {@link Status#STARTED} is up to the implementation,
-     * except for statistics which must be mutable when status is {@link Status#STARTED}.
+     * When status is {@link Status#STARTED} an implementation must respect the following:
+     * <ul>
+     *  <li>Statistics must be mutable when status is {@link Status#STARTED} ({@link CacheConfiguration#setStatisticsEnabled(boolean)})</li>
+     *  <li>Transactions must be immutable ({@link CacheConfiguration#setTransactionEnabled(boolean)} must throw a {@link InvalidConfigurationException}</li>
+     *  <li>Store by value must be immutable {@link CacheConfiguration#setStoreByValue(boolean)}  must throw a {@link InvalidConfigurationException}</li>
+     * </ul>
      * <p/>
-     * If an implementation permits mutation of configuration to a running cache, those changes must be reflected in the cache.
-     *
+     * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
+     * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
+     * an attempt to mutate the configuration.
      * @return the {@link CacheConfiguration}
      */
     CacheConfiguration getConfiguration();
