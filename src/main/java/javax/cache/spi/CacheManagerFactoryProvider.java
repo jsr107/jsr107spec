@@ -7,7 +7,6 @@
 
 package javax.cache.spi;
 
-import javax.cache.CacheConfiguration;
 import javax.cache.CacheManager;
 import javax.cache.OptionalFeature;
 
