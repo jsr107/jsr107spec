@@ -13,6 +13,7 @@ package javax.cache;
  * @since 1.0
  */
 public enum OptionalFeature {
+
     /**
      * Implementation supports JTA
      */

@@ -18,21 +18,26 @@ import java.util.Set;
  * @version $Revision$
  */
 public interface CacheKeyParameter {
+
     /**
      * @see Class#getGenericSuperclass()
      */
     Type getBaseType();
+
     /**
      */
     Class<?> getRawType();
+
     /**
      * @return Index of the parameter in the array returned by {@link javax.interceptor.InvocationContext#getParameters()}
      */
     int getPosition();
+
     /**
      * @return The parameter value
      */
     Object getValue();
+
     /**
      * @return A Set of all Annotations on this method parameter
      */
