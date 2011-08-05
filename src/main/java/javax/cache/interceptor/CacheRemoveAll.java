@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.enterprise.util.Nonbinding;
+import javax.interceptor.InterceptorBinding;
 
 
 /**
@@ -25,6 +26,7 @@ import javax.enterprise.util.Nonbinding;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@InterceptorBinding
 public @interface CacheRemoveAll {
 
     /**
