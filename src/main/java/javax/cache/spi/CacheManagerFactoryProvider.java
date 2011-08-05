@@ -39,14 +39,6 @@ public interface CacheManagerFactoryProvider {
     CacheManager createCacheManager(String name);
 
     /**
-     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
-     * The configuration returned should have the default values.
-     *
-     * @return a cache configuration
-     */
-    CacheConfiguration createCacheConfiguration();
-
-    /**
      * Indicates whether a optional feature is supported by this implementation
      * @param optionalFeature the feature to check for
      * @return true if the feature is supported
