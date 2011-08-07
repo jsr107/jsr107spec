@@ -24,12 +24,12 @@ import java.lang.annotation.Target;
  */
 @Target( {ElementType.TYPE} )
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CachingDefaults {
+public @interface CacheDefaults {
 
     /**
      * (Optional) name of the cache.
      * <p/>
-     * Defaults to ClassName.methodName(argument type, argument type)
+     * Defaults to: package.name.ClassName.methodName(ParameterType, ParameterType)
      */
     String cacheName() default "";
 

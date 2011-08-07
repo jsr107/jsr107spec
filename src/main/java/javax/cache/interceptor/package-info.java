@@ -16,38 +16,11 @@
  -------------------
 
  todo
-
-    Create new @CachePut
-
-    @CachePut(afterInvocation=true)
-    public void updateFoo(String id, @CacheValue Foo foo)
-
-
- todo
-     rename CachedInvocationContext to CacheInvocationContext
-     rename CachingDefaults to CacheDefaults
-
- todo
-
-        Remove InterceptorBinding
-
- todo
         Clean up Javadoc and add samples to Javadoc - Eric
 
 
   After 0.2
  ---------------------
-
- todo
-
-    try and remove InvocationContext and pull up methods into CacheInvocationContext. Improve performance of annotations.
-    Write up a summary of why the world changed for Rick.
-
-
- todo
-
-    Then add excludes to the dependency
-
 
  todo
 

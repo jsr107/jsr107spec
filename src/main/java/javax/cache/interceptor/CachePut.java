@@ -5,6 +5,7 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
+
 package javax.cache.interceptor;
 
 import java.lang.annotation.ElementType;
@@ -16,20 +17,16 @@ import javax.enterprise.util.Nonbinding;
 
 
 /**
- * When a method annotated with {@link CacheResult} is invoked a {@link CacheKey} will be generated and
- * {@link javax.cache.Cache#get(Object)} is called before the invoked method actually executes. If a value is found in the
- * cache it is returned and the annotated method is never actually executed. If no value is found the
- * annotated method is invoked and the returned value is stored in the cache with the generated key.
- * <p/>
- * null return values and thrown exceptions are never cached.
+ * When a method annotated with {@link CachePut} is invoked a {@link CacheKey} will be generated and
+ * {@link javax.cache.Cache#put(Object, Object)} will be invoked on the specified cache.
  *
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
  */
-@Target( {ElementType.METHOD, ElementType.TYPE} )
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheResult {
+public @interface CachePut {
 
     /**
      * (Optional) name of the cache.
@@ -40,14 +37,15 @@ public @interface CacheResult {
     String cacheName() default "";
 
     /**
-     * (Optional) If set to true the pre-invocation get is skipped and the annotated method is always executed with
-     * the returned value being cached as normal. This is useful for create or update methods which should always
-     * be executed and have their returned value placed in the cache.
+     * (Optional) When {@link javax.cache.Cache#put(Object, Object)} should be called. If true it is called after the annotated method
+     * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
-     * Defaults to false
+     * Defaults to true.
+     * <p/>
+     * If true and the annotated method throws an exception the put will not be executed.
      */
     @Nonbinding
-    boolean skipGet() default false;
+    boolean afterInvocation() default true;
 
     /**
      * (Optional) The {@link CacheResolver} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
@@ -58,12 +56,10 @@ public @interface CacheResult {
     Class<? extends CacheResolver> cacheResolver() default CacheResolver.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#get(Object)}
-     * {@link javax.cache.Cache#put(Object, Object)}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#put(Object, Object)}
      * <p/>
      * Defaults to {@link CacheKeyGenerator}
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
-
 }

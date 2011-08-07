@@ -17,21 +17,17 @@ import java.util.Set;
  * @author Eric Dalquist
  * @version $Revision$
  */
-public interface CacheKeyParameter {
+public interface CacheInvocationParameter {
 
     /**
-     * @see Class#getGenericSuperclass()
+     * The {@link Class#getGenericSuperclass()} value of the parameter type declared on the method.
      */
     Type getBaseType();
 
     /**
+     * The parameter type as declared on the method.
      */
     Class<?> getRawType();
-
-    /**
-     * @return Index of the parameter in the array returned by {@link javax.interceptor.InvocationContext#getParameters()}
-     */
-    int getPosition();
 
     /**
      * @return The parameter value
@@ -39,7 +35,14 @@ public interface CacheKeyParameter {
     Object getValue();
 
     /**
-     * @return A Set of all Annotations on this method parameter
+     * @return An immutable Set of all Annotations on this method parameter, never null.
      */
     Set<Annotation> getAnnotations();
+    
+    /**
+     * The index of the parameter in the original parameter array as returned by {@link CacheInvocationContext#getAllParameters()}
+     * 
+     * @return The index of the parameter in the original parameter array.
+     */
+    int getParameterPosition();
 }

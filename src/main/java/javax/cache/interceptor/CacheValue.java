@@ -13,16 +13,14 @@ import java.lang.annotation.Target;
 
 
 /**
- * Marks a method argument as part of the cache key.
- * If no arguments are marked all arguments are used.
+ * Marks a method argument as the object to cache for a method annotated with {@link CachePut}
  * 
+ * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
- * 
- * @see CacheInvocationContext#getKeyParameters()
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheKeyParam {
+public @interface CacheValue {
 
 }

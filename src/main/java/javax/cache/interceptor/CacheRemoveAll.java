@@ -13,7 +13,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.enterprise.util.Nonbinding;
-import javax.interceptor.InterceptorBinding;
 
 
 /**
@@ -26,22 +25,21 @@ import javax.interceptor.InterceptorBinding;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@InterceptorBinding
 public @interface CacheRemoveAll {
 
     /**
-     * (Optional) name of the cache.
-     * <p/>
-     * Defaults to ClassName.methodName
+     * Name of the cache.
      */
     @Nonbinding
-    String cacheName() default "";
+    String cacheName();
 
     /**
      * (Optional) When {@link javax.cache.Cache#removeAll()} should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
+     * <p/>
+     * If true and the annotated method throws an exception the put will not be executed.
      */
     @Nonbinding
     boolean afterInvocation() default true;
