@@ -28,10 +28,11 @@ import javax.enterprise.util.Nonbinding;
 public @interface CacheRemoveAll {
 
     /**
-     * Name of the cache.
+     * Name of the cache. If not specified a class level {@link CacheDefaults} must exist and
+     * specify the cacheName to use.
      */
     @Nonbinding
-    String cacheName();
+    String cacheName() default "";
 
     /**
      * (Optional) When {@link javax.cache.Cache#removeAll()} should be called. If true it is called after the annotated method

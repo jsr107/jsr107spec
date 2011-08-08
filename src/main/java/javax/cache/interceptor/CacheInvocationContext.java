@@ -58,18 +58,19 @@ public interface CacheInvocationContext {
     CacheInvocationParameter[] getAllParameters();
     
     /**
-     * When a method is annotated with {@link CachePut} a {@link CacheValue} parameter annotation may be present 
+     * When a method is annotated with {@link CachePut} one parameter is the value to cache. 
      * 
-     * @return The parameter annotated with {@link CacheValue}, if no parameter is annotated with {@link CacheValue} null is returned.
+     * @return The parameter to cache, will never be null for methods annotated with {@link CachePut}, will be null for methods not annotated with {@link CachePut}
      */
     CacheInvocationParameter getValueParameter();
 
     /**
-     * If available, the native context object is returned. For example javax.interceptor.InvocationContext for CDI or
-     * org.aopalliance.intercept.MethodInvocation for AOPAlliance. NULL may be returned if the native context is not
-     * available for an implementation.
+     * Return an object of the specified type to allow access to the provider-specific API. If the provider's
+     * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown. 
      * 
-     * @return The native context object, or null if none is available.
+     * @param cls he class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements. 
+     * @return an instance of the specified class 
+     * @throws IllegalArgumentException if the provider doesn't support the specified class.
      */
-    Object getNativeContext();
+    <T> T unwrap(java.lang.Class<T> cls);
 }
