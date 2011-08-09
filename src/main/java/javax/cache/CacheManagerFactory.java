@@ -98,7 +98,7 @@ public enum CacheManagerFactory {
             throw new NullPointerException("name");
         }
         if (serviceFactory == null) {
-            throw new IllegalStateException("CacheManagerFactoryProvider");
+            throw new IllegalStateException("No CacheManagerFactoryProvider found in classpath.");
         } else {
             synchronized (cacheManagers) {
                 CacheManager cacheManager = cacheManagers.get(name);

@@ -16,7 +16,7 @@ package javax.cache;
  * will vary depending on whether the cache is write-through.
  *
  * Finally, a cache makes it's configuration visible via this interface.
- * todo add fluent methods
+ *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0

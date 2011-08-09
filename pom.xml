@@ -23,7 +23,8 @@
 
     <dependencies>
 
-        <!--This is only needed if you are using a CDI based implementation of the annotations support-->
+        <!--This is only needed if you are using a CDI based implementation of the annotations support.
+            In CDI 1.1. we should be able to remove this dependency completely. -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
