@@ -12,7 +12,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * Determines the {@link CacheResolver} to use for an annotated method. Implementations MUST be
- * thread-safe
+ * thread-safe.
  *
  * @author Eric Dalquist
  * @since 1.0

@@ -12,13 +12,6 @@
  <p/>
  For a user wishing to use an alternative annotations implementation there is also no dependency on CDI.
 
- For 0.2
- -------------------
-
- todo
-        Clean up Javadoc and add samples to Javadoc - Eric
-
-
   After 0.2
  ---------------------
 

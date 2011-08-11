@@ -18,6 +18,19 @@ import javax.enterprise.util.Nonbinding;
 /**
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in the specified cache
  * will be removed via the {@link javax.cache.Cache#removeAll()} method
+ * <p/>
+ * Example of removing all Domain objects from the "domainCache". {@link javax.cache.Cache#removeAll()}
+ * will be called after deleteAllDomains() returns successfully. 
+ * <p><blockquote><pre>
+ * package my.app;
+ * 
+ * public class DomainDao {
+ *   &#64;CacheRemoveAll(cacheName="domainCache")
+ *   public void deleteAllDomains() {
+ *     ...
+ *   }
+ * }
+ * </pre></blockquote></p>
  *
  * @author Eric Dalquist
  * @author Rick Hightower
@@ -28,8 +41,10 @@ import javax.enterprise.util.Nonbinding;
 public @interface CacheRemoveAll {
 
     /**
-     * Name of the cache. If not specified a class level {@link CacheDefaults} must exist and
-     * specify the cacheName to use.
+     * (Optional) name of the cache.
+     * <p/>
+     * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
+     * an unspecified exception will be thrown by the provider.
      */
     @Nonbinding
     String cacheName() default "";

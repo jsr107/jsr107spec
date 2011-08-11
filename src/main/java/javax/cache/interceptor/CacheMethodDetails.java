@@ -14,10 +14,10 @@ import java.util.Set;
 
 /**
  * Static information about a method annotated with one of:
- * {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, {@link CacheRemoveAll}
+ * {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
  * <p/>
  * Used with {@link CacheResolverFactory#getCacheResolver(CacheMethodDetails)} to determine the {@link CacheResolver} to use
- * at runtime with the method. 
+ * with the method. 
  * 
  * @author Eric Dalquist
  * @version $Revision$
@@ -43,7 +43,7 @@ public interface CacheMethodDetails<A extends Annotation> {
     
     /**
      * The caching related annotation on the method.
-     * One of: {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, {@link CacheRemoveAll}
+     * One of: {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
      * 
      * @return The caching related annotation on the method.
      */

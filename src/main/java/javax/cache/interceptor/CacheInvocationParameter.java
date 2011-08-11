@@ -12,7 +12,8 @@ import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
- * A method invocation parameter that should be considered when generating a {@link CacheKey}
+ * A parameter to an intercepted method invocation. Contains the parameter value as well
+ * static as type and annotation information about the parameter.
  * 
  * @author Eric Dalquist
  * @version $Revision$

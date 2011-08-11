@@ -13,7 +13,7 @@ import java.lang.annotation.Annotation;
 import javax.cache.Cache;
 
 /**
- * Determines the {@link Cache} to use for an annotated method. Implementations MUST be
+ * Determines the {@link Cache} to use for an intercepted method invocation. Implementations MUST be
  * thread-safe.
  *
  * @author Eric Dalquist
@@ -23,12 +23,9 @@ import javax.cache.Cache;
 public interface CacheResolver {
 
     /**
-     * Resolve the {@link Cache} to use for this {@link CacheInvocationContext} and {@link CacheKey}.
+     * Resolve the {@link Cache} to use for this {@link CacheInvocationContext}.
      * 
-     * the specified cache name and {@link java.lang.reflect.Method} that has been
-     * annotated with {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}.
-     * 
-     * @param cacheInvocationContext The context data for the method invocation
+     * @param cacheInvocationContext The context data for the intercepted method invocation
      * @return The {@link Cache} instance to be used by the intercepter
      */
     <K, V> Cache<K, V> resolveCache(CacheInvocationContext<Annotation> cacheInvocationContext);

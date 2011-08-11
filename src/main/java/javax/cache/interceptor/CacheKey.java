@@ -20,6 +20,7 @@ import java.io.Serializable;
  *
  * @author Eric Dalquist
  * @since 1.0
+ * @see CacheKeyGenerator
  */
 public interface CacheKey extends Serializable {
 
