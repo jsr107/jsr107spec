@@ -22,6 +22,32 @@ import javax.enterprise.util.Nonbinding;
  * annotated method is invoked and the returned value is stored in the cache with the generated key.
  * <p/>
  * null return values and thrown exceptions are never cached.
+ * <p/>
+ * Example of caching the Domain object with a key generated from the single String parameter.
+ * With no {@link #cacheName()} specified a cache name of "my.app.DomainDao.getDomain(java.lang.String,int)"
+ * will be generated.
+ * <p><blockquote><pre>
+ * package my.app;
+ * 
+ * public class DomainDao {
+ *   &#64;CacheResult
+ *   public Domain getDomain(String domainId, int index) {
+ *     ...
+ *   }
+ * }
+ * </pre></blockquote></p>
+ * Example using the {@link CacheKey} annotation so that only the domainId parameter is used in key
+ * generation
+ * <p><blockquote><pre>
+ * package my.app;
+ * 
+ * public class DomainDao {
+ *   &#64;CacheResult
+ *   public Domain getDomain(@CacheKey String domainId, Monitor mon) {
+ *     ...
+ *   }
+ * }
+ * </pre></blockquote></p>
  *
  * @author Eric Dalquist
  * @author Rick Hightower
@@ -50,12 +76,12 @@ public @interface CacheResult {
     boolean skipGet() default false;
 
     /**
-     * (Optional) The {@link CacheResolver} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
-    Class<? extends CacheResolver> cacheResolver() default CacheResolver.class;
+    Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call {@link javax.cache.Cache#get(Object)}

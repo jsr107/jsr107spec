@@ -8,61 +8,31 @@
 package javax.cache.interceptor;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Set;
 
 /**
- * Context information about the intercepted method invocation for a method annotated
- * with one of the cache interceptors
+ * Runtime information about an intercepted method invocation for a method annotated
+ * with {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, {@link CacheRemoveAll}
+ * <p/>
+ * Used with {@link CacheResolver#resolveCache(CacheInvocationContext)} to determine the {@link javax.cache.Cache} to use
+ * at runtime for the method invocation.
  * 
  * @author Eric Dalquist
  * @version $Revision$
+ * @param <A> The caching annotation this context is for
+ * @see CacheResolver
  */
-public interface CacheInvocationContext {
+public interface CacheInvocationContext<A extends Annotation> extends CacheMethodDetails<A> {
     /**
      * @return The object the intercepted method was invoked on.
      */
     Object getTarget();
 
     /**
-     * @return The method invoked
-     */
-    Method getMethod();
-    
-    /**
-     * @return An immutable Set of all Annotations on this method
-     */
-    Set<Annotation> getAnnotations();
-    
-    /**
-     * Returns a clone of the array of all method parameters to be used in cache key generation.
-     * The returned array may be the same or a subset of the array returned by {@link #getAllParameters()}
-     * <br/>
-     * Parameters are selected by the following rules:
-     * <ul>
-     *   <li>If no parameters are annotated with {@link CacheKeyParam} or {@link CacheValue} then all parameters are included</li>
-     *   <li>If a {@link CacheValue} annotation exists and no {@link CacheKeyParam} then all parameters except the one annotated with {@link CacheValue} are included</li>
-     *   <li>If one or more {@link CacheKeyParam} annotations exist only those parameters with the annotation are included</li>
-     * </ul>
-     * 
-     * @return An array of all parameters to be used in cache key generation
-     */
-    CacheInvocationParameter[] getKeyParameters();
-
-    /**
-     * Returns a clone of the array of all method parameters. Implementors should use {@link #getKeyParameters()}
-     * for the parameters to use when generating a cache key.
+     * Returns a clone of the array of all method parameters.
      * 
      * @return An array of all parameters generation
      */
     CacheInvocationParameter[] getAllParameters();
-    
-    /**
-     * When a method is annotated with {@link CachePut} one parameter is the value to cache. 
-     * 
-     * @return The parameter to cache, will never be null for methods annotated with {@link CachePut}, will be null for methods not annotated with {@link CachePut}
-     */
-    CacheInvocationParameter getValueParameter();
 
     /**
      * Return an object of the specified type to allow access to the provider-specific API. If the provider's

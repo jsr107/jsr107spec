@@ -46,10 +46,10 @@ public @interface CacheRemoveAll {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) The {@link CacheResolver} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
-    Class<? extends CacheResolver> cacheResolver() default CacheResolver.class;
+    Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 }

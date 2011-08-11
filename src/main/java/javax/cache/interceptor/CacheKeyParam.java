@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * @author Rick Hightower
  * @since 1.0
  * 
- * @see CacheInvocationContext#getKeyParameters()
+ * @see CacheKeyInvocationContext#getKeyParameters()
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

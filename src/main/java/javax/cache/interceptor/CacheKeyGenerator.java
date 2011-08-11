@@ -7,6 +7,8 @@
 
 package javax.cache.interceptor;
 
+import java.lang.annotation.Annotation;
+
 /**
  * Generates a {@link CacheKey} based on a {@link CacheInvocationContext}. Implementations MUST be
  * thread-safe.
@@ -19,8 +21,8 @@ public interface CacheKeyGenerator {
     /**
      * Called for each intercepted method invocation. Generate a {@link CacheKey} from the {@link CacheInvocationContext} data.
      *
-     * @param cacheInvocationContext Information about the intercepted method invocation
+     * @param cacheKeyInvocationContext Information about the intercepted method invocation
      * @return A non-null cache key for the invocation.
      */
-    CacheKey generateCacheKey(CacheInvocationContext cacheInvocationContext);
+    CacheKey generateCacheKey(CacheKeyInvocationContext<Annotation> cacheKeyInvocationContext);
 }
