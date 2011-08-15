@@ -168,13 +168,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument) throws CacheException;
 
     /**
-     * Returns the {@link CacheStatisticsMBean} object associated with the cache.
+     * Returns the {@link CacheStatistics} MXBean associated with the cache.
      * May return null if the cache does not support statistics gathering.
      *
      * @throws IllegalStateException if the cache is not {@link CacheStatus#STARTED}
      * @return the CacheStatisticsMBean
      */
-    CacheStatisticsMBean getStatistics();
+    CacheStatistics getStatistics();
 
     /**
      * Associates the specified value with the specified key in this cache

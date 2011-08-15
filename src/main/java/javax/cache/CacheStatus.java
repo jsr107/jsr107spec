@@ -10,6 +10,8 @@ package javax.cache;
 /**
  * Indicates the status in it's lifecycle of a resource.
  *
+ * todo change name back to Status
+ *
  * @author Greg Luck
  * @since 1.0
  */

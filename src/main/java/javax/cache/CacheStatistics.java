@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.management.MXBean;
 import java.util.Date;
 
 /**
@@ -15,11 +16,24 @@ import java.util.Date;
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
  * <p/>
  * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
+ * <p/>
+ * Each cache's statistics object must be registered with an ObjectName that is unique and has the following:
+ * <p/>
+ * Type:
+ * <code>javax.cache:type=CacheStatistics</code>
+ * <p/>
+ * Required Attributes:
+ * <ul>
+ * <li>CacheManager Name
+ * <li>Cache Name
+ * </ul>
  *
  * @author Greg Luck
  * @since 1.0
+ *
  */
-public interface CacheStatisticsMBean {
+@MXBean
+public interface CacheStatistics {
 
     /**
      * @return the name of the Cache these statistics are for
@@ -27,7 +41,13 @@ public interface CacheStatisticsMBean {
     String getName();
 
     /**
-     * Gets the {@link CacheStatus} attribute of the Cache expressed as a String.
+
+     * @return the {@link javax.management.ObjectName} of the Cache these statistics are for
+     */
+    //ObjectName getObjectName();
+
+    /**
+     * Gets the {@link javax.cache.CacheStatus} attribute of the Cache expressed as a String.
      *
      * @return The status value from the CacheStatus enum class
      */
@@ -138,6 +158,5 @@ public interface CacheStatisticsMBean {
      * @return the time in milliseconds
      */
     long getAverageRemoveMillis();
-
 
 }
