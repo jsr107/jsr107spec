@@ -9,6 +9,7 @@ package javax.cache;
 /**
  * Optional features that may be present in an implementation.
  *
+ * @author Yannis Cosmadopoulos
  * @author Greg Luck
  * @since 1.0
  */

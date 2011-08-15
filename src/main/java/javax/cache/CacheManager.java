@@ -31,7 +31,7 @@ import java.util.Collection;
  * The default CacheManager can be obtained using <code>CacheManagerFactory.INSTANCE.getCacheManager()</code>. This is a
  * useful idiom if you only want to use one CacheManager.
  * <p/>
- * Named CacheManagers can be obatined using <code>CacheManagerFactory.INSTANCE.getCacheManager(name)</code>.
+ * Named CacheManagers can be obtained using <code>CacheManagerFactory.INSTANCE.getCacheManager(name)</code>.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
@@ -87,7 +87,7 @@ public interface CacheManager {
 
 
     /**
-     * Returns a list of caches managed by this CacheManager
+     * Returns a collection of caches managed by this CacheManager
      *
      * @return the Caches or an empty list if there are none
      * @throws IllegalStateException if the CacheManager is not {@link CacheStatus#STARTED}
