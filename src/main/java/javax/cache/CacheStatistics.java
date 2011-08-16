@@ -27,7 +27,6 @@ import java.util.Date;
  * <li>CacheManager Name
  * <li>Cache Name
  * </ul>
- *
  * @author Greg Luck
  * @since 1.0
  *
@@ -85,8 +84,12 @@ public interface CacheStatistics {
      * A miss is a get request which is not satisfied.
      * <p/>
      * In a simple cache a miss occurs when the cache does not satisfy the request.
+     * <p/>
      * In a caches with multiple tiered storage, a miss may be implemented as a miss
      * to the cache or to the first tier.
+     * <p/>
+     * In a read-through cache a miss is an absence of the key in teh cache which will trigger a call to a CacheLoader. So it is
+     * still a miss even though the cache will load and return the value.
      * <p/>
      * Refer to the implementation for precise semantics.
      *
@@ -140,6 +143,8 @@ public interface CacheStatistics {
 
     /**
      * The mean time to execute gets.
+     * <p/>
+     * In a read-through cache the time taken to load an entry on miss is not included in get time.
      *
      * @return the time in milliseconds
      */
