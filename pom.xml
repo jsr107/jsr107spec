@@ -10,7 +10,7 @@
     </parent>
     <groupId>javax.cache</groupId>
     <artifactId>cache-api</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>JSR107 API and SPI</name>
@@ -82,7 +82,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -125,30 +124,33 @@
                     <enableRulesSummary>true</enableRulesSummary>
                 </configuration>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-                <!--<version>2.8</version>-->
-                <!--<configuration>-->
-                    <!--<author>true</author>-->
-                    <!--<bottom>true</bottom>-->
-                    <!--&lt;!&ndash;<destDir>${project.build.directory}/site/javadoc</destDir>&ndash;&gt;-->
-                    <!--<minmemory>128m</minmemory>-->
-                    <!--<maxmemory>512</maxmemory>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>generate-javadoc</id>-->
-                        <!--<phase>install</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>javadoc</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!--Only releases need to be signed-->
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <scm>
         <connection>scm:git:git@github.com:juven/git-demo.git</connection>

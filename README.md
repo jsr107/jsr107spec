@@ -8,13 +8,15 @@ About
  Provider Interface") for use by implementers.
 
 
-Release
+Releases
 --------
 
-The stable releases of this software are tagged with version numbers, starting with 0.1. Eventually, when the specification is further
+The stable releases of this software are tagged with version numbers, starting with 0.2. Eventually, when the specification is further
 along releases will match the specification number.
 
-We expect out first stable release early August 2011.
+The following stable releases have been made:
+
+* 16 August 2011: 0.2
 
 Snapshot Releases
 -----------------
@@ -40,7 +42,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.2-SNAPSHOT</version>
+      <version>0.2</version>
     </dependency>
 
 Javadoc
