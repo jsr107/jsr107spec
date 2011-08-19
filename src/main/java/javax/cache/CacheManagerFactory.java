@@ -10,6 +10,7 @@ package javax.cache;
 import javax.cache.spi.CacheManagerFactoryProvider;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
@@ -49,7 +50,8 @@ public enum CacheManagerFactory {
     public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
 
     private final CacheManagerFactoryProvider serviceFactory;
-    private final HashMap<String, CacheManager> cacheManagers = new HashMap<String, CacheManager>();
+    private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers =
+            new HashMap<ClassLoader, HashMap<String, CacheManager>>();
 
     private CacheManagerFactory() {
         ServiceLoader<CacheManagerFactoryProvider> serviceLoader = ServiceLoader.load(CacheManagerFactoryProvider.class);
@@ -133,16 +135,62 @@ public enum CacheManagerFactory {
      * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager(ClassLoader classLoader, String name) {
+        if (classLoader == null) {
+            throw new NullPointerException("classLoader");
+        }
         if (name == null) {
             throw new NullPointerException("name");
         }
         synchronized (cacheManagers) {
-            CacheManager cacheManager = cacheManagers.get(name);
+            HashMap<String, CacheManager> map = cacheManagers.get(classLoader);
+            if (map == null) {
+                map = new HashMap<String, CacheManager>();
+                cacheManagers.put(classLoader, map);
+            }
+            CacheManager cacheManager = map.get(name);
             if (cacheManager == null) {
                 cacheManager = getServiceFactory().createCacheManager(classLoader, name);
-                cacheManagers.put(name, cacheManager);
+                map.put(name, cacheManager);
             }
             return cacheManager;
+        }
+    }
+
+    /**
+     * Reclaim all resources obtained from this factory.
+     *
+     * <p/>
+     * All cache managers obtained from the factory are shutdown.
+     * Subsequent requests from this factory will return different cache managers than would have been obtained before
+     * release. So for example
+     * <pre>
+     *  CacheManager cacheManager = factory.getCacheManager();
+     *  assertSame(cacheManager, factory.getCacheManager());
+     *  factory.release();
+     *  assertNotSame(cacheManager, factory.getCacheManager());
+     * </pre>
+     */
+    public void release() {
+        synchronized (cacheManagers) {
+            Iterator<HashMap<String, CacheManager>> iterator = cacheManagers.values().iterator();
+            while (iterator.hasNext()) {
+                HashMap<String, CacheManager> caches = iterator.next();
+                iterator.remove();
+                release(caches);
+            }
+        }
+    }
+
+    private void release(Map<String, CacheManager> caches) {
+        Iterator<CacheManager> iterator = caches.values().iterator();
+        while (iterator.hasNext()) {
+            CacheManager next = iterator.next();
+            iterator.remove();
+            try {
+                next.shutdown();
+            } catch (Exception e) {
+                // best effort on shutdown
+            }
         }
     }
 
