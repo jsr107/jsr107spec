@@ -31,11 +31,13 @@ public interface CacheManagerFactoryProvider {
      * <p/>
      * The name may be used to associate a configuration with this CacheManager instance.
      *
+     *
+     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
      * @param name the name of this cache manager
      * @return a new cache manager.
      * @throws NullPointerException if name is null
      */
-    CacheManager createCacheManager(String name);
+    CacheManager createCacheManager(ClassLoader classLoader, String name);
 
     /**
      * Indicates whether a optional feature is supported by this implementation
