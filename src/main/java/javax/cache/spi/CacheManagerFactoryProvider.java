@@ -15,7 +15,9 @@ import javax.cache.OptionalFeature;
  *
  * It is invoked by the {@link javax.cache.CacheManagerFactory} class to create
  * a {@link CacheManager}
- *
+ * <p/>
+ * An implementation of this interface must have a public no-arg constructor.
+ * <p/>
  * @see javax.cache.CacheManagerFactory
  *
  * @author Yannis Cosmadopoulos
@@ -27,17 +29,31 @@ public interface CacheManagerFactoryProvider {
      * Called by the {@link javax.cache.CacheManagerFactory} class when a
      * new CacheManager needs to be created.
      * <p/>
-     * An implementation of this interface must have a public no-arg constructor.
-     * <p/>
      * The name may be used to associate a configuration with this CacheManager instance.
      *
-     *
-     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
+     * @param classLoader the ClassLoader that should be used in converting values into Java Objects.
      * @param name the name of this cache manager
      * @return a new cache manager.
-     * @throws NullPointerException if name is null
+     * @throws NullPointerException if classLoader or name is null
+     * @see javax.cache.CacheManagerFactory#getCacheManager(ClassLoader, String)
      */
     CacheManager createCacheManager(ClassLoader classLoader, String name);
+
+
+    /**
+     * Called by the {@link javax.cache.CacheManagerFactory} class when a
+     * new CacheManager needs to be created and the ClassLoader is not specified.
+     * <p/>
+     * Possible strategies include the following:
+     *<pre>
+     *     Thread.currentThread().getContextClassLoader();
+     *     getClass().getClassLoader();
+     *</pre>
+     * Returns the default classloader to use if
+     * @return the default ClassLoader
+     * @see javax.cache.CacheManagerFactory#getCacheManager()
+     */
+    ClassLoader getDefaultClassLoader();
 
     /**
      * Indicates whether a optional feature is supported by this implementation

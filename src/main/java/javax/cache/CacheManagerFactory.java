@@ -52,13 +52,16 @@ public enum CacheManagerFactory {
     private final HashMap<String, CacheManager> cacheManagers = new HashMap<String, CacheManager>();
 
     private CacheManagerFactory() {
-        serviceFactory = getServiceFactory();
+        ServiceLoader<CacheManagerFactoryProvider> serviceLoader = ServiceLoader.load(CacheManagerFactoryProvider.class);
+        Iterator<CacheManagerFactoryProvider> it = serviceLoader.iterator();
+        serviceFactory = it.hasNext() ? it.next() : null;
     }
 
     private CacheManagerFactoryProvider getServiceFactory() {
-        ServiceLoader<CacheManagerFactoryProvider> serviceLoader = ServiceLoader.load(CacheManagerFactoryProvider.class);
-        Iterator<CacheManagerFactoryProvider> it = serviceLoader.iterator();
-        return it.hasNext() ? it.next() : null;
+        if (serviceFactory == null) {
+            throw new IllegalStateException("No CacheManagerFactoryProvider found in classpath.");
+        }
+        return serviceFactory;
     }
 
     /**
@@ -81,7 +84,22 @@ public enum CacheManagerFactory {
      * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager() {
-        return getCacheManager(null, DEFAULT_CACHE_MANAGER_NAME);
+        ClassLoader cl = getServiceFactory().getDefaultClassLoader();
+        return getCacheManager(cl, DEFAULT_CACHE_MANAGER_NAME);
+    }
+
+    /**
+     * Get a named cache manager using the default cache loader as specified by
+     * the implementation (see {@link javax.cache.spi.CacheManagerFactoryProvider#getDefaultClassLoader()}
+     *
+     * @param name the name of the cache manager
+     * @return the named cache manager
+     * @throws NullPointerException  if name is null
+     * @throws IllegalStateException if no CacheManagerFactoryProvider was found
+     */
+    public CacheManager getCacheManager(String name) {
+        ClassLoader cl = getServiceFactory().getDefaultClassLoader();
+        return getCacheManager(cl, name);
     }
 
     /**
@@ -106,34 +124,27 @@ public enum CacheManagerFactory {
      * values and Java Objects. While Java's in-built serialization may be used other schemes may also be used.
      * Either way the specified ClassLoader will be used.
      * <p/>
-     * If no ClassLoader is specified i.e. null, the classloader used it not defined.
-     * <p/>
      * The name parameter may be used to associate a configuration with this CacheManager instance.
      *
-     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
+     * @param classLoader the ClassLoader that should be used in converting values into Java Objects.
      * @param name        the name of this cache manager
      * @return the new cache manager
-     * @throws NullPointerException  if name is null
+     * @throws NullPointerException  if classLoader or name is null
      * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager(ClassLoader classLoader, String name) {
         if (name == null) {
             throw new NullPointerException("name");
         }
-        if (serviceFactory == null) {
-            throw new IllegalStateException("No CacheManagerFactoryProvider found in classpath.");
-        } else {
-            synchronized (cacheManagers) {
-                CacheManager cacheManager = cacheManagers.get(name);
-                if (cacheManager == null) {
-                    cacheManager = serviceFactory.createCacheManager(classLoader, name);
-                    cacheManagers.put(name, cacheManager);
-                }
-                return cacheManager;
+        synchronized (cacheManagers) {
+            CacheManager cacheManager = cacheManagers.get(name);
+            if (cacheManager == null) {
+                cacheManager = getServiceFactory().createCacheManager(classLoader, name);
+                cacheManagers.put(name, cacheManager);
             }
+            return cacheManager;
         }
     }
-
 
     /**
      * Indicates whether a optional feature is supported by this implementation
