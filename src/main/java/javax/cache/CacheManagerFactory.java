@@ -70,24 +70,12 @@ public enum CacheManagerFactory {
      * Get the default cache manager.
      * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
-     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
-     * @return the default cache manager
-     * @throws IllegalStateException if no CacheManagerFactoryProvider was found
-     */
-    public CacheManager getCacheManager(ClassLoader classLoader) {
-        return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
-    }
-
-    /**
-     * Get the default cache manager.
-     * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
-     *
      * @return the default cache manager
      * @throws IllegalStateException if no CacheManagerFactoryProvider was found
      */
     public CacheManager getCacheManager() {
         ClassLoader cl = getServiceFactory().getDefaultClassLoader();
-        return getCacheManager(cl, DEFAULT_CACHE_MANAGER_NAME);
+        return getCacheManager(cl);
     }
 
     /**
@@ -102,6 +90,18 @@ public enum CacheManagerFactory {
     public CacheManager getCacheManager(String name) {
         ClassLoader cl = getServiceFactory().getDefaultClassLoader();
         return getCacheManager(cl, name);
+    }
+
+    /**
+     * Get the default cache manager.
+     * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
+     *
+     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
+     * @return the default cache manager
+     * @throws IllegalStateException if no CacheManagerFactoryProvider was found
+     */
+    public CacheManager getCacheManager(ClassLoader classLoader) {
+        return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
     }
 
     /**
