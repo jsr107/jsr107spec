@@ -46,9 +46,9 @@ public interface CacheStatistics {
     //ObjectName getObjectName();
 
     /**
-     * Gets the {@link javax.cache.CacheStatus} attribute of the Cache expressed as a String.
+     * Gets the {@link Status} attribute of the Cache expressed as a String.
      *
-     * @return The status value from the CacheStatus enum class
+     * @return The status value from the Status enum class
      */
     String getStatus();
 
