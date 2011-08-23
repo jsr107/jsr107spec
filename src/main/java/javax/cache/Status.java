@@ -15,7 +15,7 @@ package javax.cache;
  * @author Greg Luck
  * @since 1.0
  */
-public enum CacheStatus {
+public enum Status {
 
     /**
      * The resource has been created but not yet initialised. It cannot be used.

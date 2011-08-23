@@ -23,7 +23,7 @@ import javax.cache.OptionalFeature;
  * @author Yannis Cosmadopoulos
  * @since 1.0
  */
-public interface CacheManagerFactoryProvider {
+public interface ServiceProvider {
 
     /**
      * Called by the {@link javax.cache.CacheManagerFactory} class when a
