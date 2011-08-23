@@ -169,6 +169,7 @@ public enum CacheManagerFactory {
      *  factory.release();
      *  assertNotSame(cacheManager, factory.getCacheManager());
      * </pre>
+     * todo Unneeded. get rid of this
      */
     public void release() {
         synchronized (cacheManagers) {
