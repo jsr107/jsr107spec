@@ -8,7 +8,7 @@
     <!-- Suppress duplicate checking of copyright notice -->
     <suppress checks="StrictDuplicateCode" files=".java" lines="1-6"/>
 
-    <suppress checks="WhitespaceAround" files="[\\/]interceptor[\\/]"/>
-    <suppress checks="ParenPad" files="[\\/]interceptor[\\/]"/>
+    <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
+    <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
 
 </suppressions>

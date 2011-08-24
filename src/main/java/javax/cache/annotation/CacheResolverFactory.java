@@ -6,7 +6,7 @@
  */
 
 
-package javax.cache.interceptor;
+package javax.cache.annotation;
 
 import java.lang.annotation.Annotation;
 

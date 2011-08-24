@@ -5,7 +5,7 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache.interceptor;
+package javax.cache.annotation;
 
 import java.lang.annotation.Annotation;
 

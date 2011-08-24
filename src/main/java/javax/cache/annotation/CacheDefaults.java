@@ -5,7 +5,7 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache.interceptor;
+package javax.cache.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -48,7 +48,7 @@ import javax.enterprise.util.Nonbinding;
  * @author Rick Hightower
  * @since 1.0
  */
-@Target( {ElementType.TYPE} )
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheDefaults {
 

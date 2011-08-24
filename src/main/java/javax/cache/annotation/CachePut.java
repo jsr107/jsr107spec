@@ -6,7 +6,7 @@
  */
 
 
-package javax.cache.interceptor;
+package javax.cache.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,42 +17,44 @@ import javax.enterprise.util.Nonbinding;
 
 
 /**
- * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link CacheKey} will be generated and
- * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
+ * When a method annotated with {@link CachePut} is invoked a {@link CacheKey} will be generated and
+ * {@link javax.cache.Cache#put(Object, Object)} will be invoked on the specified cache storing the value
+ * marked with {@link CacheValue}. Null values will never be cached.
  * <p/>
- * Example of removing a specific Domain object from the "domainCache". A {@link CacheKey} will be generated
- * from the String and int parameters and used to call {@link javax.cache.Cache#remove(Object)} after
- * the deleteDomain method completes successfully.
+ * Example of caching the Domain object with a key generated from the String and int parameters. The
+ * {@link CacheValue} annotation is used to designate which parameter should be stored in the "domainDao"
+ * cache.
  * <p><blockquote><pre>
  * package my.app;
  * 
  * public class DomainDao {
- *   &#64;CacheRemoveEntry(cacheName="domainCache")
- *   public void deleteDomain(String domainId, int index) {
+ *   &#64;CachePut(cacheName="domainCache")
+ *   public void updateDomain(String domainId, int index, &#64;CacheValue Domain domain) {
  *     ...
  *   }
  * }
  * </pre></blockquote></p>
- *
+ * 
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
+ * @see CacheValue
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheRemoveEntry {
+public @interface CachePut {
 
     /**
      * (Optional) name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
-     * an unspecified exception will be thrown by the provider.
+     * defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
      */
     @Nonbinding
     String cacheName() default "";
 
     /**
-     * (Optional) When {@link javax.cache.Cache#remove(Object)}  should be called. If true it is called after the annotated method
+     * (Optional) When {@link javax.cache.Cache#put(Object, Object)} should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
@@ -72,7 +74,7 @@ public @interface CacheRemoveEntry {
 
     /**
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call
-     * {@link javax.cache.Cache#remove(Object)}
+     * {@link javax.cache.Cache#put(Object, Object)}
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by

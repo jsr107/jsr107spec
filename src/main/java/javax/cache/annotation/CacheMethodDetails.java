@@ -6,7 +6,7 @@
  */
 
 
-package javax.cache.interceptor;
+package javax.cache.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -21,9 +21,9 @@ import java.util.Set;
  * 
  * @author Eric Dalquist
  * @version $Revision$
- * @param <A> The type of annotation this context information is for. One of {@link javax.cache.interceptor.CacheResult}, 
- * {@link javax.cache.interceptor.CachePut}, {@link javax.cache.interceptor.CacheRemoveEntry}, or 
- * {@link javax.cache.interceptor.CacheRemoveAll}.
+ * @param <A> The type of annotation this context information is for. One of {@link javax.cache.annotation.CacheResult},
+ * {@link javax.cache.annotation.CachePut}, {@link javax.cache.annotation.CacheRemoveEntry}, or
+ * {@link javax.cache.annotation.CacheRemoveAll}.
  * @see CacheResolverFactory
  */
 public interface CacheMethodDetails<A extends Annotation> {
