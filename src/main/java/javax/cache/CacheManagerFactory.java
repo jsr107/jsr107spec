@@ -35,38 +35,13 @@ import java.util.ServiceLoader;
  * @see javax.cache.spi.ServiceProvider
  * @since 1.0
  */
-public enum CacheManagerFactory {
-
-    /**
-     * The singleton instance.
-     */
-    INSTANCE;
-
+public class CacheManagerFactory {
     /**
      * The name of the default cache manager.
      * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
      * The default CacheManager is always created.
      */
     public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
-
-    private final ServiceProvider serviceFactory;
-    private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
-    private volatile Status status;
-
-    private CacheManagerFactory() {
-        status = Status.UNINITIALISED;
-        ServiceLoader<ServiceProvider> serviceLoader = ServiceLoader.load(ServiceProvider.class);
-        Iterator<ServiceProvider> it = serviceLoader.iterator();
-        serviceFactory = it.hasNext() ? it.next() : null;
-        status = Status.STARTED;
-    }
-
-    private ServiceProvider getServiceFactory() {
-        if (serviceFactory == null) {
-            throw new IllegalStateException("No ServiceProvider found in classpath.");
-        }
-        return serviceFactory;
-    }
 
     /**
      * Get the default cache manager.
@@ -75,23 +50,8 @@ public enum CacheManagerFactory {
      * @return the default cache manager
      * @throws IllegalStateException if no ServiceProvider was found
      */
-    public CacheManager getCacheManager() {
-        ClassLoader cl = getServiceFactory().getDefaultClassLoader();
-        return getCacheManager(cl);
-    }
-
-    /**
-     * Get a named cache manager using the default cache loader as specified by
-     * the implementation (see {@link javax.cache.spi.ServiceProvider#getDefaultClassLoader()}
-     *
-     * @param name the name of the cache manager
-     * @return the named cache manager
-     * @throws NullPointerException  if name is null
-     * @throws IllegalStateException if no ServiceProvider was found
-     */
-    public CacheManager getCacheManager(String name) {
-        ClassLoader cl = getServiceFactory().getDefaultClassLoader();
-        return getCacheManager(cl, name);
+    public static CacheManager getCacheManager() {
+        return getCacheManager(DEFAULT_CACHE_MANAGER_NAME);
     }
 
     /**
@@ -102,8 +62,20 @@ public enum CacheManagerFactory {
      * @return the default cache manager
      * @throws IllegalStateException if no ServiceProvider was found
      */
-    public CacheManager getCacheManager(ClassLoader classLoader) {
+    public static CacheManager getCacheManager(ClassLoader classLoader) {
         return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
+    }
+    /**
+     * Get a named cache manager using the default cache loader as specified by
+     * the implementation (see {@link javax.cache.spi.ServiceProvider#getDefaultClassLoader()}
+     *
+     * @param name the name of the cache manager
+     * @return the named cache manager
+     * @throws NullPointerException  if name is null
+     * @throws IllegalStateException if no ServiceProvider was found
+     */
+    public static CacheManager getCacheManager(String name) {
+        return CacheManagerFactorySingleton.INSTANCE.getCacheManager(name);
     }
 
     /**
@@ -136,26 +108,8 @@ public enum CacheManagerFactory {
      * @throws NullPointerException  if classLoader or name is null
      * @throws IllegalStateException if no ServiceProvider was found
      */
-    public CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        if (classLoader == null) {
-            throw new NullPointerException("classLoader");
-        }
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        synchronized (cacheManagers) {
-            HashMap<String, CacheManager> map = cacheManagers.get(classLoader);
-            if (map == null) {
-                map = new HashMap<String, CacheManager>();
-                cacheManagers.put(classLoader, map);
-            }
-            CacheManager cacheManager = map.get(name);
-            if (cacheManager == null) {
-                cacheManager = getServiceFactory().createCacheManager(classLoader, name);
-                map.put(name, cacheManager);
-            }
-            return cacheManager;
-        }
+    public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
+        return CacheManagerFactorySingleton.INSTANCE.getCacheManager(classLoader, name);
     }
 
     /**
@@ -172,38 +126,17 @@ public enum CacheManagerFactory {
      *  assertNotSame(cacheManager, factory.getCacheManager());
      * </pre>
      */
-    public void shutdown() {
-        status = Status.STOPPING;
-        synchronized (cacheManagers) {
-            Iterator<HashMap<String, CacheManager>> iterator = cacheManagers.values().iterator();
-            while (iterator.hasNext()) {
-                HashMap<String, CacheManager> caches = iterator.next();
-                iterator.remove();
-                shutdown(caches);
-            }
-        }
-        status = Status.STOPPED;
+    public static void shutdown() {
+        CacheManagerFactorySingleton.INSTANCE.shutdown();
     }
 
     /**
      * Returns the status.
+     *
      * @return the status
      */
-    public Status getStatus() {
-        return status;
-    }
-
-    private void shutdown(Map<String, CacheManager> caches) {
-        Iterator<CacheManager> iterator = caches.values().iterator();
-        while (iterator.hasNext()) {
-            CacheManager next = iterator.next();
-            iterator.remove();
-            try {
-                next.shutdown();
-            } catch (Exception e) {
-                // best effort on shutdown
-            }
-        }
+    public static Status getStatus() {
+        return CacheManagerFactorySingleton.INSTANCE.getStatus();
     }
 
     /**
@@ -212,10 +145,146 @@ public enum CacheManagerFactory {
      * @param optionalFeature the feature to check for
      * @return true if the feature is supported
      */
-    public boolean isSupported(OptionalFeature optionalFeature) {
-        if (serviceFactory == null) {
-            throw new IllegalStateException("ServiceProvider");
+    public static boolean isSupported(OptionalFeature optionalFeature) {
+        return CacheManagerFactorySingleton.INSTANCE.isSupported(optionalFeature);
+    }
+
+    /**
+     * Singleton with implementation
+     */
+    private enum CacheManagerFactorySingleton {
+
+        /**
+         * The singleton instance.
+         */
+        INSTANCE;
+
+        private final ServiceProvider serviceFactory;
+        private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
+        private volatile Status status;
+
+        private CacheManagerFactorySingleton() {
+            status = Status.UNINITIALISED;
+            ServiceLoader<ServiceProvider> serviceLoader = ServiceLoader.load(ServiceProvider.class);
+            Iterator<ServiceProvider> it = serviceLoader.iterator();
+            serviceFactory = it.hasNext() ? it.next() : null;
+            status = Status.STARTED;
         }
-        return serviceFactory.isSupported(optionalFeature);
+
+        private ServiceProvider getServiceFactory() {
+            if (serviceFactory == null) {
+                throw new IllegalStateException("No ServiceProvider found in classpath.");
+            }
+            return serviceFactory;
+        }
+
+        /**
+         * Get a named cache manager using the default cache loader as specified by
+         * the implementation (see {@link javax.cache.spi.ServiceProvider#getDefaultClassLoader()}
+         *
+         * @param name the name of the cache manager
+         * @return the named cache manager
+         * @throws NullPointerException  if name is null
+         * @throws IllegalStateException if no ServiceProvider was found
+         */
+        public CacheManager getCacheManager(String name) {
+            ClassLoader cl = getServiceFactory().getDefaultClassLoader();
+            return getCacheManager(cl, name);
+        }
+
+        /**
+         * Get the cache manager for the specified name and class loader.
+         * <p/>
+         * If there is no cache manager associated, it is created.
+         *
+         * @param classLoader associated with the cache manager.
+         * @param name the name of the cache manager
+         * @return the new cache manager
+         * @throws NullPointerException if classLoader or name is null
+         * @throws IllegalStateException if no ServiceProvider was found
+         */
+        public CacheManager getCacheManager(ClassLoader classLoader, String name) {
+            if (classLoader == null) {
+                throw new NullPointerException("classLoader");
+            }
+            if (name == null) {
+                throw new NullPointerException("name");
+            }
+            synchronized (cacheManagers) {
+                HashMap<String, CacheManager> map = cacheManagers.get(classLoader);
+                if (map == null) {
+                    map = new HashMap<String, CacheManager>();
+                    cacheManagers.put(classLoader, map);
+                }
+                CacheManager cacheManager = map.get(name);
+                if (cacheManager == null) {
+                    cacheManager = getServiceFactory().createCacheManager(classLoader, name);
+                    map.put(name, cacheManager);
+                }
+                return cacheManager;
+            }
+        }
+
+        /**
+         * Reclaims all resources obtained from this factory.
+         * <p/>
+         * All cache managers obtained from the factory are shutdown.
+         * <p/>
+         * Subsequent requests from this factory will return different cache managers than would have been obtained before
+         * shutdown. So for example
+         * <pre>
+         *  CacheManager cacheManager = factory.getCacheManager();
+         *  assertSame(cacheManager, factory.getCacheManager());
+         *  factory.shutdown();
+         *  assertNotSame(cacheManager, factory.getCacheManager());
+         * </pre>
+         */
+        public void shutdown() {
+            status = Status.STOPPING;
+            synchronized (cacheManagers) {
+                Iterator<HashMap<String, CacheManager>> iterator = cacheManagers.values().iterator();
+                while (iterator.hasNext()) {
+                    HashMap<String, CacheManager> caches = iterator.next();
+                    iterator.remove();
+                    shutdown(caches);
+                }
+            }
+            status = Status.STOPPED;
+        }
+
+        /**
+         * Returns the status.
+         *
+         * @return the status
+         */
+        public Status getStatus() {
+            return status;
+        }
+
+        private void shutdown(Map<String, CacheManager> caches) {
+            Iterator<CacheManager> iterator = caches.values().iterator();
+            while (iterator.hasNext()) {
+                CacheManager next = iterator.next();
+                iterator.remove();
+                try {
+                    next.shutdown();
+                } catch (Exception e) {
+                    // best effort on shutdown
+                }
+            }
+        }
+
+        /**
+         * Indicates whether a optional feature is supported by this implementation
+         *
+         * @param optionalFeature the feature to check for
+         * @return true if the feature is supported
+         */
+        public boolean isSupported(OptionalFeature optionalFeature) {
+            if (serviceFactory == null) {
+                throw new IllegalStateException("ServiceProvider");
+            }
+            return serviceFactory.isSupported(optionalFeature);
+        }
     }
 }
