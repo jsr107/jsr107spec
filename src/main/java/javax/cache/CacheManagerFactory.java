@@ -50,13 +50,15 @@ public enum CacheManagerFactory {
     public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
 
     private final ServiceProvider serviceFactory;
-    private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers =
-            new HashMap<ClassLoader, HashMap<String, CacheManager>>();
+    private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
+    private volatile Status status;
 
     private CacheManagerFactory() {
+        status = Status.UNINITIALISED;
         ServiceLoader<ServiceProvider> serviceLoader = ServiceLoader.load(ServiceProvider.class);
         Iterator<ServiceProvider> it = serviceLoader.iterator();
         serviceFactory = it.hasNext() ? it.next() : null;
+        status = Status.STARTED;
     }
 
     private ServiceProvider getServiceFactory() {
@@ -157,32 +159,41 @@ public enum CacheManagerFactory {
     }
 
     /**
-     * Reclaim all resources obtained from this factory.
-     *
+     * Reclaims all resources obtained from this factory.
      * <p/>
      * All cache managers obtained from the factory are shutdown.
+     * <p/>
      * Subsequent requests from this factory will return different cache managers than would have been obtained before
-     * release. So for example
+     * shutdown. So for example
      * <pre>
      *  CacheManager cacheManager = factory.getCacheManager();
      *  assertSame(cacheManager, factory.getCacheManager());
-     *  factory.release();
+     *  factory.shutdown();
      *  assertNotSame(cacheManager, factory.getCacheManager());
      * </pre>
-     * todo Unneeded. get rid of this
      */
-    public void release() {
+    public void shutdown() {
+        status = Status.STOPPING;
         synchronized (cacheManagers) {
             Iterator<HashMap<String, CacheManager>> iterator = cacheManagers.values().iterator();
             while (iterator.hasNext()) {
                 HashMap<String, CacheManager> caches = iterator.next();
                 iterator.remove();
-                release(caches);
+                shutdown(caches);
             }
         }
+        status = Status.STOPPED;
     }
 
-    private void release(Map<String, CacheManager> caches) {
+    /**
+     * Returns the status.
+     * @return the status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    private void shutdown(Map<String, CacheManager> caches) {
         Iterator<CacheManager> iterator = caches.values().iterator();
         while (iterator.hasNext()) {
             CacheManager next = iterator.next();
