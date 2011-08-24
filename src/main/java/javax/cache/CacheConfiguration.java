@@ -59,7 +59,18 @@ public interface CacheConfiguration {
 
     /**
      * Whether storeByValue (true) or storeByReference (false).
-     * When true both keys and values are stored by value.
+     * When true, both keys and values are stored by value.
+     * <p/>
+     * When false, both keys and values are stored by reference.
+     * Caches stored by reference are capable of mutation by any threads holding
+     * the reference. The effects are:
+     * <ul>
+     *     <li>if the key is mutated, then the key may not be retrievable or removable</li>
+     *     <li>if the value is mutated, then any threads holding references will see the changes</li>
+     * </ul>
+     * Storage by reference only applies to local heap. If an entry is moved outside local heap it will
+     * need to be transformed into a representation. Any mutations that occur after transformation will
+     * not be reflected in the cache.
      * <p/>
      * Default value is true.
      *
