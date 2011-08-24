@@ -8,6 +8,7 @@
 package javax.cache;
 
 import javax.cache.spi.ServiceProvider;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,13 +36,19 @@ import java.util.ServiceLoader;
  * @see javax.cache.spi.ServiceProvider
  * @since 1.0
  */
-public class CacheManagerFactory {
+public final class CacheManagerFactory {
     /**
      * The name of the default cache manager.
      * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
      * The default CacheManager is always created.
      */
     public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
+
+    /**
+     * No public constructor as all methods are static.
+     */
+    private CacheManagerFactory() {
+    }
 
     /**
      * Get the default cache manager.
@@ -65,6 +72,7 @@ public class CacheManagerFactory {
     public static CacheManager getCacheManager(ClassLoader classLoader) {
         return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
     }
+
     /**
      * Get a named cache manager using the default cache loader as specified by
      * the implementation (see {@link javax.cache.spi.ServiceProvider#getDefaultClassLoader()}
@@ -125,9 +133,33 @@ public class CacheManagerFactory {
      *  factory.shutdown();
      *  assertNotSame(cacheManager, factory.getCacheManager());
      * </pre>
+     * @return true if found, false otherwise
      */
-    public static void shutdown() {
-        CacheManagerFactorySingleton.INSTANCE.shutdown();
+    public static boolean shutdown() {
+        return CacheManagerFactorySingleton.INSTANCE.shutdown();
+    }
+
+    /**
+     * Reclaims all resources for a ClassLoader from this factory.
+     * <p/>
+     * All cache managers linked to the specified CacheLoader obtained from the factory are shutdown.
+     * @param classLoader the class loader for which managers will be shut down
+     * @return true if found, false otherwise
+     */
+    public static boolean shutdown(ClassLoader classLoader) {
+        return CacheManagerFactorySingleton.INSTANCE.shutdown(classLoader);
+    }
+
+    /**
+     * Reclaims all resources for a ClassLoader from this factory.
+     * <p/>
+     * the named cache manager obtained from the factory is shutdown.
+     * @param classLoader the class loader for which managers will be shut down
+     * @param name the name of the cache manager
+     * @return true if found, false otherwise
+     */
+    public static boolean shutdown(ClassLoader classLoader, String name) {
+        return CacheManagerFactorySingleton.INSTANCE.shutdown(classLoader, name);
     }
 
     /**
@@ -238,18 +270,64 @@ public class CacheManagerFactory {
          *  factory.shutdown();
          *  assertNotSame(cacheManager, factory.getCacheManager());
          * </pre>
+         * @return true if found, false otherwise
          */
-        public void shutdown() {
+        public boolean shutdown() {
             status = Status.STOPPING;
+            Iterator<HashMap<String, CacheManager>> iterator;
             synchronized (cacheManagers) {
-                Iterator<HashMap<String, CacheManager>> iterator = cacheManagers.values().iterator();
-                while (iterator.hasNext()) {
-                    HashMap<String, CacheManager> caches = iterator.next();
-                    iterator.remove();
-                    shutdown(caches);
+                iterator = new ArrayList<HashMap<String, CacheManager>>(cacheManagers.values()).iterator();
+                cacheManagers.clear();
+            }
+            status = Status.STARTED;
+            boolean hasElements = iterator.hasNext();
+            while (iterator.hasNext()) {
+                HashMap<String, CacheManager> cacheManagerMap = iterator.next();
+                iterator.remove();
+                shutdown(cacheManagerMap);
+            }
+            return hasElements;
+        }
+
+        /**
+         * Reclaims all resources for a ClassLoader from this factory.
+         * <p/>
+         * All cache managers linked to the specified CacheLoader obtained from the factory are shutdown.
+         * @param classLoader the class loader for which managers will be shut down
+         * @return true if found, false otherwise
+         */
+        public boolean shutdown(ClassLoader classLoader) {
+            HashMap<String, CacheManager> cacheManagerMap;
+            synchronized (cacheManagers) {
+                cacheManagerMap = cacheManagers.remove(classLoader);
+            }
+            if (cacheManagerMap != null) {
+                shutdown(cacheManagerMap);
+            }
+            return cacheManagerMap != null;
+        }
+
+        /**
+         * Reclaims all resources for a ClassLoader from this factory.
+         * <p/>
+         * the named cache manager obtained from the factory is shutdown.
+         * @param classLoader the class loader for which managers will be shut down
+         * @param name the name of the cache manager
+         * @return true if found, false otherwise
+         */
+        public boolean shutdown(ClassLoader classLoader, String name) {
+            CacheManager cacheManager;
+            synchronized (cacheManagers) {
+                HashMap<String, CacheManager> cacheManagerMap = cacheManagers.get(classLoader);
+                cacheManager = cacheManagerMap.remove(name);
+                if (cacheManagerMap.isEmpty()) {
+                    cacheManagers.remove(classLoader);
                 }
             }
-            status = Status.STOPPED;
+            if (cacheManager != null) {
+                shutdown(cacheManager);
+            }
+            return cacheManager != null;
         }
 
         /**
@@ -259,19 +337,6 @@ public class CacheManagerFactory {
          */
         public Status getStatus() {
             return status;
-        }
-
-        private void shutdown(Map<String, CacheManager> caches) {
-            Iterator<CacheManager> iterator = caches.values().iterator();
-            while (iterator.hasNext()) {
-                CacheManager next = iterator.next();
-                iterator.remove();
-                try {
-                    next.shutdown();
-                } catch (Exception e) {
-                    // best effort on shutdown
-                }
-            }
         }
 
         /**
@@ -285,6 +350,23 @@ public class CacheManagerFactory {
                 throw new IllegalStateException("ServiceProvider");
             }
             return serviceFactory.isSupported(optionalFeature);
+        }
+
+        private void shutdown(Map<String, CacheManager> cacheManagerMap) {
+            Iterator<CacheManager> iterator = cacheManagerMap.values().iterator();
+            while (iterator.hasNext()) {
+                CacheManager cacheManager = iterator.next();
+                iterator.remove();
+                shutdown(cacheManager);
+            }
+        }
+
+        private void shutdown(CacheManager cacheManager) {
+            try {
+                cacheManager.shutdown();
+            } catch (Exception e) {
+                // best effort on shutdown
+            }
         }
     }
 }
