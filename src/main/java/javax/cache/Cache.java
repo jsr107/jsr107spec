@@ -45,7 +45,7 @@ import java.util.concurrent.Future;
  * A simple example of how to use a cache is:
  * <pre>
  * String cacheName = "sampleCache";
- * CacheManager cacheManager = CacheManagerFactory.INSTANCE.getCacheManager();
+ * CacheManager cacheManager = CacheManagerFactory.getCacheManager();
  * Cache<Integer, Date> cache = cacheManager.getCache(cacheName);
  * if (cache == null) {
  *   cache = cacheManager.<Integer,Date>createCacheBuilder(cacheName).build();
