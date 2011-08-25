@@ -133,9 +133,11 @@ public interface CacheManager {
     /**
      * Shuts down the CacheManager.
      * <p/>
-     * Each cache will be shut down in no guaranteed order. While caches are being shut down their status and the status of
-     * CacheManager is {@link Status#STOPPING}. As they are shut down their status is change to {@link Status#STOPPED}. Finally
-     * the CacheManager's status is changed to {@link Status#STOPPED}
+     * For each cache in the cache manager the {@link javax.cache.Cache#stop()} method will be invoked, in no guaranteed order.
+     * If the stop throws an exception, the exception will be consumed silently.
+     * During the execution of the method the status of CacheManager is {@link Status#STOPPING}.
+     * On completion the CacheManager's status is changed to {@link Status#STOPPED}, and the manager's owned caches will be empty &amp;
+     * {@link #getCaches()} will return an empty collection.
      * <p/>
      * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
      * they are stopping or are a stopped.
