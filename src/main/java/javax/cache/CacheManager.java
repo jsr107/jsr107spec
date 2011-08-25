@@ -89,16 +89,17 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
-     * @throws IllegalStateException if the Cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the CacheManager is not {@link Status#STARTED}
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 
 
     /**
-     * Returns a collection of caches managed by this CacheManager
+     * Returns a collection of caches managed by this CacheManager.
+     * This collection is independent of the cache manager; if changes are made to
+     * the returned collection they do not affect the cache manager and vice versa.
      *
      * @return the Caches or an empty list if there are none
-     * @throws IllegalStateException if the CacheManager is not {@link Status#STARTED}
      */
     Collection<Cache> getCaches();
 
@@ -109,6 +110,7 @@ public interface CacheManager {
      * @param cacheName the cache name
      * @return true if the cache was removed
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws NullPointerException if cacheName is null
      */
     boolean removeCache(String cacheName) throws IllegalStateException;
 
@@ -139,10 +141,8 @@ public interface CacheManager {
      * On completion the CacheManager's status is changed to {@link Status#STOPPED}, and the manager's owned caches will be empty &amp;
      * {@link #getCaches()} will return an empty collection.
      * <p/>
-     * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
-     * they are stopping or are a stopped.
-     * <p/>
      * A given CacheManager instance cannot be restarted after it has been stopped. A new one must be created.
+     * @throws IllegalStateException if an operation is performed on CacheManager while stopping or stopped.
      */
     void shutdown();
 }
