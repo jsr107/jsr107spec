@@ -163,15 +163,6 @@ public final class CacheManagerFactory {
     }
 
     /**
-     * Returns the status.
-     *
-     * @return the status
-     */
-    public static Status getStatus() {
-        return CacheManagerFactorySingleton.INSTANCE.getStatus();
-    }
-
-    /**
      * Indicates whether a optional feature is supported by this implementation
      *
      * @param optionalFeature the feature to check for
@@ -193,14 +184,11 @@ public final class CacheManagerFactory {
 
         private final ServiceProvider serviceFactory;
         private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
-        private volatile Status status;
 
         private CacheManagerFactorySingleton() {
-            status = Status.UNINITIALISED;
             ServiceLoader<ServiceProvider> serviceLoader = ServiceLoader.load(ServiceProvider.class);
             Iterator<ServiceProvider> it = serviceLoader.iterator();
             serviceFactory = it.hasNext() ? it.next() : null;
-            status = Status.STARTED;
         }
 
         private ServiceProvider getServiceFactory() {
@@ -273,13 +261,11 @@ public final class CacheManagerFactory {
          * @return true if found, false otherwise
          */
         public boolean shutdown() {
-            status = Status.STOPPING;
             Iterator<HashMap<String, CacheManager>> iterator;
             synchronized (cacheManagers) {
                 iterator = new ArrayList<HashMap<String, CacheManager>>(cacheManagers.values()).iterator();
                 cacheManagers.clear();
             }
-            status = Status.STARTED;
             boolean hasElements = iterator.hasNext();
             while (iterator.hasNext()) {
                 HashMap<String, CacheManager> cacheManagerMap = iterator.next();
@@ -328,15 +314,6 @@ public final class CacheManagerFactory {
                 shutdown(cacheManager);
             }
             return cacheManager != null;
-        }
-
-        /**
-         * Returns the status.
-         *
-         * @return the status
-         */
-        public Status getStatus() {
-            return status;
         }
 
         /**
