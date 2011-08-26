@@ -507,41 +507,5 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * @return the value corresponding to this entry
          */
         V getValue();
-
-        /**
-         * Compares the specified object with this entry for equality.
-         * Returns <tt>true</tt> if the given object is also a map entry and
-         * the two entries represent the same mapping.  More formally, two
-         * entries <tt>e1</tt> and <tt>e2</tt> represent the same mapping
-         * if<pre>
-         *     e1.getKey().equals(e2.getKey())  &amp;&amp;
-         *     e1.getValue().equals(e2.getValue())
-         * </pre>
-         * This ensures that the <tt>equals</tt> method works properly across
-         * different implementations of the <tt>Cache.Entry</tt> interface.
-         *
-         * @param o object to be compared for equality with this cache entry
-         * @return <tt>true</tt> if the specified object is equal to this cache
-         *         entry
-         */
-        boolean equals(Object o);
-
-        /**
-         * Returns the hash code value for this cache entry.  The hash code
-         * of a cache entry <tt>e</tt> is defined to be: <pre>
-         *     e.getKey().hashCode() ^
-         *     e.getValue().hashCode()
-         * </pre>
-         * This ensures that <tt>e1.equals(e2)</tt> implies that
-         * <tt>e1.hashCode()==e2.hashCode()</tt> for any two Entries
-         * <tt>e1</tt> and <tt>e2</tt>, as required by the general
-         * contract of <tt>Object.hashCode</tt>.
-         *
-         * @return the hash code value for this cache entry
-         * @see Object#hashCode()
-         * @see Object#equals(Object)
-         * @see #equals(Object)
-         */
-        int hashCode();
     }
 }
