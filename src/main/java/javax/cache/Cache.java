@@ -116,24 +116,18 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * will, asynchronously, load the specified object into the cache using
      * the associated {@link CacheLoader}.
      * If the object already exists in the cache, no action is taken and null is returned.
-     * If no loader is associated with the cache, and specific loader is null,
+     * If no loader is associated with the cache
      * no object will be loaded into the cache and null is returned.
      * If a problem is encountered during the retrieving or loading of the object, an exception
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      * <p/>
-     * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#load(Object, Object)} method.  The cache will not dereference the object. If
-     * no "arg" value is provided a null will be passed to the load method.
-     *
      * @param key            the key
-     * @param specificLoader a specific loader to use. If null the default loader is used.
-     * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution.
      * @throws NullPointerException if key is null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem doing the load
      */
-    Future<V> load(K key, CacheLoader<K, V> specificLoader, Object loaderArgument) throws CacheException;
+    Future<V> load(K key) throws CacheException;
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -151,21 +145,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * is encountered during the retrieving or loading of the objects, an
      * exception (to be defined) will be thrown.
      * <p/>
-     * If the "arg" argument is set, the arg object will be passed to the
-     * {@link CacheLoader#loadAll(java.util.Collection, Object)} method.
-     * The cache will not dereference the object.
-     * If no "arg" value is provided a null will be passed to the CacheLoader loadAll
-     * method.
      *
      * @param keys           the keys
-     * @param specificLoader a specific loader to use. If null the default loader is used.
-     * @param loaderArgument provision for additional parameters to be passed to the loader
      * @return a Future which can be used to monitor execution
      * @throws NullPointerException if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem doing the load
      */
-    Future<Map<K, V>> loadAll(Collection<? extends K> keys, CacheLoader<K, V> specificLoader, Object loaderArgument) throws CacheException;
+    Future<Map<K, V>> loadAll(Collection<? extends K> keys) throws CacheException;
 
     /**
      * Returns the {@link CacheStatistics} MXBean associated with the cache.
