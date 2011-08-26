@@ -128,15 +128,15 @@ public final class CacheManagerFactory {
      * Subsequent requests from this factory will return different cache managers than would have been obtained before
      * shutdown. So for example
      * <pre>
-     *  CacheManager cacheManager = factory.getCacheManager();
-     *  assertSame(cacheManager, factory.getCacheManager());
-     *  factory.shutdown();
-     *  assertNotSame(cacheManager, factory.getCacheManager());
+     *  CacheManager cacheManager = CacheFactory.getCacheManager();
+     *  assertSame(cacheManager, CacheFactory.getCacheManager());
+     *  CacheFactory.close();
+     *  assertNotSame(cacheManager, CacheFactory.getCacheManager());
      * </pre>
      * @return true if found, false otherwise
      */
-    public static boolean shutdown() {
-        return CacheManagerFactorySingleton.INSTANCE.shutdown();
+    public static boolean close() {
+        return CacheManagerFactorySingleton.INSTANCE.close();
     }
 
     /**
@@ -146,20 +146,20 @@ public final class CacheManagerFactory {
      * @param classLoader the class loader for which managers will be shut down
      * @return true if found, false otherwise
      */
-    public static boolean shutdown(ClassLoader classLoader) {
-        return CacheManagerFactorySingleton.INSTANCE.shutdown(classLoader);
+    public static boolean close(ClassLoader classLoader) {
+        return CacheManagerFactorySingleton.INSTANCE.close(classLoader);
     }
 
     /**
      * Reclaims all resources for a ClassLoader from this factory.
      * <p/>
-     * the named cache manager obtained from the factory is shutdown.
+     * the named cache manager obtained from the factory is closed.
      * @param classLoader the class loader for which managers will be shut down
      * @param name the name of the cache manager
      * @return true if found, false otherwise
      */
-    public static boolean shutdown(ClassLoader classLoader, String name) {
-        return CacheManagerFactorySingleton.INSTANCE.shutdown(classLoader, name);
+    public static boolean close(ClassLoader classLoader, String name) {
+        return CacheManagerFactorySingleton.INSTANCE.close(classLoader, name);
     }
 
     /**
@@ -251,16 +251,10 @@ public final class CacheManagerFactory {
          * All cache managers obtained from the factory are shutdown.
          * <p/>
          * Subsequent requests from this factory will return different cache managers than would have been obtained before
-         * shutdown. So for example
-         * <pre>
-         *  CacheManager cacheManager = factory.getCacheManager();
-         *  assertSame(cacheManager, factory.getCacheManager());
-         *  factory.shutdown();
-         *  assertNotSame(cacheManager, factory.getCacheManager());
-         * </pre>
+         * shutdown.
          * @return true if found, false otherwise
          */
-        public boolean shutdown() {
+        public boolean close() {
             Iterator<HashMap<String, CacheManager>> iterator;
             synchronized (cacheManagers) {
                 iterator = new ArrayList<HashMap<String, CacheManager>>(cacheManagers.values()).iterator();
@@ -282,7 +276,7 @@ public final class CacheManagerFactory {
          * @param classLoader the class loader for which managers will be shut down
          * @return true if found, false otherwise
          */
-        public boolean shutdown(ClassLoader classLoader) {
+        public boolean close(ClassLoader classLoader) {
             HashMap<String, CacheManager> cacheManagerMap;
             synchronized (cacheManagers) {
                 cacheManagerMap = cacheManagers.remove(classLoader);
@@ -301,7 +295,7 @@ public final class CacheManagerFactory {
          * @param name the name of the cache manager
          * @return true if found, false otherwise
          */
-        public boolean shutdown(ClassLoader classLoader, String name) {
+        public boolean close(ClassLoader classLoader, String name) {
             CacheManager cacheManager;
             synchronized (cacheManagers) {
                 HashMap<String, CacheManager> cacheManagerMap = cacheManagers.get(classLoader);
