@@ -132,6 +132,15 @@ public interface CacheManager {
      */
     Object getUserTransaction();
 
+
+    /**
+     * Indicates whether a optional feature is supported by this CacheManager.
+     *
+     * @param optionalFeature the feature to check for
+     * @return true if the feature is supported
+     */
+    public boolean isSupported(OptionalFeature optionalFeature);
+
     /**
      * Shuts down the CacheManager.
      * <p/>
