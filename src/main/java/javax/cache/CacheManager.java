@@ -7,7 +7,7 @@
 
 package javax.cache;
 
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
@@ -95,13 +95,13 @@ public interface CacheManager {
 
 
     /**
-     * Returns a collection of caches managed by this CacheManager.
-     * This collection is independent of the cache manager; if changes are made to
-     * the returned collection they do not affect the cache manager and vice versa.
+     * Returns a set of caches managed by this CacheManager.
+     * This set is immutable and independent of the cache manager; if the set of caches owned
+     * by the cache manager change the set is not affected.
      *
-     * @return the Caches or an empty list if there are none
+     * @return the Caches or an empty set if there are none
      */
-    Collection<Cache> getCaches();
+    Set<Cache> getCaches();
 
 
     /**
