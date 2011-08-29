@@ -93,7 +93,6 @@ public interface CacheManager {
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 
-
     /**
      * Returns a set of caches managed by this CacheManager.
      * This set is immutable and independent of the cache manager; if the set of caches owned
@@ -101,8 +100,7 @@ public interface CacheManager {
      *
      * @return the Caches or an empty set if there are none
      */
-    Set<Cache> getCaches();
-
+    <K, V> Set<Cache<K, V>> getCaches();
 
     /**
      * Remove a cache from the CacheManager. The cache will be stopped.
