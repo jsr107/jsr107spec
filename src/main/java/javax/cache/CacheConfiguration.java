@@ -79,16 +79,6 @@ public interface CacheConfiguration {
     boolean isStoreByValue();
 
     /**
-     * Sets whether the cache is store-by-value cache.
-     *
-     * @param storeByValue the value for storeByValue
-     * @throws IllegalStateException if the configuration can no longer be changed
-     * @throws InvalidConfigurationException if the cache does not support store by reference
-     * @see #isStoreByValue()
-     */
-    void setStoreByValue(boolean storeByValue);
-
-    /**
      * Checks whether statistics collection is enabled in this cache.
      * <p/>
      * Default value is false.
@@ -100,9 +90,7 @@ public interface CacheConfiguration {
     /**
      * Sets whether statistics gathering is enabled  on this cache.
      *
-     *
-     *
-     * @param enableStatistics true fo enable statistics, false to disable
+     * @param enableStatistics true to enable statistics, false to disable
      */
     void setStatisticsEnabled(boolean enableStatistics);
 
@@ -114,12 +102,4 @@ public interface CacheConfiguration {
      * @return true if statistics collection is enabled
      */
     boolean isTransactionEnabled();
-
-    /**
-     * Sets whether transactions are enabled for this cache
-     *
-     * @param enableTransactions true fo enable transactions, false to disable
-     */
-    void setTransactionEnabled(boolean enableTransactions);
-
 }
