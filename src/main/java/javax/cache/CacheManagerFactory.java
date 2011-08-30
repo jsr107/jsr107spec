@@ -169,33 +169,49 @@ public final class CacheManagerFactory {
      * @return true if the feature is supported
      */
     public static boolean isSupported(OptionalFeature optionalFeature) {
-        return CacheManagerFactorySingleton.INSTANCE.isSupported(optionalFeature);
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
     }
 
     /**
-     * Singleton with implementation
+     * Holds the ServiceFactory
      */
-    private enum CacheManagerFactorySingleton {
-
+    private enum ServiceFactoryHolder {
         /**
-         * The singleton instance.
+         * The singleton.
          */
         INSTANCE;
 
         private final CachingProvider serviceFactory;
-        private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
 
-        private CacheManagerFactorySingleton() {
+        private ServiceFactoryHolder() {
             ServiceLoader<CachingProvider> serviceLoader = ServiceLoader.load(CachingProvider.class);
             Iterator<CachingProvider> it = serviceLoader.iterator();
             serviceFactory = it.hasNext() ? it.next() : null;
         }
 
-        private CachingProvider getServiceFactory() {
+        public CachingProvider getServiceFactory() {
             if (serviceFactory == null) {
                 throw new IllegalStateException("No CachingProvider found in classpath.");
             }
             return serviceFactory;
+        }
+    }
+
+    /**
+     * The CasheManagerFactory
+     */
+    private static final class CacheManagerFactorySingleton {
+        /**
+         * The singleton
+         */
+        public static final CacheManagerFactorySingleton INSTANCE =
+            new CacheManagerFactorySingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
+
+        private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
+        private final CachingProvider cachingProvider;
+
+        private CacheManagerFactorySingleton(CachingProvider cachingProvider) {
+            this.cachingProvider = cachingProvider;
         }
 
         /**
@@ -208,7 +224,7 @@ public final class CacheManagerFactory {
          * @throws IllegalStateException if no CachingProvider was found
          */
         public CacheManager getCacheManager(String name) {
-            ClassLoader cl = getServiceFactory().getDefaultClassLoader();
+            ClassLoader cl = cachingProvider.getDefaultClassLoader();
             return getCacheManager(cl, name);
         }
 
@@ -238,7 +254,7 @@ public final class CacheManagerFactory {
                 }
                 CacheManager cacheManager = map.get(name);
                 if (cacheManager == null) {
-                    cacheManager = getServiceFactory().createCacheManager(classLoader, name);
+                    cacheManager = cachingProvider.createCacheManager(classLoader, name);
                     map.put(name, cacheManager);
                 }
                 return cacheManager;
@@ -308,19 +324,6 @@ public final class CacheManagerFactory {
                 shutdown(cacheManager);
             }
             return cacheManager != null;
-        }
-
-        /**
-         * Indicates whether a optional feature is supported by this implementation
-         *
-         * @param optionalFeature the feature to check for
-         * @return true if the feature is supported
-         */
-        public boolean isSupported(OptionalFeature optionalFeature) {
-            if (serviceFactory == null) {
-                throw new IllegalStateException("CachingProvider");
-            }
-            return serviceFactory.isSupported(optionalFeature);
         }
 
         private void shutdown(Map<String, CacheManager> cacheManagerMap) {
