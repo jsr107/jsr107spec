@@ -76,8 +76,8 @@ public interface CacheManager {
      *           setWriteThrough(false).
      *           setStatisticsEnabled(true).
      *           setTransactionEnabled(false).
-     *           registerCacheEntryListener(listener1).
-     *           registerCacheEntryListener(listener2).
+     *           registerCacheEntryListener(listener1, NotificationScope.LOCAL, false).
+     *           registerCacheEntryListener(listener2, NotificationScope.LOCAL, false).
      *           build();
      * </pre>
      * <p/>
