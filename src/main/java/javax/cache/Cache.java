@@ -46,9 +46,9 @@ import java.util.concurrent.Future;
  * <pre>
  * String cacheName = "sampleCache";
  * CacheManager cacheManager = CacheManagerFactory.getCacheManager();
- * Cache<Integer, Date> cache = cacheManager.getCache(cacheName);
+ * Cache&lt;Integer, Date&gt; cache = cacheManager.getCache(cacheName);
  * if (cache == null) {
- *   cache = cacheManager.<Integer,Date>createCacheBuilder(cacheName).build();
+ *   cache = cacheManager.&lt;Integer,Date&gt;createCacheBuilder(cacheName).build();
  * }
  * Date value1 = new Date();
  * Integer key = 1;
