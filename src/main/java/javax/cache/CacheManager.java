@@ -140,7 +140,7 @@ public interface CacheManager {
      * @param optionalFeature the feature to check for
      * @return true if the feature is supported
      */
-    public boolean isSupported(OptionalFeature optionalFeature);
+    boolean isSupported(OptionalFeature optionalFeature);
 
     /**
      * Allows classes to be declared to be immutable.
@@ -152,7 +152,7 @@ public interface CacheManager {
      * @param immutableClass the class to be treated as immutable
      * @throws NullPointerException if class is null
      */
-    public void addImmutableClass(Class immutableClass);
+    void addImmutableClass(Class immutableClass);
 
     /**
      * Shuts down the CacheManager.
