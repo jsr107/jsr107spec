@@ -59,15 +59,18 @@ public interface CacheManager {
      * <p/>
      * An example usage which passes in a specific programmatic {@link CacheConfiguration} and specifies a {@link CacheLoader} is:
      * <pre>
-     *    cacheManager.createCacheBuilder("myCache").
-     *      setCacheConfiguration(config).
-     *      setCacheLoader(cl).
-     *      build();
+     *    Cache<Integer, String> myCache1 = cacheManager.
+     *           <Integer, String>createCacheBuilder("myCache1").
+     *           setCacheLoader(cl).
+     *           setReadThrough(true).
+     *           build();
      * </pre>
      * <p/>
      * An example which creates a cache using default cache configuration is:
      * <pre>
-     *    cacheManager.createCacheBuilder("myCache2"). build();
+     *    Cache<Integer, Date> myCache2 = cacheManager.
+     *           <Integer, Date>createCacheBuilder("myCache2").
+     *           build();
      * </pre>
      * <p/>
      * <p/>
