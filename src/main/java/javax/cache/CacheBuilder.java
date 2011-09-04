@@ -32,7 +32,9 @@ public interface CacheBuilder<K, V> {
      * the old Cache will be stopped.
      *
      * @return a new instance of the named cache
-     * @throws InvalidConfigurationException thrown if the configuration is invalid
+     * @throws InvalidConfigurationException thrown if the configuration is invalid. Examples include if
+     * read through has been set to true but no cache loader is specified, or if no cache writer is specified but
+     * write through has been set.
      * @see CacheManager#createCacheBuilder(String)
      */
     Cache<K, V> build();
@@ -42,8 +44,18 @@ public interface CacheBuilder<K, V> {
      *
      * @param cacheLoader the CacheLoader
      * @return the builder
+     * @throws NullPointerException if cacheLoader is null.
      */
     CacheBuilder<K, V> setCacheLoader(CacheLoader<K, V> cacheLoader);
+
+    /**
+     * Set the cache writer.
+     *
+     * @param cacheWriter the CacheWriter
+     * @return the builder
+     * @throws NullPointerException if cacheWriter is null.
+     */
+    CacheBuilder<K, V> setCacheWriter(CacheWriter<K, V> cacheWriter);
 
     /**
      * Registers a listener. Can be invoked multiple times.
@@ -72,6 +84,7 @@ public interface CacheBuilder<K, V> {
      *
      * @param enableTransactions true to enable transactions, false to disable
      * @return the builder
+     * @throws InvalidConfigurationException if the cache does not support transactions by reference
      * @see CacheConfiguration#isTransactionEnabled()
      */
     CacheBuilder<K, V> setTransactionEnabled(boolean enableTransactions);

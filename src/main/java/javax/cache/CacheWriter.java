@@ -44,10 +44,10 @@ public interface CacheWriter<K, V> {
     /**
      * Delete the cache entry from the store
      *
-     * @param entry the cache entry that is used for the delete operation
+     * @param key the key that is used for the delete operation
      * @throws CacheException
      */
-    void delete(Cache.Entry<K, V> entry) throws CacheException;
+    void delete(Object key) throws CacheException;
 
 
     /**
@@ -59,6 +59,6 @@ public interface CacheWriter<K, V> {
      * @param entries the entries that have been removed from the cache
      * @throws CacheException
      */
-    void deleteAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws CacheException;
+    void deleteAll(Collection<?> entries) throws CacheException;
 
 }
