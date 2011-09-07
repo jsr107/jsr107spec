@@ -123,16 +123,6 @@ public interface CacheManager {
      */
     boolean removeCache(String cacheName) throws IllegalStateException;
 
-
-    /**
-     * Create a mutable {@link javax.cache.CacheConfiguration} instance.
-     * The configuration returned will have the default values defined for the CacheManager .
-     *
-     * @return a cache configuration
-     */
-    CacheConfiguration createCacheConfiguration();
-
-
     /**
      * This method will return a UserTransaction.
      *
