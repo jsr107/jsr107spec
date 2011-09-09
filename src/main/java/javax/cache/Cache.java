@@ -314,7 +314,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param key key with which the specified value is associated
      * @return the value if one existed or null if no mapping existed for this key
-     * @throws NullPointerException          if the specified key is null.
+     * @throws NullPointerException          if the specified key or value is null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException                if there is a problem during the remove
      * @see java.util.Map#remove(Object)
