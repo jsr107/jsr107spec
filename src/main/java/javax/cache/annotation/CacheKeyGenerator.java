@@ -24,5 +24,5 @@ public interface CacheKeyGenerator {
      * @param cacheKeyInvocationContext Information about the intercepted method invocation
      * @return A non-null cache key for the invocation.
      */
-    CacheKey generateCacheKey(CacheKeyInvocationContext<Annotation> cacheKeyInvocationContext);
+    CacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> cacheKeyInvocationContext);
 }
