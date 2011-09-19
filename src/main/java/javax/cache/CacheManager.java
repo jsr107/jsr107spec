@@ -127,7 +127,7 @@ public interface CacheManager {
      * This method will return a UserTransaction.
      *
      * @return the UserTransaction. This should be cast to javax.transaction.UserTransaction.
-     * @throws UnsupportedOperationException is JTA is not supported
+     * @throws UnsupportedOperationException if JTA is not supported
      */
     Object getUserTransaction();
 
