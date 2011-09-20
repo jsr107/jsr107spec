@@ -13,12 +13,12 @@ import javax.cache.OptionalFeature;
 /**
  * Interface that should be implemented by a CacheManager factory provider.
  *
- * It is invoked by the {@link javax.cache.CacheManagerFactory} class to create
+ * It is invoked by the {@link javax.cache.Caching} class to create
  * a {@link CacheManager}
  * <p/>
  * An implementation of this interface must have a public no-arg constructor.
  * <p/>
- * @see javax.cache.CacheManagerFactory
+ * @see javax.cache.Caching
  *
  * @author Yannis Cosmadopoulos
  * @since 1.0
@@ -26,7 +26,7 @@ import javax.cache.OptionalFeature;
 public interface CachingProvider {
 
     /**
-     * Called by the {@link javax.cache.CacheManagerFactory} class when a
+     * Called by the {@link javax.cache.Caching} class when a
      * new CacheManager needs to be created.
      * <p/>
      * The name may be used to associate a configuration with this CacheManager instance.
@@ -35,13 +35,13 @@ public interface CachingProvider {
      * @param name the name of this cache manager
      * @return a new cache manager.
      * @throws NullPointerException if classLoader or name is null
-     * @see javax.cache.CacheManagerFactory#getCacheManager(ClassLoader, String)
+     * @see javax.cache.Caching#getCacheManager(ClassLoader, String)
      */
     CacheManager createCacheManager(ClassLoader classLoader, String name);
 
 
     /**
-     * Called by the {@link javax.cache.CacheManagerFactory} class when a
+     * Called by the {@link javax.cache.Caching} class when a
      * new CacheManager needs to be created and the ClassLoader is not specified.
      * <p/>
      * Possible strategies include the following:
@@ -51,7 +51,7 @@ public interface CachingProvider {
      *</pre>
      * Returns the default classloader to use if
      * @return the default ClassLoader
-     * @see javax.cache.CacheManagerFactory#getCacheManager()
+     * @see javax.cache.Caching#getCacheManager()
      */
     ClassLoader getDefaultClassLoader();
 
