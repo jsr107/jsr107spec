@@ -18,7 +18,7 @@ package javax.cache.event;
  * Only those cluster members interested in receiving remote events should register such a listener.
  * <p/>
  * There can be a large cost difference between receipt of local versus remote events thus allowing the choice.
- * Accordingly, the remote notification scope is optional. This capability can be determined using {@link javax.cache.CacheManagerFactory#isSupported(javax.cache.OptionalFeature)}.
+ * Accordingly, the remote notification scope is optional. This capability can be determined using {@link javax.cache.Caching#isSupported(javax.cache.OptionalFeature)}.
  * <p/>
  * @since 1.0
  */

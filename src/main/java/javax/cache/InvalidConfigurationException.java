@@ -17,6 +17,7 @@ package javax.cache;
  * @since 1.0
  */
 public class InvalidConfigurationException extends CacheException {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new InvalidConfigurationException with a message string.

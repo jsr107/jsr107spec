@@ -28,6 +28,6 @@ public interface CacheResolver {
      * @param cacheInvocationContext The context data for the intercepted method invocation
      * @return The {@link Cache} instance to be used by the intercepter
      */
-    <K, V> Cache<K, V> resolveCache(CacheInvocationContext<Annotation> cacheInvocationContext);
+    <K, V> Cache<K, V> resolveCache(CacheInvocationContext<? extends Annotation> cacheInvocationContext);
     
 }

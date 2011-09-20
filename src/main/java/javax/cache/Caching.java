@@ -17,8 +17,7 @@ import java.util.ServiceLoader;
 /**
  * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
  * <p/>
- * For a provider to be discovered by the CacheManagerFactory, it's jar must contain a resource
- * called:
+ * For a provider to be discovered, it's jar must contain a resource called:
  * <pre>
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>
@@ -28,7 +27,7 @@ import java.util.ServiceLoader;
  * <p/>
  * "javax.cache.implementation.RIServiceFactory"
  * <p/>
- * The CacheManagerFactory also keeps track of all CacheManagers created by the factory. Subsequent calls
+ * Also keeps track of all CacheManagers created by the factory. Subsequent calls
  * to {@link #getCacheManager()} return the same CacheManager.
  *
  * @author Yannis Cosmadopoulos
@@ -36,7 +35,7 @@ import java.util.ServiceLoader;
  * @see javax.cache.spi.CachingProvider
  * @since 1.0
  */
-public final class CacheManagerFactory {
+public final class Caching {
     /**
      * The name of the default cache manager.
      * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
@@ -47,7 +46,7 @@ public final class CacheManagerFactory {
     /**
      * No public constructor as all methods are static.
      */
-    private CacheManagerFactory() {
+    private Caching() {
     }
 
     /**
@@ -83,7 +82,7 @@ public final class CacheManagerFactory {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(String name) {
-        return CacheManagerFactorySingleton.INSTANCE.getCacheManager(name);
+        return CachingSingleton.INSTANCE.getCacheManager(name);
     }
 
     /**
@@ -101,8 +100,8 @@ public final class CacheManagerFactory {
      * Generally, It makes sense that a CacheManager is associated with a ClassLoader. I.e. all caches emanating
      * from the CacheManager, all code including key and value classes must be present in that ClassLoader.
      * <p/>
-     * Secondly, the CacheManagerFactory may be in a different ClassLoader than the
-     * CacheManager (i.e. the CacheManagerFactory may be shared in an application server setting).
+     * Secondly, the Caching may be in a different ClassLoader than the
+     * CacheManager (i.e. the Caching may be shared in an application server setting).
      * <p/>
      * For this purpose a ClassLoader may be specified. If specified it will be used for all conversion between
      * values and Java Objects. While Java's in-built serialization may be used other schemes may also be used.
@@ -117,7 +116,7 @@ public final class CacheManagerFactory {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        return CacheManagerFactorySingleton.INSTANCE.getCacheManager(classLoader, name);
+        return CachingSingleton.INSTANCE.getCacheManager(classLoader, name);
     }
 
     /**
@@ -136,7 +135,7 @@ public final class CacheManagerFactory {
      * @return true if found, false otherwise
      */
     public static boolean close() {
-        return CacheManagerFactorySingleton.INSTANCE.close();
+        return CachingSingleton.INSTANCE.close();
     }
 
     /**
@@ -147,7 +146,7 @@ public final class CacheManagerFactory {
      * @return true if found, false otherwise
      */
     public static boolean close(ClassLoader classLoader) {
-        return CacheManagerFactorySingleton.INSTANCE.close(classLoader);
+        return CachingSingleton.INSTANCE.close(classLoader);
     }
 
     /**
@@ -159,7 +158,7 @@ public final class CacheManagerFactory {
      * @return true if found, false otherwise
      */
     public static boolean close(ClassLoader classLoader, String name) {
-        return CacheManagerFactorySingleton.INSTANCE.close(classLoader, name);
+        return CachingSingleton.INSTANCE.close(classLoader, name);
     }
 
     /**
@@ -200,17 +199,17 @@ public final class CacheManagerFactory {
     /**
      * The CasheManagerFactory
      */
-    private static final class CacheManagerFactorySingleton {
+    private static final class CachingSingleton {
         /**
          * The singleton
          */
-        public static final CacheManagerFactorySingleton INSTANCE =
-            new CacheManagerFactorySingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
+        public static final CachingSingleton INSTANCE =
+            new CachingSingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
 
         private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
         private final CachingProvider cachingProvider;
 
-        private CacheManagerFactorySingleton(CachingProvider cachingProvider) {
+        private CachingSingleton(CachingProvider cachingProvider) {
             this.cachingProvider = cachingProvider;
         }
 

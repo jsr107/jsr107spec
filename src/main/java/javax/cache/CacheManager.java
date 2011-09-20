@@ -21,7 +21,7 @@ import java.util.Set;
  * <h2>Creation</h2>
  * Concrete implementations can be created in a number of ways:
  * <ul>
- * <li>Through a ServiceLoader using {@link CacheManagerFactory}</li>
+ * <li>Through a ServiceLoader using {@link Caching}</li>
  * <li>Simple creation with <code>new</code> of a concrete implementation, if supported by an implementation</li>
  * </ul>
  * <p/>
@@ -150,7 +150,7 @@ public interface CacheManager {
      * @param immutableClass the class to be treated as immutable
      * @throws NullPointerException if class is null
      */
-    void addImmutableClass(Class immutableClass);
+    void addImmutableClass(Class<?> immutableClass);
 
     /**
      * Shuts down the CacheManager.

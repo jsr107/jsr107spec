@@ -17,6 +17,7 @@ package javax.cache;
  * @since 1.0
  */
 public class CacheException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new CacheException.
