@@ -7,14 +7,16 @@
 
 package javax.cache;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Information on how a cache is configured.
- *
+ * <p/>
  * A Cache may be constructed by {@link CacheManager} using a configuration instance.
- *
+ * <p/>
  * At runtime it is used by javax.cache to decide how to behave. For example the behaviour of put
  * will vary depending on whether the cache is write-through.
- *
+ * <p/>
  * Finally, a cache makes it's configuration visible via this interface.
  *
  * @author Greg Luck
@@ -65,8 +67,8 @@ public interface CacheConfiguration {
      * Caches stored by reference are capable of mutation by any threads holding
      * the reference. The effects are:
      * <ul>
-     *     <li>if the key is mutated, then the key may not be retrievable or removable</li>
-     *     <li>if the value is mutated, then any threads holding references will see the changes</li>
+     * <li>if the key is mutated, then the key may not be retrievable or removable</li>
+     * <li>if the value is mutated, then any threads holding references will see the changes</li>
      * </ul>
      * Storage by reference only applies to local heap. If an entry is moved outside local heap it will
      * need to be transformed into a representation. Any mutations that occur after transformation will
@@ -102,4 +104,154 @@ public interface CacheConfiguration {
      * @return true if statistics collection is enabled
      */
     boolean isTransactionEnabled();
+
+    /**
+     * Sets how long cache entries should live. If expiry is not set entries are eternal.
+     *
+     * @param timeToLive how long, in the specified duration, the cache entries should live.
+     */
+    void setExpiry(Duration timeToLive) throws InvalidConfigurationException;
+
+    /**
+     * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
+     *
+     * @return how long, in milliseconds, the specified units, the entry should live. 0 means eternal.
+     */
+    Duration getExpiry();
+
+    /**
+     * Sets how large the cache can be.
+     * <p/>
+     * When the cache size maximum is reached the cache must evict entries to return the cache below the limit.
+     * Distributed or multi-tiered cache implementations may choose to interpret size per node/tier or in total.
+     *
+     * @param size the size of the cache.
+     */
+    void setSize(Size size);
+
+    /**
+     * The capacity of the cache.
+     *
+     * @return the capacity of this cache.
+     */
+    Size getSize();
+
+    /**
+     * The size of a Cache.
+     */
+    public static class Size {
+
+        private SizeUnit sizeUnit;
+        private long size;
+
+        /**
+         * @param sizeUnit the unit of time to specify time in. The minimum time unit is milliseconds.
+         * @param size     how large, in the specified units, the cache should be. 0 means unlimited.
+         */
+        public Size(SizeUnit sizeUnit, long size) {
+            this.sizeUnit = sizeUnit;
+            this.size = size;
+        }
+
+        /**
+         * Gets the SizeUnit used to specify the size
+         *
+         * @return the SizeUnit used to specify the size
+         */
+        public SizeUnit getSizeUnit() {
+            return sizeUnit;
+        }
+
+        /**
+         * Gets the SizeUnit used to specify the size
+         *
+         * @return the SizeUnit used to specify the size. 0 means unlimited
+         */
+        public long getSize() {
+            return size;
+        }
+    }
+
+    /**
+     * A time duration.
+     */
+    public static class Duration {
+
+        /**
+         * The unit of time to specify time in. The minimum time unit is milliseconds.
+         */
+        private TimeUnit timeUnit;
+
+        /*
+        * How long, in the specified units, the cache entries should live. 0 means eternal.
+        */
+        private long timeToLive;
+
+        /**
+         * Constructs a duration.
+         *
+         * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
+         * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
+         * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
+         */
+        public Duration(TimeUnit timeUnit, long timeToLive) {
+            this.timeUnit = timeUnit;
+            this.timeToLive = timeToLive;
+        }
+
+        /**
+         * @return the TimeUnit used to specify this duration
+         */
+        public TimeUnit getTimeUnit() {
+            return timeUnit;
+        }
+
+        /**
+         * @return the number of TimeUnits which quantify this duration
+         */
+        public long getTimeToLive() {
+            return timeToLive;
+        }
+    }
+
+    /**
+     * A <tt>SizeUnit</tt> represents different units for representing size.
+     * A <tt>SizeUnit</tt> does not maintain size information, but only
+     * helps organize and use size representations that may be maintained
+     * separately across various contexts.
+     * <p/>
+     * There are two approaches:
+     * <ol>
+     * <li>size as a count of entries in the cache</li>
+     * <li>size in bytes in the cache</li>
+     * </ol>
+     *
+     * @author Greg Luck
+     */
+    public static enum SizeUnit {
+
+
+        /**
+         * A count of the number of entries in the Cache
+         */
+        COUNT,
+
+        /**
+         * The space occupied by the object graphs or the Seralized representations, in bytes.
+         */
+        BYTES,
+
+        /**
+         * The space occupied by the object graphs or the Seralized representations, in megabytes.
+         */
+        MEGABYTES,
+
+        /**
+         * The space occupied by the object graphs or the Seralized representations, in gigabytes.
+         */
+        GIGABYTES,
+
+    }
+
+
 }
