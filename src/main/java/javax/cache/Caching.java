@@ -7,15 +7,19 @@
 
 package javax.cache;
 
-import javax.cache.spi.CachingProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import javax.cache.spi.AnnotationProvider;
+import javax.cache.spi.CachingProvider;
+
 /**
- * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
+ * A factory for creating CacheManagers using the SPI conventions
+import javax.cache.spi.AnnotationProvider;
+ in the JDK's {@link ServiceLoader}
  * <p/>
  * For a provider to be discovered, it's jar must contain a resource called:
  * <pre>
@@ -168,7 +172,15 @@ public final class Caching {
      * @return true if the feature is supported
      */
     public static boolean isSupported(OptionalFeature optionalFeature) {
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
+        switch (optionalFeature) {
+            case ANNOTATIONS: {
+                final AnnotationProvider annotationProvider = ServiceFactoryHolder.INSTANCE.getAnnotationProvider();
+                return annotationProvider != null && annotationProvider.isSupported(optionalFeature);
+            }
+            default: {
+                return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
+            }
+        }
     }
 
     /**
@@ -181,11 +193,16 @@ public final class Caching {
         INSTANCE;
 
         private final CachingProvider serviceFactory;
+        private final AnnotationProvider annotationProvider;
 
         private ServiceFactoryHolder() {
             ServiceLoader<CachingProvider> serviceLoader = ServiceLoader.load(CachingProvider.class);
             Iterator<CachingProvider> it = serviceLoader.iterator();
             serviceFactory = it.hasNext() ? it.next() : null;
+            
+            ServiceLoader<AnnotationProvider> annoationLoader = ServiceLoader.load(AnnotationProvider.class);
+            Iterator<AnnotationProvider> annoationLoaderItr = annoationLoader.iterator();
+            annotationProvider = annoationLoaderItr.hasNext() ? annoationLoaderItr.next() : null;
         }
 
         public CachingProvider getServiceFactory() {
@@ -193,6 +210,10 @@ public final class Caching {
                 throw new IllegalStateException("No CachingProvider found in classpath.");
             }
             return serviceFactory;
+        }
+        
+        public AnnotationProvider getAnnotationProvider() {
+            return annotationProvider;
         }
     }
 
