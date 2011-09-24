@@ -109,8 +109,9 @@ public interface CacheConfiguration {
      * Sets how long cache entries should live. If expiry is not set entries are eternal.
      *
      * @param timeToLive how long, in the specified duration, the cache entries should live.
+     * @throws NullPointerException is timeToLive is null
      */
-    void setExpiry(Duration timeToLive) throws InvalidConfigurationException;
+    void setExpiry(Duration timeToLive);
 
     /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
@@ -126,6 +127,7 @@ public interface CacheConfiguration {
      * Distributed or multi-tiered cache implementations may choose to interpret size per node/tier or in total.
      *
      * @param size the size of the cache.
+     * @throws NullPointerException is size is null
      */
     void setSize(Size size);
 
@@ -140,6 +142,10 @@ public interface CacheConfiguration {
      * The size of a Cache.
      */
     public static class Size {
+        /**
+         * UNLIMITED
+         */
+        public static final Size UNLIMITED = new Size(SizeUnit.GIGABYTES, 0);
 
         private SizeUnit sizeUnit;
         private long size;
@@ -147,9 +153,18 @@ public interface CacheConfiguration {
         /**
          * @param sizeUnit the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param size     how large, in the specified units, the cache should be. 0 means unlimited.
+         * @throws NullPointerException if sizeUnit is null
+         * @throws IllegalArgumentException if size is less than 0
+         * TODO: revisit above exceptions
          */
         public Size(SizeUnit sizeUnit, long size) {
+            if (sizeUnit == null) {
+                throw new NullPointerException();
+            }
             this.sizeUnit = sizeUnit;
+            if (size < 0) {
+                throw new IllegalArgumentException();
+            }
             this.size = size;
         }
 
@@ -176,6 +191,10 @@ public interface CacheConfiguration {
      * A time duration.
      */
     public static class Duration {
+        /**
+         * ETERNAL
+         */
+        public static final Duration ETERNAL = new Duration(TimeUnit.SECONDS, 0);
 
         /**
          * The unit of time to specify time in. The minimum time unit is milliseconds.
@@ -193,9 +212,25 @@ public interface CacheConfiguration {
          * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
          * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
+         * @throws NullPointerException if timeUnit is null
+         * @throws IllegalArgumentException if timeToLive is less than 0
+         * TODO: revisit above exceptions
          */
         public Duration(TimeUnit timeUnit, long timeToLive) {
-            this.timeUnit = timeUnit;
+            if (timeUnit == null) {
+                throw new NullPointerException();
+            }
+            switch (timeUnit) {
+                case NANOSECONDS:
+                case  MICROSECONDS:
+                    throw new InvalidConfigurationException();
+                default:
+                    this.timeUnit = timeUnit;
+                    break;
+            }
+            if (timeToLive < 0) {
+                throw new IllegalArgumentException();
+            }
             this.timeToLive = timeToLive;
         }
 

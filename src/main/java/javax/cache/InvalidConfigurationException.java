@@ -28,4 +28,11 @@ public class InvalidConfigurationException extends CacheException {
     public InvalidConfigurationException(String message) {
         super(message);
     }
+
+    /**
+     * Constructs a new InvalidConfigurationException.
+     */
+    public InvalidConfigurationException() {
+        super();
+    }
 }

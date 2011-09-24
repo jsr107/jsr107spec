@@ -123,6 +123,7 @@ public interface CacheBuilder<K, V> {
      * @param timeToLive the time to live
      * @return the builder
      * @see CacheConfiguration#setExpiry(javax.cache.CacheConfiguration.Duration)
+     * @throws NullPointerException if size is timeToLive
      */
     CacheBuilder<K, V> setExpiry(CacheConfiguration.Duration timeToLive);
 
@@ -132,6 +133,7 @@ public interface CacheBuilder<K, V> {
      * @param size the size
      * @return the builder
      * @see CacheConfiguration#setSize(javax.cache.CacheConfiguration.Size)
+     * @throws NullPointerException if size is null
      */
     CacheBuilder<K, V> setSize(CacheConfiguration.Size size);
 }
