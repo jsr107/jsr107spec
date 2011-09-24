@@ -116,4 +116,22 @@ public interface CacheBuilder<K, V> {
      * @see CacheConfiguration#setWriteThrough(boolean)
      */
     CacheBuilder<K, V> setWriteThrough(boolean writeThrough);
+
+    /**
+     * Sets the cache expiration
+     *
+     * @param timeToLive the time to live
+     * @return the builder
+     * @see CacheConfiguration#setExpiry(javax.cache.CacheConfiguration.Duration)
+     */
+    CacheBuilder<K, V> setExpiry(CacheConfiguration.Duration timeToLive);
+
+    /**
+     * Sets the size
+     *
+     * @param size the size
+     * @return the builder
+     * @see CacheConfiguration#setSize(javax.cache.CacheConfiguration.Size)
+     */
+    CacheBuilder<K, V> setSize(CacheConfiguration.Size size);
 }
