@@ -473,6 +473,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @return the manager
      */
     CacheManager getCacheManager();
+    
+    /**
+     * Return an object of the specified type to allow access to the provider-specific API. If the provider's
+     * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
+     * 
+     * @param cls he class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements. 
+     * @return an instance of the specified class 
+     * @throws IllegalArgumentException if the provider doesn't support the specified class.
+     */
+    <T> T unwrap(java.lang.Class<T> cls);
 
     /**
      * A cache entry (key-value pair).
