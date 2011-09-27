@@ -115,6 +115,8 @@ public interface CacheConfiguration {
 
     /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
+     * <p/>
+     * Default value is {@link Duration#ETERNAL}.
      *
      * @return how long, in milliseconds, the specified units, the entry should live. 0 means eternal.
      */
@@ -133,6 +135,8 @@ public interface CacheConfiguration {
 
     /**
      * The capacity of the cache.
+     * <p/>
+     * Default value is {@link Size#UNLIMITED}.
      *
      * @return the capacity of this cache.
      */
