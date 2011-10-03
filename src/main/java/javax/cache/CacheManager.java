@@ -7,6 +7,9 @@
 
 package javax.cache;
 
+//Only required if using transactions otherwise not a dependency
+import javax.transaction.UserTransaction;
+
 import java.util.Set;
 
 /**
@@ -129,7 +132,7 @@ public interface CacheManager {
      * @return the UserTransaction. This should be cast to javax.transaction.UserTransaction.
      * @throws UnsupportedOperationException if JTA is not supported
      */
-    Object getUserTransaction();
+    UserTransaction getUserTransaction();
 
 
     /**
