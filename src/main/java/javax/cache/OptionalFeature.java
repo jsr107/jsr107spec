@@ -16,9 +16,9 @@ package javax.cache;
 public enum OptionalFeature {
 
     /**
-     * Implementation supports JTA
+     * Implementation supports XA and Local Transactions
      */
-    JTA,
+    TRANSACTIONS,
 
     /**
      * Implementation supports annotations
