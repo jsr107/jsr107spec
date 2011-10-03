@@ -128,8 +128,10 @@ public interface CacheConfiguration {
      * When the cache size maximum is reached the cache must evict entries to return the cache below the limit.
      * Distributed or multi-tiered cache implementations may choose to interpret size per node/tier or in total.
      *
+     *
      * @param size the size of the cache.
      * @throws NullPointerException is size is null
+     * @throws InvalidConfigurationException if the cache size is specified in bytes and the implementation does not support this.
      */
     void setSize(Size size);
 
@@ -157,9 +159,9 @@ public interface CacheConfiguration {
         /**
          * @param sizeUnit the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param size     how large, in the specified units, the cache should be. 0 means unlimited.
-         * @throws NullPointerException if sizeUnit is null
+         * @throws NullPointerException     if sizeUnit is null
          * @throws IllegalArgumentException if size is less than 0
-         * TODO: revisit above exceptions
+         *                                  TODO: revisit above exceptions
          */
         public Size(SizeUnit sizeUnit, long size) {
             if (sizeUnit == null) {
@@ -205,8 +207,11 @@ public interface CacheConfiguration {
          */
         private TimeUnit timeUnit;
 
-        /*
-        * How long, in the specified units, the cache entries should live. 0 means eternal.
+       /*
+        * How long, in the specified units, the cache entries should live.
+        * The lifetime is measured from the cache entry was last put (i.e. creation or modifification for an update)
+        * 0 means eternal.
+        *
         */
         private long timeToLive;
 
@@ -216,9 +221,10 @@ public interface CacheConfiguration {
          * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
          * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
-         * @throws NullPointerException if timeUnit is null
-         * @throws IllegalArgumentException if timeToLive is less than 0
-         * TODO: revisit above exceptions
+         * @throws NullPointerException          if timeUnit is null
+         * @throws IllegalArgumentException      if timeToLive is less than 0
+         *                                       TODO: revisit above exceptions
+         * todo: Change TimeUnit to our own TimeUnit which does not define nano and micro
          */
         public Duration(TimeUnit timeUnit, long timeToLive) {
             if (timeUnit == null) {
@@ -226,7 +232,7 @@ public interface CacheConfiguration {
             }
             switch (timeUnit) {
                 case NANOSECONDS:
-                case  MICROSECONDS:
+                case MICROSECONDS:
                     throw new InvalidConfigurationException();
                 default:
                     this.timeUnit = timeUnit;
@@ -289,6 +295,16 @@ public interface CacheConfiguration {
          * The space occupied by the object graphs or the Seralized representations, in gigabytes.
          */
         GIGABYTES,
+
+        /**
+         * The space occupied by the object graphs or the Seralized representations, in terabytes.
+         */
+        TERABYTES,
+
+        /**
+         * The space occupied by the object graphs or the Seralized representations, in petabytes.
+         */
+        PETABYTES
 
     }
 

@@ -15,6 +15,8 @@ package javax.cache;
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0
+ *
+ * todo Have a vote on when this should: if at all and compared with IllegalArgumentException
  */
 public class InvalidConfigurationException extends CacheException {
     private static final long serialVersionUID = 1L;
