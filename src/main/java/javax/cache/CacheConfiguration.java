@@ -151,7 +151,7 @@ public interface CacheConfiguration {
         /**
          * UNLIMITED
          */
-        public static final Size UNLIMITED = new Size(SizeUnit.GIGABYTES, 0);
+        public static final Size UNLIMITED = new Size(SizeUnit.PETABYTES, 0);
 
         private SizeUnit sizeUnit;
         private long size;
