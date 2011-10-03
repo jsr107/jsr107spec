@@ -7,7 +7,7 @@
 
 package javax.cache;
 
-//Only required if using transactions otherwise not a dependency
+//Only required if using transaction otherwise not a dependency
 import javax.transaction.UserTransaction;
 
 import java.util.Set;

@@ -7,6 +7,8 @@
 
 package javax.cache;
 
+import javax.cache.transaction.IsolationLevel;
+import javax.cache.transaction.Mode;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -101,13 +103,25 @@ public interface CacheConfiguration {
     void setStatisticsEnabled(boolean enableStatistics);
 
     /**
-     * Checks whether transactions are enabled for this cache.
+     * Checks whether transaction are enabled for this cache.
      * <p/>
      * Default value is false.
      *
-     * @return true if statistics collection is enabled
+     * @return true if transaction are enabled
      */
     boolean isTransactionEnabled();
+
+    /**
+     * Gets the transaction isolation level.
+     * @return the isolation level. null if this cache is not transactional
+     */
+    IsolationLevel getTransactionIsolationLevel();
+
+    /**
+     * Gets the transaction mode.
+     * @return the the mode of the cache. null if this cache is not transactional
+     */
+    Mode getTransactionMode();
 
     /**
      * Sets how long cache entries should live. If expiry is not set entries are eternal.

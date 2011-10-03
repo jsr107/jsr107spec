@@ -9,6 +9,8 @@ package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.NotificationScope;
+import javax.cache.transaction.IsolationLevel;
+import javax.cache.transaction.Mode;
 
 /**
  * A CacheBuilder is used for creating Caches.
@@ -80,14 +82,15 @@ public interface CacheBuilder<K, V> {
     CacheBuilder<K, V> setStoreByValue(boolean storeByValue);
 
     /**
-     * Sets whether transactions are enabled for this cache
+     * Sets whether transaction are enabled for this cache.
      *
-     * @param enableTransactions true to enable transactions, false to disable
+     * @param isolationLevel - the default isolation level of this cache
+     * @param mode - the mode (Local or XA) for this cache
      * @return the builder
-     * @throws InvalidConfigurationException if the cache does not support transactions by reference
+     * @throws InvalidConfigurationException if the cache does not support transactions, or the isolation level {@link IsolationLevel#TX_NONE}
      * @see CacheConfiguration#isTransactionEnabled()
      */
-    CacheBuilder<K, V> setTransactionEnabled(boolean enableTransactions);
+    CacheBuilder<K, V> setTransactionEnabled(IsolationLevel isolationLevel, Mode mode);
 
     /**
      * Sets whether statistics gathering is enabled  on this cache.
