@@ -19,6 +19,10 @@ import java.util.concurrent.TimeUnit;
  * <p/>
  * Finally, a cache makes it's configuration visible via this interface.
  *
+ * Only those configurations which can be changed at runtime (if supported by the underlying implementation)
+ * have setters in this interface. Those that can only be set prior to cache construction have setters in
+ * {@link CacheBuilder}.
+ *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0
@@ -151,9 +155,9 @@ public interface CacheConfiguration {
         /**
          * UNLIMITED
          */
-        public static final Size UNLIMITED = new Size(SizeUnit.PETABYTES, 0);
+        public static final Size UNLIMITED = new Size(Unit.PETABYTES, 0);
 
-        private SizeUnit sizeUnit;
+        private Unit sizeUnit;
         private long size;
 
         /**
@@ -163,7 +167,7 @@ public interface CacheConfiguration {
          * @throws IllegalArgumentException if size is less than 0
          *                                  TODO: revisit above exceptions
          */
-        public Size(SizeUnit sizeUnit, long size) {
+        public Size(Unit sizeUnit, long size) {
             if (sizeUnit == null) {
                 throw new NullPointerException();
             }
@@ -175,21 +179,70 @@ public interface CacheConfiguration {
         }
 
         /**
-         * Gets the SizeUnit used to specify the size
+         * Gets the Unit used to specify the size
          *
-         * @return the SizeUnit used to specify the size
+         * @return the Unit used to specify the size
          */
-        public SizeUnit getSizeUnit() {
+        public Unit getSizeUnit() {
             return sizeUnit;
         }
 
         /**
-         * Gets the SizeUnit used to specify the size
+         * Gets the Unit used to specify the size
          *
-         * @return the SizeUnit used to specify the size. 0 means unlimited
+         * @return the Unit used to specify the size. 0 means unlimited
          */
         public long getSize() {
             return size;
+        }
+
+        /**
+         * A <tt>Unit</tt> represents different units for representing size.
+         * A <tt>Unit</tt> does not maintain size information, but only
+         * helps organize and use size representations that may be maintained
+         * separately across various contexts.
+         * <p/>
+         * There are two approaches:
+         * <ol>
+         * <li>size as a count of entries in the cache</li>
+         * <li>size in bytes in the cache</li>
+         * </ol>
+         *
+         * @author Greg Luck
+         */
+        public static enum Unit {
+
+
+            /**
+             * A count of the number of entries in the Cache
+             */
+            COUNT,
+
+            /**
+             * The space occupied by the object graphs or the Seralized representations, in bytes.
+             */
+            BYTES,
+
+            /**
+             * The space occupied by the object graphs or the Seralized representations, in megabytes.
+             */
+            MEGABYTES,
+
+            /**
+             * The space occupied by the object graphs or the Seralized representations, in gigabytes.
+             */
+            GIGABYTES,
+
+            /**
+             * The space occupied by the object graphs or the Seralized representations, in terabytes.
+             */
+            TERABYTES,
+
+            /**
+             * The space occupied by the object graphs or the Seralized representations, in petabytes.
+             */
+            PETABYTES
+
         }
     }
 
@@ -259,54 +312,6 @@ public interface CacheConfiguration {
         }
     }
 
-    /**
-     * A <tt>SizeUnit</tt> represents different units for representing size.
-     * A <tt>SizeUnit</tt> does not maintain size information, but only
-     * helps organize and use size representations that may be maintained
-     * separately across various contexts.
-     * <p/>
-     * There are two approaches:
-     * <ol>
-     * <li>size as a count of entries in the cache</li>
-     * <li>size in bytes in the cache</li>
-     * </ol>
-     *
-     * @author Greg Luck
-     */
-    public static enum SizeUnit {
-
-
-        /**
-         * A count of the number of entries in the Cache
-         */
-        COUNT,
-
-        /**
-         * The space occupied by the object graphs or the Seralized representations, in bytes.
-         */
-        BYTES,
-
-        /**
-         * The space occupied by the object graphs or the Seralized representations, in megabytes.
-         */
-        MEGABYTES,
-
-        /**
-         * The space occupied by the object graphs or the Seralized representations, in gigabytes.
-         */
-        GIGABYTES,
-
-        /**
-         * The space occupied by the object graphs or the Seralized representations, in terabytes.
-         */
-        TERABYTES,
-
-        /**
-         * The space occupied by the object graphs or the Seralized representations, in petabytes.
-         */
-        PETABYTES
-
-    }
 
 
 }
