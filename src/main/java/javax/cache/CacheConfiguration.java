@@ -272,24 +272,31 @@ public interface CacheConfiguration {
         /**
          * ETERNAL
          */
-        public static final Duration ETERNAL = new Duration(TimeUnit.SECONDS, 0);
+        public static final Duration ETERNAL = new Duration(Type.MODIFIED, TimeUnit.SECONDS, 0);
+
+        /**
+         * The type of the duration.
+         */
+        private final Type type;
 
         /**
          * The unit of time to specify time in. The minimum time unit is milliseconds.
          */
-        private TimeUnit timeUnit;
+        private final TimeUnit timeUnit;
 
        /*
         * How long, in the specified units, the cache entries should live.
-        * The lifetime is measured from the cache entry was last put (i.e. creation or modifification for an update)
+        * The lifetime is measured from the cache entry was last put (i.e. creation or modifification for an update) or
+        * the time accessed depending on the type
         * 0 means eternal.
         *
         */
-        private long timeToLive;
+        private final long timeToLive;
 
         /**
          * Constructs a duration.
          *
+         * @param type       the type of the duration
          * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
          * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
@@ -298,7 +305,11 @@ public interface CacheConfiguration {
          *                                       TODO: revisit above exceptions
          * todo: Change TimeUnit to our own TimeUnit which does not define nano and micro
          */
-        public Duration(TimeUnit timeUnit, long timeToLive) {
+        public Duration(Type type, TimeUnit timeUnit, long timeToLive) {
+            if (type == null) {
+                throw new NullPointerException();
+            }
+            this.type = type;
             if (timeUnit == null) {
                 throw new NullPointerException();
             }
@@ -328,6 +339,27 @@ public interface CacheConfiguration {
          */
         public long getTimeToLive() {
             return timeToLive;
+        }
+
+        /**
+         * @return the type
+         */
+        public Type getType() {
+            return type;
+        }
+
+        /**
+         * Type of Duration
+         */
+        public enum Type {
+            /**
+             * Time since last modified. Creation is a modification event
+             */
+            MODIFIED,
+            /**
+             * Time since last accessed
+             */
+            ACCESSED
         }
     }
 }
