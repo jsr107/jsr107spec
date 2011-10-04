@@ -238,6 +238,11 @@ public interface CacheConfiguration {
             BYTES,
 
             /**
+             * The space occupied by the object graphs or the Seralized representations, in kilobytes.
+             */
+            KILOBYTES,
+
+            /**
              * The space occupied by the object graphs or the Seralized representations, in megabytes.
              */
             MEGABYTES,
@@ -325,7 +330,4 @@ public interface CacheConfiguration {
             return timeToLive;
         }
     }
-
-
-
 }

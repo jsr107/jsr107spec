@@ -20,14 +20,29 @@ import static java.sql.Connection.TRANSACTION_SERIALIZABLE;
  */
 public enum IsolationLevel {
 
+    /**
+     * Isolation level
+     */
     TX_NONE(TRANSACTION_NONE),
 
+    /**
+     * Isolation level
+     */
     TX_READ_UNCOMMITTED(TRANSACTION_READ_UNCOMMITTED),
 
+    /**
+     * Isolation level
+     */
     TX_READ_COMMITTED(TRANSACTION_READ_COMMITTED),
 
+    /**
+     * Isolation level
+     */
     TX_READ_REPEATABLE(TRANSACTION_REPEATABLE_READ),
 
+    /**
+     * Isolation level
+     */
     TX_READ_SERIALIZABLE(TRANSACTION_SERIALIZABLE);
 
     private final int value;
@@ -36,6 +51,11 @@ public enum IsolationLevel {
         this.value = value;
     }
 
+    /**
+     * Return the value. The integer returned corresponds to
+     * the constants defined in {@link java.sql.Connection}
+     * @return the value
+     */
     int getValue() {
         return value;
     }
