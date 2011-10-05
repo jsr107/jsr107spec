@@ -126,19 +126,21 @@ public interface CacheConfiguration {
     /**
      * Sets how long cache entries should live. If expiry is not set entries are eternal.
      *
+     * @param type the type of the expiry
      * @param timeToLive how long, in the specified duration, the cache entries should live.
-     * @throws NullPointerException is timeToLive is null
+     * @throws NullPointerException is type or timeToLive is null
      */
-    void setExpiry(Duration timeToLive);
+    void setExpiry(Duration.TTLType type, Duration timeToLive);
 
     /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
      * <p/>
      * Default value is {@link Duration#ETERNAL}.
      *
+     * @param type the type of the expiration
      * @return how long, in milliseconds, the specified units, the entry should live. 0 means eternal.
      */
-    Duration getExpiry();
+    Duration getExpiry(Duration.TTLType type);
 
     /**
      * Sets how large the cache can be.
@@ -272,12 +274,7 @@ public interface CacheConfiguration {
         /**
          * ETERNAL
          */
-        public static final Duration ETERNAL = new Duration(Type.MODIFIED, TimeUnit.SECONDS, 0);
-
-        /**
-         * The type of the duration.
-         */
-        private final Type type;
+        public static final Duration ETERNAL = new Duration(TimeUnit.SECONDS, 0);
 
         /**
          * The unit of time to specify time in. The minimum time unit is milliseconds.
@@ -286,8 +283,8 @@ public interface CacheConfiguration {
 
        /*
         * How long, in the specified units, the cache entries should live.
-        * The lifetime is measured from the cache entry was last put (i.e. creation or modifification for an update) or
-        * the time accessed depending on the type
+        * The lifetime is measured from the cache entry was last put (i.e. creation or modification for an update) or
+        * the time accessed depending on the {@link TTLType}
         * 0 means eternal.
         *
         */
@@ -296,7 +293,6 @@ public interface CacheConfiguration {
         /**
          * Constructs a duration.
          *
-         * @param type       the type of the duration
          * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
          * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
          * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
@@ -305,11 +301,7 @@ public interface CacheConfiguration {
          *                                       TODO: revisit above exceptions
          * todo: Change TimeUnit to our own TimeUnit which does not define nano and micro
          */
-        public Duration(Type type, TimeUnit timeUnit, long timeToLive) {
-            if (type == null) {
-                throw new NullPointerException();
-            }
-            this.type = type;
+        public Duration(TimeUnit timeUnit, long timeToLive) {
             if (timeUnit == null) {
                 throw new NullPointerException();
             }
@@ -342,16 +334,9 @@ public interface CacheConfiguration {
         }
 
         /**
-         * @return the type
-         */
-        public Type getType() {
-            return type;
-        }
-
-        /**
          * Type of Duration
          */
-        public enum Type {
+        public enum TTLType {
             /**
              * Time since last modified. Creation is a modification event
              */
