@@ -126,7 +126,14 @@ public interface CacheConfiguration {
     /**
      * Sets how long cache entries should live. If expiry is not set entries are eternal.
      *
-     *
+     * It both types of expiry are set, then each is checked. If expiry has occurred in either
+     * type then the entry is expired.
+     * <p/>
+     * Any operation that accesses an expired entry will behave as if it is not in the cache. So:
+     * <ul>
+     *     <li>a cache shall not return an expired entry</li>
+     *     <li>{@link Cache#containsKey(Object)} will return false</li>
+     * </ul>
      *
      * @param type the type of the expiry
      * @param duration how long, in the specified duration, the cache entries should live.
@@ -338,15 +345,25 @@ public interface CacheConfiguration {
     }
 
     /**
-     * Type of Duration
+     * Type of Expiry
      */
     public enum ExpiryType {
+
         /**
-         * Time since last modified. Creation is a modification event
+         * Time since last modified. Creation is also considered a modification event.
          */
         MODIFIED,
+
         /**
-         * Time since last accessed
+         * Time since last <em>accessed</em>. Access means any access to an entry including
+         * a modification event. Examples are:
+         * <ul>
+         *     <li>put</li>
+         *     <li>get</li>
+         *     <li>containsKey</li>
+         *     <li>iteration</li>
+         * </ul>
+         *
          */
         ACCESSED
     }
