@@ -15,7 +15,7 @@ import static java.sql.Connection.TRANSACTION_SERIALIZABLE;
 
 
 /**
- * A enum for the isolation levels. The enum values used are the constants from the java.sql.Connection package.
+ * An enum for the isolation levels. The enum values used are the constants from the java.sql.Connection package.
  * @author Greg Luck
  */
 public enum IsolationLevel {
