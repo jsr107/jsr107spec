@@ -21,7 +21,7 @@ public enum Status {
     UNINITIALISED,
 
     /**
-     * The resoure has been started and is ready for service.
+     * The resource has been started and is ready for service.
      */
     STARTED,
 
