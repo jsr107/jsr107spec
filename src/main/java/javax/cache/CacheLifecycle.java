@@ -38,18 +38,19 @@ public interface CacheLifecycle {
      * stop.
      * <p/>
      * Cache operations are illegal after this method is called.
-     * A {@link IllegalStateException} will be thrown if an operation is performed on CacheManager or any contained Cache while
-     * they are stopping or are a stopped.
+     * A {@link IllegalStateException} will be
      * <p/>
-     * Resources will change status to {@link Status#STOPPING} when this method is called. Once they are stopped they will change
-     * status to {@link Status#STOPPED}.
+     * Resources will change status to {@link Status#STOPPED} when this method completes.
      *
      * @throws CacheException
+     * @throws IllegalStateException thrown if an operation is performed on a cache unless it is started.
      */
     void stop() throws CacheException;
 
     /**
      * Returns the cache status.
+     * <p/>
+     * This method blocks while the state is changing
      *
      * @return one of {@link Status}
      */

@@ -21,19 +21,9 @@ public enum Status {
     UNINITIALISED,
 
     /**
-     * The resource is in the process of starting
-     */
-    STARTING,
-
-    /**
      * The resoure has been started and is ready for service.
      */
     STARTED,
-
-    /**
-     * The resource is in the process of stopping.
-     */
-    STOPPING,
 
     /**
      * The resource has been stopped. It can no longer service requests.

@@ -52,7 +52,9 @@ public interface CacheManager {
     /**
      * Returns the status of this CacheManager.
      * <p/>
+     * Calls to this method will block while the state is changing.
      * @return one of {@link Status}
+     * todo RI should block until transition completed and needs internal transitional states
      */
     Status getStatus();
 
@@ -160,7 +162,10 @@ public interface CacheManager {
      * <p/>
      * For each cache in the cache manager the {@link javax.cache.Cache#stop()} method will be invoked, in no guaranteed order.
      * If the stop throws an exception, the exception will be consumed silently.
-     * During the execution of the method the status of CacheManager is {@link Status#STOPPING}.
+     * <p/>
+     * Calls to {@link #getStatus()} will block until shutdown completes.
+     * <p/>
+     * During the execution of the method calls to {@link #getStatus()} will block.
      * On completion the CacheManager's status is changed to {@link Status#STOPPED}, and the manager's owned caches will be empty &amp;
      * {@link #getCaches()} will return an empty collection.
      * <p/>
