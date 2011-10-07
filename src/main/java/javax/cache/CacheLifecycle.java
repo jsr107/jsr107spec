@@ -41,6 +41,8 @@ public interface CacheLifecycle {
      * A {@link IllegalStateException} will be
      * <p/>
      * Resources will change status to {@link Status#STOPPED} when this method completes.
+     * <p/>
+     * Stop must free any JVM resources used.
      *
      * @throws CacheException
      * @throws IllegalStateException thrown if an operation is performed on a cache unless it is started.
