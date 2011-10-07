@@ -126,11 +126,13 @@ public interface CacheConfiguration {
     /**
      * Sets how long cache entries should live. If expiry is not set entries are eternal.
      *
+     *
+     *
      * @param type the type of the expiry
-     * @param timeToLive how long, in the specified duration, the cache entries should live.
-     * @throws NullPointerException is type or timeToLive is null
+     * @param duration how long, in the specified duration, the cache entries should live.
+     * @throws NullPointerException is type or duration is null
      */
-    void setExpiry(Duration.TTLType type, Duration timeToLive);
+    void setExpiry(ExpiryType type, Duration duration);
 
     /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
@@ -140,7 +142,7 @@ public interface CacheConfiguration {
      * @param type the type of the expiration
      * @return how long, in milliseconds, the specified units, the entry should live. 0 means eternal.
      */
-    Duration getExpiry(Duration.TTLType type);
+    Duration getExpiry(ExpiryType type);
 
     /**
      * Sets how large the cache can be.
@@ -284,7 +286,7 @@ public interface CacheConfiguration {
        /*
         * How long, in the specified units, the cache entries should live.
         * The lifetime is measured from the cache entry was last put (i.e. creation or modification for an update) or
-        * the time accessed depending on the {@link TTLType}
+        * the time accessed depending on the {@link ExpiryType}
         * 0 means eternal.
         *
         */
@@ -333,18 +335,19 @@ public interface CacheConfiguration {
             return timeToLive;
         }
 
+    }
+
+    /**
+     * Type of Duration
+     */
+    public enum ExpiryType {
         /**
-         * Type of Duration
+         * Time since last modified. Creation is a modification event
          */
-        public enum TTLType {
-            /**
-             * Time since last modified. Creation is a modification event
-             */
-            MODIFIED,
-            /**
-             * Time since last accessed
-             */
-            ACCESSED
-        }
+        MODIFIED,
+        /**
+         * Time since last accessed
+         */
+        ACCESSED
     }
 }
