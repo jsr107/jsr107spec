@@ -130,13 +130,4 @@ public interface CacheBuilder<K, V> {
      */
     CacheBuilder<K, V> setExpiry(CacheConfiguration.ExpiryType type, CacheConfiguration.Duration timeToLive);
 
-    /**
-     * Sets the size
-     *
-     * @param size the size
-     * @return the builder
-     * @see CacheConfiguration#setSize(javax.cache.CacheConfiguration.Size)
-     * @throws NullPointerException if size is null
-     */
-    CacheBuilder<K, V> setSize(CacheConfiguration.Size size);
 }
