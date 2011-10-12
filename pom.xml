@@ -10,7 +10,7 @@
     </parent>
     <groupId>javax.cache</groupId>
     <artifactId>cache-api</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
 
     <name>JSR107 API and SPI</name>
@@ -135,7 +135,7 @@
 
     <profiles>
         <profile>
-            <!--Only releases need to be signed-->
+            <!--Only releases need to be signed. Use mvn -Prelease clean deploy to deploy releases -->
             <id>release</id>
             <build>
                 <plugins>
