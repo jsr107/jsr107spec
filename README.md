@@ -8,15 +8,34 @@ About
  Provider Interface") for use by implementers.
 
 
-Releases
---------
+## Releases
 
-The stable releases of this software are tagged with version numbers, starting with 0.2. Eventually, when the specification is further
-along releases will match the specification number.
+### 12 October 2011: 0.3
 
-The following stable releases have been made:
 
-* 16 August 2011: 0.2
+
+    Maven snippet:
+
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>0.3</version>
+    </dependency>
+
+
+
+### 16 August 2011: 0.2
+
+    Initial release.
+
+    Maven snippet:
+
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>0.2</version>
+    </dependency>
+
 
 Snapshot Releases
 -----------------
