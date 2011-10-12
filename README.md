@@ -12,9 +12,13 @@ About
 
 ### 12 October 2011: 0.3
 
+Changes in this release:
 
+* Numerous changes across the spec, TCK and RI
+* Annotations implementations in the RI for Spring and CDI
+* Transactions API finalised
 
-    Maven snippet:
+Maven snippet:
 
     <dependency>
       <groupId>javax.cache</groupId>
@@ -26,9 +30,9 @@ About
 
 ### 16 August 2011: 0.2
 
-    Initial release.
+Initial release.
 
-    Maven snippet:
+Maven snippet:
 
     <dependency>
       <groupId>javax.cache</groupId>
@@ -87,8 +91,7 @@ The RI is there to ensure that the specification and API works.
 For example, some things that we leave out:
 
 - implementation of transactions.
-- concurrency. The RI is not exhaustively tested for thread safety.
-- tiered storage. A simple on heap store is used.
+- tiered storage. A simple on-heap store is used.
 - replicated or distributed caching
 
 Why did we do this? Because a much greater engineering effort, which gets put into the open source and commercial caches
