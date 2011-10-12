@@ -81,7 +81,7 @@ implementations.
 Building From Source
 --------------------
 
-Building uses Maven in all modules. Maven 2.2.1 and 3.0.3 have been tested.
+Building uses Maven in all modules. Maven 2.2.1 and 3.0.4-SNAPSHOT have been tested.
 
 See each module's README.md for build instructions.
 
