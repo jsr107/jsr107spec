@@ -29,9 +29,9 @@ public interface CacheLifecycle {
      *
      * At the completion of this method invocation {@link #getStatus()} must return {@link Status#STARTED}.
      *
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      */
-    void start() throws CacheException;
+    void start();
 
     /**
      * Providers may be doing all sorts of exotic things and need to be able to clean up on
@@ -44,10 +44,10 @@ public interface CacheLifecycle {
      * <p/>
      * Stop must free any JVM resources used.
      *
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      * @throws IllegalStateException thrown if an operation is performed on a cache unless it is started.
      */
-    void stop() throws CacheException;
+    void stop();
 
     /**
      * Returns the cache status.

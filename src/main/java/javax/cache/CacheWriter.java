@@ -25,9 +25,9 @@ public interface CacheWriter<K, V> {
      * This method is intended to support both key/value creation and value update for a specific key.
      *
      * @param entry the entry to be written
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      */
-    void write(Cache.Entry<K, V> entry) throws CacheException;
+    void write(Cache.Entry<K, V> entry);
 
     /**
      * Write the specified entries to the underlying store. This method is intended to support both insert and update.
@@ -36,18 +36,18 @@ public interface CacheWriter<K, V> {
      * indicating that the write operation for the entries left in the map has failed or has not been attempted.
      *
      * @param entries the entries to be written
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      */
-    void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws CacheException;
+    void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries);
 
 
     /**
      * Delete the cache entry from the store
      *
      * @param key the key that is used for the delete operation
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      */
-    void delete(Object key) throws CacheException;
+    void delete(Object key);
 
 
     /**
@@ -57,8 +57,8 @@ public interface CacheWriter<K, V> {
      * has failed or has not been attempted.
      *
      * @param entries the entries that have been removed from the cache
-     * @throws CacheException
+     * @throws CacheException if ????? TODO describe when
      */
-    void deleteAll(Collection<?> entries) throws CacheException;
+    void deleteAll(Collection<?> entries);
 
 }

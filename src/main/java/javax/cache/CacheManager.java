@@ -126,7 +126,7 @@ public interface CacheManager {
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws NullPointerException if cacheName is null
      */
-    boolean removeCache(String cacheName) throws IllegalStateException;
+    boolean removeCache(String cacheName);
 
     /**
      * This method will return a UserTransaction.

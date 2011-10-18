@@ -75,7 +75,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException        if there is a problem fetching the value
      * @see java.util.Map#get(Object)
      */
-    V get(Object key) throws CacheException;
+    V get(Object key);
 
 
     /**
@@ -93,7 +93,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem fetching the values.
      */
-    Map<K, V> getAll(Collection<? extends K> keys) throws CacheException;
+    Map<K, V> getAll(Collection<? extends K> keys);
 
 
     /**
@@ -110,7 +110,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       it there is a problem checking the mapping
      * @see java.util.Map#containsKey(Object)
      */
-    boolean containsKey(Object key) throws CacheException;
+    boolean containsKey(Object key);
 
     /**
      * The load method provides a means to "pre load" the cache. This method
@@ -128,7 +128,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem doing the load
      */
-    Future<V> load(K key) throws CacheException;
+    Future<V> load(K key);
 
     /**
      * The loadAll method provides a means to "pre load" objects into the cache.
@@ -153,7 +153,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem doing the load
      */
-    Future<Map<K, V>> loadAll(Collection<? extends K> keys) throws CacheException;
+    Future<Map<K, V>> loadAll(Collection<? extends K> keys);
 
     /**
      * Returns the {@link CacheStatistics} MXBean associated with the cache.
@@ -184,7 +184,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @see #getAndPut(Object, Object)
      * @see #getAndReplace(Object, Object)
      */
-    void put(K key, V value) throws CacheException;
+    void put(K key, V value);
 
     /**
      * Atomically associates the specified value with the specified key in this cache
@@ -208,7 +208,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @see #put(Object, Object)
      * @see #getAndReplace(Object, Object)
      */
-    V getAndPut(K key, V value) throws CacheException;
+    V getAndPut(K key, V value);
 
     /**
      * Copies all of the mappings from the specified map to this cache.
@@ -226,7 +226,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.Map#putAll(java.util.Map)
      */
-    void putAll(java.util.Map<? extends K, ? extends V> map) throws CacheException;
+    void putAll(java.util.Map<? extends K, ? extends V> map);
 
     /**
      * Atomically associates the specified key with the given value if it is
@@ -253,7 +253,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
-    boolean putIfAbsent(K key, V value) throws CacheException;
+    boolean putIfAbsent(K key, V value);
 
     /**
      * Removes the mapping for a key from this cache if it is present.
@@ -275,7 +275,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
-    boolean remove(Object key) throws CacheException;
+    boolean remove(Object key);
 
 
     /**
@@ -299,7 +299,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
-    boolean remove(Object key, V oldValue) throws CacheException;
+    boolean remove(Object key, V oldValue);
 
     /**
      * Atomically removes the entry for a key only if currently mapped to a given value.
@@ -322,7 +322,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException                if there is a problem during the remove
      * @see java.util.Map#remove(Object)
      */
-    V getAndRemove(Object key) throws CacheException;
+    V getAndRemove(Object key);
 
     /**
      * Atomically replaces the entry for a key only if currently mapped to a given value.
@@ -346,7 +346,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
      */
-    boolean replace(K key, V oldValue, V newValue) throws CacheException;
+    boolean replace(K key, V oldValue, V newValue);
 
     /**
      * Atomically replaces the entry for a key only if currently mapped to some value.
@@ -373,7 +373,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @see #getAndReplace(Object, Object)
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-    boolean replace(K key, V value) throws CacheException;
+    boolean replace(K key, V value);
 
     /**
      * Atomically replaces the entry for a key only if currently mapped to some value.
@@ -398,7 +398,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
-    V getAndReplace(K key, V value) throws CacheException;
+    V getAndReplace(K key, V value);
 
     /**
      * Removes entries for the specified keys.
@@ -411,7 +411,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException       if there is a problem during the remove
      */
-    void removeAll(Collection<? extends K> keys) throws CacheException;
+    void removeAll(Collection<? extends K> keys);
 
     /**
      * Removes all of the mappings from this cache.
@@ -424,7 +424,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException if there is a problem during the remove
      * @see java.util.Map#clear()
      */
-    void removeAll() throws CacheException;
+    void removeAll();
 
     /**
      * Returns a CacheConfiguration.
