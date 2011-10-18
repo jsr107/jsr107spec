@@ -10,6 +10,7 @@ package javax.cache;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.NotificationScope;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -214,8 +215,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * The effect of this call is equivalent to that
      * of calling {@link #put(Object, Object) put(k, v)} on this cache once
      * for each mapping from key <tt>k</tt> to value <tt>v</tt> in the
-     * specified map.  The behavior of this operation is undefined if the
-     * specified cache or map is modified while the operation is in progress.
+     * specified map.
+     * The order in which the individual puts will occur is undefined.
+     * The behavior of this operation is undefined if the specified cache or map is modified while the
+     * operation is in progress.
      *
      * @param map mappings to be stored in this cache
      * @throws NullPointerException if map is null or if map contains null keys or values.
@@ -398,7 +401,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     V getAndReplace(K key, V value) throws CacheException;
 
     /**
-     * Removes entries for the specified keys
+     * Removes entries for the specified keys.
+     * <p/>
+     * The order in which the individual removes will occur is undefined.
      * <p/>
      *
      * @param keys the keys to remove
@@ -411,6 +416,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Removes all of the mappings from this cache.
      * <p/>
+     * The order in which the individual removes will occur is undefined.
      * This is potentially an expensive operation.
      * <p/>
      *
@@ -484,6 +490,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     <T> T unwrap(java.lang.Class<T> cls);
 
+    /**
+     * {@inheritDoc}
+     * The ordering of the entries is undefined
+     */
+    Iterator<Cache.Entry<K, V>> iterator();
     /**
      * A cache entry (key-value pair).
      */
