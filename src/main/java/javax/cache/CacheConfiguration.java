@@ -42,28 +42,13 @@ public interface CacheConfiguration {
     boolean isReadThrough();
 
     /**
-     * Sets whether the cache is a read-through cache.
-     *
-     * @param readThrough the value for readThrough
-     * @throws IllegalStateException if the configuration can no longer be changed
-     */
-    void setReadThrough(boolean readThrough);
-
-    /**
-     * Whether the cache is a write-through cache. A CacheWriter should be configured.
+     * Whether the cache is a write-through cache. If so a CacheWriter should be configured.
      * <p/>
      * Default value is false.
      *
      * @return true if the cache is write-through
      */
     boolean isWriteThrough();
-
-    /**
-     * Whether the cache is a write-through cache. A CacheWriter should be configured.
-     *
-     * @param writeThrough set to true for a write-through cache
-     */
-    void setWriteThrough(boolean writeThrough);
 
     /**
      * Whether storeByValue (true) or storeByReference (false).
@@ -122,6 +107,18 @@ public interface CacheConfiguration {
      * @return the the mode of the cache. null if this cache is not transactional
      */
     Mode getTransactionMode();
+
+    /**
+     * Gets the registered {@link CacheLoader}, if any.
+     * @return the {@link CacheLoader} or null if none has been set.
+     */
+    CacheLoader getCacheLoader();
+
+    /**
+     * Gets the registered {@link CacheWriter}, if any.
+     * @return
+     */
+    CacheWriter getCacheWriter();
 
     /**
      * Sets how long cache entries should live. If expiry is not set entries are eternal.

@@ -102,12 +102,10 @@ public interface CacheBuilder<K, V> {
     CacheBuilder<K, V> setStatisticsEnabled(boolean enableStatistics);
 
     /**
-     * Sets whether the cache is a read-through cache.
+     * Sets whether the cache is a read-through cache. If so a CacheLoader should be configured.
      *
      * @param readThrough the value for readThrough
      * @return the builder
-     * @throws IllegalStateException if the configuration can no longer be changed
-     * @see CacheConfiguration#setReadThrough(boolean)
      */
     CacheBuilder<K, V> setReadThrough(boolean readThrough);
 
@@ -116,7 +114,6 @@ public interface CacheBuilder<K, V> {
      *
      * @param writeThrough set to true for a write-through cache
      * @return the builder
-     * @see CacheConfiguration#setWriteThrough(boolean)
      */
     CacheBuilder<K, V> setWriteThrough(boolean writeThrough);
 
