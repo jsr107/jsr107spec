@@ -95,7 +95,7 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to build
      * @return the CacheBuilder for the named cache
-     * @throws IllegalStateException if the cache is not {@link Status#UNINITIALISED} before this method is called.
+     * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state.
      * @throws CacheException        if there was an error adding the cache to the CacheManager
      */
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
