@@ -218,7 +218,8 @@ public final class Caching {
     }
 
     /**
-     * The CasheManagerFactory
+     * CachingSingleton is responsible for creating CacheManagers or retrieving existing
+     * CacheManagers by name.
      */
     private static final class CachingSingleton {
         /**
