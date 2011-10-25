@@ -29,7 +29,7 @@ import java.util.Set;
  * </ul>
  * <p/>
  * <h2>Lookup</h2>
- * If the CacheManagerFactory was used for creation, the factory will keep track of all CacheManagers created.
+ * The {@link Caching} singleton keeps track of every {@link CacheManager} that it creates.
  * <p/>
  * The default CacheManager can be obtained using <code>Caching.getCacheManager()</code>. This is a
  * useful idiom if you only want to use one CacheManager.
