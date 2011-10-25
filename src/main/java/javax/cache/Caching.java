@@ -18,8 +18,7 @@ import javax.cache.spi.CachingProvider;
 
 /**
  * A factory for creating CacheManagers using the SPI conventions
-import javax.cache.spi.AnnotationProvider;
- in the JDK's {@link ServiceLoader}
+ * in the JDK's {@link ServiceLoader}
  * <p/>
  * For a provider to be discovered, it's jar must contain a resource called:
  * <pre>
