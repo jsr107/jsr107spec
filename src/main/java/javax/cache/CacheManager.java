@@ -29,12 +29,12 @@ import java.util.Set;
  * </ul>
  * <p/>
  * <h2>Lookup</h2>
- * If the CacheManagerFactory was used for creation, the factory will keep track of all CacheManagers created.
+ * If Caching was used for creation, it will keep track of all CacheManagers created.
  * <p/>
- * The default CacheManager can be obtained using <code>CacheManagerFactory.INSTANCE.getCacheManager()</code>. This is a
+ * The default CacheManager can be obtained using <code>Caching.getCacheManager()</code>. This is a
  * useful idiom if you only want to use one CacheManager.
  * <p/>
- * Named CacheManagers can be obtained using <code>CacheManagerFactory.INSTANCE.getCacheManager(name)</code>.
+ * Named CacheManagers can be obtained using <code>Caching.getCacheManager(name)</code>.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos

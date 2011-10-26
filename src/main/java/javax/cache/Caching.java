@@ -7,14 +7,13 @@
 
 package javax.cache;
 
+import javax.cache.spi.AnnotationProvider;
+import javax.cache.spi.CachingProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
-
-import javax.cache.spi.AnnotationProvider;
-import javax.cache.spi.CachingProvider;
 
 /**
  * A factory for creating CacheManagers using the SPI conventions
@@ -218,14 +217,13 @@ public final class Caching {
     }
 
     /**
-     * The CasheManagerFactory
+     * Used to track CacheManagers created using Caching.
      */
     private static final class CachingSingleton {
         /**
          * The singleton
          */
-        public static final CachingSingleton INSTANCE =
-            new CachingSingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
+        public static final CachingSingleton INSTANCE = new CachingSingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
 
         private final HashMap<ClassLoader, HashMap<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, HashMap<String, CacheManager>>();
         private final CachingProvider cachingProvider;
