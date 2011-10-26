@@ -11,7 +11,7 @@ import javax.cache.Cache;
 
 /**
  * Invoked if a cache entry is created,
- * for example through a {@link Cache#put(Object, Object)} operation.
+ * for example through a {@link Cache#put(Object, Object)} operation or the action of a {@link javax.cache.CacheLoader}.
  * If an entry for the key existed prior to the operation it is not invoked, as this ia an update.
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache

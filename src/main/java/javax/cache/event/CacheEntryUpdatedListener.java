@@ -10,8 +10,7 @@ package javax.cache.event;
 import javax.cache.Cache;
 
 /**
- * Invoked if an existing cache entry is updated,
- * for example through a {@link Cache#put(Object, Object)} operation.
+ * Invoked if an existing cache entry is updated, for example through a {@link Cache#put(Object, Object)} or a {@link javax.cache.CacheLoader} operation .
  * It is not invoked by a {@link Cache#remove(Object)} operation.
  *
  * @param <K> the type of keys maintained by the associated cache
