@@ -151,35 +151,32 @@ public interface CacheConfiguration {
         * 0 means eternal.
         *
         */
-        private final long timeToLive;
+        private final long durationAmount;
 
         /**
          * Constructs a duration.
          *
          * @param timeUnit   the unit of time to specify time in. The minimum time unit is milliseconds.
-         * @param timeToLive how long, in the specified units, the cache entries should live. 0 means eternal.
-         * @throws InvalidConfigurationException if a TimeUnit less than milliseconds is specified.
+         * @param durationAmount how long, in the specified units, the cache entries should live. 0 means eternal.
          * @throws NullPointerException          if timeUnit is null
-         * @throws IllegalArgumentException      if timeToLive is less than 0
-         *                                       TODO: revisit above exceptions
-         * todo: Change TimeUnit to our own TimeUnit which does not define nano and micro
+         * @throws IllegalArgumentException      if durationAmount is less than 0 or a TimeUnit less than milliseconds is specified
          */
-        public Duration(TimeUnit timeUnit, long timeToLive) {
+        public Duration(TimeUnit timeUnit, long durationAmount) {
             if (timeUnit == null) {
                 throw new NullPointerException();
             }
             switch (timeUnit) {
                 case NANOSECONDS:
                 case MICROSECONDS:
-                    throw new InvalidConfigurationException();
+                    throw new IllegalArgumentException("Must specify a TimeUnit of milliseconds or higher.");
                 default:
                     this.timeUnit = timeUnit;
                     break;
             }
-            if (timeToLive < 0) {
-                throw new IllegalArgumentException();
+            if (durationAmount < 0) {
+                throw new IllegalArgumentException("Cannot specify a negative durationAmount.");
             }
-            this.timeToLive = timeToLive;
+            this.durationAmount = durationAmount;
         }
 
         /**
@@ -192,10 +189,29 @@ public interface CacheConfiguration {
         /**
          * @return the number of TimeUnits which quantify this duration
          */
-        public long getTimeToLive() {
-            return timeToLive;
+        public long getDurationAmount() {
+            return durationAmount;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Duration duration = (Duration) o;
+
+            if (durationAmount != duration.durationAmount) return false;
+            if (timeUnit != duration.timeUnit) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = timeUnit.hashCode();
+            result = 31 * result + (int) (durationAmount ^ (durationAmount >>> 32));
+            return result;
+        }
     }
 
     /**

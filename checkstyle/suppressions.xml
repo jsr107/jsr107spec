@@ -10,5 +10,6 @@
 
     <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
+    <suppress checks="MagicNumber" files=""/>
 
 </suppressions>
