@@ -121,24 +121,6 @@ public interface CacheConfiguration {
     CacheWriter getCacheWriter();
 
     /**
-     * Sets how long cache entries should live. If expiry is not set entries are eternal.
-     *
-     * It both types of expiry are set, then each is checked. If expiry has occurred in either
-     * type then the entry is expired.
-     * <p/>
-     * Any operation that accesses an expired entry will behave as if it is not in the cache. So:
-     * <ul>
-     *     <li>a cache shall not return an expired entry</li>
-     *     <li>{@link Cache#containsKey(Object)} will return false</li>
-     * </ul>
-     *
-     * @param type the type of the expiry
-     * @param duration how long, in the specified duration, the cache entries should live.
-     * @throws NullPointerException is type or duration is null
-     */
-    void setExpiry(ExpiryType type, Duration duration);
-
-    /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
      * <p/>
      * Default value is {@link Duration#ETERNAL}.
