@@ -38,6 +38,7 @@ public interface CacheBuilder<K, V> {
      * read through has been set to true but no cache loader is specified, or if no cache writer is specified but
      * write through has been set.
      * @see CacheManager#createCacheBuilder(String)
+     * @throws CacheException if a cache with that name already exists or there was an error adding the cache to the CacheManager
      */
     Cache<K, V> build();
 
