@@ -207,9 +207,7 @@ public interface CacheConfiguration {
 
         @Override
         public int hashCode() {
-            int result = timeUnit.hashCode();
-            result = 31 * result + (int) (durationAmount ^ (durationAmount >>> 32));
-            return result;
+            return ((Long)timeUnit.toMillis(durationAmount)).hashCode();
         }
     }
 
