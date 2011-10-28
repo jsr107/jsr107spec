@@ -200,10 +200,9 @@ public interface CacheConfiguration {
 
             Duration duration = (Duration) o;
 
-            if (durationAmount != duration.durationAmount) return false;
-            if (timeUnit != duration.timeUnit) return false;
-
-            return true;
+            long time1 =  timeUnit.toMillis(durationAmount);
+            long time2 = duration.timeUnit.toMillis(duration.durationAmount);
+            return time1 == time2;
         }
 
         @Override
