@@ -270,6 +270,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p>The cache will not contain a mapping for the specified key once the
      * call returns.
      *
+     *
      * @param key key whose mapping is to be removed from the cache
      * @return returns false if there was no matching key
      * @throws NullPointerException if key is null
@@ -277,7 +278,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
-    boolean remove(Object key);
+    boolean remove(K key);
 
 
     /**
