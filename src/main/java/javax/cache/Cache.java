@@ -319,6 +319,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *   }</pre>
      * except that the action is performed atomically.
      *
+     *
      * @param key key with which the specified value is associated
      * @return the value if one existed or null if no mapping existed for this key
      * @throws NullPointerException          if the specified key or value is null.
@@ -326,7 +327,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException                if there is a problem during the remove
      * @see java.util.Map#remove(Object)
      */
-    V getAndRemove(Object key);
+    V getAndRemove(K key);
 
     /**
      * Atomically replaces the entry for a key only if currently mapped to a given value.
