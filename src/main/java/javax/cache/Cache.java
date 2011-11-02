@@ -68,6 +68,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Gets an entry from the cache.
      * <p/>
      *
+     *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
@@ -75,7 +76,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException        if there is a problem fetching the value
      * @see java.util.Map#get(Object)
      */
-    V get(Object key);
+    V get(K key);
 
 
     /**
