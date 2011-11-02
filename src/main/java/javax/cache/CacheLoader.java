@@ -7,7 +7,6 @@
 
 package javax.cache;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -32,7 +31,7 @@ public interface CacheLoader<K, V> {
      * @param key the key identifying the object being loaded
      * @return The entry for the object that is to be stored in the cache.
      */
-    Cache.Entry<K, V> load(Object key);
+    Cache.Entry<K, V> load(K key);
 
     /**
      * Loads multiple objects. Application writers should implement this
@@ -43,7 +42,7 @@ public interface CacheLoader<K, V> {
      * @param keys keys identifying the values to be loaded
      * @return A Map of objects that are to be stored in the cache.
      */
-    Map<K, V> loadAll(Collection<? extends K> keys);
+    Map<K, V> loadAll(Iterable<? extends K> keys);
 
     /**
      *  Checks whether an object for the key can be loaded. May be used by an implementation
@@ -52,5 +51,5 @@ public interface CacheLoader<K, V> {
      * @param key the key to check
      * @return true if the key can be used to load a value
      */
-    boolean canLoad(Object key);
+    boolean canLoad(K key);
 }
