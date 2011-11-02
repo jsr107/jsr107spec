@@ -294,6 +294,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *   }</pre>
      * except that the action is performed atomically.
      *
+     *
      * @param key key whose mapping is to be removed from the cache
      * @param oldValue value expected to be associated with the specified key
      * @return returns false if there was no matching key
@@ -302,7 +303,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
-    boolean remove(Object key, V oldValue);
+    boolean remove(K key, V oldValue);
 
     /**
      * Atomically removes the entry for a key only if currently mapped to a given value.
