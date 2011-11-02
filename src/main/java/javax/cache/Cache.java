@@ -104,6 +104,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <tt>key.equals(k)</tt>.  (There can be at most one such mapping.)
      * <p/>
      *
+     *
      * @param key key whose presence in this cache is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      * @throws NullPointerException if key is null
@@ -111,7 +112,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException       it there is a problem checking the mapping
      * @see java.util.Map#containsKey(Object)
      */
-    boolean containsKey(Object key);
+    boolean containsKey(K key);
 
     /**
      * The load method provides a means to "pre load" the cache. This method
