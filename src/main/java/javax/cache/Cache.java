@@ -67,7 +67,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Gets an entry from the cache.
      * <p/>
-     *
+     * If the cache is configured read-through, and get would return null because the entry
+     * is missing from the cache, the Cache's {@link CacheLoader} is called which will attempt
+     * to load the entry.
      *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
@@ -81,11 +83,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
 
     /**
      * The getAll method will return, from the cache, a {@link Map} of the objects
-     * associated with the Collection of keys in argument "keys". If the objects
-     * are not in the cache, the associated cache loader will be called. If no
-     * loader is associated with an object, a null is returned.  If a problem
-     * is encountered during the retrieving or loading of the objects, an
-     * exception will be thrown.
+     * associated with the Collection of keys in argument "keys".
+     * <p/>
+     * If the cache is configured read-through, and a get would return null because an entry
+     * is missing from the cache, the Cache's {@link CacheLoader} is called which will attempt
+     * to load the entry. This is done for each key in the collection for which this is the case.
      * <p/>
      *
      * @param keys The keys whose associated values are to be returned.
@@ -115,15 +117,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     boolean containsKey(K key);
 
     /**
-     * The load method provides a means to "pre load" the cache. This method
+     * The load method provides a means to "pre-load" the cache. This method
      * will, asynchronously, load the specified object into the cache using
-     * the associated {@link CacheLoader}.
+     * the associated {@link CacheLoader} for the given key.
+     * <p/>
      * If the object already exists in the cache, no action is taken and null is returned.
-     * If no loader is associated with the cache
-     * no object will be loaded into the cache and null is returned.
+     * If no loader is associated with the cache no object will be loaded into the cache and null is returned.
+     * <p/>
      * If a problem is encountered during the retrieving or loading of the object, an exception
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
-     * <p/>
+     *
      * @param key            the key
      * @return a Future which can be used to monitor execution.
      * @throws NullPointerException if key is null.
@@ -133,21 +136,18 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     Future<V> load(K key);
 
     /**
-     * The loadAll method provides a means to "pre load" objects into the cache.
+     * The loadAll method provides a means to "pre-load" objects into the cache.
      * This method will, asynchronously, load the specified objects into the
-     * cache using the associated cache loader. If the an object already exists
+     * cache using the associated cache loader for the given keys.
+     * <p/>
+     * If the an object already exists
      * in the cache, no action is taken. If no loader is associated with the
      * object, no object will be loaded into the cache.  If a problem is
      * encountered during the retrieving or loading of the objects, an
      * exception (to be defined) should be logged.
      * <p/>
-     * The getAll method will return, from the cache, a Map of the objects
-     * associated with the Collection of keys in argument "keys". If the objects
-     * are not in the cache, the associated cache loader will be called. If no
-     * loader is associated with an object, a null is returned.  If a problem
-     * is encountered during the retrieving or loading of the objects, an
-     * exception (to be defined) will be thrown.
-     * <p/>
+     * If a problem is encountered during the retrieving or loading of the object, an exception
+     * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      *
      * @param keys           the keys
      * @return a Future which can be used to monitor execution

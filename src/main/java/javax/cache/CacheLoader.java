@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Used for read-through caching and loading data into a cache.
  * <p/>
- * See CacheWriter which is used for write-through caching.
+ * See {@link CacheWriter} which is the corollary for load used for write-through caching.
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
@@ -44,12 +44,4 @@ public interface CacheLoader<K, V> {
      */
     Map<K, V> loadAll(Iterable<? extends K> keys);
 
-    /**
-     *  Checks whether an object for the key can be loaded. May be used by an implementation
-     *  when the actual value is not needed (e.g. {@link Cache#replace(Object, Object)}.
-     *
-     * @param key the key to check
-     * @return true if the key can be used to load a value
-     */
-    boolean canLoad(K key);
 }

@@ -43,7 +43,7 @@ public interface CacheBuilder<K, V> {
     Cache<K, V> build();
 
     /**
-     * Set the cache loader.
+     * Sets the cache loader.
      *
      * @param cacheLoader the CacheLoader
      * @return the builder
@@ -52,7 +52,7 @@ public interface CacheBuilder<K, V> {
     CacheBuilder<K, V> setCacheLoader(CacheLoader<K, V> cacheLoader);
 
     /**
-     * Set the cache writer.
+     * Sets the cache writer.
      *
      * @param cacheWriter the CacheWriter
      * @return the builder
