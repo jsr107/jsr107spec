@@ -67,6 +67,9 @@ public interface CacheStatistics {
 
     /**
      * The number of get requests that were satisfied by the cache.
+     * <p/>
+     * In a caches with multiple tiered storage, a hit may be implemented as a hit
+     * to the cache or to the first tier.
      *
      * @return the number of hits
      */
@@ -109,6 +112,9 @@ public interface CacheStatistics {
      * <p/>
      * A "get" is an operation that returns the current or previous value. It does not include checking for the existence
      * of a key.
+     * <p/>
+     * In a caches with multiple tiered storage, a gets may be implemented as a get to the cache or to the first tier.
+     *
      *
      * @return the number of gets
      */
