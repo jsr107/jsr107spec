@@ -148,20 +148,20 @@ public interface CacheStatistics {
      *
      * @return the time in milliseconds
      */
-    long getAverageGetMillis();
+    float getAverageGetMillis();
 
     /**
      * The mean time to execute puts.
      *
      * @return the time in milliseconds
      */
-    long getAveragePutMillis();
+    float getAveragePutMillis();
 
     /**
      * The mean time to execute removes.
      *
      * @return the time in milliseconds
      */
-    long getAverageRemoveMillis();
+    float getAverageRemoveMillis();
 
 }
