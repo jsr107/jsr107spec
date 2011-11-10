@@ -40,17 +40,11 @@ public interface CacheStatistics {
     String getName();
 
     /**
-
-     * @return the {@link javax.management.ObjectName} of the Cache these statistics are for
-     */
-    //ObjectName getObjectName();
-
-    /**
-     * Gets the {@link Status} attribute of the Cache expressed as a String.
+     * Gets the {@link Status} attribute of the Cache.
      *
      * @return The status value from the Status enum class
      */
-    String getStatus();
+    Status getStatus();
 
     /**
      * Clears the statistics counters to 0 for the associated Cache.
@@ -76,10 +70,11 @@ public interface CacheStatistics {
     long getCacheHits();
 
     /**
-     * {@link #getCacheHits} divided by the total number of gets.
      * This is a measure of cache efficiency.
      *
-     * @return the percentage of successful hits, as a decimal
+     * It is calculated as {@link #getCacheHits} divided by {@link #getCacheGets()} * 100.
+     *
+     * @return the percentage of successful hits, as a decimal e.g 75.
      */
     float getCacheHitPercentage();
 
@@ -102,6 +97,8 @@ public interface CacheStatistics {
 
     /**
      * Returns the percentage of cache accesses that did not find a requested entry in the cache.
+     *
+     * This is calculated as {@link #getCacheMisses()} divided by {@link #getCacheGets()} * 100.
      *
      * @return the percentage of accesses that failed to find anything
      */
