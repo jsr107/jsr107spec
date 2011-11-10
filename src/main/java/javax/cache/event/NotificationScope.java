@@ -14,7 +14,7 @@ package javax.cache.event;
  * A distributed cache may contain multiple CacheManager nodes. Events on a cache instance inside
  * in the same JVM are considered local, other events are not.
  * <p/>
- * A cache will only receive remote events for if it registers a {@link CacheEntryListener} with a remote notification scope.
+ * A cache will only receive remote events if it registers a {@link CacheEntryListener} with a remote notification scope.
  * Only those cluster members interested in receiving remote events should register such a listener.
  * <p/>
  * There can be a large cost difference between receipt of local versus remote events thus allowing the choice.
