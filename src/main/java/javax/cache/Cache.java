@@ -451,6 +451,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Adds a listener to the notification service.
      * <p/>
      *
+     *
      * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
      *                           is not allowed.
      * @param scope              The notification scope.
@@ -458,7 +459,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @return true if the listener is being added and was not already added
      * @throws NullPointerException if any of the arguments are null.
      */
-    boolean registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, NotificationScope scope, boolean synchronous);
+    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener, NotificationScope scope, boolean synchronous);
 
     /**
      * Removes a call back listener.
