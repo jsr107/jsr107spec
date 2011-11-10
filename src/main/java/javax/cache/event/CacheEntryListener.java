@@ -26,7 +26,7 @@ import java.util.EventListener;
  * <ul>
  *     <li>in order in which they were registered</li>
  *     <li>after the entry is added to the cache</li>
- *     <li>synchronously in the same thread if in the same JVM</li>
+ *     <li>If the event is registered with synchronous notification, it is fired synchronously in the same thread if in the same JVM</li>
  * </ul>
  *
  * @see CacheEntryCreatedListener

@@ -448,8 +448,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     CacheConfiguration getConfiguration();
 
     /**
-     * Adds a listener to the notification service. No guarantee is made that listeners will be
-     * notified in the order they were added.
+     * Adds a listener to the notification service.
      * <p/>
      *
      * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
