@@ -123,7 +123,9 @@ public interface CacheStatistics {
     /**
      * The total number of puts to the cache.
      * <p/>
-     * A put is counted even if it is immediately evicted. A replace includes a put and remove.
+     * A put is counted even if it is immediately evicted.
+     *
+     * Replaces, where a put occurs which overrides an existing mapping is counted as a put.
      *
      * @return the number of hits
      */
@@ -132,8 +134,6 @@ public interface CacheStatistics {
     /**
      * The total number of removals from the cache. This does not include evictions, where the cache itself
      * initiates the removal to make space.
-     * <p/>
-     * A replace is a put that overwrites a mapping and is not considered a remove.
      *
      * @return the number of hits
      */
