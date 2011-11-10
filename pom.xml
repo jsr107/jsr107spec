@@ -145,11 +145,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>javax.cache</Export-Package>
-                        <!--<Private-Package>org.apache.felix.log.impl</Private-Package>-->
-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Activator>${pom.artifactId}.impl.Activator</Bundle-Activator>
-                        <!--<Export-Service>org.osgi.service.log.LogService,org.osgi.service.log.LogReaderService</Export-Service>-->
+                        <_include>bnd.bnd</_include>
                     </instructions>
                 </configuration>
                 <executions>

@@ -1,0 +1,6 @@
+Export-Package: javax.cache;\
+	javax.cache.annotation;\
+	javax.cache.event;\
+	javax.cache.spi;\
+	javax.cache.transaction;
+Bundle-SymbolicName: javax.cache
