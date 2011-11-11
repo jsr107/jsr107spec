@@ -64,8 +64,8 @@ public interface CacheConfiguration {
      * subject to the normal Java Memory Model rules.</li>
      * </ul>
      * Storage by reference only applies to local heap. If an entry is moved outside local heap it will
-     * need to be transformed into a representation. Any mutations that occur after transformation will
-     * not be reflected in the cache.
+     * need to be transformed into a representation. Any mutations that occur after transformation
+     * may not be reflected in the cache.
      * <p/>
      * Default value is true.
      *
