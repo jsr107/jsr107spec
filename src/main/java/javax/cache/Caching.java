@@ -53,7 +53,7 @@ public final class Caching {
     }
 
     /**
-     * Get the default cache manager.
+     * Get the default cache manager with the default classloader.
      * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
      * @return the default cache manager

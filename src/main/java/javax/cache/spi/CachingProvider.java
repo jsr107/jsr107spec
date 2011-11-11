@@ -48,9 +48,11 @@ public interface CachingProvider {
      *<pre>
      *     Thread.currentThread().getContextClassLoader();
      *     getClass().getClassLoader();
+     *     todo decide which one
      *</pre>
-     * Returns the default classloader to use if
-     * @return the default ClassLoader
+     *
+     *
+     * @return the default ClassLoader. This will never be null.
      * @see javax.cache.Caching#getCacheManager()
      */
     ClassLoader getDefaultClassLoader();
