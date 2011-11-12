@@ -7,7 +7,6 @@
 
 package javax.cache.event;
 
-import javax.cache.Cache;
 
 /**
  * Invoked if a cache entry is removed,
@@ -25,6 +24,6 @@ public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener<K, V
      *
      * @param entry The entry that has expired.
      */
-    void onExpire(Cache.Entry<K, V> entry);
+    void entryExpired(CacheEntryEvent<? extends K, ? extends V> entry);
 
 }

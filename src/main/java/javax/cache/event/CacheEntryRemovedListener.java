@@ -7,11 +7,9 @@
 
 package javax.cache.event;
 
-import javax.cache.Cache;
-
 /**
  * Invoked if a cache entry is removed,
- * for example through a {@link Cache#remove(Object)} call.
+ * for example through a {@link javax.cache.Cache#remove(Object)} call.
  *
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
@@ -25,17 +23,17 @@ public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V
      * Called after the entry has been removed. If no entry existed for key the event is not called.
      * This method is not called if a batch operation was performed.
      *
-     * @param entry The entry just removed.
-     * @see #onRemoveAll(Iterable)
+     * @param event The entry just removed.
+     * @see #entryRemoved(CacheEntryEvent)
      */
-    void onRemove(Cache.Entry<K, V> entry);
+    void entryRemoved(CacheEntryEvent<? extends K, ? extends V> event);
 
     /**
      * Called after the entries have been removed by a batch operation.
      *
-     * @param entries The entry just removed.
+     * @param events The entry just removed.
      */
-    void onRemoveAll(Iterable<Cache.Entry<K, V>> entries);
+    void entriesRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
 
 
 }

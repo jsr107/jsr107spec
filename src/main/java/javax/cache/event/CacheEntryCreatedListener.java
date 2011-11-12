@@ -7,11 +7,10 @@
 
 package javax.cache.event;
 
-import javax.cache.Cache;
 
 /**
  * Invoked if a cache entry is created,
- * for example through a {@link Cache#put(Object, Object)} operation or the action of a {@link javax.cache.CacheLoader}.
+ * for example through a {@link javax.cache.Cache#put(Object, Object)} operation or the action of a {@link javax.cache.CacheLoader}.
  * If an entry for the key existed prior to the operation it is not invoked, as this ia an update.
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
@@ -26,17 +25,17 @@ public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V
      * Called after the entry has been created (put into the cache where no previous mapping existed).
      * This method is not called if a batch operation was performed.
      *
-     * @param entry The entry just added.
-     * @see #onCreateAll(Iterable)
+     * @param event The entry just added.
+     * @see #entriesCreated(Iterable)
      */
-    void onCreate(Cache.Entry<K, V> entry);
+    void entryCreated(CacheEntryEvent<? extends K, ? extends V> event);
 
     /**
      * Called after the entries have been created (put into the cache where no previous mapping existed).
      *
-     * @param entries The entries just added.
+     * @param events The entries just added.
      */
-    void onCreateAll(Iterable<Cache.Entry<K, V>> entries);
+    void entriesCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
 
 
 }

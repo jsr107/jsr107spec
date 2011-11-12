@@ -7,11 +7,9 @@
 
 package javax.cache.event;
 
-import javax.cache.Cache;
-
 /**
- * Invoked if an existing cache entry is updated, for example through a {@link Cache#put(Object, Object)} or a {@link javax.cache.CacheLoader} operation .
- * It is not invoked by a {@link Cache#remove(Object)} operation.
+ * Invoked if an existing cache entry is updated, for example through a {@link javax.cache.Cache#put(Object, Object)} or a {@link javax.cache.CacheLoader} operation .
+ * It is not invoked by a {@link javax.cache.Cache#remove(Object)} operation.
  *
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
@@ -26,17 +24,17 @@ public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V
      * Called after the entry has been updated (put into the cache where a previous mapping existed).
      * This method is not called if a batch operation was performed.
      *
-     * @param entry The entry just updated.
-     * @see #onUpdateAll(Iterable)
+     * @param event The event just updated.
+     * @see #entriesUpdated(Iterable)
      */
-    void onUpdate(Cache.Entry<K, V> entry);
+    void entryUpdated(CacheEntryEvent<? extends K, ? extends V> event);
 
     /**
      * Called after the entries have been updated (put into the cache where a previous mapping existed).
      *
-     * @param entries The entries just updated.
+     * @param events The entries just updated.
      */
-    void onUpdateAll(Iterable<Cache.Entry<K, V>> entries);
+    void entriesUpdated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
 
 
 }
