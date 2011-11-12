@@ -76,16 +76,16 @@ public interface CacheConfiguration {
     /**
      * Checks whether statistics collection is enabled in this cache.
      * <p/>
-     * Default value is false.
+     * The default value is false.
      *
      * @return true if statistics collection is enabled
      */
     boolean isStatisticsEnabled();
 
     /**
-     * Sets whether statistics gathering is enabled  on this cache.
+     * Sets whether statistics gathering is enabled  on this cache. This may be changed at runtime.
      *
-     * @param enableStatistics true to enable statistics, false to disable
+     * @param enableStatistics true to enable statistics, false to disable.
      */
     void setStatisticsEnabled(boolean enableStatistics);
 
