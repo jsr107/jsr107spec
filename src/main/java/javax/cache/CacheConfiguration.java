@@ -219,20 +219,14 @@ public interface CacheConfiguration {
     public enum ExpiryType {
 
         /**
-         * Time since last modified. Creation is also considered a modification event.
+         * The time since a {@link Cache.Entry} was <em>created</em> or <em>last modified</em>. An example of a cache operation
+         * which does this is {@link Cache#put}.
          */
         MODIFIED,
 
         /**
-         * Time since last <em>accessed</em>. Access means any access to an entry including
-         * a modification event. Examples are:
-         * <ul>
-         *     <li>put</li>
-         *     <li>get</li>
-         *     <li>containsKey</li>
-         *     <li>iteration</li>
-         * </ul>
-         *
+         * The Time since a {@link Cache.Entry} was last <em>accessed</em> by a cache operation. An access explicitly includes  <em>modified</em>
+         * operations. An example is {@link Cache#get(Object)}
          */
         ACCESSED
     }
