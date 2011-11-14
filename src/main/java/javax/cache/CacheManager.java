@@ -9,8 +9,6 @@ package javax.cache;
 
 import javax.transaction.UserTransaction;
 
-import java.util.Iterator;
-
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
  * <p/>
