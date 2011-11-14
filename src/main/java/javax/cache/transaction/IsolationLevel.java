@@ -55,7 +55,7 @@ public enum IsolationLevel {
      * Return the constant for this isolation level defined in {@link java.sql.Connection}
      * @return the java.sql.Connection value
      */
-    int getJavaSqlConstant() {
+    public int getJavaSqlConstant() {
         return value;
     }
 

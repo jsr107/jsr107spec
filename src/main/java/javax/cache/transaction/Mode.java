@@ -8,10 +8,15 @@
 package javax.cache.transaction;
 
 /**
- * A enum for the different transaction modes.
+ * A enum for the different cache transaction modes.
  * @author Greg Luck
  */
 public enum Mode {
+
+    /**
+     * The cache is not transactional.
+     */
+    NONE,
 
     /**
      * A resource local transaction (can only be used for a transcation involving a single CacheManager and no other XA resources)

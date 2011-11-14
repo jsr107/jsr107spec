@@ -100,13 +100,13 @@ public interface CacheConfiguration {
 
     /**
      * Gets the transaction isolation level.
-     * @return the isolation level. null if this cache is not transactional
+     * @return the isolation level. {@link javax.cache.transaction.IsolationLevel#NONE} if this cache is not transactional.
      */
     IsolationLevel getTransactionIsolationLevel();
 
     /**
      * Gets the transaction mode.
-     * @return the the mode of the cache. null if this cache is not transactional
+     * @return the the mode of the cache. {@link javax.cache.transaction.Mode#NONE} if this cache is not transactional.
      */
     Mode getTransactionMode();
 
