@@ -7,10 +7,9 @@
 
 package javax.cache;
 
-//Only required if using transaction otherwise not a dependency
 import javax.transaction.UserTransaction;
 
-import java.util.Set;
+import java.util.Iterator;
 
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
@@ -110,13 +109,13 @@ public interface CacheManager {
     <K, V> Cache<K, V> getCache(String cacheName);
 
     /**
-     * Returns a set of caches managed by this CacheManager.
-     * This set is immutable and independent of the cache manager; if the set of caches owned
-     * by the cache manager change the set is not affected.
+     * Returns an iterable over the caches managed by this CacheManager.
+     * This is immutable and independent of the cache manager; if the caches managed
+     * by the cache manager change the set is not affected, if remove is attempted then
      *
-     * @return the Caches or an empty set if there are none
+     * @return an iterable over the managed Caches or an empty set
      */
-    <K, V> Set<Cache<K, V>> getCaches();
+    Iterable<Cache<?, ?>> getCaches();
 
     /**
      * Remove a cache from the CacheManager. The cache will be stopped.
