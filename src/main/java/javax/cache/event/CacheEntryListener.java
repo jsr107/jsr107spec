@@ -42,10 +42,6 @@ import java.util.EventListener;
  */
 public interface CacheEntryListener<K, V> extends EventListener {
 
-    /**
-     * @return the notification scope for this listener
-     */
-    NotificationScope getNotificationScope();
 
 
 }
