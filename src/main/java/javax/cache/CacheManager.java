@@ -90,10 +90,12 @@ public interface CacheManager {
      * If there is an existing Cache of the same name associated with this CacheManager when build is invoked,
      * the old Cache will be stopped.
      *
-     * @param cacheName the name of the cache to build
+     * @param cacheName the name of the cache to build. A cache name must consist of at least one non-whitespace character.
      * @return the CacheBuilder for the named cache
      * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state.
      * @throws CacheException        if a cache with that name already exists or there was an error adding the cache to the CacheManager
+     * @throws IllegalArgumentException if an illegal cache name is specified
+     * @throws NullPointerException  if the cache name is null
      */
     <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
 
