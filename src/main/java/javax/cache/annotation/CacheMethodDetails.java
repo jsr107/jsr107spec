@@ -50,8 +50,7 @@ public interface CacheMethodDetails<A extends Annotation> {
     A getCacheAnnotation();
     
     /**
-     * The cache name resolved by the implementation, this may not match the cache name specified in the 
-     * caching annotation on this method.
+     * The cache name resolved by the implementation.
      * <p/> 
      * The cache name is determined by first looking at the cacheName attribute of the method level annotation. If
      * that attribute is not set then the class level {@link CacheDefaults} annotation is checked. If that annotation
