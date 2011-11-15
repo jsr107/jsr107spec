@@ -111,9 +111,10 @@ public interface CacheManager {
     /**
      * Returns an iterable over the caches managed by this CacheManager.
      * This is immutable and independent of the cache manager; if the caches managed
-     * by the cache manager change the set is not affected, if remove is attempted then
+     * by the cache manager change the set is not affected
      *
      * @return an iterable over the managed Caches or an empty set
+     * @throws UnsupportedOperationException if an attempt it made to remove an element
      */
     Iterable<Cache<?, ?>> getCaches();
 
