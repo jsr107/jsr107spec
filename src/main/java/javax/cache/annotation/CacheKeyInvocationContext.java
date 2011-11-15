@@ -44,14 +44,15 @@ public interface CacheKeyInvocationContext<A extends Annotation> extends CacheIn
     /**
      * When a method is annotated with {@link CachePut} one parameter is the value to be cached. 
      * <p/>
-     * The cached value is selected by the following rules:
+     * The value to be cached is selected using the following rules:
      * <ul>
      *   <li>If a {@link CacheValue} annotation exists the parameter with the annotation is the cached value</li>
      *   <li>If no {@link CacheValue} annotation exists and there is only one parameter it is the cached value</li>
-     *   <li>If no {@link CacheValue} annotation exists and there is more than one parameter an undefined exception will be thrown by the implementation</li>
+     *   <li>If no {@link CacheValue} annotation exists and there is more than one parameter a {@link javax.cache.CacheException} will be thrown.
      * </ul>
      * 
      * @return The parameter to cache, will never be null for methods annotated with {@link CachePut}, will be null for methods not annotated with {@link CachePut}
+     * @throws javax.cache.CacheException thrown if the cache value cannot be determind because there is no {@link CacheValue} annotation exists and there is more than one parameter
      */
     CacheInvocationParameter getValueParameter();
 }
