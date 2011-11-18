@@ -21,11 +21,6 @@ public enum OptionalFeature {
     TRANSACTIONS,
 
     /**
-     * Implementation supports annotations
-     */
-    ANNOTATIONS,
-
-    /**
      * Implementation supports store by reference
      */
     STORE_BY_REFERENCE

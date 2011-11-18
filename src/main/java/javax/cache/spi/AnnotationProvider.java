@@ -7,7 +7,6 @@
 
 package javax.cache.spi;
 
-import javax.cache.OptionalFeature;
 
 /**
  * Interface that should be implemented by a cache annotations provider.
@@ -25,11 +24,9 @@ import javax.cache.OptionalFeature;
 public interface AnnotationProvider {
 
     /**
-     * Indicates whether an optional feature related to annotations is supported
-     * by this implementation.
+     * Indicates whether annotations are supported by this implementation.
      * 
-     * @param optionalFeature the feature to check for
      * @return true if the feature is supported
      */
-    boolean isSupported(OptionalFeature optionalFeature);
+    boolean isSupported();
 }

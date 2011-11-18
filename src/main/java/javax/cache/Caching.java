@@ -9,13 +9,14 @@ package javax.cache;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import javax.cache.spi.AnnotationProvider;
-import javax.cache.spi.CachingProvider;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
+
+import javax.cache.spi.AnnotationProvider;
+import javax.cache.spi.CachingProvider;
 
 /**
  * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
@@ -175,15 +176,17 @@ public final class Caching {
      * @return true if the feature is supported
      */
     public static boolean isSupported(OptionalFeature optionalFeature) {
-        switch (optionalFeature) {
-            case ANNOTATIONS: {
-                final AnnotationProvider annotationProvider = ServiceFactoryHolder.INSTANCE.getAnnotationProvider();
-                return annotationProvider != null && annotationProvider.isSupported(optionalFeature);
-            }
-            default: {
-                return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
-            }
-        }
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
+    }
+    
+    /**
+     * Indicates whether annotations are supported
+     *
+     * @return true if annotations are supported
+     */
+    public static boolean isAnnotationsSupported() {
+        final AnnotationProvider annotationProvider = ServiceFactoryHolder.INSTANCE.getAnnotationProvider();
+        return annotationProvider != null && annotationProvider.isSupported();
     }
 
     /**
