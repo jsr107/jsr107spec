@@ -8,7 +8,6 @@
 package javax.cache.annotation;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
@@ -19,11 +18,6 @@ import java.util.Set;
  * @version $Revision$
  */
 public interface CacheInvocationParameter {
-
-    /**
-     * The {@link Class#getGenericSuperclass()} value of the parameter type declared on the method.
-     */
-    Type getBaseType();
 
     /**
      * The parameter type as declared on the method.
