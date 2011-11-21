@@ -4,3 +4,5 @@ Export-Package: javax.cache;\
 	javax.cache.spi;\
 	javax.cache.transaction;
 Bundle-SymbolicName: javax.cache
+Bundle-Version: ${project.version}
+
