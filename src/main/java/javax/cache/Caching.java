@@ -9,9 +9,12 @@ package javax.cache;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
@@ -198,48 +201,73 @@ public final class Caching {
          */
         INSTANCE;
 
-        private final CachingProvider serviceFactory;
-        private final AnnotationProvider annotationProvider;
+        private final List<CachingProvider> cachingProviders;
+        private final List<AnnotationProvider> annotationProviders;
 
         private ServiceFactoryHolder() {
-            serviceFactory = AccessController.doPrivileged(new PrivilegedAction<CachingProvider>() {
+            cachingProviders = AccessController.doPrivileged(new PrivilegedAction<List<CachingProvider>>() {
 
                 @Override
-                public CachingProvider run() {
+                public List<CachingProvider> run() {
+                    List<CachingProvider> result = new ArrayList<CachingProvider>();
                     ServiceLoader<CachingProvider> serviceLoader = ServiceLoader.load(CachingProvider.class);
-                    Iterator<CachingProvider> it = serviceLoader.iterator();
-                    if (it.hasNext()) {
-                        return it.next();
-                    } else {
-                        return null;
+                    for (CachingProvider provider : serviceLoader) {
+                        result.add(provider);
                     }
+                    return result;
                 }
             });
 
-            annotationProvider = AccessController.doPrivileged(new PrivilegedAction<AnnotationProvider>() {
+            annotationProviders = AccessController.doPrivileged(new PrivilegedAction<List<AnnotationProvider>>() {
 
                 @Override
-                public AnnotationProvider run() {
+                public List<AnnotationProvider> run() {
+                    List<AnnotationProvider> result = new ArrayList<AnnotationProvider>();
                     ServiceLoader<AnnotationProvider> serviceLoader = ServiceLoader.load(AnnotationProvider.class);
-                    Iterator<AnnotationProvider> it = serviceLoader.iterator();
-                    if (it.hasNext()) {
-                        return it.next();
-                    } else {
-                        return null;
+                    for (AnnotationProvider provider : serviceLoader) {
+                        result.add(provider);
                     }
+                    return result;
                 }
             });
         }
 
+        //todo support multiple providers
         public CachingProvider getServiceFactory() {
-            if (serviceFactory == null) {
-                throw new IllegalStateException("No CachingProvider found in classpath.");
+            switch (cachingProviders.size()) {
+                case 0: throw new IllegalStateException("No CachingProviders found in classpath.");
+                case 1: return cachingProviders.get(0);
+                default: throw new IllegalStateException("Multiple CachingProviders found in classpath." +
+                        " There should only be one. CachingProviders found were: "
+                        + createListOfClassNames(cachingProviders));
             }
-            return serviceFactory;
         }
 
+        //todo support multiple providers
         public AnnotationProvider getAnnotationProvider() {
-            return annotationProvider;
+            switch (annotationProviders.size()) {
+                case 0: return null;
+                case 1: return annotationProviders.get(0);
+                default: throw new IllegalStateException("Multiple AnnotationProviders found in classpath." +
+                        " There should only be one. CachingProviders found were: "
+                        + createListOfClassNames(annotationProviders));
+            }
+        }
+        
+        private static String createListOfClassNames(Collection<?> names) {
+            if (names.isEmpty()) {
+                return "<none>";
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (Iterator<?> it = names.iterator(); it.hasNext();) {
+                    Object o = it.next();
+                    sb.append(o.getClass().getName());
+                    if (it.hasNext()) {
+                        sb.append(", ");
+                    }
+                }
+                return sb.toString();
+            }
         }
     }
 
