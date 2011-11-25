@@ -71,6 +71,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * is missing from the cache, the Cache's {@link CacheLoader} is called which will attempt
      * to load the entry.
      *
+     * <h1>Effects:</h1>
+     * <ul>
+     * <li>Expiry - updates {@link CacheConfiguration.ExpiryType#ACCESSED Access Time}.</li>
+     * <li>Read-Through - will use the {@link CacheLoader} if enabled and key not present in cache</li>
+     * </ul>
+     *
      * @param key the key whose associated value is to be returned
      * @return the element, or null, if it does not exist.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
@@ -92,9 +98,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
-     * @throws NullPointerException if keys is null or if keys contains a null
+     * @throws NullPointerException  if keys is null or if keys contains a null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem fetching the values.
+     * @throws CacheException        if there is a problem fetching the values.
      */
     Map<K, V> getAll(Collection<? extends K> keys);
 
@@ -106,12 +112,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <tt>key.equals(k)</tt>.  (There can be at most one such mapping.)
      * <p/>
      *
-     *
      * @param key key whose presence in this cache is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified key
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException  if key is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       it there is a problem checking the mapping
+     * @throws CacheException        it there is a problem checking the mapping
      * @see java.util.Map#containsKey(Object)
      */
     boolean containsKey(K key);
@@ -127,11 +132,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If a problem is encountered during the retrieving or loading of the object, an exception
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      *
-     * @param key            the key
+     * @param key the key
      * @return a Future which can be used to monitor execution.
-     * @throws NullPointerException if key is null.
+     * @throws NullPointerException  if key is null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the load
+     * @throws CacheException        if there is a problem doing the load
      */
     Future<V> load(K key);
 
@@ -149,11 +154,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If a problem is encountered during the retrieving or loading of the object, an exception
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      *
-     * @param keys           the keys
+     * @param keys the keys
      * @return a Future which can be used to monitor execution
-     * @throws NullPointerException if keys is null or if keys contains a null.
+     * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the load
+     * @throws CacheException        if there is a problem doing the load
      */
     Future<Map<K, V>> loadAll(Collection<? extends K> keys);
 
@@ -161,8 +166,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Returns the {@link CacheStatistics} MXBean associated with the cache.
      * May return null if the cache does not support statistics gathering.
      *
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @return the CacheStatisticsMBean
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      */
     CacheStatistics getStatistics();
 
@@ -179,9 +184,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
-     * @throws NullPointerException if key is null or if value is null
+     * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.Map#put(Object, Object)
      * @see #getAndPut(Object, Object)
      * @see #getAndReplace(Object, Object)
@@ -189,7 +194,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     void put(K key, V value);
 
     /**
-     * Atomically associates the specified value with the specified key in this cache
+     * Associates the specified value with the specified key in this cache,
+     * returning an existing value if one existed.
      * <p/>
      * If the cache previously contained a mapping for
      * the key, the old value is replaced by the specified value.  (A cache
@@ -203,9 +209,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return the value associated with the key at the start of the operation or null if none was associated
-     * @throws NullPointerException if key is null or if value is null
+     * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.Map#put(Object, Object)
      * @see #put(Object, Object)
      * @see #getAndReplace(Object, Object)
@@ -223,9 +229,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * operation is in progress.
      *
      * @param map mappings to be stored in this cache
-     * @throws NullPointerException if map is null or if map contains null keys or values.
+     * @throws NullPointerException  if map is null or if map contains null keys or values.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.Map#putAll(java.util.Map)
      */
     void putAll(java.util.Map<? extends K, ? extends V> map);
@@ -250,9 +256,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return true if a value was set.
-     * @throws NullPointerException if key is null or value is null
+     * @throws NullPointerException  if key is null or value is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
      */
     boolean putIfAbsent(K key, V value);
@@ -270,12 +276,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p>The cache will not contain a mapping for the specified key once the
      * call returns.
      *
-     *
      * @param key key whose mapping is to be removed from the cache
      * @return returns false if there was no matching key
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException  if key is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
     boolean remove(K key);
@@ -294,13 +299,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *   }</pre>
      * except that the action is performed atomically.
      *
-     *
-     * @param key key whose mapping is to be removed from the cache
+     * @param key      key whose mapping is to be removed from the cache
      * @param oldValue value expected to be associated with the specified key
      * @return returns false if there was no matching key
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException  if key is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem doing the put
+     * @throws CacheException        if there is a problem doing the put
      * @see java.util.Map#remove(Object)
      */
     boolean remove(K key, V oldValue);
@@ -319,12 +323,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *   }</pre>
      * except that the action is performed atomically.
      *
-     *
      * @param key key with which the specified value is associated
      * @return the value if one existed or null if no mapping existed for this key
-     * @throws NullPointerException          if the specified key or value is null.
+     * @throws NullPointerException  if the specified key or value is null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException                if there is a problem during the remove
+     * @throws CacheException        if there is a problem during the remove
      * @see java.util.Map#remove(Object)
      */
     V getAndRemove(K key);
@@ -346,9 +349,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param oldValue value expected to be associated with the specified key
      * @param newValue value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
-     * @throws NullPointerException if key is null or if the values are null
+     * @throws NullPointerException  if key is null or if the values are null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem during the replace
+     * @throws CacheException        if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
      */
     boolean replace(K key, V oldValue, V newValue);
@@ -372,9 +375,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param key   key with which the specified value is associated
      * @param value value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
-     * @throws NullPointerException if key is null or if value is null
+     * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem during the replace
+     * @throws CacheException        if there is a problem during the replace
      * @see #getAndReplace(Object, Object)
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
@@ -398,9 +401,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param value value to be associated with the specified key
      * @return the previous value associated with the specified key, or
      *         <tt>null</tt> if there was no mapping for the key.
-     * @throws NullPointerException if key is null or if value is null
+     * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem during the replace
+     * @throws CacheException        if there is a problem during the replace
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      */
     V getAndReplace(K key, V value);
@@ -412,9 +415,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      *
      * @param keys the keys to remove
-     * @throws NullPointerException if keys is null or if it contains a null key
+     * @throws NullPointerException  if keys is null or if it contains a null key
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException       if there is a problem during the remove
+     * @throws CacheException        if there is a problem during the remove
      */
     void removeAll(Collection<? extends K> keys);
 
@@ -426,7 +429,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      *
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException if there is a problem during the remove
+     * @throws CacheException        if there is a problem during the remove
      * @see java.util.Map#clear()
      */
     void removeAll();
@@ -450,7 +453,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Adds a listener to the notification service.
      * <p/>
-     *
      *
      * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
      *                           is not allowed.
@@ -484,13 +486,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @return the manager
      */
     CacheManager getCacheManager();
-    
+
     /**
      * Return an object of the specified type to allow access to the provider-specific API. If the provider's
      * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
-     * 
-     * @param cls he class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements. 
-     * @return an instance of the specified class 
+     *
+     * @param cls he class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements.
+     * @return an instance of the specified class
      * @throws IllegalArgumentException if the provider doesn't support the specified class.
      */
     <T> T unwrap(java.lang.Class<T> cls);
@@ -500,6 +502,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * The ordering of the entries is undefined
      */
     Iterator<Cache.Entry<K, V>> iterator();
+
     /**
      * A cache entry (key-value pair).
      */
