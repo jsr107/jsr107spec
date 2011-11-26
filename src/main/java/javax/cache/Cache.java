@@ -471,6 +471,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     boolean unregisterCacheEntryListener(CacheEntryListener<?, ?> cacheEntryListener);
 
+
+    /**
+     * Passes the cache entry associated with K to be passed to the entry
+     * processor. All operations performed by the processor will be done atomically
+     * i.e. all The processor will perform the operations
+     * against
+     * Causes the cache value associated with K to be processed
+     *
+     *
+     *
+     * @param key
+     * @param entryProcessor
+     * @return
+     */
+    Object invokeEntryProcessor(K key, EntryProcessor entryProcessor);
+
     /**
      * Return the name of the cache.
      *
