@@ -475,17 +475,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Passes the cache entry associated with K to be passed to the entry
      * processor. All operations performed by the processor will be done atomically
-     * i.e. all The processor will perform the operations
-     * against
-     * Causes the cache value associated with K to be processed
+     * i.e. all The processor will perform the operations against
      *
-     *
-     *
-     * @param key
-     * @param atomicOperation
+     * @param key the key to the entry
+     * @param entryProcessor the processor which will process the entry
      * @return an object
+     * @see EntryProcessor
      */
-    Object invokeAtomicOperation(K key, AtomicOperation atomicOperation);
+    Object invokeEntryProcessor(K key, EntryProcessor entryProcessor);
 
     /**
      * Return the name of the cache.
@@ -560,7 +557,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
         /**
          * Sets or replaces the value associated with the key
          * If {@link #exists} is false and setValue is called
-         * then a mapping is added to the cache visible once the AtomicOperation
+         * then a mapping is added to the cache visible once the EntryProcessor
          * completes. Moreover a second invocation of {@link #exists()}
          * will return true.
          * @param value
@@ -580,9 +577,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      * An entry processor cannot invoke any cache operations, including processor operations.
      * <p/>
-     * If executed in a JVM remote from the one invoke was called in, an AtomicOperation equal
+     * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
      * to the local one will execute the invocation. For remote to execution to succeed, the
-     * AtomicOperation implementation class must be in the excecuting class loader as must K and
+     * EntryProcessor implementation class must be in the excecuting class loader as must K and
      * V if {@link Cache.MutableEntry#getKey()} or {@link Cache.MutableEntry#getValue()}
      * is invoked.
      *
@@ -592,12 +589,19 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @author Greg Luck
      * @author Yannis Cosmadopoulos
      */
-    public interface AtomicOperation<K, V> {
-
-        //todo add processAll
+    public interface EntryProcessor<K, V> {
 
         /**
-         * Process an entry
+         * Processes the entries. Exclusive read and write access to each entry is obtained
+         * as each key is processed.
+         * @param entries the entries to be processed
+         * @return the result
+         */
+        Object processAll(Collection<Cache.MutableEntry<? extends K, ? extends V>> entries);
+
+        /**
+         * Process an entry. Exclusive read and write access to the entry is obtained to
+         * the entry.
          * @param entry the entry
          * @return the result
          */
