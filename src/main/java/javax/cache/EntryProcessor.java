@@ -1,3 +1,10 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache;
 
 /**
@@ -27,6 +34,12 @@ package javax.cache;
 public interface EntryProcessor<K, V> {
 
     //todo add processAll
+
+    /**
+     * Process an entry
+     * @param entry the entry
+     * @return the result
+     */
     Object process(Entry<K, V> entry);
 
     /**
@@ -57,5 +70,4 @@ public interface EntryProcessor<K, V> {
          */
         void setValue(V value);
     }
-
 }
