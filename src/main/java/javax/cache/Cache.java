@@ -482,7 +482,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @return an object
      * @see EntryProcessor
      */
-    Object invokeEntryProcessor(K key, EntryProcessor entryProcessor);
+    Object invokeEntryProcessor(K key, EntryProcessor<K, V> entryProcessor);
 
     /**
      * Return the name of the cache.
