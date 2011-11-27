@@ -480,6 +480,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param key the key to the entry
      * @param entryProcessor the processor which will process the entry
      * @return an object
+     * @throws NullPointerException if key or entryProcessor are null
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @see EntryProcessor
      */
     Object invokeEntryProcessor(K key, EntryProcessor<K, V> entryProcessor);
@@ -568,6 +570,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Allows execution of code which may mutate a cache entry with exclusive
      * access (including reads) to that entry.
+     * <p/>
+     * Any mutations will not take effect till after the processor has completed; if an exception
+     * thown inside the processor, no changes will be made to the cache.
      * <p/>
      * This enables a way to perform compound operations without transactions
      * involving a cache entry atomically. Such operations may include mutations.
