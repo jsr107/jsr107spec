@@ -49,7 +49,7 @@ public interface CacheBuilder<K, V> {
      * @return the builder
      * @throws NullPointerException if cacheLoader is null.
      */
-    CacheBuilder<K, V> setCacheLoader(CacheLoader<K, V> cacheLoader);
+    CacheBuilder<K, V> setCacheLoader(CacheLoader<K, ? extends V> cacheLoader);
 
     /**
      * Sets the cache writer.
@@ -58,7 +58,7 @@ public interface CacheBuilder<K, V> {
      * @return the builder
      * @throws NullPointerException if cacheWriter is null.
      */
-    CacheBuilder<K, V> setCacheWriter(CacheWriter<K, V> cacheWriter);
+    CacheBuilder<K, V> setCacheWriter(CacheWriter<? super K, ? super V> cacheWriter);
 
     /**
      * Registers a listener. Can be invoked multiple times.
