@@ -25,11 +25,13 @@ import java.util.concurrent.TimeUnit;
  * have setters in this interface. Those that can only be set prior to cache construction have setters in
  * {@link CacheBuilder}.
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0
  */
-public interface CacheConfiguration {
+public interface CacheConfiguration<K, V> {
 
     /**
      * Whether the cache is a read-through cache. A CacheLoader should be configured for read through caches
@@ -114,13 +116,13 @@ public interface CacheConfiguration {
      * Gets the registered {@link CacheLoader}, if any.
      * @return the {@link CacheLoader} or null if none has been set.
      */
-    CacheLoader getCacheLoader();
+    CacheLoader<K, ? extends V> getCacheLoader();
 
     /**
      * Gets the registered {@link CacheWriter}, if any.
      * @return the {@link CacheWriter} or null if none has been set.
      */
-    CacheWriter getCacheWriter();
+    CacheWriter<? super K, ? super V> getCacheWriter();
 
     /**
      * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.

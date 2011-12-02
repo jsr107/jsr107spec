@@ -449,7 +449,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @return the {@link CacheConfiguration} of this cache
      */
-    CacheConfiguration getConfiguration();
+    CacheConfiguration<K, V> getConfiguration();
 
     /**
      * Adds a listener to the notification service.
