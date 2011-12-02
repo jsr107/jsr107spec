@@ -427,6 +427,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * The order in which the individual removes will occur is undefined.
      * This is potentially an expensive operation.
      * <p/>
+     * If the cache is write-through calling this method will invoke
      *
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem during the remove

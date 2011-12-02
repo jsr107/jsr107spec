@@ -88,7 +88,8 @@ public interface CacheBuilder<K, V> {
      * @param isolationLevel - the isolation level for this cache
      * @param mode - the mode (Local or XA) for this cache
      * @return the builder
-     * @throws InvalidConfigurationException if the cache does not support transactions, or the isolation level {@link IsolationLevel#NONE}
+     * @throws IllegalArgumentException if the cache does not support transactions,
+     * or an attempt is made to set the isolation level to {@link IsolationLevel#NONE} or the mode to {@link Mode#NONE}.
      * @see CacheConfiguration#isTransactionEnabled()
      */
     CacheBuilder<K, V> setTransactionEnabled(IsolationLevel isolationLevel, Mode mode);

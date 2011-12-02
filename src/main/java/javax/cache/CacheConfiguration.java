@@ -118,7 +118,7 @@ public interface CacheConfiguration {
 
     /**
      * Gets the registered {@link CacheWriter}, if any.
-     * @return
+     * @return the {@link CacheWriter} or null if none has been set.
      */
     CacheWriter getCacheWriter();
 
