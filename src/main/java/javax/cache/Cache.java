@@ -160,7 +160,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem doing the load
      */
-    Future<Map<K, V>> loadAll(Collection<? extends K> keys);
+    Future<Map<K, ? extends V>> loadAll(Collection<? extends K> keys);
 
     /**
      * Returns the {@link CacheStatistics} MXBean associated with the cache.
