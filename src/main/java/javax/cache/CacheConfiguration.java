@@ -232,4 +232,10 @@ public interface CacheConfiguration<K, V> {
          */
         ACCESSED
     }
+
+    /**
+     *
+     * @return
+     */
+    javax.cache.experimental.CacheBuilder<K, V> createBuilderEXPERIMENTAL();
 }
