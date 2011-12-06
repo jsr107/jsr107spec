@@ -14,4 +14,4 @@
  @author Yannis Cosmadopoulos
  @since 1.0
  */
-package javax.cache.experimental;
+package javax.cache.experimental.events;
