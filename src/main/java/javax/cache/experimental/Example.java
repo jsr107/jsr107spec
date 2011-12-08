@@ -23,14 +23,18 @@ public class Example {
      */
     public <K, V> void testNew() {
         CacheManager cacheManager = Caching.getCacheManager("myManager");
+
+        CacheConfiguration<K, V> configuration =
+            cacheManager
+                .<K, V>createConfigurationBuilderEXPERIMENTAL()
+                .setExpiry(CacheConfiguration.ExpiryType.ACCESSED, CacheConfiguration.Duration.ETERNAL)
+                .setStatisticsEnabled(true)
+                .build();
+        
         CacheBuilder<K, V> cacheBuilder =
-                cacheManager
-                        .<K, V>createConfigurationBuilderEXPERIMENTAL()
-                        .setExpiry(CacheConfiguration.ExpiryType.ACCESSED, CacheConfiguration.Duration.ETERNAL)
-                        .setStatisticsEnabled(true)
-                        .build()
-                        .createBuilderEXPERIMENTAL()
-                        .register("myBuilder");
+            configuration
+                .createBuilderEXPERIMENTAL()
+                .register("myBuilder");
         assert cacheBuilder == cacheManager.getCacheBuilderEXPERIMENTAL();
 
         Cache<K, V> myCache1 = cacheBuilder.build("myCache1");
