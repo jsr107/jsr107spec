@@ -146,23 +146,6 @@ public interface CacheManager {
     boolean isSupported(OptionalFeature optionalFeature);
 
     /**
-     * Allows classes to be declared to be immutable.
-     * <p/>
-     * When using storeByValue ({@link javax.cache.CacheConfiguration#isStoreByValue()}), if keys or values that
-     * are immutable are stored, the implementation may chose to store a reference to the object as well as the
-     * value for the object. This may eliminate the need for deserialization on subsequent accesses.
-     * <p/>
-     * There is no guarantee or requirement that the class declared as immutable actually is such.
-     * <p/>
-     * Where a class is declared immutable and it contains references to other classes, the whole object graph
-     * will be treated as immutable.
-     *
-     * @param immutableClass the class to be treated as immutable
-     * @throws NullPointerException if class is null
-     */
-    void registerImmutableClass(Class<?> immutableClass);
-
-    /**
      * Shuts down the CacheManager.
      * <p/>
      * For each cache in the cache manager the {@link javax.cache.Cache#stop()} method will be invoked, in no guaranteed order.
