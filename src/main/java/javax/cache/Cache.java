@@ -94,6 +94,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If the cache is configured read-through, and a get would return null because an entry
      * is missing from the cache, the Cache's {@link CacheLoader} is called which will attempt
      * to load the entry. This is done for each key in the collection for which this is the case.
+     * If an entry cannot be loaded for a given key, the key will not be present in the returned Map.
      * <p/>
      *
      * @param keys The keys whose associated values are to be returned.
