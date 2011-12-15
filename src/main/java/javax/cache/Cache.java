@@ -12,6 +12,7 @@ import javax.cache.event.NotificationScope;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 /**
@@ -161,13 +162,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If a problem is encountered during the retrieving or loading of the object, an exception
      * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
      *
+     *
      * @param keys the keys
      * @return a Future which can be used to monitor execution
      * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem doing the load
      */
-    Future<Map<K, ? extends V>> loadAll(Collection<? extends K> keys);
+    Future<Map<K, ? extends V>> loadAll(Set<? extends K> keys);
 
     /**
      * Returns the {@link CacheStatistics} MXBean associated with the cache.
