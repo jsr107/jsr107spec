@@ -7,7 +7,6 @@
 package javax.cache.experimental.events;
 
 import javax.cache.Cache;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -140,10 +139,6 @@ public final class Example {
      * @param <V>
      */
     private static final class MyEntryProcessor<K, V> implements Cache.EntryProcessor<K, V> {
-        @Override
-        public Object processAll(Collection<Cache.MutableEntry<? extends K, ? extends V>> mutableEntries) {
-            throw new UnsupportedOperationException();
-        }
 
         @Override
         public Object process(Cache.MutableEntry<K, V> kvMutableEntry) {

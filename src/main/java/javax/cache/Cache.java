@@ -608,14 +608,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     public interface EntryProcessor<K, V> {
 
         /**
-         * Processes the entries. Exclusive read and write access to each entry is obtained
-         * as each key is processed.
-         * @param entries the entries to be processed
-         * @return the result
-         */
-        Object processAll(Collection<Cache.MutableEntry<? extends K, ? extends V>> entries);
-
-        /**
          * Process an entry. Exclusive read and write access to the entry is obtained to
          * the entry.
          * @param entry the entry
