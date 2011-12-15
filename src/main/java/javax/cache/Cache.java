@@ -106,7 +106,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      *
      * @param keys The keys whose associated values are to be returned.
-     * @return The entries for the specified keys.
+     * @return A map of entries that were found for the given keys. Keys not found in the cache are not in the returned map.
      * @throws NullPointerException  if keys is null or if keys contains a null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem fetching the values.
