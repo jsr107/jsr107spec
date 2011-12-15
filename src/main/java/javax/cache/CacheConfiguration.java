@@ -65,11 +65,14 @@ public interface CacheConfiguration<K, V> {
      * <li>if the value is mutated, then all threads in the JVM can potentially observe those mutations,
      * subject to the normal Java Memory Model rules.</li>
      * </ul>
-     * Storage by reference only applies to local heap. If an entry is moved outside local heap it will
+     * Storage by reference only applies to the local heap. If an entry is moved off heap it will
      * need to be transformed into a representation. Any mutations that occur after transformation
      * may not be reflected in the cache.
      * <p/>
-     * Default value is true.
+     * The default value is true.
+     * <p/>
+     * When a cache is storeByValue, any mutation to the key or value does not affect the key of value
+     * stored in the cache.
      *
      * @return true if the cache is store by value
      */
