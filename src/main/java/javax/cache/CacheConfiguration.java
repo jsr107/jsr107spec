@@ -36,7 +36,7 @@ public interface CacheConfiguration<K, V> {
     /**
      * Whether the cache is a read-through cache. A CacheLoader should be configured for read through caches
      * which is called by the cache for what without the loader would have been misses on
-     * {@link Cache#get(Object)} and {@link Cache#getAll(java.util.Collection)}.
+     * {@link Cache#get(Object)} and {@link Cache#getAll(java.util.Set}.
      * <p/>
      * Default value is false.
      *

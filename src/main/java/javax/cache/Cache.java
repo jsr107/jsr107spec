@@ -104,13 +104,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * If an entry cannot be loaded for a given key, the key will not be present in the returned Map.
      * <p/>
      *
+     *
      * @param keys The keys whose associated values are to be returned.
      * @return The entries for the specified keys.
      * @throws NullPointerException  if keys is null or if keys contains a null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem fetching the values.
      */
-    Map<K, V> getAll(Collection<? extends K> keys);
+    Map<K, V> getAll(Set<? extends K> keys);
 
 
     /**
