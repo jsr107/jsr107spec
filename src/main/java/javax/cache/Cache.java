@@ -59,7 +59,7 @@ import java.util.concurrent.Future;
  * <p/>
  * <h1>Concurrency</h1>
  * Consistent with the collections in {@link java.util.concurrent}, in a single JVM cache, cache mutation operations performed by a thread
- * <emphasis>happen-before</emphasis> read or mutation operations performed by another thread.
+ * happen-before read or mutation operations performed by another thread.
  * <p/>
  * In the multi-JVM case, the same contract applies by default.
  *
