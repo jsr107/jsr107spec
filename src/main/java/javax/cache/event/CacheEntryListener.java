@@ -29,6 +29,15 @@ import java.util.EventListener;
  *     <li>If the event is registered with synchronous notification, it is fired synchronously in the same thread if in the same JVM</li>
  * </ul>
  *
+ * Because a listener occurs...
+ *
+ * todo simplify back to one
+ * todo get rid of notification scope
+ * todo Java SE wants one method per listener. Yannis to find email
+ * todo remove Notification Scope
+ * todo say something about exceptions
+ * todo say the key cannot be mutated?
+ *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
  * @see CacheEntryReadListener
