@@ -59,10 +59,10 @@ import java.util.concurrent.Future;
  * </pre>
  * <p/>
  * <h1>Concurrency</h1>
- * Consistent with the collections in {@link java.util.concurrent}, in a single JVM cache, cache mutation operations performed by a thread
- * happen-before read or mutation operations performed by another thread.
- * <p/>
- * In the multi-JVM case, the same contract applies by default.
+ * Concurrency is described as if there exists a locking mechanism on each key. If a cache operation gets an exclusive lock on a key,
+ * then all subsequent operations on that key will block until that lock is released. The consequences are that operations performed by a
+ * thread happen-before read or mutation operations performed by another thread, including threads in different Java Virtual Machines.
+ *
  *
  * @param <K> the type of keys maintained by this cache
  * @param <V> the type of cached values
