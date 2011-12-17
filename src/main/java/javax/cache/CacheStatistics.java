@@ -86,7 +86,7 @@ public interface CacheStatistics {
      * In a caches with multiple tiered storage, a miss may be implemented as a miss
      * to the cache or to the first tier.
      * <p/>
-     * In a read-through cache a miss is an absence of the key in teh cache which will trigger a call to a CacheLoader. So it is
+     * In a read-through cache a miss is an absence of the key in the cache which will trigger a call to a CacheLoader. So it is
      * still a miss even though the cache will load and return the value.
      * <p/>
      * Refer to the implementation for precise semantics.

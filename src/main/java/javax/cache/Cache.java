@@ -564,6 +564,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
 
         /**
          * Removes the entry from the Cache
+         * <p/>
+         *
          */
         void remove();
 
@@ -573,7 +575,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * then a mapping is added to the cache visible once the EntryProcessor
          * completes. Moreover a second invocation of {@link #exists()}
          * will return true.
-         * @param value
+         * <p/>
+         *
+         * @param value the value to update the entry with
          */
         void setValue(V value);
     }
