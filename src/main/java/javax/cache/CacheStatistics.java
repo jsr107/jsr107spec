@@ -7,44 +7,19 @@
 
 package javax.cache;
 
-import javax.management.MXBean;
 import java.util.Date;
 
 /**
- * A management bean for cache statistics.
+ * Cache statistics.
  * <p/>
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
  * <p/>
  * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
- * <p/>
- * Each cache's statistics object must be registered with an ObjectName that is unique and has the following:
- * <p/>
- * Type:
- * <code>javax.cache:type=CacheStatistics</code>
- * <p/>
- * Required Attributes:
- * <ul>
- * <li>CacheManager Name
- * <li>Cache Name
- * </ul>
  * @author Greg Luck
  * @since 1.0
  *
  */
-@MXBean
 public interface CacheStatistics {
-
-    /**
-     * @return the name of the Cache these statistics are for
-     */
-    String getName();
-
-    /**
-     * Gets the {@link Status} attribute of the Cache.
-     *
-     * @return The status value from the Status enum class
-     */
-    Status getStatus();
 
     /**
      * Clears the statistics counters to 0 for the associated Cache.

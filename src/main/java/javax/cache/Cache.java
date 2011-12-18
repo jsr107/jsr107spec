@@ -9,6 +9,7 @@ package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.NotificationScope;
+import javax.cache.mbeans.CacheMXBean;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -528,6 +529,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * The ordering of the entries is undefined
      */
     Iterator<Cache.Entry<K, V>> iterator();
+
+    /**
+     * Get the MBean for this cache.
+     * @return the MBean
+     * TODO: not sure this belongs here
+     */
+    CacheMXBean getMBean();
 
     /**
      * A cache entry (key-value pair).
