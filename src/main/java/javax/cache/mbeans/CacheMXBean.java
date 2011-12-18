@@ -8,7 +8,6 @@ package javax.cache.mbeans;
 
 import javax.cache.Status;
 import javax.management.MXBean;
-import javax.management.ObjectName;
 
 /**
  * A management bean for cache.
@@ -40,11 +39,4 @@ public interface CacheMXBean extends CacheStatisticsMXBean {
      * @return The status value from the Status enum class
      */
     Status getStatus();
-
-    /**
-     * Get the Object name
-     * @return the object name
-     * TODO: not sure this belongs here
-     */
-    ObjectName getObjectName();
 }

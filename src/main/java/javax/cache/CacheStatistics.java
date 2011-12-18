@@ -32,7 +32,7 @@ public interface CacheStatistics {
      *
      * @return the date statistics started being accumulated
      */
-    Date statsAccumulatingFrom();
+    Date getStartAccumulationDate();
 
     /**
      * The number of get requests that were satisfied by the cache.
