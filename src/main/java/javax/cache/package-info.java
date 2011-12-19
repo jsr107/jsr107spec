@@ -6,13 +6,16 @@
  */
 
 /**
- This package contains the API for JCache..
-
- The main components are a CacheManager that holds and controls a collection of Caches. A cache is an association of key to value.
-
-
- @author Greg Luck
- @author Yannis Cosmadopoulos
- @since 1.0
+ * <p/>
+ * This package contains the API for JCache.
+ * <p/>
+ * The entry point is the {@link Caching} class. {@link CacheManager} holds and controls a collection of {@link Cache}s.
+ * A cache is an association of key to value.
+ * <p/>
+ *
+ *
+ * @author Greg Luck
+ * @author Yannis Cosmadopoulos
+ * @since 1.0
  */
 package javax.cache;

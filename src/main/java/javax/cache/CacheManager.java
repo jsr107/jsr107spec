@@ -171,18 +171,4 @@ public interface CacheManager {
      * @throws IllegalArgumentException if the provider doesn't support the specified class.
      */
     <T> T unwrap(java.lang.Class<T> cls);
-
-    /**
-     * experimental cache configuration
-     * @return
-     */
-    <K, V> javax.cache.experimental.ConfigurationBuilder<K, V> createConfigurationBuilderEXPERIMENTAL();
-
-    /**
-     *
-     * @param <K>
-     * @param <V>
-     * @return
-     */
-    <K, V> javax.cache.experimental.CacheBuilder<K, V> getCacheBuilderEXPERIMENTAL();
 }

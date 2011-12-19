@@ -7,7 +7,7 @@
 
 /**
  The javax.cache.spi package defines the classes and interfaces that are implemented by the
- persistence provider for use by the {@link javax.cache.Caching} class
+ caching provider for use by the {@link javax.cache.Caching} class
 
  @author Yannis Cosmadopoulos
  @since 1.0

@@ -6,9 +6,7 @@
  */
 
 /**
- This package contains the API for JCache..
-
- MBeans for Cache.
+ Defines MXBeans for the cache.
 
 
  @author Greg Luck
