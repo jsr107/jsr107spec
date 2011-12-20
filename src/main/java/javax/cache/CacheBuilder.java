@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
-import javax.cache.event.NotificationScope;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 
@@ -64,12 +63,11 @@ public interface CacheBuilder<K, V> {
      * Registers a listener. Can be invoked multiple times.
      *
      * @param cacheEntryListener the listener
-     * @param scope              the notification scope.
      * @param synchronous        whether to listener should be invoked synchronously
      * @return the builder
      * @throws NullPointerException if any of the arguments are null.
      */
-    CacheBuilder<K, V> registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, NotificationScope scope, boolean synchronous);
+    CacheBuilder<K, V> registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, boolean synchronous);
 
     /**
      * Sets whether the cache is store-by-value cache.

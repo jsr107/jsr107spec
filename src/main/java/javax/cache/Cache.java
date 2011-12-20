@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
-import javax.cache.event.NotificationScope;
 import javax.cache.mbeans.CacheMXBean;
 import java.util.Collection;
 import java.util.Iterator;
@@ -466,14 +465,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Adds a listener to the notification service.
      * <p/>
      *
-     * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two difference scopes
+     * @param cacheEntryListener The listener to add. A listener may be added only once, so the same listener with two different synchronous
      *                           is not allowed.
-     * @param scope              The notification scope.
      * @param synchronous        whether to listener should be invoked synchronously
      * @return true if the listener is being added and was not already added
      * @throws NullPointerException if any of the arguments are null.
      */
-    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener, NotificationScope scope, boolean synchronous);
+    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener, boolean synchronous);
 
     /**
      * Removes a call back listener.
