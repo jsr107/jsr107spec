@@ -11,11 +11,8 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.ServiceLoader;
 
 import javax.cache.spi.AnnotationProvider;
@@ -89,7 +86,8 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(String name) {
-        return CachingSingleton.INSTANCE.getCacheManager(name);
+        ClassLoader classLoader = ServiceFactoryHolder.INSTANCE.getServiceFactory().getDefaultClassLoader();
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().getCacheManager(classLoader, name);
     }
 
     /**
@@ -123,7 +121,7 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        return CachingSingleton.INSTANCE.getCacheManager(classLoader, name);
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().getCacheManager(classLoader, name);
     }
 
     /**
@@ -143,7 +141,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static void close() throws CachingShutdownException {
-        CachingSingleton.INSTANCE.close();
+        ServiceFactoryHolder.INSTANCE.getServiceFactory().close();
     }
 
     /**
@@ -156,7 +154,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static boolean close(ClassLoader classLoader) throws CachingShutdownException {
-        return CachingSingleton.INSTANCE.close(classLoader);
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().close(classLoader);
     }
 
     /**
@@ -169,7 +167,7 @@ public final class Caching {
      * @return true if found, false otherwise
      */
     public static boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
-        return CachingSingleton.INSTANCE.close(classLoader, name);
+        return ServiceFactoryHolder.INSTANCE.getServiceFactory().close(classLoader, name);
     }
 
     /**
@@ -267,160 +265,6 @@ public final class Caching {
                     }
                 }
                 return sb.toString();
-            }
-        }
-    }
-
-    /**
-     * Used to track CacheManagers created using Caching.
-     */
-    private static final class CachingSingleton {
-        /**
-         * The singleton
-         */
-        public static final CachingSingleton INSTANCE = new CachingSingleton(ServiceFactoryHolder.INSTANCE.getServiceFactory());
-
-        private final Map<ClassLoader, Map<String, CacheManager>> cacheManagers = new HashMap<ClassLoader, Map<String, CacheManager>>();
-        private final CachingProvider cachingProvider;
-
-        private CachingSingleton(CachingProvider cachingProvider) {
-            this.cachingProvider = cachingProvider;
-        }
-
-        /**
-         * Get a named cache manager using the default cache loader as specified by
-         * the implementation (see {@link javax.cache.spi.CachingProvider#getDefaultClassLoader()}
-         *
-         * @param name the name of the cache manager
-         * @return the named cache manager
-         * @throws NullPointerException  if name is null
-         * @throws IllegalStateException if no CachingProvider was found
-         */
-        public CacheManager getCacheManager(String name) {
-            ClassLoader classLoader = cachingProvider.getDefaultClassLoader();
-            return getCacheManager(classLoader, name);
-        }
-
-        /**
-         * Get the cache manager for the specified name and class loader.
-         * <p/>
-         * If there is no cache manager associated, it is created.
-         *
-         * @param classLoader associated with the cache manager.
-         * @param name        the name of the cache manager
-         * @return the new cache manager
-         * @throws NullPointerException  if classLoader or name is null
-         * @throws IllegalStateException if no CachingProvider was found
-         */
-        public CacheManager getCacheManager(ClassLoader classLoader, String name) {
-            if (classLoader == null) {
-                throw new NullPointerException("classLoader");
-            }
-            if (name == null) {
-                throw new NullPointerException("name");
-            }
-            synchronized (cacheManagers) {
-                Map<String, CacheManager> map = cacheManagers.get(classLoader);
-                if (map == null) {
-                    map = new HashMap<String, CacheManager>();
-                    cacheManagers.put(classLoader, map);
-                }
-                CacheManager cacheManager = map.get(name);
-                if (cacheManager == null) {
-                    cacheManager = cachingProvider.createCacheManager(classLoader, name);
-                    map.put(name, cacheManager);
-                }
-                return cacheManager;
-            }
-        }
-
-        /**
-         * Reclaims all resources obtained from this factory.
-         * <p/>
-         * All cache managers obtained from the factory are shutdown.
-         * <p/>
-         * Subsequent requests from this factory will return different cache managers than would have been obtained before
-         * shutdown.
-         *
-         * @throws CachingShutdownException if any of the individual shutdowns failed
-         */
-        public void close() throws CachingShutdownException {
-            synchronized (cacheManagers) {
-                IdentityHashMap<CacheManager, Exception> failures = new IdentityHashMap<CacheManager, Exception>();
-                for (Map<String, CacheManager> cacheManagerMap : cacheManagers.values()) {
-                    try {
-                        shutdown(cacheManagerMap);
-                    } catch (CachingShutdownException e) {
-                        failures.putAll(e.getFailures());
-                    }
-                }
-                cacheManagers.clear();
-                if (!failures.isEmpty()) {
-                    throw new CachingShutdownException(failures);
-                }
-            }
-        }
-
-        /**
-         * Reclaims all resources for a ClassLoader from this factory.
-         * <p/>
-         * All cache managers linked to the specified CacheLoader obtained from the factory are shutdown.
-         *
-         * @param classLoader the class loader for which managers will be shut down
-         * @return true if found, false otherwise
-         * @throws CachingShutdownException if any of the individual shutdowns failed
-         */
-        public boolean close(ClassLoader classLoader) throws CachingShutdownException {
-            Map<String, CacheManager> cacheManagerMap;
-            synchronized (cacheManagers) {
-                cacheManagerMap = cacheManagers.remove(classLoader);
-            }
-            if (cacheManagerMap == null) {
-                return false;
-            } else {
-                shutdown(cacheManagerMap);
-                return true;
-            }
-        }
-
-        /**
-         * Reclaims all resources for a ClassLoader from this factory.
-         * <p/>
-         * the named cache manager obtained from the factory is shutdown.
-         *
-         * @param classLoader the class loader for which managers will be shut down
-         * @param name        the name of the cache manager
-         * @return true if found, false otherwise
-         * @throws CachingShutdownException if there is a problem shutting down a CacheManager
-         */
-        public boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
-            CacheManager cacheManager;
-            synchronized (cacheManagers) {
-                Map<String, CacheManager> cacheManagerMap = cacheManagers.get(classLoader);
-                cacheManager = cacheManagerMap.remove(name);
-                if (cacheManagerMap.isEmpty()) {
-                    cacheManagers.remove(classLoader);
-                }
-            }
-            if (cacheManager == null) {
-                return false;
-            } else {
-                cacheManager.shutdown();
-                return true;
-            }
-        }
-
-        private void shutdown(Map<String, CacheManager> cacheManagerMap) throws CachingShutdownException {
-            IdentityHashMap<CacheManager, Exception> failures = new IdentityHashMap<CacheManager, Exception>();
-            for (CacheManager cacheManager : cacheManagerMap.values()) {
-                try {
-                    cacheManager.shutdown();
-                } catch (Exception e) {
-                    failures.put(cacheManager, e);
-                }
-            }
-            if (!failures.isEmpty()) {
-                throw new CachingShutdownException(failures);
             }
         }
     }
