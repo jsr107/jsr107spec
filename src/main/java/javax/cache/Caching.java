@@ -86,8 +86,8 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(String name) {
-        ClassLoader classLoader = ServiceFactoryHolder.INSTANCE.getServiceFactory().getDefaultClassLoader();
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().getCacheManager(classLoader, name);
+        CachingProvider cachingProvider = ServiceFactoryHolder.INSTANCE.getCachingProvider();
+        return cachingProvider.getCacheManager(cachingProvider.getDefaultClassLoader(), name);
     }
 
     /**
@@ -121,7 +121,7 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().getCacheManager(classLoader, name);
+        return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManager(classLoader, name);
     }
 
     /**
@@ -141,7 +141,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static void close() throws CachingShutdownException {
-        ServiceFactoryHolder.INSTANCE.getServiceFactory().close();
+        ServiceFactoryHolder.INSTANCE.getCachingProvider().close();
     }
 
     /**
@@ -154,7 +154,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static boolean close(ClassLoader classLoader) throws CachingShutdownException {
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().close(classLoader);
+        return ServiceFactoryHolder.INSTANCE.getCachingProvider().close(classLoader);
     }
 
     /**
@@ -165,9 +165,10 @@ public final class Caching {
      * @param classLoader the class loader for which managers will be shut down
      * @param name        the name of the cache manager
      * @return true if found, false otherwise
+     * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().close(classLoader, name);
+        return ServiceFactoryHolder.INSTANCE.getCachingProvider().close(classLoader, name);
     }
 
     /**
@@ -177,7 +178,7 @@ public final class Caching {
      * @return true if the feature is supported
      */
     public static boolean isSupported(OptionalFeature optionalFeature) {
-        return ServiceFactoryHolder.INSTANCE.getServiceFactory().isSupported(optionalFeature);
+        return ServiceFactoryHolder.INSTANCE.getCachingProvider().isSupported(optionalFeature);
     }
     
     /**
@@ -231,7 +232,7 @@ public final class Caching {
         }
 
         //todo support multiple providers
-        public CachingProvider getServiceFactory() {
+        public CachingProvider getCachingProvider() {
             switch (cachingProviders.size()) {
                 case 0: throw new IllegalStateException("No CachingProviders found in classpath.");
                 case 1: return cachingProviders.get(0);
