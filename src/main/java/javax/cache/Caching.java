@@ -55,7 +55,7 @@ public final class Caching {
     }
 
     /**
-     * Get the CacheManagerFactory
+     * Get the singleton CacheManagerFactory
      * @return the cache manager factory
      */
     public static CacheManagerFactory getCacheManagerFactory() {
