@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 import javax.cache.spi.AnnotationProvider;
+import javax.cache.spi.CacheManagerFactory;
 import javax.cache.spi.CachingProvider;
 
 /**
@@ -54,6 +55,14 @@ public final class Caching {
     }
 
     /**
+     * Get the CacheManagerFactory
+     * @return the cache manager factory
+     */
+    public static CacheManagerFactory getCacheManagerFactory() {
+      return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory();
+    }
+
+    /**
      * Get the default cache manager with the default classloader.
      * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
@@ -86,7 +95,7 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(String name) {
-        return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory().getCacheManager(name);
+        return getCacheManagerFactory().getCacheManager(name);
     }
 
     /**
@@ -120,7 +129,7 @@ public final class Caching {
      * @throws IllegalStateException if no CachingProvider was found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory().getCacheManager(classLoader, name);
+        return getCacheManagerFactory().getCacheManager(classLoader, name);
     }
 
     /**
@@ -140,7 +149,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static void close() throws CachingShutdownException {
-        ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory().close();
+        getCacheManagerFactory().close();
     }
 
     /**
@@ -153,7 +162,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static boolean close(ClassLoader classLoader) throws CachingShutdownException {
-        return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory().close(classLoader);
+        return getCacheManagerFactory().close(classLoader);
     }
 
     /**
@@ -167,7 +176,7 @@ public final class Caching {
      * @throws CachingShutdownException if any of the individual shutdowns failed
      */
     public static boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
-        return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory().close(classLoader, name);
+        return getCacheManagerFactory().close(classLoader, name);
     }
 
     /**
