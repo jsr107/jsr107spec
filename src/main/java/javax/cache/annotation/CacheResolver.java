@@ -8,9 +8,8 @@
 
 package javax.cache.annotation;
 
-import java.lang.annotation.Annotation;
-
 import javax.cache.Cache;
+import java.lang.annotation.Annotation;
 
 /**
  * Determines the {@link Cache} to use for an intercepted method invocation. Implementations MUST be

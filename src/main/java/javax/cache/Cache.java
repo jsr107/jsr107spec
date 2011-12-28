@@ -9,7 +9,6 @@ package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
 import javax.cache.mbeans.CacheMXBean;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -429,7 +428,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem during the remove
      */
-    void removeAll(Collection<? extends K> keys);
+    void removeAll(Set<? extends K> keys);
 
     /**
      * Removes all of the mappings from this cache.

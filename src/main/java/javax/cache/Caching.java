@@ -7,6 +7,9 @@
 
 package javax.cache;
 
+import javax.cache.spi.AnnotationProvider;
+import javax.cache.spi.CacheManagerFactory;
+import javax.cache.spi.CachingProvider;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -14,10 +17,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
-
-import javax.cache.spi.AnnotationProvider;
-import javax.cache.spi.CacheManagerFactory;
-import javax.cache.spi.CachingProvider;
 
 /**
  * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
