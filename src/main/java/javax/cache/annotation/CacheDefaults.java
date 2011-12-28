@@ -15,13 +15,13 @@ import java.lang.annotation.Target;
 
 
 /**
- * Allows the configuration of cacheName, cacheResolver and cacheKeyResolver at the class level.
- * The same settings at the method level will override this.
- * This allows you to have defaults at the class level.
+ * Allows the configuration of defaults for {@link CacheResult}, {@link CachePut},
+ * {@link CacheRemoveEntry}, and {@link CacheRemoveAll} at the class level. Without
+ * the method level annotations this annotation has no effect.
  * <p/>
- * Example of specifying a default cache name that is used by the getDomain and deleteDomain
- * interceptors. The inteceptor for getAllDomains would use the "allDomains" cache specified
- * in the method level annotation.
+ * Example of specifying a default cache name that is used by the annotations on the
+ * getDomain and deleteDomain methods. The annotation for getAllDomains would use the
+ * "allDomains" cache name specified in the method level annotation.
  * <p><blockquote><pre>
  * package my.app;
  * 
@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
  *   }
  *   
  *   &#64;CacheResult(cacheName="allDomains")
- *   public List<Domain> getAllDomains() {
+ *   public List&lt;Domain> getAllDomains() {
  *     ...
  *   }
  * }
@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
  * @author Rick Hightower
  * @since 1.0
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheDefaults {
 
@@ -55,14 +55,19 @@ public @interface CacheDefaults {
      * (Optional) default name of the cache for the annotated class
      * <p/>
      * If not specified defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
+     * <p/>
+     * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
      */
     @Nonbinding
     String cacheName() default "";
 
     /**
-     * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} which is used
+     * at runtime to resolve the {@link javax.cache.Cache} for the cacheName.
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * <p/>
+     * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
      */
     @Nonbinding
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
@@ -71,11 +76,22 @@ public @interface CacheDefaults {
      * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used when
      * interacting with the {@link javax.cache.Cache}
      * <p/>
-     * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
-     * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
+     * Defaults to a key generator that return a key which uses {@link java.util.Arrays#deepHashCode(Object[])}
+     * and {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
+     * <p/>
+     * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemoveEntry}
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
-
+    
+    /**
+    * (Optional) default name of the cache to cache exceptions for the annotated class
+    * <p/>
+    * If not specified exceptions are not cached.
+    * <p/>
+     * Applicable for {@link CacheResult}   
+    */
+    @Nonbinding
+    String exceptionCacheName() default "";
 }

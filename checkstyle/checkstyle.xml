@@ -14,10 +14,10 @@
         <property name="allowLegacy" value="true"/>
     </module>
 
-    <!-- Header -->
+    <!-- Header 
     <module name="Header">
-        <property name="headerFile" value="${checkstyle.header.file}"/>
-    </module>
+        <property name="headerFile" value="${basedir}/checkstyle/ClassHeader.txt"/>
+    </module>-->
 
     <module name="FileLength">
         <property name="max" value="1400"/>
