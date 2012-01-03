@@ -84,14 +84,4 @@ public @interface CacheDefaults {
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
-    
-    /**
-    * (Optional) default name of the cache to cache exceptions for the annotated class
-    * <p/>
-    * If not specified exceptions are not cached.
-    * <p/>
-     * Applicable for {@link CacheResult}   
-    */
-    @Nonbinding
-    String exceptionCacheName() default "";
 }

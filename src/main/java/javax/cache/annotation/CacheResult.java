@@ -119,8 +119,7 @@ public @interface CacheResult {
     /**
     * (Optional) name of the cache to cache exceptions.
     * <p/>
-    * If not specified defaults first to {@link CacheDefaults#exceptionCacheName()} and if that
-    * is not specified no exception caching is done.
+    * If not specified no exception caching is done.
     */
     @Nonbinding
     String exceptionCacheName() default "";
@@ -128,16 +127,14 @@ public @interface CacheResult {
     /**
      * Defines zero (0) or more exception {@link Class classes}, which must be a
      * subclass of {@link Throwable}, indicating which exception types which <b>must</b>
-     * be cached. Only consulted if {@link #exceptionCacheName()} or
-     * {@link CacheDefaults#exceptionCacheName()} are specified.
+     * be cached. Only consulted if {@link #exceptionCacheName()} is specified.
      */
     Class<? extends Throwable>[] cachedExceptions() default { };
 
     /**
      * Defines zero (0) or more exception {@link Class Classes}, which must be a
      * subclass of {@link Throwable}, indicating which exception types <b>must not</b>
-     * be cached. Only consulted if {@link #exceptionCacheName()} or
-     * {@link CacheDefaults#exceptionCacheName()} are specified.
+     * be cached. Only consulted if {@link #exceptionCacheName()} is specified.
      */
     Class<? extends Throwable>[] nonCachedExceptions() default { };
 }

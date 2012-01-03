@@ -33,9 +33,11 @@ public interface CacheResolverFactory {
     /**
      * Get the {@link CacheResolver} used for runtime resolution of the {@link javax.cache.Cache} used by the
      * {@link CacheResult} interceptor to cache exceptions.
+     * <p/>
+     * Will only be called if {@link CacheResult#exceptionCacheName()} is not empty.
      * 
-     * @param cacheResultMethodDetails The details of the annotated method to get the {@link CacheResolver} for.
+     * @param cacheMethodDetails The details of the annotated method to get the {@link CacheResolver} for.
      * @return The {@link CacheResolver} instance to be used by the intercepter.
      */
-    CacheResolver getExceptionCacheResolver(CacheResultMethodDetails cacheResultMethodDetails);
+    CacheResolver getExceptionCacheResolver(CacheMethodDetails<CacheResult> cacheMethodDetails);
 }
