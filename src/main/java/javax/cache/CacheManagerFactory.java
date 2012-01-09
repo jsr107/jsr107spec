@@ -4,13 +4,10 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache.spi;
-
-import javax.cache.CacheManager;
-import javax.cache.CachingShutdownException;
+package javax.cache;
 
 /**
- * Interface that should be implemented by a CacheManager factory provider.
+ * Manages CacheManager instances.
  *
  * It is invoked by the {@link javax.cache.Caching} class to create
  * a {@link CacheManager}
@@ -25,6 +22,7 @@ public interface CacheManagerFactory {
      * @param name the name of the cache manager
      * @return the named cache manager
      * @throws NullPointerException  if name is null
+     * @since 1.0
      */
     CacheManager getCacheManager(String name);
 
@@ -37,6 +35,7 @@ public interface CacheManagerFactory {
      * @param name        the name of the cache manager
      * @return the new cache manager
      * @throws NullPointerException  if classLoader or name is null
+     * @since 1.0
      */
     CacheManager getCacheManager(ClassLoader classLoader, String name);
 
@@ -49,6 +48,7 @@ public interface CacheManagerFactory {
      * shutdown.
      *
      * @throws javax.cache.CachingShutdownException if any of the individual shutdowns failed
+     * @since 1.0
      */
     void close() throws CachingShutdownException;
 
@@ -60,6 +60,7 @@ public interface CacheManagerFactory {
      * @param classLoader the class loader for which managers will be shut down
      * @return true if found, false otherwise
      * @throws CachingShutdownException if any of the individual shutdowns failed
+     * @since 1.0
      */
     boolean close(ClassLoader classLoader) throws CachingShutdownException;
 
@@ -72,6 +73,7 @@ public interface CacheManagerFactory {
      * @param name        the name of the cache manager
      * @return true if found, false otherwise
      * @throws CachingShutdownException if there is a problem shutting down a CacheManager
+     * @since 1.0
      */
     boolean close(ClassLoader classLoader, String name) throws CachingShutdownException;
 }

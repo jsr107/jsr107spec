@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.spi.AnnotationProvider;
-import javax.cache.spi.CacheManagerFactory;
 import javax.cache.spi.CachingProvider;
 import java.security.AccessController;
 import java.security.PrivilegedAction;

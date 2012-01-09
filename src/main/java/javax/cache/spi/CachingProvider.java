@@ -7,6 +7,7 @@
 
 package javax.cache.spi;
 
+import javax.cache.CacheManagerFactory;
 import javax.cache.OptionalFeature;
 
 /**
@@ -26,6 +27,7 @@ public interface CachingProvider {
     /**
      * Returns the singleton CacheManagerFactory.
      * @return the CacheManagerFactory
+     * @since 1.0
      */
     CacheManagerFactory getCacheManagerFactory();
 
@@ -33,6 +35,7 @@ public interface CachingProvider {
      * Indicates whether a optional feature is supported by this implementation
      * @param optionalFeature the feature to check for
      * @return true if the feature is supported
+     * @since 1.0
      */
     boolean isSupported(OptionalFeature optionalFeature);
 }
