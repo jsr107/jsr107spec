@@ -7,43 +7,37 @@
 
 package javax.cache.transaction;
 
-import static java.sql.Connection.TRANSACTION_NONE;
-import static java.sql.Connection.TRANSACTION_READ_COMMITTED;
-import static java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
-import static java.sql.Connection.TRANSACTION_REPEATABLE_READ;
-import static java.sql.Connection.TRANSACTION_SERIALIZABLE;
-
-
 /**
- * An enum for the isolation levels. The enum values used are the constants from the java.sql.Connection package.
+ * An enum for the isolation levels.
  * @author Greg Luck
+ * @since  1.0
  */
 public enum IsolationLevel {
 
     /**
      * Isolation level
      */
-    NONE(TRANSACTION_NONE),
+    NONE(java.sql.Connection.TRANSACTION_NONE),
 
     /**
      * Isolation level
      */
-    READ_UNCOMMITTED(TRANSACTION_READ_UNCOMMITTED),
+    READ_UNCOMMITTED(java.sql.Connection.TRANSACTION_READ_UNCOMMITTED),
 
     /**
      * Isolation level
      */
-    READ_COMMITTED(TRANSACTION_READ_COMMITTED),
+    READ_COMMITTED(java.sql.Connection.TRANSACTION_READ_COMMITTED),
 
     /**
      * Isolation level
      */
-    REPEATABLE_READ(TRANSACTION_REPEATABLE_READ),
+    REPEATABLE_READ(java.sql.Connection.TRANSACTION_REPEATABLE_READ),
 
     /**
      * Isolation level
      */
-    SERIALIZABLE(TRANSACTION_SERIALIZABLE);
+    SERIALIZABLE(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 
     private final int value;
 
@@ -54,9 +48,9 @@ public enum IsolationLevel {
     /**
      * Return the constant for this isolation level defined in {@link java.sql.Connection}
      * @return the java.sql.Connection value
+     * @since  1.0
      */
     public int getJavaSqlConstant() {
         return value;
     }
-
 }

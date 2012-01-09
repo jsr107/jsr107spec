@@ -10,6 +10,7 @@ package javax.cache.transaction;
 /**
  * A enum for the different cache transaction modes.
  * @author Greg Luck
+ * @since 1.0
  */
 public enum Mode {
 

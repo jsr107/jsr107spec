@@ -12,6 +12,7 @@ import javax.cache.CacheException;
 /**
  * A transaction exception.
  * @author Greg Luck
+ * @since  1.0
  */
 public class TransactionException extends CacheException {
 
@@ -19,6 +20,7 @@ private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new TransactionException.
+     * @since  1.0
      */
     public TransactionException() {
         super();
@@ -29,6 +31,7 @@ private static final long serialVersionUID = 1L;
      *
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
+     * @since  1.0
      */
     public TransactionException(String message) {
         super(message);
@@ -40,10 +43,14 @@ private static final long serialVersionUID = 1L;
      *
      * @param message   the detail message. The detail message is saved for
      *                  later retrieval by the {@link #getMessage()} method.
-     * @param throwable
+     * @param  cause the cause (which is saved for later retrieval by the
+     *         {@link #getCause()} method).  (A <tt>null</tt> value is
+     *         permitted, and indicates that the cause is nonexistent or
+     *         unknown.)
+     * @since  1.0
      */
-    public TransactionException(String message, Throwable throwable) {
-        super(message, throwable);
+    public TransactionException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**

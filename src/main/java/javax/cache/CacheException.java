@@ -21,6 +21,7 @@ public class CacheException extends RuntimeException {
 
     /**
      * Constructs a new CacheException.
+     * @since  1.0
      */
     public CacheException() {
         super();
@@ -31,6 +32,7 @@ public class CacheException extends RuntimeException {
      *
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
+     * @since  1.0
      */
     public CacheException(String message) {
         super(message);
@@ -42,10 +44,14 @@ public class CacheException extends RuntimeException {
      *
      * @param message   the detail message. The detail message is saved for
      *                  later retrieval by the {@link #getMessage()} method.
-     * @param throwable
+     * @param  cause the cause (which is saved for later retrieval by the
+     *         {@link #getCause()} method).  (A <tt>null</tt> value is
+     *         permitted, and indicates that the cause is nonexistent or
+     *         unknown.)
+     * @since  1.0
      */
-    public CacheException(String message, Throwable throwable) {
-        super(message, throwable);
+    public CacheException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**

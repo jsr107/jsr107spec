@@ -6,7 +6,7 @@
  */
 
 /**
- This package contains the API for JCache.
+ This package contains the transactional support for JCache API.
 
  @author Greg Luck
  @since 1.0
