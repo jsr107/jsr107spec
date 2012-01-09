@@ -30,7 +30,6 @@ import javax.management.MXBean;
 public interface CacheMXBean extends CacheStatisticsMXBean {
     /**
      * @return the name of the Cache these statistics are for
-     * @since 1.0
      */
     String getName();
 
@@ -38,7 +37,6 @@ public interface CacheMXBean extends CacheStatisticsMXBean {
      * Gets the {@link javax.cache.Status} attribute of the Cache.
      *
      * @return The status value from the Status enum class
-     * @since 1.0
      */
     Status getStatus();
 }

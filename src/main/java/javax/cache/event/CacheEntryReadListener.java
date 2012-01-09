@@ -24,7 +24,6 @@ public interface CacheEntryReadListener<K, V> extends CacheEntryListener<K, V> {
      *
      * @param event The event just read.
      * @see #entriesRead(Iterable)
-     * @since 1.0
      */
     void entryRead(CacheEntryEvent<? extends K, ? extends V> event);
 
@@ -32,7 +31,6 @@ public interface CacheEntryReadListener<K, V> extends CacheEntryListener<K, V> {
      * Called after the entries have been read. Only entries which existed in the cache are passed in.
      *
      * @param events The events just read.
-     * @since 1.0
      */
     void entriesRead(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
 }

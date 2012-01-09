@@ -25,7 +25,6 @@ public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V
      *
      * @param event The entry just removed.
      * @see #entryRemoved(CacheEntryEvent)
-     * @since 1.0
      */
     void entryRemoved(CacheEntryEvent<? extends K, ? extends V> event);
 
@@ -33,7 +32,6 @@ public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V
      * Called after the entries have been removed by a batch operation.
      *
      * @param events The entry just removed.
-     * @since 1.0
      */
     void entriesRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
 }

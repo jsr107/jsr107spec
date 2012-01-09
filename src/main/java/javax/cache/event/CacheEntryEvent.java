@@ -21,7 +21,6 @@ public abstract class CacheEntryEvent<K, V> extends EventObject {
     /**
      * Constructs a cache entry event from a given cache as source
      * @param source the cache that originated the event
-     * @since 1.0
      */
     public CacheEntryEvent(Cache source) {
         super(source);
@@ -29,7 +28,6 @@ public abstract class CacheEntryEvent<K, V> extends EventObject {
 
     /**
      * {@inheritDoc}
-     * @since 1.0
      */
     @Override
     public final Cache getSource() {
@@ -39,14 +37,12 @@ public abstract class CacheEntryEvent<K, V> extends EventObject {
     /**
      * Returns the key of the cache entry with the event
      * @return the key
-     * @since 1.0
      */
     public abstract K getKey();
 
     /**
      * Returns the value of the cache entry with the event
      * @return the value
-     * @since 1.0
      */
     public abstract V getValue();
 }
