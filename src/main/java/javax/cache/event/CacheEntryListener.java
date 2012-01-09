@@ -15,9 +15,9 @@ import java.util.EventListener;
  * Sub-interfaces exist for the various cache events allowing a listener to be created which implements only those listeners
  * it is interested in.
  * <p/>
- * The motivation for this design is to allow efficient implementation of network based listenrs.
+ * The motivation for this design is to allow efficient implementation of network based listeners.
  * <p/>
- * Listeners should be implemented with care. In particular it is important to consider the impact on perforamnce
+ * Listeners should be implemented with care. In particular it is important to consider the impact on performance
  * and latency.
  * <p/>
  * A listener is a user supplied object instance and therefore can only be registered programmatically.
@@ -32,7 +32,6 @@ import java.util.EventListener;
  * Because a listener occurs...
  *
  * todo simplify back to one
- * todo get rid of notification scope
  * todo Java SE wants one method per listener. Yannis to find email
  * todo remove Notification Scope
  * todo say something about exceptions
@@ -50,7 +49,5 @@ import java.util.EventListener;
  * @since 1.0
  */
 public interface CacheEntryListener<K, V> extends EventListener {
-
-
 
 }

@@ -7,7 +7,6 @@
 
 package javax.cache.event;
 
-
 /**
  * Invoked if a cache entry is created,
  * for example through a {@link javax.cache.Cache#put(Object, Object)} operation or the action of a {@link javax.cache.CacheLoader}.
@@ -27,6 +26,7 @@ public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V
      *
      * @param event The entry just added.
      * @see #entriesCreated(Iterable)
+     * @since 1.0
      */
     void entryCreated(CacheEntryEvent<? extends K, ? extends V> event);
 
@@ -34,8 +34,7 @@ public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V
      * Called after the entries have been created (put into the cache where no previous mapping existed).
      *
      * @param events The entries just added.
+     * @since 1.0
      */
     void entriesCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
-
-
 }

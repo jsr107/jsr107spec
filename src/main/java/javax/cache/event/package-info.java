@@ -6,8 +6,7 @@
  */
 
 /**
- This package contains listeners and scoping interfaces.
-
+ This package contains event listeners.
 
  @author Greg Luck
  @author Yannis Cosmadopoulos
