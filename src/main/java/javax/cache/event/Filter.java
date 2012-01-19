@@ -7,15 +7,18 @@
 package javax.cache.event;
 
 /**
- * Run a test for a condition. Allows for pluggable filtering behavior.
+ * Evaluates a {@link CacheEntryEvent} as to whether a listener should be invoked.
+ * This allows for pluggable filtering behavior.
  * @author Yannis Cosmadopoulos
+ * @author Greg Luck
  * @since 1.0
  */
 public interface Filter {
+
     /**
      * Apply the test to the object
-     * @param o an object
-     * @return true if the test passes, false otherwise.
+     * @param cacheEntryEvent the event to evaluate for inclusion
+     * @return true if the listener should be invoked, false otherwise.
      */
-    boolean evaluate(Object o);
+    boolean evaluate(CacheEntryEvent cacheEntryEvent);
 }

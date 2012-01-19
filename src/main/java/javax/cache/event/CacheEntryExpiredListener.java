@@ -23,6 +23,7 @@ public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener<K, V
      * This is distinguished from the {@link CacheEntryRemovedListener} where an explicit remove call was made.
      *
      * @param entry The entry that has expired.
+     * @throws CacheEntryListenerException if there is problem executing the listener
      */
-    void entryExpired(CacheEntryEvent<? extends K, ? extends V> entry);
+    void entryExpired(CacheEntryEvent<? extends K, ? extends V> entry) throws CacheEntryListenerException;
 }

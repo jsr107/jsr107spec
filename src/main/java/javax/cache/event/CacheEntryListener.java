@@ -33,7 +33,6 @@ import java.util.EventListener;
  *
  * todo simplify back to one
  * todo Java SE wants one method per listener. Yannis to find email
- * todo remove Notification Scope
  * todo say something about exceptions
  * todo say the key cannot be mutated?
  *

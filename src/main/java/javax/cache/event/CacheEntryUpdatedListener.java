@@ -26,13 +26,15 @@ public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V
      *
      * @param event The event just updated.
      * @see #entriesUpdated(Iterable)
+     * @throws CacheEntryListenerException if there is problem executing the listener
      */
-    void entryUpdated(CacheEntryEvent<? extends K, ? extends V> event);
+    void entryUpdated(CacheEntryEvent<? extends K, ? extends V> event) throws CacheEntryListenerException;
 
     /**
      * Called after the entries have been updated (put into the cache where a previous mapping existed).
      *
      * @param events The entries just updated.
+     * @throws CacheEntryListenerException if there is problem executing the listener
      */
-    void entriesUpdated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events);
+    void entriesUpdated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
 }
