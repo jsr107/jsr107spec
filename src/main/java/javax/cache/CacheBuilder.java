@@ -8,6 +8,7 @@
 package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
+import javax.cache.event.Filter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 
@@ -63,11 +64,11 @@ public interface CacheBuilder<K, V> {
      * Registers a listener. Can be invoked multiple times.
      *
      * @param cacheEntryListener the listener
-     * @param synchronous        whether to listener should be invoked synchronously
+     * @param filter        the filter
      * @return the builder
      * @throws NullPointerException if any of the arguments are null.
      */
-    CacheBuilder<K, V> registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, boolean synchronous);
+    CacheBuilder<K, V> registerCacheEntryListener(CacheEntryListener<K, V> cacheEntryListener, Filter filter);
 
     /**
      * Sets whether the cache is store-by-value cache.
