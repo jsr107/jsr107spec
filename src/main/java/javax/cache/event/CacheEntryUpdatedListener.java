@@ -21,7 +21,6 @@ public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V
 
     /**
      * Called after the entry has been updated (put into the cache where a previous mapping existed).
-     * This method is not called if a batch operation was performed.
      *
      * @param event The event just updated.
      * @throws CacheEntryListenerException if there is problem executing the listener
