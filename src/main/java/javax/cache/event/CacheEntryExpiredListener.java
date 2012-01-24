@@ -9,8 +9,7 @@ package javax.cache.event;
 
 
 /**
- * Invoked if a cache entry is removed,
- * for example through a {@link javax.cache.Cache#remove(Object)} call.
+ * Invoked if a cache entry is evicted because of expiration.
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
  * @author Greg Luck

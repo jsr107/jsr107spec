@@ -22,19 +22,9 @@ public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V
 
     /**
      * Called after the entry has been created (put into the cache where no previous mapping existed).
-     * This method is not called if a batch operation was performed.
      *
      * @param event The entry just added.
-     * @see #entriesCreated(Iterable)
      * @throws CacheEntryListenerException if there is problem executing the listener
      */
     void entryCreated(CacheEntryEvent<? extends K, ? extends V> event) throws CacheEntryListenerException;
-
-    /**
-     * Called after the entries have been created (put into the cache where no previous mapping existed).
-     *
-     * @param events The entries just added.
-     * @throws CacheEntryListenerException if there is problem executing the listener
-     */
-    void entriesCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
 }
