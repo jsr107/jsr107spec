@@ -32,12 +32,24 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre></blockquote></p>
- *
+ * Exception Handling, only used if {@link #afterInvocation()} is true.
+ * <ol>
+ *  <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all exceptions prevent the remove</li>
+ *  <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not specified then only exceptions 
+ *      which pass an instanceof check against the evictFor list result in a remove</li>
+ *  <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not specified then all exceptions 
+ *      which do not pass an instanceof check against the noEvictFor result in a remove</li>
+ *  <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then exceptions which pass an
+ *      instanceof check against the evictFor list but do not pass an instanceof check against the noEvictFor
+ *      list result in a remove</li>
+ * </ol>
+ * 
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
+ * @see CacheKeyParam
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheRemoveEntry {
 
@@ -79,4 +91,18 @@ public @interface CacheRemoveEntry {
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
+    
+    /**
+     * Defines zero (0) or more exception {@link Class classes}, which must be a
+     * subclass of {@link Throwable}, indicating which exception types must cause
+     * a cache evict. Only used if {@link #afterInvocation()} is true.
+     */
+    Class<? extends Throwable>[] evictFor() default { };
+
+    /**
+     * Defines zero (0) or more exception {@link Class Classes}, which must be a
+     * subclass of {@link Throwable}, indicating which exception types must <b>not</b>
+     * cause a cache evict. Only used if {@link #afterInvocation()} is true.
+     */
+    Class<? extends Throwable>[] noEvictFor() default { };
 }

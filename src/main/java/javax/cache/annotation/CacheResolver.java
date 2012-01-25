@@ -12,8 +12,9 @@ import javax.cache.Cache;
 import java.lang.annotation.Annotation;
 
 /**
- * Determines the {@link Cache} to use for an intercepted method invocation. Implementations MUST be
- * thread-safe.
+ * Determines the {@link Cache} to use for an intercepted method invocation.
+ * <p/>
+ * Implementations MUST be thread-safe.
  *
  * @author Eric Dalquist
  * @since 1.0
