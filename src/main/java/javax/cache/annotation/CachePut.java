@@ -33,13 +33,24 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre></blockquote></p>
- * 
+ * Exception Handling, only used if {@link #afterInvocation()} is true.
+ * <ol>
+ *  <li>If {@link #cacheFor()} and {@link #noCacheFor()} are both empty then all exceptions prevent the put</li>
+ *  <li>If {@link #cacheFor()} is specified and {@link #noCacheFor()} is not specified then only exceptions 
+ *      which pass an instanceof check against the cacheFor list result in a put</li>
+ *  <li>If {@link #noCacheFor()} is specified and {@link #cacheFor()} is not specified then all exceptions 
+ *      which do not pass an instanceof check against the noCacheFor result in a put</li>
+ *  <li>If {@link #cacheFor()} and {@link #noCacheFor()} are both specified then exceptions which pass an
+ *      instanceof check against the cacheFor list but do not pass an instanceof check against the noCacheFor
+ *      list result in a put</li>
+ * </ol>
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
  * @see CacheValue
+ * @see CacheKeyParam
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CachePut {
 
@@ -58,7 +69,8 @@ public @interface CachePut {
      * <p/>
      * Defaults to true.
      * <p/>
-     * If true and the annotated method throws an exception the put will not be executed.
+     * If true and the annotated method throws an exception the rules governing {@link #cacheFor()} and {@link #noCacheFor()}
+     * will be followed.
      */
     @Nonbinding
     boolean afterInvocation() default true;
@@ -81,4 +93,18 @@ public @interface CachePut {
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
+    
+    /**
+     * Defines zero (0) or more exception {@link Class classes}, which must be a
+     * subclass of {@link Throwable}, indicating which exception types <b>must</b> cause
+     * the parameter to be cached. Only used if {@link #afterInvocation()} is true.
+     */
+    Class<? extends Throwable>[] cacheFor() default { };
+
+    /**
+     * Defines zero (0) or more exception {@link Class Classes}, which must be a
+     * subclass of {@link Throwable}, indicating which exception types <b>must not</b>
+     * cause the parameter to be cached. Only used if {@link #afterInvocation()} is true.
+     */
+    Class<? extends Throwable>[] noCacheFor() default { };
 }
