@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.event.CacheEntryListener;
-import javax.cache.event.Filter;
 import javax.cache.mbeans.CacheMXBean;
 import java.util.Iterator;
 import java.util.Map;
@@ -468,12 +467,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param cacheEntryListener The listener to add. Listeners fire synchronously in the execution path, and after the
      *                           causing event. if a listener throws an exception it will be wrapped in a CacheException
      *                           and propagated back to the caller.
-     * @param filter             The event will only be delivered to the listener if filter evaluates to true.
-     *                           If filter is null, no filtering occurs.
      * @return true if the listener is being added and was not already added
      * @throws NullPointerException if the listener is null.
      */
-    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener, Filter filter);
+    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener);
 
     /**
      * Removes a call back listener.

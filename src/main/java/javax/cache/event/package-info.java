@@ -12,8 +12,6 @@
  The specific interface should be implemented for each event type a callback
  is desired on.
  <p/>
- Events may be filtered by any {@link Filter} registered with the event listener.
- <p/>
  Event notifications occur synchronously in the line of execution of the calling thread.
  The calling thread blocks until the listener has completed execution or thrown a {@link CacheEntryListenerException}.
  <p/>
