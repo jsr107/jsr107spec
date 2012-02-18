@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * 
  * @see CacheKeyInvocationContext#getKeyParameters()
  */
-@Target({ElementType.PARAMETER})
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheKeyParam {
 

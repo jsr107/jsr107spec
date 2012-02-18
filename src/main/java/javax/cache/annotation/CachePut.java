@@ -76,6 +76,14 @@ public @interface CachePut {
     boolean afterInvocation() default true;
 
     /**
+     * (Optional) If set to false null values will not be cached. If true (the default) null values will be cached.
+     * <p/>
+     * Defaults to true
+     */
+    @Nonbinding
+    boolean cacheNull() default true;
+
+    /**
      * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
      * <p/>
      * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}

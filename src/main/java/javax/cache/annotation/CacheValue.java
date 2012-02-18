@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @see CachePut
  */
-@Target({ElementType.PARAMETER})
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheValue {
 

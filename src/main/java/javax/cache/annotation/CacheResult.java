@@ -88,7 +88,7 @@ public @interface CacheResult {
      * the returned value being cached as normal. This is useful for create or update methods which should always
      * be executed and have their returned value placed in the cache.
      * <p/>
-     * If true an an {@link #exceptionCacheName()} is specified the pre-invocation check for a thrown exception is also
+     * If true and an {@link #exceptionCacheName()} is specified the pre-invocation check for a thrown exception is also
      * skipped. If an exception is thrown during invocation it will be cached following the standard exception caching
      * rules.
      * Defaults to false
@@ -96,6 +96,15 @@ public @interface CacheResult {
      */
     @Nonbinding
     boolean skipGet() default false;
+
+    /**
+     * (Optional) If set to false null return values will not be cached. If true (the default) null return
+     * values will be cached.
+     * <p/>
+     * Defaults to true
+     */
+    @Nonbinding
+    boolean cacheNull() default true;
 
     /**
      * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
