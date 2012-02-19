@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * cache it is returned and the annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache with the generated key.
  * <p/>
- * null return values are never cached.
+ * null return values are cached by default but this behavior can be disabled via the {@link #cacheNull()} property.
  * <p/>
  * Exceptions are not cached by default. Caching of exceptions can be enabled by specifying an {@link #exceptionCacheName()}. If an
  * exception cache is specified it is checked before invoking the annotated method and if a cached exception is found it is re-thrown.

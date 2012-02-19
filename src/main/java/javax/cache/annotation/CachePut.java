@@ -18,7 +18,8 @@ import java.lang.annotation.Target;
 /**
  * When a method annotated with {@link CachePut} is invoked a {@link CacheKey} will be generated and
  * {@link javax.cache.Cache#put(Object, Object)} will be invoked on the specified cache storing the value
- * marked with {@link CacheValue}. Null values will never be cached.
+ * marked with {@link CacheValue}. Null values are cached by default but this behavior can be disabled via
+ * the {@link #cacheNull()} property.
  * <p/>
  * Example of caching the Domain object with a key generated from the String and int parameters. The
  * {@link CacheValue} annotation is used to designate which parameter should be stored in the "domainDao"
