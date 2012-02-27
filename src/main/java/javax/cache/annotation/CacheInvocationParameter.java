@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * A parameter to an intercepted method invocation. Contains the parameter value as well
- * static as type and annotation information about the parameter.
+ * static type and annotation information about the parameter.
  * 
  * @author Eric Dalquist
  * @version $Revision$

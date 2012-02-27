@@ -14,11 +14,16 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a method argument as part of the cache key.
- * If no arguments are marked all arguments are used.
+ * If no arguments are marked all arguments are used. The exception is
+ * for a method annotated with {@link CachePut} where the {@link CacheValue}
+ * parameter is never included in the key
  * 
  * @author Rick Hightower
  * @since 1.0
  * 
+ * @see CacheResult
+ * @see CachePut
+ * @see CacheRemoveEntry
  * @see CacheKeyInvocationContext#getKeyParameters()
  */
 @Target({ ElementType.PARAMETER })

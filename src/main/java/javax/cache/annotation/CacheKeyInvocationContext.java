@@ -19,8 +19,7 @@ import java.lang.annotation.Annotation;
  * @author Eric Dalquist
  * @version $Revision$
  * @param <A> The type of annotation this context information is for. One of {@link javax.cache.annotation.CacheResult},
- * {@link javax.cache.annotation.CachePut}, {@link javax.cache.annotation.CacheRemoveEntry}, or
- * {@link javax.cache.annotation.CacheRemoveAll}.
+ * {@link javax.cache.annotation.CachePut}, or {@link javax.cache.annotation.CacheRemoveEntry}
  * @see CacheKeyGenerator
  */
 public interface CacheKeyInvocationContext<A extends Annotation> extends CacheInvocationContext<A> {
@@ -42,17 +41,9 @@ public interface CacheKeyInvocationContext<A extends Annotation> extends CacheIn
     CacheInvocationParameter[] getKeyParameters();
     
     /**
-     * When a method is annotated with {@link CachePut} one parameter is the value to be cached. 
-     * <p/>
-     * The value to be cached is selected using the following rules:
-     * <ul>
-     *   <li>If a {@link CacheValue} annotation exists the parameter with the annotation is the cached value</li>
-     *   <li>If no {@link CacheValue} annotation exists and there is only one parameter it is the cached value</li>
-     *   <li>If no {@link CacheValue} annotation exists and there is more than one parameter a {@link javax.cache.CacheException} will be thrown.
-     * </ul>
+     * When a method is annotated with {@link CachePut} this is the parameter annotated with {@link CacheValue}
      * 
      * @return The parameter to cache, will never be null for methods annotated with {@link CachePut}, will be null for methods not annotated with {@link CachePut}
-     * @throws javax.cache.CacheException thrown if the cache value cannot be determind because there is no {@link CacheValue} annotation exists and there is more than one parameter
      */
     CacheInvocationParameter getValueParameter();
 }

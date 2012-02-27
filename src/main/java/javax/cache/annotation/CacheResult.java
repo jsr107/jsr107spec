@@ -16,16 +16,20 @@ import java.lang.annotation.Target;
 
 /**
  * When a method annotated with {@link CacheResult} is invoked a {@link CacheKey} will be generated and
- * {@link javax.cache.Cache#get(Object)} is called before the invoked method actually executes. If a value is found in the
+ * {@link javax.cache.Cache#get(Object)} is called before the annotated method actually executes. If a value is found in the
  * cache it is returned and the annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache with the generated key.
  * <p/>
- * null return values are cached by default but this behavior can be disabled via the {@link #cacheNull()} property.
+ * null return values are cached by default, this behavior can be disabled by setting the {@link #cacheNull()} property to false.
  * <p/>
  * Exceptions are not cached by default. Caching of exceptions can be enabled by specifying an {@link #exceptionCacheName()}. If an
  * exception cache is specified it is checked before invoking the annotated method and if a cached exception is found it is re-thrown.
  * The {@link #cachedExceptions()} and {@link #nonCachedExceptions()} properties can be used to control which exceptions are cached
  * and which are not. 
+ * <p/>
+ * To always invoke the annotated method and still cache the result set {@link #skipGet()} to true. This will disable the pre-invocation
+ * {@link javax.cache.Cache#get(Object)} call. If {@link #exceptionCacheName()} is specifid the pre-invocation exception check is also
+ * disabled. This feature is useful for methods that create or update objects to be cached.
  * <p/>
  * Example of caching the Domain object with a key generated from the String and int parameters.
  * With no {@link #cacheName()} specified a cache name of "my.app.DomainDao.getDomain(java.lang.String,int)"
@@ -84,13 +88,14 @@ public @interface CacheResult {
     String cacheName() default "";
 
     /**
-     * (Optional) If set to true the pre-invocation get is skipped and the annotated method is always executed with
-     * the returned value being cached as normal. This is useful for create or update methods which should always
-     * be executed and have their returned value placed in the cache.
+     * (Optional) If set to true the pre-invocation {@link Cache#get(Object)} is skipped and the annotated method is
+     * always executed with the returned value being cached as normal. This is useful for create or update methods
+     * which should always be executed and have their returned value placed in the cache.
      * <p/>
      * If true and an {@link #exceptionCacheName()} is specified the pre-invocation check for a thrown exception is also
      * skipped. If an exception is thrown during invocation it will be cached following the standard exception caching
      * rules.
+     * <p/>
      * Defaults to false
      * @see CachePut
      */
@@ -107,20 +112,22 @@ public @interface CacheResult {
     boolean cacheNull() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
-     * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call
-     * {@link javax.cache.Cache#put(Object, Object)}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
+     * 
+     * @see CacheKeyParam
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

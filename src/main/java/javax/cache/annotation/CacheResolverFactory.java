@@ -11,7 +11,8 @@ package javax.cache.annotation;
 import java.lang.annotation.Annotation;
 
 /**
- * Determines the {@link CacheResolver} to use for an annotated method.
+ * Determines the {@link CacheResolver} to use for an annotated method. The {@link CacheResolver} will be retrieved
+ * once per annotated method.
  * <p/>
  * Implementations MUST be thread-safe.
  * 
@@ -21,9 +22,9 @@ import java.lang.annotation.Annotation;
 public interface CacheResolverFactory {
 
     /**
-     * Get the {@link CacheResolver} used for runtime resolution of the {@link javax.cache.Cache} used by the
+     * Get the {@link CacheResolver} used at runtime for resolution of the {@link javax.cache.Cache} for the
      * {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
-     * interceptors.
+     * annotation.
      * 
      * @param cacheMethodDetails The details of the annotated method to get the {@link CacheResolver} for.
      * @return The {@link CacheResolver} instance to be used by the intercepter.
@@ -31,8 +32,8 @@ public interface CacheResolverFactory {
     CacheResolver getCacheResolver(CacheMethodDetails<? extends Annotation> cacheMethodDetails);
     
     /**
-     * Get the {@link CacheResolver} used for runtime resolution of the {@link javax.cache.Cache} used by the
-     * {@link CacheResult} interceptor to cache exceptions.
+     * Get the {@link CacheResolver} used at runtime for resolution of the {@link javax.cache.Cache} for the
+     * {@link CacheResult} annotation to cache exceptions.
      * <p/>
      * Will only be called if {@link CacheResult#exceptionCacheName()} is not empty.
      * 

@@ -18,6 +18,10 @@ import java.lang.annotation.Target;
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in the specified cache
  * will be removed via the {@link javax.cache.Cache#removeAll()} method
  * <p/>
+ * The default behavior is to call {@link javax.cache.Cache#removeAll()} after the annotated method is invoked,
+ * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#removeAll()}
+ * will be called before the annotated method is invoked. 
+ * <p/>
  * Example of removing all Domain objects from the "domainCache". {@link javax.cache.Cache#removeAll()}
  * will be called after deleteAllDomains() returns successfully. 
  * <p><blockquote><pre>
@@ -53,7 +57,7 @@ public @interface CacheRemoveAll {
      * (Optional) name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
-     * an unspecified exception will be thrown by the provider.
+     * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
      */
     @Nonbinding
     String cacheName() default "";
@@ -70,9 +74,9 @@ public @interface CacheRemoveAll {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} to use to find the {@link javax.cache.Cache} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
-     * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;

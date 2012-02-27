@@ -19,6 +19,10 @@ import java.lang.annotation.Target;
  * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link CacheKey} will be generated and
  * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
  * <p/>
+ * The default behavior is to call {@link javax.cache.Cache#remove(Object)} after the annotated method is invoked,
+ * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#remove(Object)}
+ * will be called before the annotated method is invoked. 
+ * <p/>
  * Example of removing a specific Domain object from the "domainCache". A {@link CacheKey} will be generated
  * from the String and int parameters and used to call {@link javax.cache.Cache#remove(Object)} after
  * the deleteDomain method completes successfully.
@@ -56,8 +60,8 @@ public @interface CacheRemoveEntry {
     /**
      * (Optional) name of the cache.
      * <p/>
-     * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
-     * an unspecified exception will be thrown by the provider.
+     * If not specified defaults first to {@link CacheDefaults#cacheName()}, if that is not set it
+     * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
      */
     @Nonbinding
     String cacheName() default "";
@@ -74,20 +78,22 @@ public @interface CacheRemoveEntry {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
-     * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call
-     * {@link javax.cache.Cache#remove(Object)}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
+     * 
+     * @see CacheKeyParam
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

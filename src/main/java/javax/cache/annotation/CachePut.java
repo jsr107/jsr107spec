@@ -21,6 +21,10 @@ import java.lang.annotation.Target;
  * marked with {@link CacheValue}. Null values are cached by default but this behavior can be disabled via
  * the {@link #cacheNull()} property.
  * <p/>
+ * The default behavior is to call {@link javax.cache.Cache#put(Object, Object)} after the annotated method is invoked,
+ * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#put(Object, Object)}
+ * will be called before the annotated method is invoked. 
+ * <p/>
  * Example of caching the Domain object with a key generated from the String and int parameters. The
  * {@link CacheValue} annotation is used to designate which parameter should be stored in the "domainDao"
  * cache.
@@ -77,7 +81,8 @@ public @interface CachePut {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) If set to false null values will not be cached. If true (the default) null values will be cached.
+     * (Optional) If set to false null {@link CacheValue} values will not be cached. If true (the default) null {@link CacheValue}
+     * values will be cached.
      * <p/>
      * Defaults to true
      */
@@ -85,20 +90,22 @@ public @interface CachePut {
     boolean cacheNull() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} to use to find the {@link CacheResolver} the intercepter will interact with.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
-     * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
     @Nonbinding
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used to call
-     * {@link javax.cache.Cache#put(Object, Object)}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
+     * 
+     * @see CacheKeyParam
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

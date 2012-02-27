@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 
 
 /**
- * Marks a method argument as the object to cache for a method annotated with {@link CachePut}
+ * Marks the parameter to be cached for a method annotated with {@link CachePut}.
  * 
  * @author Eric Dalquist
  * @author Rick Hightower

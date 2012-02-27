@@ -62,10 +62,9 @@ public @interface CacheDefaults {
     String cacheName() default "";
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} which is used
-     * at runtime to resolve the {@link javax.cache.Cache} for the cacheName.
+     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
-     * Defaults to resolving the cache by name from the default {@link javax.cache.CacheManager}
+     * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      * <p/>
      * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
      */
@@ -73,14 +72,16 @@ public @interface CacheDefaults {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the cache key used when
-     * interacting with the {@link javax.cache.Cache}
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * with the specified Cache.
      * <p/>
-     * Defaults to a key generator that return a key which uses {@link java.util.Arrays#deepHashCode(Object[])}
-     * and {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
+     * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
+     * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
      * <p/>
      * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemoveEntry}
+     * 
+     * @see CacheKeyParam
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
