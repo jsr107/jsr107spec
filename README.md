@@ -10,27 +10,10 @@ About
 
 ## Releases
 
-### 12 October 2011: 0.3
-
-Changes in this release:
-
-* Numerous changes across the spec, TCK and RI
-* Annotations implementations in the RI for Spring and CDI
-* Transactions API finalised
-
-Maven snippet:
-
-    <dependency>
-      <groupId>javax.cache</groupId>
-      <artifactId>cache-api</artifactId>
-      <version>0.3</version>
-    </dependency>
-
-
-
-### 16 August 2011: 0.2
-
-Initial release.
+* 13 March 2012: 0.5 Early Draft Submission uses this release.
+* December 2011: 0.4
+* 12 October 2011: 0.3
+* 16 August 2011: Initial release, 0.2
 
 Maven snippet:
 
