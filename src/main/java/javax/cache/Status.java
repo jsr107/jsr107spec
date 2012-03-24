@@ -8,7 +8,7 @@
 package javax.cache;
 
 /**
- * Indicates the status in it's lifecycle of a resource.
+ * Indicates the lifecycle status of a resource.
  *
  * @author Greg Luck
  * @since 1.0
