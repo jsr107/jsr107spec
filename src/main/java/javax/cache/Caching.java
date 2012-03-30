@@ -20,7 +20,7 @@ import java.util.ServiceLoader;
 /**
  * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
  * <p/>
- * For a provider to be discovered, it's jar must contain a resource called:
+ * For a provider to be discovered, its jar must contain a resource called:
  * <pre>
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>

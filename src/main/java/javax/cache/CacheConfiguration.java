@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * At runtime it is used by javax.cache to decide how to behave. For example the behaviour of put
  * will vary depending on whether the cache is write-through.
  * <p/>
- * Finally, a cache makes it's configuration visible via this interface.
+ * Finally, a cache makes its configuration visible via this interface.
  *
  * Only those configurations which can be changed at runtime (if supported by the underlying implementation)
  * have setters in this interface. Those that can only be set prior to cache construction have setters in

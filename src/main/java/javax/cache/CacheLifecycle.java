@@ -24,7 +24,7 @@ public interface CacheLifecycle {
     /**
      * Notifies providers to start themselves.
      * <p/>
-     * This method is called during the resource's start method after it has changed it's
+     * This method is called during the resource's start method after it has changed its
      * status to alive. Cache operations are legal in this method.
      *
      * At the completion of this method invocation {@link #getStatus()} must return {@link Status#STARTED}.
