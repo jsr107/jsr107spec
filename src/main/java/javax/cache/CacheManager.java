@@ -51,7 +51,6 @@ public interface CacheManager {
      * <p/>
      * Calls to this method will block while the state is changing.
      * @return one of {@link Status}
-     * todo RI should block until transition completed and needs internal transitional states
      */
     Status getStatus();
 
@@ -72,7 +71,6 @@ public interface CacheManager {
      *    Cache&lt;Integer, String&gt; myCache1 = cacheManager.
      *           &lt;Integer, String&gt;createCacheBuilder("myCache1").
      *           setCacheLoader(cl).
-     *           setCacheLoader(cl).
      *           setStoreByValue(true).
      *           setReadThrough(true).
      *           setWriteThrough(false).
@@ -88,7 +86,7 @@ public interface CacheManager {
      * The Cache will be created, added to the caches controlled by this CacheManager and started when
      * {@link javax.cache.CacheBuilder#build()} is called.
      * If there is an existing Cache of the same name associated with this CacheManager when build is invoked,
-     * the old Cache will be stopped.
+     * an exception is thrown.
      *
      * @param cacheName the name of the cache to build. A cache name must consist of at least one non-whitespace character.
      * @return the CacheBuilder for the named cache
@@ -109,11 +107,11 @@ public interface CacheManager {
     <K, V> Cache<K, V> getCache(String cacheName);
 
     /**
-     * Returns an iterable over the caches managed by this CacheManager.
-     * This is immutable and independent of the cache manager; if the caches managed
-     * by the cache manager change the set is not affected
+     * Returns an Iterable over the caches managed by this CacheManager.
+     * The Iterable is immutable (iterator.remove will throw an IllegalStateException) and independent
+     * of the cache manager; if the caches managed by the cache manager change the Iterable is not affected
      *
-     * @return an iterable over the managed Caches
+     * @return an Iterable over the managed Caches
      * @throws UnsupportedOperationException if an attempt it made to remove an element
      */
     Iterable<Cache<?, ?>> getCaches();
@@ -148,14 +146,15 @@ public interface CacheManager {
     /**
      * Shuts down the CacheManager.
      * <p/>
-     * For each cache in the cache manager the {@link javax.cache.Cache#stop()} method will be invoked, in no guaranteed order.
-     * If the stop throws an exception, the exception will be consumed silently.
+     * For each cache in the cache manager the {@link javax.cache.Cache#stop()}
+     * method will be invoked, in no guaranteed order.
+     * If the stop throws an exception, the exception is ignored.
      * <p/>
      * Calls to {@link #getStatus()} will block until shutdown completes.
      * <p/>
-     * During the execution of the method calls to {@link #getStatus()} will block.
-     * On completion the CacheManager's status is changed to {@link Status#STOPPED}, and the manager's owned caches will be empty &amp;
-     * {@link #getCaches()} will return an empty collection.
+     * On completion the CacheManager's status is changed to {@link Status#STOPPED},
+     * and the manager's owned caches will be empty and {@link #getCaches()}
+     * will return an empty collection.
      * <p/>
      * A given CacheManager instance cannot be restarted after it has been stopped. A new one must be created.
      * @throws IllegalStateException if an operation is performed on CacheManager while stopping or stopped.
@@ -166,7 +165,8 @@ public interface CacheManager {
      * Return an object of the specified type to allow access to the provider-specific API. If the provider's
      * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
      * 
-     * @param cls the class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements.
+     * @param cls the class of the object to be returned. This is normally either the
+     *            underlying implementation class or an interface that it implements.
      * @return an instance of the specified class 
      * @throws IllegalArgumentException if the provider doesn't support the specified class.
      */

@@ -26,9 +26,11 @@ import java.util.ServiceLoader;
  * </pre>
  * containing the class name implementing {@link javax.cache.spi.CachingProvider}
  * <p/>
- * e.g. For the reference implementation:
+ * For example, in the reference implementation the contents are:
  * <p/>
  * "javax.cache.implementation.RIServiceFactory"
+ * <p/>
+ * If more than one CachingProvider is found, getCacheManagerFactory will throw an exception
  * <p/>
  * Also keeps track of all CacheManagers created by the factory. Subsequent calls
  * to {@link #getCacheManager()} return the same CacheManager.
@@ -55,6 +57,7 @@ public final class Caching {
     /**
      * Get the singleton CacheManagerFactory
      * @return the cache manager factory
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static CacheManagerFactory getCacheManagerFactory() {
       return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory();
@@ -65,7 +68,7 @@ public final class Caching {
      * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
      *
      * @return the default cache manager
-     * @throws IllegalStateException if no CachingProvider was found
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static CacheManager getCacheManager() {
         return getCacheManager(DEFAULT_CACHE_MANAGER_NAME);
@@ -77,7 +80,7 @@ public final class Caching {
      *
      * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
      * @return the default cache manager
-     * @throws IllegalStateException if no CachingProvider was found
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader) {
         return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
@@ -90,7 +93,7 @@ public final class Caching {
      * @param name the name of the cache manager
      * @return the named cache manager
      * @throws NullPointerException  if name is null
-     * @throws IllegalStateException if no CachingProvider was found
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static CacheManager getCacheManager(String name) {
         return getCacheManagerFactory().getCacheManager(name);
@@ -124,7 +127,7 @@ public final class Caching {
      * @param name        the name of this cache manager
      * @return the new cache manager
      * @throws NullPointerException  if classLoader or name is null
-     * @throws IllegalStateException if no CachingProvider was found
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
         return getCacheManagerFactory().getCacheManager(classLoader, name);
@@ -145,6 +148,7 @@ public final class Caching {
      * </pre>
      *
      * @throws CachingShutdownException if any of the individual shutdowns failed
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static void close() throws CachingShutdownException {
         getCacheManagerFactory().close();
@@ -158,6 +162,7 @@ public final class Caching {
      * @param classLoader the class loader for which managers will be shut down
      * @return true if found, false otherwise
      * @throws CachingShutdownException if any of the individual shutdowns failed
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static boolean close(ClassLoader classLoader) throws CachingShutdownException {
         return getCacheManagerFactory().close(classLoader);
@@ -172,6 +177,7 @@ public final class Caching {
      * @param name        the name of the cache manager
      * @return true if found, false otherwise
      * @throws CachingShutdownException if any of the individual shutdowns failed
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
         return getCacheManagerFactory().close(classLoader, name);
@@ -182,6 +188,7 @@ public final class Caching {
      *
      * @param optionalFeature the feature to check for
      * @return true if the feature is supported
+     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
      */
     public static boolean isSupported(OptionalFeature optionalFeature) {
         return ServiceFactoryHolder.INSTANCE.getCachingProvider().isSupported(optionalFeature);
