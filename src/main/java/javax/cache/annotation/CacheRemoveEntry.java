@@ -103,6 +103,7 @@ public @interface CacheRemoveEntry {
      * subclass of {@link Throwable}, indicating which exception types must cause
      * a cache evict. Only used if {@link #afterInvocation()} is true.
      */
+    @Nonbinding
     Class<? extends Throwable>[] evictFor() default { };
 
     /**
@@ -110,5 +111,6 @@ public @interface CacheRemoveEntry {
      * subclass of {@link Throwable}, indicating which exception types must <b>not</b>
      * cause a cache evict. Only used if {@link #afterInvocation()} is true.
      */
+    @Nonbinding
     Class<? extends Throwable>[] noEvictFor() default { };
 }

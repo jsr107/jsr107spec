@@ -145,6 +145,7 @@ public @interface CacheResult {
      * subclass of {@link Throwable}, indicating which exception types which <b>must</b>
      * be cached. Only consulted if {@link #exceptionCacheName()} is specified.
      */
+    @Nonbinding
     Class<? extends Throwable>[] cachedExceptions() default { };
 
     /**
@@ -152,5 +153,6 @@ public @interface CacheResult {
      * subclass of {@link Throwable}, indicating which exception types <b>must not</b>
      * be cached. Only consulted if {@link #exceptionCacheName()} is specified.
      */
+    @Nonbinding
     Class<? extends Throwable>[] nonCachedExceptions() default { };
 }

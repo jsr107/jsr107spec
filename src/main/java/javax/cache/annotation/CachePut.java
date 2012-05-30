@@ -115,6 +115,7 @@ public @interface CachePut {
      * subclass of {@link Throwable}, indicating which exception types <b>must</b> cause
      * the parameter to be cached. Only used if {@link #afterInvocation()} is true.
      */
+    @Nonbinding
     Class<? extends Throwable>[] cacheFor() default { };
 
     /**
@@ -122,5 +123,6 @@ public @interface CachePut {
      * subclass of {@link Throwable}, indicating which exception types <b>must not</b>
      * cause the parameter to be cached. Only used if {@link #afterInvocation()} is true.
      */
+    @Nonbinding
     Class<? extends Throwable>[] noCacheFor() default { };
 }
