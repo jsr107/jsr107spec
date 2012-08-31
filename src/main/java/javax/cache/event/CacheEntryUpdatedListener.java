@@ -20,6 +20,7 @@ package javax.cache.event;
 public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V> {
 
     /**
+     * todo change this to have two args: the old value and the new value
      * Called after the entry has been updated (put into the cache where a previous mapping existed).
      *
      * @param event The event just updated.
