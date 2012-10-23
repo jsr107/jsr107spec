@@ -90,6 +90,10 @@ Building uses Maven in all modules. Maven 2.2.1 and 3.0.4 have been tested.
 
 See each module's README.md for build instructions.
 
+Continuous Integration
+----------------------
+All modules are built at http://jsr107.ci.cloudbees.com.
+
 
 Testing Implementions of JSR107
 -------------------------------
