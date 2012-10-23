@@ -12,7 +12,7 @@ import javax.cache.transaction.Mode;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Information on how a cache is configured.
+ * A value object for cache configuration.
  * <p/>
  * A Cache may be constructed by {@link CacheManager} using a configuration instance.
  * <p/>
