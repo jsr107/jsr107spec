@@ -90,6 +90,48 @@ Building uses Maven in all modules. Maven 2.2.1 and 3.0.4 have been tested.
 
 See each module's README.md for build instructions.
 
+Please add the following to your settings.xml to enable the CDI RI to be sucked down from JBoss.
+
+    <profiles>
+            <profile>
+                <id>jboss-public-repository</id>
+                <repositories>
+                    <repository>
+                        <id>jboss-public-repository-group</id>
+                        <name>JBoss Public Maven Repository Group</name>
+                        <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+                        <layout>default</layout>
+                        <releases>
+                            <enabled>true</enabled>
+                            <updatePolicy>never</updatePolicy>
+                        </releases>
+                        <snapshots>
+                            <enabled>true</enabled>
+                            <updatePolicy>never</updatePolicy>
+                        </snapshots>
+                    </repository>
+                </repositories>
+                <pluginRepositories>
+                    <pluginRepository>
+                        <id>jboss-public-repository-group</id>
+                        <name>JBoss Public Maven Repository Group</name>
+                        <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+                        <layout>default</layout>
+                        <releases>
+                            <enabled>true</enabled>
+                            <updatePolicy>never</updatePolicy>
+                        </releases>
+                        <snapshots>
+                            <enabled>true</enabled>
+                            <updatePolicy>never</updatePolicy>
+                        </snapshots>
+                    </pluginRepository>
+                </pluginRepositories>
+            </profile>
+    </profiles>
+
+
+
 Continuous Integration
 ----------------------
 All modules are built at http://jsr107.ci.cloudbees.com.
