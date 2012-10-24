@@ -48,7 +48,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.2</version>
+      <version>0.5</version>
     </dependency>
 
 Javadoc
