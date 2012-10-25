@@ -25,16 +25,9 @@ import java.util.EventListener;
  * The listeners are fired:
  * <ul>
  *     <li>in order in which they were registered</li>
- *     <li>after the entry is added to the cache</li>
- *     <li>If the event is registered with synchronous notification, it is fired synchronously in the same thread if in the same JVM</li>
+ *     <li>after the entry is mutated in the cache</li>
+ *     <li>the calling thread blocks until the listener returns if the listener was registered as synchronous</li>
  * </ul>
- *
- * Because a listener occurs...
- *
- * todo simplify back to one
- * todo Java SE wants one method per listener. Yannis to find email
- * todo say something about exceptions
- * todo say the key cannot be mutated?
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
