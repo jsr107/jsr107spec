@@ -28,6 +28,7 @@ import java.util.EventListener;
  *     <li>after the entry is mutated in the cache</li>
  *     <li>the calling thread blocks until the listener returns if the listener was registered as synchronous</li>
  * </ul>
+ * A synchronous listener is not permitted to mutate any caches.
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
