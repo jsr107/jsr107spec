@@ -29,6 +29,12 @@ import java.util.EventListener;
  *     <li>the calling thread blocks until the listener returns if the listener was registered as synchronous</li>
  * </ul>
  * A synchronous listener is not permitted to mutate any caches.
+ * </p>
+ * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed before the
+ * transaction commits, and if asynchronous the timing is not defined. A listener which throws an exception will not affect
+ * the transaction.
+ *
+ * todo tomorrow
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
