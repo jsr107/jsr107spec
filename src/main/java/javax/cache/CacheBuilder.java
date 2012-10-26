@@ -126,4 +126,16 @@ public interface CacheBuilder<K, V> {
      */
     CacheBuilder<K, V> setExpiry(CacheConfiguration.ExpiryType type, CacheConfiguration.Duration duration);
 
+    //todo #65
+    /**
+     *
+     * Sets the cache expiration
+     *
+     * @param type whether based on creation/modification or last access time
+     * @param duration the amount of time
+     * @return the builder
+     * @throws NullPointerException if size is duration
+     */
+    //CacheBuilder<K, V> setExpiry(CacheConfiguration.ExpiryPolicy policy);
+
 }
