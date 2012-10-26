@@ -27,14 +27,13 @@ import java.util.EventListener;
  *     <li>in order in which they were registered</li>
  *     <li>after the entry is mutated in the cache</li>
  *     <li>the calling thread blocks until the listener returns if the listener was registered as synchronous</li>
+ *     <li>asynchronous listeners iterating through multiple events have undefined ordering</li>
  * </ul>
- * A synchronous listener is not permitted to mutate any caches.
+ * A synchronous listener is not permitted to mutate the cache it is listening on.
  * </p>
- * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed before the
- * transaction commits, and if asynchronous the timing is not defined. A listener which throws an exception will not affect
- * the transaction.
- *
- * todo tomorrow
+ * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed after the mutation
+ * and not after the transaction commits, and if asynchronous the timing is undefined. A listener which throws an exception will not affect
+ * the transaction. A transaction which is rolled back will not unfire a listener.
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener

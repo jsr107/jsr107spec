@@ -27,4 +27,15 @@ public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V
      * @throws CacheEntryListenerException if there is problem executing the listener
      */
     void entryRemoved(CacheEntryEvent<? extends K, ? extends V> event) throws CacheEntryListenerException;
+
+////todo change to the following for each listener.
+//    /**
+//     * Called after one or more entries have been removed. If no entry existed for key(s) the event is not raised.
+//     *
+//     * @param events The entries just removed.
+//     * @throws CacheEntryListenerException if there is problem executing the listener
+//     */
+//    void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events,) throws CacheEntryListenerException;
+
+
 }
