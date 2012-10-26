@@ -30,7 +30,7 @@ import java.util.EventListener;
  *     <li>asynchronous listeners iterating through multiple events have undefined ordering</li>
  * </ul>
  * A synchronous listener is not permitted to mutate the cache it is listening on.
- * </p>
+ * <p/>
  * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed after the mutation
  * and not after the transaction commits, and if asynchronous the timing is undefined. A listener which throws an exception will not affect
  * the transaction. A transaction which is rolled back will not unfire a listener.

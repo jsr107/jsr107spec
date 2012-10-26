@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Cache statistics.
  * <p/>
- * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clearStatistics()}.
+ * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clear}.
  * <p/>
  * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
  * @author Greg Luck
@@ -24,7 +24,7 @@ public interface CacheStatistics {
     /**
      * Clears the statistics counters to 0 for the associated Cache.
      */
-    void clearStatistics();
+    void clear();
 
     /**
      * The date from which statistics have been accumulated. Because statistics can be cleared, this is not necessarily
