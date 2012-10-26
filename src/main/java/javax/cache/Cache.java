@@ -434,15 +434,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Removes all of the mappings from this cache.
      * <p/>
      * The order in which the individual removes will occur is undefined.
-     * This is potentially an expensive operation.
-     * <p/>
-     * If the cache is write-through calling this method will invoke
+     * This is potentially an expensive operation as listeners are invoked. Use #clear() to avoid this.
      *
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem during the remove
-     * @see java.util.Map#clear()
+     * @see #clear()
      */
     void removeAll();
+
 
     /**
      * Returns a CacheConfiguration.
