@@ -98,6 +98,8 @@ public interface CacheConfiguration<K, V> {
      * Checks whether transaction are enabled for this cache.
      * <p/>
      * Default value is false.
+     * <p/>
+     * Note that in a transactional cache, entries being mutated within a transaction cannot be expired by the cache.
      *
      * @return true if transaction are enabled
      */
