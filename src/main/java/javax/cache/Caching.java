@@ -28,7 +28,7 @@ import java.util.ServiceLoader;
  * <p/>
  * For example, in the reference implementation the contents are:
  * <p/>
- * "javax.cache.implementation.RIServiceFactory"
+ * "org.jsr107.ri.RIServiceFactory"
  * <p/>
  * If more than one CachingProvider is found, getCacheManagerFactory will throw an exception
  * <p/>
