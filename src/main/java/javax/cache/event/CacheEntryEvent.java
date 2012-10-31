@@ -45,4 +45,19 @@ public abstract class CacheEntryEvent<K, V> extends EventObject {
      * @return the value
      */
     public abstract V getValue();
+
+    /**
+     * Returns the value of the cache entry with the event
+     * @return the value
+     * @throws UnsupportedOperationException if the old value is not available
+     */
+    public abstract V getOldValue() throws UnsupportedOperationException;
+
+
+    /**
+     * Whether the old value is available
+     * @return true if the old value is populated
+     */
+    public abstract boolean isOldValueAvailable();
+
 }
