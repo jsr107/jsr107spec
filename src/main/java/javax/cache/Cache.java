@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.cache.event.CacheEntryFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.mbeans.CacheMXBean;
 import java.util.Iterator;
@@ -466,10 +467,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @param cacheEntryListener The listener to add. Listeners fire synchronously in the execution path, and after the
      *                           causing event. if a listener throws an exception it will be wrapped in a CacheException
      *                           and propagated back to the caller.
+     * @param requireOldValue    whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}.
+     * @param cacheEntryFilter   If present the listener will only be called if the filter evaluates to true. If null the listener
+     *                           is always called.
+     * @param synchronous        whether the caller is blocked until the listener invocation completes.
      * @return true if the listener is being added and was not already added
      * @throws NullPointerException if the listener is null.
      */
-    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener);
+    boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener,
+                                       boolean requireOldValue,
+                                       CacheEntryFilter<K, V> cacheEntryFilter,
+                                       boolean synchronous);
 
     /**
      * Removes a call back listener.
