@@ -466,7 +466,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param cacheEntryListener The listener to add. Listeners fire synchronously in the execution path, and after the
      *                           causing event. if a listener throws an exception it will be wrapped in a CacheException
-     *                           and propagated back to the caller.
+     *                           and propagated back to the caller.  The listener may not be null
      * @param requireOldValue    whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}.
      * @param cacheEntryFilter   If present the listener will only be called if the filter evaluates to true. If null the listener
      *                           is always called.
