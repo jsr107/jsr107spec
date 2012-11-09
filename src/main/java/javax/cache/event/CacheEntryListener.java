@@ -34,6 +34,8 @@ import java.util.EventListener;
  * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed after the mutation
  * and not after the transaction commits, and if asynchronous the timing is undefined. A listener which throws an exception will not affect
  * the transaction. A transaction which is rolled back will not unfire a listener.
+ * <p/>
+ * A listener will be notified of events for the time it is registered. Listeners are not required to be durable.
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
