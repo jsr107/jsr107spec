@@ -10,7 +10,8 @@ package javax.cache;
 import java.util.Map;
 
 /**
- * Used for read-through caching and loading data into a cache.
+ * Used when a cache is read-through or when loading data into a cache via the {@link Cache#load(Object)}
+ * and {@link Cache#loadAll(java.util.Set)} methods.
  * <p/>
  * See {@link CacheWriter} which is the corollary for load used for write-through caching.
  *
