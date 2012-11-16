@@ -21,8 +21,8 @@ public interface CacheEntryReadListener<K, V> extends CacheEntryListener<K, V> {
     /**
      * Called after the entry has been read. If no entry existed for the key the event is not called.
      *
-     * @param event The event just read.
+     * @param events The entries just read.
      * @throws CacheEntryListenerException if there is problem executing the listener
      */
-    void entryRead(CacheEntryEvent<? extends K, ? extends V> event) throws CacheEntryListenerException;
+    void onRead(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
 }
