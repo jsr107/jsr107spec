@@ -10,19 +10,20 @@ package javax.cache;
 import javax.transaction.UserTransaction;
 
 /**
- * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
+ * A CacheManager is used for establishing, looking up and managing the lifecycle 
+ * of zero or more Caches.
  * <p/>
- * To the extent that implementations have configuration at the CacheManager level, it is a way for these caches
- * to share common configuration. For example a CacheManager might be clustered so all caches in that CacheManager
- * will participate in the same cluster.
- * <p/>
- * <p/>
+ * To the extent that implementations have configuration at the CacheManager level, 
+ * it is a way for these caches to share common configuration. For example a 
+ * CacheManager might be clustered so all caches in that CacheManager will 
+ * participate in the same cluster.
  * <p/>
  * <h2>Creation</h2>
  * Concrete implementations can be created in a number of ways:
  * <ul>
  * <li>Through a ServiceLoader using {@link Caching}</li>
- * <li>Simple creation with <code>new</code> of a concrete implementation, if supported by an implementation</li>
+ * <li>Simple creation with <code>new</code> of a concrete implementation, if 
+ * supported by an implementation</li>
  * </ul>
  * <p/>
  * <h2>Lookup</h2>
@@ -35,6 +36,8 @@ import javax.transaction.UserTransaction;
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
+ * @author Brian Oliver
+ * 
  * @since 1.0
  */
 public interface CacheManager {
@@ -53,52 +56,47 @@ public interface CacheManager {
      * @return one of {@link Status}
      */
     Status getStatus();
-
-
+    
     /**
-     * Creates a new {@link CacheBuilder} for the named cache to be managed by this cache manager.
+     * Ensures that a {@link Cache} conforming to the specified {@link CacheConfiguration}
+     * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown 
+     * to the {@link CacheManager}, one is created and configured according to the provided
+     * configuration, after which it becomes managed by the said {@link CacheManager}. 
+     * If such a {@link Cache} already exists, it is simply returned.
      * <p/>
-     * An example which creates a cache using default cache configuration is:
-     * <pre>
-     *    Cache&lt;Integer, Date&gt; myCache2 = cacheManager.
-     *           &lt;Integer, Date&gt;createCacheBuilder("myCache2").
-     *           build();
-     * </pre>
+     * Importantly {@link CacheConfiguration}s provided to this method are always
+     * validated with in the context of the {@link CacheManager} implementation.
+     * For example:  Attempting use a {@link CacheConfiguration} requiring transactional
+     * support with an implementation that does not support transactions will result
+     * in an {@link UnsupportedOperationException}. 
      * <p/>
-     * An example usage which programmatically sets many parameters of {@link CacheConfiguration},
-     * specifies a {@link CacheLoader} and registrs listeners is:
-     * <pre>
-     *    Cache&lt;Integer, String&gt; myCache1 = cacheManager.
-     *           &lt;Integer, String&gt;createCacheBuilder("myCache1").
-     *           setCacheLoader(cl).
-     *           setStoreByValue(true).
-     *           setReadThrough(true).
-     *           setWriteThrough(false).
-     *           setStatisticsEnabled(true).
-     *           setTransactionEnabled(false).
-     *           registerCacheEntryListener(listener1, NotificationScope.LOCAL, false).
-     *           registerCacheEntryListener(listener2, NotificationScope.LOCAL, false).
-     *           build();
-     * </pre>
+     * Note 1: Implementors of this method are required to make a copy of the provided
+     * {@link CacheConfiguration} so that it may be further used to configure and
+     * ensure other {@link Cache}s without causing side-effects. 
      * <p/>
-     * <p/>
-     * The returned CacheBuilder is associated with this CacheManager.
-     * The Cache will be created, added to the caches controlled by this CacheManager and started when
-     * {@link javax.cache.CacheBuilder#build()} is called.
-     * If there is an existing Cache of the same name associated with this CacheManager when build is invoked,
-     * an exception is thrown.
-     *
-     * @param cacheName the name of the cache to build. A cache name must consist of at least one non-whitespace character.
-     * @return the CacheBuilder for the named cache
-     * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state.
-     * @throws CacheException        if a cache with that name already exists or there was an error adding the cache to the CacheManager
-     * @throws IllegalArgumentException if an illegal cache name is specified
-     * @throws NullPointerException  if the cache name is null
+     * Note 2: There's no requirement on the part of a developer to call this method
+     * for each {@link Cache} than an application may use.  This is simply because 
+     * when instantiated a {@link CacheManager} may be pre-configured with one or more 
+     * {@link Cache}s, thus meaning there's no requirement to "configure" them
+     * in an application.  In such circumstances a developer may simply call 
+     * {@link #getCache(String)} to retrieve a pre-configured {@link Cache}.
+     * 
+     * @param cacheName the name of the cache
+     * @param cacheConfiguration the {@link CacheConfiguration}
+     * 
+     * @return a configured {@link Cache}
+     * 
+     * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state
+     * @throws CacheException if there was an error adding the cache to the CacheManager
+     * @throws InvalidConfigurationException when the {@link CacheConfiguration} is invalid
+     * @throws UnsupportedOperationException when the {@link CacheConfiguration} attempts 
+     *                                       to use an unsupported feature
+     * @throws NullPointerException if the cache configuration is null
      */
-    <K, V> CacheBuilder<K, V> createCacheBuilder(String cacheName);
-
+    <K, V> Cache<K, V> configureCache(String cacheName, CacheConfiguration<K, V> cacheConfiguration);
+    
     /**
-     * Looks up a named cache.
+     * Looks up a {@link Cache} given it's name.
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
@@ -133,7 +131,6 @@ public interface CacheManager {
      * @throws UnsupportedOperationException if JTA is not supported
      */
     UserTransaction getUserTransaction();
-
 
     /**
      * Indicates whether a optional feature is supported by this CacheManager.

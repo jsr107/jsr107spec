@@ -7,52 +7,67 @@
 
 package javax.cache;
 
-import javax.cache.transaction.IsolationLevel;
-import javax.cache.transaction.Mode;
 import java.util.concurrent.TimeUnit;
 
+import javax.cache.event.CacheEntryListener;
+import javax.cache.transaction.IsolationLevel;
+import javax.cache.transaction.Mode;
+
 /**
- * A value object for cache configuration.
+ * The basic representation of a configuration for a {@link Cache}.
  * <p/>
- * A Cache may be constructed by {@link CacheManager} using a configuration instance.
+ * The properties provided by instances of this interface are used by 
+ * {@link CacheManager}s to configure {@link Cache}s.
  * <p/>
- * At runtime it is used by javax.cache to decide how to behave. For example the behaviour of put
- * will vary depending on whether the cache is write-through.
- * <p/>
- * Finally, a cache makes its configuration visible via this interface.
- *
- * Only those configurations which can be changed at runtime (if supported by the underlying implementation)
- * have setters in this interface. Those that can only be set prior to cache construction have setters in
- * {@link CacheBuilder}.
- *
- * @param <K> the type of keys maintained by this cache
+ * Implementations of this interface must always override {@link #hashCode()} and
+ * {@link #equals(Object)} as {@link CacheConfiguration}s are often compared
+ * at runtime.
+ * 
+ * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
+ * 
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
+ * @author Brian Oliver
+ * 
  * @since 1.0
  */
 public interface CacheConfiguration<K, V> {
 
     /**
-     * Whether the cache is a read-through cache. A CacheLoader should be configured for read through caches
-     * which is called by the cache for what without the loader would have been misses on
-     * {@link Cache#get(Object)} and {@link Cache#getAll(java.util.Set}.
+     * Determines if a {@link Cache} should operate in "read-through" mode.
      * <p/>
-     * Default value is false.
-     *
-     * @return true if the cache is read-through
+     * When in "read-through" mode, cache misses that occur due to cache entries
+     * not existing as a result of performing a "get" call via one of {@link Cache#get(Object)}, 
+     * {@link Cache#getAll(java.util.Set)}, {@link Cache#getAndRemove(Object)} and/or
+     * {@link Cache#getAndReplace(Object, Object)} will appropriately cause 
+     * the configured {@link CacheLoader} to be invoked.
+     * <p/>
+     * The default value is <code>false</code>.
+     * 
+     * @return <code>true</code> when a {@link Cache} is in "read-through" mode. 
+     * 
+     * @see #getCacheLoader()
      */
     boolean isReadThrough();
-
+    
     /**
-     * Whether the cache is a write-through cache. If so a CacheWriter should be configured.
+     * Determines if a {@link Cache} should operate in "write-through" mode.
      * <p/>
-     * Default value is false.
-     *
-     * @return true if the cache is write-through
+     * When in "write-through" mode, cache updates that occur as a result of performing 
+     * "put" operations call via one of {@link Cache#put(Object, Object)}, {@link Cache#getAndPut(Object, Object)}
+     * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object, Object)}, 
+     * {@link Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor)}
+     * will appropriately cause the configured {@link CacheWriter} to be invoked.
+     * <p/>
+     * The default value is <code>false</code>.
+     * 
+     * @return <code>true</code> when a {@link Cache} is in "write-through" mode.
+     * 
+     * @see #getCacheWriter()
      */
     boolean isWriteThrough();
-
+    
     /**
      * Whether storeByValue (true) or storeByReference (false).
      * When true, both keys and values are stored by value.
@@ -69,11 +84,11 @@ public interface CacheConfiguration<K, V> {
      * need to be transformed into a representation. Any mutations that occur after transformation
      * may not be reflected in the cache.
      * <p/>
-     * The default value is true.
-     * <p/>
      * When a cache is storeByValue, any mutation to the key or value does not affect the key of value
      * stored in the cache.
-     *
+     * <p/>
+     * The default value is <code>true</code>.
+     * 
      * @return true if the cache is store by value
      */
     boolean isStoreByValue();
@@ -81,14 +96,14 @@ public interface CacheConfiguration<K, V> {
     /**
      * Checks whether statistics collection is enabled in this cache.
      * <p/>
-     * The default value is false.
+     * The default value is <code>false</code>.
      *
      * @return true if statistics collection is enabled
      */
     boolean isStatisticsEnabled();
 
     /**
-     * Sets whether statistics gathering is enabled  on this cache. This may be changed at runtime.
+     * Sets whether statistics gathering is enabled on this cache. This may be changed at runtime.
      *
      * @param enableStatistics true to enable statistics, false to disable.
      */
@@ -97,47 +112,84 @@ public interface CacheConfiguration<K, V> {
     /**
      * Checks whether transaction are enabled for this cache.
      * <p/>
-     * Default value is false.
-     * <p/>
      * Note that in a transactional cache, entries being mutated within a transaction cannot be expired by the cache.
-     *
+     * <p/>
+     * The default value is <code>false</code>.
+     * 
      * @return true if transaction are enabled
      */
     boolean isTransactionEnabled();
 
     /**
      * Gets the transaction isolation level.
-     * @return the isolation level. {@link javax.cache.transaction.IsolationLevel#NONE} if this cache is not transactional.
+     * <p/>
+     * The default value is {@link IsolationLevel#NONE}.
+     * 
+     * @return the isolation level.
      */
     IsolationLevel getTransactionIsolationLevel();
 
     /**
      * Gets the transaction mode.
-     * @return the the mode of the cache. {@link javax.cache.transaction.Mode#NONE} if this cache is not transactional.
+     * <p/>
+     * The default value is {@link Mode#NONE}.
+     * 
+     * @return the the mode of the cache.
      */
     Mode getTransactionMode();
 
     /**
+     * Obtains an {@link Iterable} over the {@link CacheEntryListener}s
+     * to be configured on the {@link Cache}.
+     * 
+     * @return the {@link CacheEntryListener}s
+     */
+    Iterable<CacheEntryListener<? super K, ? super V>> getCacheEntryListeners();
+    
+    /**
      * Gets the registered {@link CacheLoader}, if any.
+     * <p/>
+     * A CacheLoader should be configured for "Read Through" caches
+     * to load values when a cache miss occurs using either the
+     * {@link Cache#get(Object)} and/or {@link Cache#getAll(java.util.Set} methods.
+     * <p/>
+     * The default value is <code>null</code>.
+     * 
      * @return the {@link CacheLoader} or null if none has been set.
      */
     CacheLoader<K, ? extends V> getCacheLoader();
 
     /**
      * Gets the registered {@link CacheWriter}, if any.
+     * <p/>
+     * The default value is <code>null</code>.
+     * 
      * @return the {@link CacheWriter} or null if none has been set.
      */
     CacheWriter<? super K, ? super V> getCacheWriter();
 
     /**
-     * Gets the cache's time to live setting,Sets how long cache entries should live. If expiry is not set entries are eternal.
+     * Gets the {@link ExpiryType} use for the configured {@link Cache}.
      * <p/>
-     * Default value is {@link Duration#ETERNAL}.
-     *
-     * @param type the type of the expiration
-     * @return how long, in milliseconds, the specified units, the entry should live. 0 means eternal.
+     * The default value is {@link ExpiryType#MODIFIED}.
+     * 
+     * TODO: This will change when we introduce ExpiryPolicys
+     * 
+     * @return the {@link ExpiryType}
      */
-    Duration getExpiry(ExpiryType type);
+    ExpiryType getExpiryType();
+    
+    /**
+     * Gets the default time to live {@link Duration} for the {@link #getExpiryType()}
+     * of the configured {@link Cache}.
+     * <p/>
+     * The default value is {@link Duration#ETERNAL}.
+     * 
+     * TODO: This will change when we introduce ExpiryPolicys
+     *
+     * @return a {@link Duration}
+     */
+    Duration getExpiryDuration();
 
     /**
      * A time duration.
