@@ -169,27 +169,13 @@ public interface CacheConfiguration<K, V> {
     CacheWriter<? super K, ? super V> getCacheWriter();
 
     /**
-     * Gets the {@link ExpiryType} use for the configured {@link Cache}.
+     * Gets the {@link CacheEntryExpiryPolicy} to be used for caches.
      * <p/>
-     * The default value is {@link ExpiryType#MODIFIED}.
+     * The default value is {@link CacheEntryExpiryPolicy#DEFAULT}.
      * 
-     * TODO: This will change when we introduce ExpiryPolicys
-     * 
-     * @return the {@link ExpiryType}
+     * @return the {@link CacheEntryExpiryPolicy} (must not be <code>null</code>)
      */
-    ExpiryType getExpiryType();
-    
-    /**
-     * Gets the default time to live {@link Duration} for the {@link #getExpiryType()}
-     * of the configured {@link Cache}.
-     * <p/>
-     * The default value is {@link Duration#ETERNAL}.
-     * 
-     * TODO: This will change when we introduce ExpiryPolicys
-     *
-     * @return a {@link Duration}
-     */
-    Duration getExpiryDuration();
+    CacheEntryExpiryPolicy<? super K, ? super V> getCacheEntryExpiryPolicy();
 
     /**
      * A time duration.
@@ -270,23 +256,5 @@ public interface CacheConfiguration<K, V> {
         public int hashCode() {
             return ((Long)timeUnit.toMillis(durationAmount)).hashCode();
         }
-    }
-
-    /**
-     * Type of Expiry
-     */
-    public enum ExpiryType {
-
-        /**
-         * The time since a {@link Cache.Entry} was <em>created</em> or <em>last modified</em>. An example of a cache operation
-         * which does this is {@link Cache#put}.
-         */
-        MODIFIED,
-
-        /**
-         * The Time since a {@link Cache.Entry} was last <em>accessed</em> by a cache operation. An access explicitly includes  <em>modified</em>
-         * operations. An example is {@link Cache#get(Object)}
-         */
-        ACCESSED
     }
 }
