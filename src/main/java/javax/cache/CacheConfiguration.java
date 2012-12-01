@@ -182,10 +182,15 @@ public interface CacheConfiguration<K, V> {
      */
     public static class Duration {
         /**
-         * ETERNAL
+         * ETERNAL (forever).
          */
-        public static final Duration ETERNAL = new Duration(TimeUnit.SECONDS, 0);
+        public static final Duration ETERNAL = new Duration();
 
+        /**
+         * ZERO (no time).
+         */
+        public static final Duration ZERO = new Duration(TimeUnit.SECONDS, 0);
+        
         /**
          * The unit of time to specify time in. The minimum time unit is milliseconds.
          */
@@ -200,6 +205,14 @@ public interface CacheConfiguration<K, V> {
         */
         private final long durationAmount;
 
+        /**
+         * A private constructor to an eternal {@link Duration}.
+         */
+        private Duration() {
+            this.timeUnit = null;
+            this.durationAmount = 0;
+        }
+        
         /**
          * Constructs a duration.
          *
@@ -227,6 +240,25 @@ public interface CacheConfiguration<K, V> {
         }
 
         /**
+         * Constructs a {@link Duration} based on the duration between two
+         * specified points in time (since the Epoc), messured in milliseconds.
+         * 
+         * @param startTime the start time (since the Epoc)
+         * @param endTime   the end time (since the Epoc)
+         */
+        public Duration(long startTime, long endTime) {
+            if (startTime == Long.MAX_VALUE || endTime == Long.MAX_VALUE) {
+                //we're dealing with arithmetic involving an ETERNAL value
+                //so the result must be ETERNAL
+                timeUnit = null;
+                durationAmount = 0;
+            } else {
+                timeUnit = TimeUnit.MILLISECONDS;
+                durationAmount = endTime - startTime;
+            }
+        }
+        
+        /**
          * @return the TimeUnit used to specify this duration
          */
         public TimeUnit getTimeUnit() {
@@ -240,6 +272,33 @@ public interface CacheConfiguration<K, V> {
             return durationAmount;
         }
 
+        /**
+         * Determines if a {@link Duration} is eternal (forever).
+         * 
+         * @return true if the {@link Duration} is eternal
+         */
+        public boolean isEternal() {
+            return timeUnit == null && durationAmount == 0;
+        }
+        
+        /**
+         * Calculates the adjusted time (from the Epoc) given a specified time 
+         * (to be adjusted) by the duration.
+         * 
+         * @param time the time from which to adjust given the duration
+         * @return the adjusted time
+         */
+        public long getAdjustedTime(long time) {
+            if (isEternal()) {
+                return Long.MAX_VALUE;
+            } else {
+                return time + timeUnit.toMillis(durationAmount);
+            }
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -252,6 +311,9 @@ public interface CacheConfiguration<K, V> {
             return time1 == time2;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode() {
             return ((Long)timeUnit.toMillis(durationAmount)).hashCode();
