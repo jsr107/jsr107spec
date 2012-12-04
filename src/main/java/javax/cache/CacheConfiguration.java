@@ -9,7 +9,7 @@ package javax.cache;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.cache.event.CacheEntryListener;
+import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 
@@ -137,14 +137,14 @@ public interface CacheConfiguration<K, V> {
      * @return the the mode of the cache.
      */
     Mode getTransactionMode();
-
+    
     /**
-     * Obtains an {@link Iterable} over the {@link CacheEntryListener}s
-     * to be configured on the {@link Cache}.
+     * Obtains the {@link CacheEntryListenerRegistration}s for CacheEntryListeners 
+     * to be configured on a {@link Cache}.
      * 
-     * @return the {@link CacheEntryListener}s
+     * @return an {@link Iterable} over the {@link CacheEntryListenerRegistration}s
      */
-    Iterable<CacheEntryListener<? super K, ? super V>> getCacheEntryListeners();
+    Iterable<CacheEntryListenerRegistration<? super K, ? super V>> getCacheEntryListenerRegistrations();
     
     /**
      * Gets the registered {@link CacheLoader}, if any.
