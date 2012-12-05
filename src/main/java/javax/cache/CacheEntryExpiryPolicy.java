@@ -67,7 +67,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
      * @param entry the cache entry that was created
      * @return the duration until the entry expires
      */
-    Duration getTTLForCreatedEntry(Cache.Entry<K, V> entry);
+    Duration getTTLForCreatedEntry(Cache.Entry<? extends K, ? extends V> entry);
 
     /**
      * Gets the time-to-live before the accessed Cache.Entry is considered expired.
@@ -81,7 +81,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
      * @param duration the current {@link Duration} before the entry expires
      * @return the duration until the entry expires
      */
-    Duration getTTLForAccessedEntry(Cache.Entry<K, V> entry, Duration duration);
+    Duration getTTLForAccessedEntry(Cache.Entry<? extends K, ? extends V> entry, Duration duration);
         
     /**
      * Gets the time-to-live before the modified Cache.Entry is considered expired.
@@ -95,7 +95,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
      * @param duration the current {@link Duration} before the updated entry expires
      * @return the duration until the entry expires
      */
-    Duration getTTLForModifiedEntry(Cache.Entry<K, V> entry, Duration duration);
+    Duration getTTLForModifiedEntry(Cache.Entry<? extends K, ? extends V> entry, Duration duration);
 
     /**
      * A {@link CacheEntryExpiryPolicy} that defines the expiry {@link Duration}
@@ -125,7 +125,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForCreatedEntry(Entry<K, V> entry) {
+        public Duration getTTLForCreatedEntry(Entry<? extends K, ? extends V> entry) {
             //for newly created entries we use the specified expiry duration
             return expiryDuration;
         }
@@ -134,7 +134,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForAccessedEntry(Entry<K, V> entry, Duration duration) {
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
             //when a cache entry is accessed, we return the specified expiry duration, 
             //ignoring the current expiry duration
             return expiryDuration;
@@ -144,7 +144,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(Entry<K, V> entry, Duration duration) {
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
             //modifying a cache entry has no affect on the current expiry duration
             return duration;
         }
@@ -178,7 +178,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForCreatedEntry(Entry<K, V> entry) {
+        public Duration getTTLForCreatedEntry(Entry<? extends K, ? extends V> entry) {
             //for newly created entries we use the specified expiry duration
             return expiryDuration;
         }
@@ -187,7 +187,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForAccessedEntry(Entry<K, V> entry, Duration duration) {
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
             //accessing a cache entry has no affect on the current expiry duration
             return duration;
         }
@@ -196,7 +196,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(Entry<K, V> entry, Duration duration) {
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
             //when a cache entry is modified, we return the specified expiry duration, 
             //ignoring the current expiry duration
             return expiryDuration;

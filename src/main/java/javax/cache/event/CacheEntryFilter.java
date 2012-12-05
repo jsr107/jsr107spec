@@ -19,6 +19,4 @@ public interface CacheEntryFilter<K, V> {
      * @throws CacheEntryListenerException if there is problem executing the listener
      */
     boolean evaluate(Cache.Entry<? extends K, ? extends V> entry) throws CacheEntryListenerException;
-
-
 }

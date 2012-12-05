@@ -20,7 +20,7 @@ public interface CacheEntryListenerRegistration<K, V> {
      * 
      * @return the {@link CacheEntryListener}
      */
-    CacheEntryListener<K, V> getCacheEntryListener();
+    CacheEntryListener<? super K, ? super V> getCacheEntryListener();
     
     /**
      * Determines if the old value should be provided to the {@link CacheEntryListener}.
@@ -37,7 +37,7 @@ public interface CacheEntryListenerRegistration<K, V> {
      * @return the {@link CacheEntryFilter} or <code>null</code> if no filtering
      *         is required
      */
-    CacheEntryFilter<K, V> getCacheEntryFilter();
+    CacheEntryFilter<? super K, ? super V> getCacheEntryFilter();
     
     /**
      * Determines if the thread that caused an event to be created should be

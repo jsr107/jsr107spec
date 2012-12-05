@@ -476,7 +476,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener,
                                        boolean requireOldValue,
-                                       CacheEntryFilter<K, V> cacheEntryFilter,
+                                       CacheEntryFilter<? super K, ? super V> cacheEntryFilter,
                                        boolean synchronous);
 
     /**
