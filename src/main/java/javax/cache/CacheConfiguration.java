@@ -110,15 +110,16 @@ public interface CacheConfiguration<K, V> {
     void setStatisticsEnabled(boolean enableStatistics);
 
     /**
-     * Checks whether transaction are enabled for this cache.
+     * Checks whether transactions are enabled for this cache.
      * <p/>
-     * Note that in a transactional cache, entries being mutated within a transaction cannot be expired by the cache.
+     * Note that in a transactional cache, entries being mutated within a 
+     * transaction cannot be expired by the cache.
      * <p/>
      * The default value is <code>false</code>.
      * 
      * @return true if transaction are enabled
      */
-    boolean isTransactionEnabled();
+    boolean isTransactionsEnabled();
 
     /**
      * Gets the transaction isolation level.

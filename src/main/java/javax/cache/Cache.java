@@ -93,7 +93,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     V get(K key);
 
-
     /**
      * The getAll method will return, from the cache, a {@link Map} of the objects
      * associated with the Collection of keys in argument "keys".
@@ -112,7 +111,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws CacheException        if there is a problem fetching the values.
      */
     Map<K, V> getAll(Set<? extends K> keys);
-
 
     /**
      * Returns <tt>true</tt> if this cache contains a mapping for the specified
@@ -295,7 +293,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     boolean remove(K key);
 
-
     /**
      * Atomically removes the mapping for a key only if currently mapped to the given value.
      * <p/>
@@ -443,7 +440,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     void removeAll();
 
-
     /**
      * Returns a CacheConfiguration.
      * <p/>
@@ -486,7 +482,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @return true if the listener was present
      */
     boolean unregisterCacheEntryListener(CacheEntryListener<?, ?> cacheEntryListener);
-
 
     /**
      * Passes the cache entry associated with K to be passed to the entry

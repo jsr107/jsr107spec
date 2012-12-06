@@ -11,5 +11,7 @@
     <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
     <suppress checks="MagicNumber" files=""/>
-
+    
+    <suppress checks="CyclomaticComplexity" files="SimpleCacheConfiguration.java"/>
+    <suppress checks="NPathComplexity" files="SimpleCacheConfiguration.java"/>
 </suppressions>
