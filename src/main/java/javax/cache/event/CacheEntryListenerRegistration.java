@@ -30,14 +30,14 @@ public interface CacheEntryListenerRegistration<K, V> {
     boolean isOldValueRequired();
     
     /**
-     * Gets the {@link CacheEntryFilter} that should be applied prior to 
+     * Gets the {@link CacheEntryEventFilter} that should be applied prior to 
      * notifying the {@link CacheEntryListener}.  When <code>null</code> no
      * filtering is applied and all appropriate events are notified. 
      * 
-     * @return the {@link CacheEntryFilter} or <code>null</code> if no filtering
+     * @return the {@link CacheEntryEventFilter} or <code>null</code> if no filtering
      *         is required
      */
-    CacheEntryFilter<? super K, ? super V> getCacheEntryFilter();
+    CacheEntryEventFilter<? super K, ? super V> getCacheEntryFilter();
     
     /**
      * Determines if the thread that caused an event to be created should be

@@ -7,7 +7,7 @@
 
 package javax.cache;
 
-import javax.cache.event.CacheEntryFilter;
+import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.mbeans.CacheMXBean;
 import java.util.Iterator;
@@ -476,7 +476,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      */
     boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener,
                                        boolean requireOldValue,
-                                       CacheEntryFilter<? super K, ? super V> cacheEntryFilter,
+                                       CacheEntryEventFilter<? super K, ? super V> cacheEntryFilter,
                                        boolean synchronous);
 
     /**
