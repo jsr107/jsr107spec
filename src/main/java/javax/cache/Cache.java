@@ -495,7 +495,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @see EntryProcessor
      */
-    Object invokeEntryProcessor(K key, EntryProcessor<K, V> entryProcessor);
+    <T> T invokeEntryProcessor(K key, EntryProcessor<K, V, T> entryProcessor);
 
     /**
      * Return the name of the cache.
@@ -594,7 +594,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * access (including reads) to that entry.
      * <p/>
      * Any mutations will not take effect till after the processor has completed; if an exception
-     * thown inside the processor, no changes will be made to the cache.
+     * thrown inside the processor, the exception will be returned wrapped in an 
+     * ExecutionException.  No changes will be made to the cache.
      * <p/>
      * This enables a way to perform compound operations without transactions
      * involving a cache entry atomically. Such operations may include mutations.
@@ -606,7 +607,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
      * to the local one will execute the invocation. For remote to execution to succeed, the
-     * EntryProcessor implementation class must be in the excecuting class loader as must K and
+     * EntryProcessor implementation class must be in the executing class loader as must K and
      * V if {@link Cache.MutableEntry#getKey()} or {@link Cache.MutableEntry#getValue()}
      * is invoked.
      *
@@ -616,7 +617,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * @author Greg Luck
      * @author Yannis Cosmadopoulos
      */
-    public interface EntryProcessor<K, V> {
+    public interface EntryProcessor<K, V, T> {
 
         /**
          * Process an entry. Exclusive read and write access to the entry is obtained to
@@ -624,6 +625,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * @param entry the entry
          * @return the result
          */
-        Object process(Cache.MutableEntry<K, V> entry);
+        T process(Cache.MutableEntry<K, V> entry);
     }
 }
