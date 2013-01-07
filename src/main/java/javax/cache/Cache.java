@@ -441,6 +441,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     void removeAll();
 
     /**
+     * Clears the contents of the cache, without notifying listeners.
+     *
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws CacheException        if there is a problem during the remove
+     */
+    void clear();
+
+    /**
      * Returns a CacheConfiguration.
      * <p/>
      * When status is {@link Status#STARTED} an implementation must respect the following:
