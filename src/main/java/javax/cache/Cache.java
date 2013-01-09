@@ -58,11 +58,16 @@ import java.util.concurrent.Future;
  * Date value2 = cache.get(key);
  * </pre>
  * <p/>
- * <h1>Concurrency</h1>
- * Concurrency is described as if there exists a locking mechanism on each key. If a cache operation gets an exclusive lock on a key,
- * then all subsequent operations on that key will block until that lock is released. The consequences are that operations performed by a
- * thread happen-before read or mutation operations performed by another thread, including threads in different Java Virtual Machines.
- *
+ * <h1>Consistency</h1>
+ * <h2>Default Consistency</h2>
+ * Consistency is described as if there exists a locking mechanism on each key. If a cache operation gets an exclusive read and write lock
+ * on a key, then all subsequent operations on that key will block until that lock is released. The consequences are that operations
+ * performed by a thread happen-before read or mutation operations performed by another thread, including threads in different Java
+ * Virtual Machines.
+ * <h2>Transactional Consistency</h2>
+ * Where are cache is transactional it will take on the semantics of the Transaction Isolation Level configured.
+ * <h2>Further Consistency Modes</h2>
+ * An implementation may support additional consistency models.
  *
  * @param <K> the type of keys maintained by this cache
  * @param <V> the type of cached values
