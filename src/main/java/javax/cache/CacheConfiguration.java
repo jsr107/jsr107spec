@@ -55,7 +55,8 @@ public interface CacheConfiguration<K, V> {
      * Determines if a {@link Cache} should operate in "write-through" mode.
      * <p/>
      * When in "write-through" mode, cache updates that occur as a result of performing 
-     * "put" operations call via one of {@link Cache#put(Object, Object)}, {@link Cache#getAndPut(Object, Object)}
+     * "put" operations called via one of {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
+     * {@link javax.cache.Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
      * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object, Object)}, 
      * {@link Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor)}
      * will appropriately cause the configured {@link CacheWriter} to be invoked.
