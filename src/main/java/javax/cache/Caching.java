@@ -261,7 +261,7 @@ public final class Caching {
                 case 0: return null;
                 case 1: return annotationProviders.get(0);
                 default: throw new IllegalStateException("Multiple AnnotationProviders found in classpath." +
-                        " There should only be one. CachingProviders found were: "
+                        " There should only be one. AnnotationProviders found were: "
                         + createListOfClassNames(annotationProviders));
             }
         }
