@@ -245,6 +245,7 @@ public final class Caching {
         }
 
         //todo support multiple providers
+        //note that repeated calls to this can give different results if this is more than one implementation on the classpath.
         public CachingProvider getCachingProvider() {
             switch (cachingProviders.size()) {
                 case 0: throw new IllegalStateException("No CachingProviders found in classpath.");
