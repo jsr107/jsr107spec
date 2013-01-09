@@ -106,7 +106,7 @@ public final class Caching {
      * Subsequent calls will return the same cache manager.
      * <p/>
      * During creation, the name of the CacheManager is passed through to {@link javax.cache.spi.CachingProvider}
-     * so that an implementation it to concrete implementations may use it to point to a specific configuration
+     * so that concrete implementations may use it to point to a specific configuration
      * used to configure the CacheManager. This allows CacheManagers to have different configurations. For example,
      * one CacheManager might be configured for standalone operation and another might be configured to participate
      * in a cluster.
