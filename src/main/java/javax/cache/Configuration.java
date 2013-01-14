@@ -7,11 +7,10 @@
 
 package javax.cache;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The basic representation of a configuration for a {@link Cache}.
@@ -20,7 +19,7 @@ import javax.cache.transaction.Mode;
  * {@link CacheManager}s to configure {@link Cache}s.
  * <p/>
  * Implementations of this interface must always override {@link #hashCode()} and
- * {@link #equals(Object)} as {@link CacheConfiguration}s are often compared
+ * {@link #equals(Object)} as {@link Configuration}s are often compared
  * at runtime.
  * 
  * @param <K> the type of keys maintained the cache
@@ -32,7 +31,7 @@ import javax.cache.transaction.Mode;
  * 
  * @since 1.0
  */
-public interface CacheConfiguration<K, V> {
+public interface Configuration<K, V> {
 
     /**
      * Determines if a {@link Cache} should operate in "read-through" mode.
@@ -171,13 +170,13 @@ public interface CacheConfiguration<K, V> {
     CacheWriter<? super K, ? super V> getCacheWriter();
 
     /**
-     * Gets the {@link CacheEntryExpiryPolicy} to be used for caches.
+     * Gets the {@link ExpiryPolicy} to be used for caches.
      * <p/>
-     * The default value is {@link CacheEntryExpiryPolicy#DEFAULT}.
+     * The default value is {@link ExpiryPolicy#DEFAULT}.
      * 
-     * @return the {@link CacheEntryExpiryPolicy} (must not be <code>null</code>)
+     * @return the {@link ExpiryPolicy} (must not be <code>null</code>)
      */
-    CacheEntryExpiryPolicy<? super K, ? super V> getCacheEntryExpiryPolicy();
+    ExpiryPolicy<? super K, ? super V> getExpiryPolicy();
 
     /**
      * A time duration.

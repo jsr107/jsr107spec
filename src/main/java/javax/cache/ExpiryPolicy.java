@@ -8,7 +8,7 @@
 package javax.cache;
 
 import javax.cache.Cache.Entry;
-import javax.cache.CacheConfiguration.Duration;
+import javax.cache.Configuration.Duration;
 
 /**
  * Defines functions to determine when cache entries will expire based on 
@@ -24,7 +24,7 @@ import javax.cache.CacheConfiguration.Duration;
  * 
  * @author Brian Oliver
  */
-public interface CacheEntryExpiryPolicy<K, V> {
+public interface ExpiryPolicy<K, V> {
        
     /**
      * Gets the time-to-live before the newly Cache.Entry is considered expired.
@@ -68,13 +68,13 @@ public interface CacheEntryExpiryPolicy<K, V> {
     Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry, Duration duration);
 
     /**
-     * A {@link CacheEntryExpiryPolicy} that defines the expiry {@link Duration}
+     * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
      * of a Cache Entry based on the last time it was accessed.
      * 
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
      */
-    public static final class Accessed<K, V> implements CacheEntryExpiryPolicy<K, V> {
+    public static final class Accessed<K, V> implements ExpiryPolicy<K, V> {
         
         /**
          * The {@link Duration} a Cache Entry should be available before it expires.
@@ -82,7 +82,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
         private Duration expiryDuration;
         
         /**
-         * Constructs an {@link Accessed} {@link CacheEntryExpiryPolicy}.
+         * Constructs an {@link Accessed} {@link ExpiryPolicy}.
          * 
          * @param expiryDuration the {@link Duration} a Cache Entry should exist be
          *                       before it expires after being accessed
@@ -157,13 +157,13 @@ public interface CacheEntryExpiryPolicy<K, V> {
     }
 
     /**
-     * A {@link CacheEntryExpiryPolicy} that defines the expiry {@link Duration}
+     * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
      * of a Cache Entry based on the last time it was modified.
      * 
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
      */
-    public static final class Modified<K, V> implements CacheEntryExpiryPolicy<K, V> {
+    public static final class Modified<K, V> implements ExpiryPolicy<K, V> {
         
         /**
          * The {@link Duration} a Cache Entry should be available before it expires.
@@ -171,7 +171,7 @@ public interface CacheEntryExpiryPolicy<K, V> {
         private Duration expiryDuration;
         
         /**
-         * Constructs an {@link Modified} {@link CacheEntryExpiryPolicy}.
+         * Constructs an {@link Modified} {@link ExpiryPolicy}.
          * 
          * @param expiryDuration the {@link Duration} a Cache Entry should exist be
          *                       before it expires after being modified
@@ -246,12 +246,12 @@ public interface CacheEntryExpiryPolicy<K, V> {
     }
     
     /**
-     * The default {@link CacheEntryExpiryPolicy} specifies that Cache Entries 
+     * The default {@link ExpiryPolicy} specifies that Cache Entries
      * won't expire.  This however doesn't mean they won't be expired if an
      * underlying implementation needs to free-up resources where by it may 
      * choose to expire entries that are not due to expire.
      */
-    public static final class Default<K, V> implements CacheEntryExpiryPolicy<K, V> {
+    public static final class Default<K, V> implements ExpiryPolicy<K, V> {
         /**
          * {@inheritDoc}
          */

@@ -85,7 +85,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * <h1>Effects:</h1>
      * <ul>
-     * <li>Expiry - updates {@link CacheConfiguration.ExpiryType#ACCESSED Access Time}.</li>
+     * <li>Expiry - updates {@link Configuration.ExpiryType#ACCESSED Access Time}.</li>
      * <li>Read-Through - will use the {@link CacheLoader} if enabled and key not present in cache</li>
      * </ul>
      *
@@ -454,20 +454,20 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     void clear();
 
     /**
-     * Returns a CacheConfiguration.
+     * Returns a Configuration.
      * <p/>
      * When status is {@link Status#STARTED} an implementation must respect the following:
      * <ul>
-     * <li>Statistics must be mutable when status is {@link Status#STARTED} ({@link CacheConfiguration#setStatisticsEnabled(boolean)})</li>
+     * <li>Statistics must be mutable when status is {@link Status#STARTED} ({@link Configuration#setStatisticsEnabled(boolean)})</li>
      * </ul>
      * <p/>
      * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
      * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
      * an attempt to mutate the configuration.
      *
-     * @return the {@link CacheConfiguration} of this cache
+     * @return the {@link Configuration} of this cache
      */
-    CacheConfiguration<K, V> getConfiguration();
+    Configuration<K, V> getConfiguration();
 
     /**
      * Adds a listener to the notification service.

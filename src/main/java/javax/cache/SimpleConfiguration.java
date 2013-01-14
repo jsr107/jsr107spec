@@ -17,16 +17,15 @@
 
 package javax.cache;
 
-import java.util.ArrayList;
-
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
+import java.util.ArrayList;
 
 /**
- * A simple mutable implementation of a {@link CacheConfiguration}.
+ * A simple mutable implementation of a {@link Configuration}.
  * 
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
@@ -34,27 +33,27 @@ import javax.cache.transaction.Mode;
  * @author Brian Oliver
  * @since 1.0
  */
-public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> {
+public class SimpleConfiguration<K, V> implements Configuration<K, V> {
 
     /**
-     * The {@link CacheEntryListenerRegistration}s for the {@link CacheConfiguration}.
+     * The {@link CacheEntryListenerRegistration}s for the {@link Configuration}.
      */
     protected ArrayList<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations;
 
     /**
-     * The {@link CacheLoader} for the built {@link CacheConfiguration}.
+     * The {@link CacheLoader} for the built {@link Configuration}.
      */
     protected CacheLoader<K, ? extends V> cacheLoader;
     
     /**
-     * The {@link CacheWriter} for the built {@link CacheConfiguration}.
+     * The {@link CacheWriter} for the built {@link Configuration}.
      */
     protected CacheWriter<? super K, ? super V> cacheWriter;
     
     /**
-     * The {@link CacheEntryExpiryPolicy} for the {@link CacheConfiguration}.
+     * The {@link ExpiryPolicy} for the {@link Configuration}.
      */
-    protected CacheEntryExpiryPolicy<? super K, ? super V> cacheEntryExpiryPolicy;
+    protected ExpiryPolicy<? super K, ? super V> expiryPolicy;
     
     /**
      * A flag indicating if "read-through" mode is required.
@@ -92,14 +91,14 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
     protected Mode txnMode;
     
     /**
-     * Constructs an {@link SimpleCacheConfiguration} with the standard
+     * Constructs an {@link SimpleConfiguration} with the standard
      * default values.
      */
-    public SimpleCacheConfiguration() {
+    public SimpleConfiguration() {
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
         this.cacheLoader = null;
         this.cacheWriter = null;
-        this.cacheEntryExpiryPolicy = new CacheEntryExpiryPolicy.Default<K, V>();
+        this.expiryPolicy = new ExpiryPolicy.Default<K, V>();
         this.isReadThrough = false;
         this.isWriteThrough = false;
         this.isStatisticsEnabled = false;
@@ -110,12 +109,12 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
     }
     
     /**
-     * Constructs a {@link SimpleCacheConfiguration} based on a set of parameters.
+     * Constructs a {@link SimpleConfiguration} based on a set of parameters.
      * 
      * @param cacheEntryListenerRegistrations the {@link CacheEntryListenerRegistration}s
      * @param cacheLoader                     the {@link CacheLoader}
      * @param cacheWriter                     the {@link CacheWriter}
-     * @param cacheEntryExpiryPolicy          the {@link CacheEntryExpiryPolicy}
+     * @param expiryPolicy          the {@link ExpiryPolicy}
      * @param isReadThrough                   is read-through caching supported
      * @param isWriteThrough                  is write-through caching supported
      * @param isStatisticsEnabled             are statistics enabled
@@ -125,17 +124,17 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * @param txnIsolationLevel               the {@link IsolationLevel}
      * @param txnMode                         the {@link Mode}
      */
-    public SimpleCacheConfiguration(
+    public SimpleConfiguration(
             Iterable<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations,
             CacheLoader<K, ? extends V> cacheLoader,
             CacheWriter<? super K, ? super V> cacheWriter,
-            CacheEntryExpiryPolicy<? super K, ? super V> cacheEntryExpiryPolicy, 
-            boolean isReadThrough, 
+            ExpiryPolicy<? super K, ? super V> expiryPolicy,
+            boolean isReadThrough,
             boolean isWriteThrough,
-            boolean isStatisticsEnabled, 
+            boolean isStatisticsEnabled,
             boolean isStoreByValue,
             boolean isTransactionsEnabled,
-            IsolationLevel txnIsolationLevel, 
+            IsolationLevel txnIsolationLevel,
             Mode txnMode) {
         
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
@@ -153,7 +152,7 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
         this.cacheLoader = cacheLoader;
         this.cacheWriter = cacheWriter;
         
-        this.cacheEntryExpiryPolicy = cacheEntryExpiryPolicy;
+        this.expiryPolicy = expiryPolicy;
         
         this.isReadThrough = isReadThrough;
         this.isWriteThrough = isWriteThrough;
@@ -168,15 +167,15 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
     }
     
     /**
-     * A copy-constructor for a {@link SimpleCacheConfiguration}.
+     * A copy-constructor for a {@link SimpleConfiguration}.
      * 
-     * @param configuration  the {@link CacheConfiguration} from which to copy
+     * @param configuration  the {@link Configuration} from which to copy
      */
-    public SimpleCacheConfiguration(CacheConfiguration<K, V> configuration) {
+    public SimpleConfiguration(Configuration<K, V> configuration) {
         this(configuration.getCacheEntryListenerRegistrations(), 
              configuration.getCacheLoader(), 
              configuration.getCacheWriter(), 
-             configuration.getCacheEntryExpiryPolicy(),
+             configuration.getExpiryPolicy(),
              configuration.isReadThrough(), 
              configuration.isWriteThrough(),
              configuration.isStatisticsEnabled(), 
@@ -204,7 +203,7 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * @param cacheEntryEventFilter the {@link CacheEntryEventFilter}
      * @param synchronous           whether the caller is blocked until the listener invocation completes.
      */
-    public SimpleCacheConfiguration<K, V> registerCacheEntryListener(
+    public SimpleConfiguration<K, V> registerCacheEntryListener(
         CacheEntryListener<? super K, ? super V> cacheEntryListener,
         boolean requireOldValue,
         CacheEntryEventFilter<? super K, ? super V> cacheEntryEventFilter,
@@ -245,9 +244,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set the {@link CacheLoader}.
      * 
      * @param loader the {@link CacheLoader}
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setCacheLoader(CacheLoader<K, ? extends V> loader) {
+    public SimpleConfiguration<K, V> setCacheLoader(CacheLoader<K, ? extends V> loader) {
         this.cacheLoader = loader;
         return this;
     }
@@ -264,9 +263,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set the {@link CacheWriter}.
      * 
      * @param writer the {@link CacheWriter}
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setCacheWriter(CacheWriter<? super K, ? super V> writer) {
+    public SimpleConfiguration<K, V> setCacheWriter(CacheWriter<? super K, ? super V> writer) {
         this.cacheWriter = writer;
         return this;
     }
@@ -274,22 +273,22 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
     /**
      * {@inheritDoc}
      */
-    public CacheEntryExpiryPolicy<? super K, ? super V> getCacheEntryExpiryPolicy() {
-        return this.cacheEntryExpiryPolicy;
+    public ExpiryPolicy<? super K, ? super V> getExpiryPolicy() {
+        return this.expiryPolicy;
     }
     
     /**
-     * Set the {@link CacheEntryExpiryPolicy}.  If <code>null</code> is specified
-     * the {@link CacheEntryExpiryPolicy} Default is assumed.
+     * Set the {@link ExpiryPolicy}.  If <code>null</code> is specified
+     * the {@link ExpiryPolicy} Default is assumed.
      * 
-     * @param policy the {@link CacheEntryExpiryPolicy}
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @param policy the {@link ExpiryPolicy}
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setCacheEntryExpiryPolicy(CacheEntryExpiryPolicy<? super K, ? super V> policy) {
+    public SimpleConfiguration<K, V> setExpiryPolicy(ExpiryPolicy<? super K, ? super V> policy) {
         if (policy == null) {
-            this.cacheEntryExpiryPolicy = new CacheEntryExpiryPolicy.Default<K, V>();
+            this.expiryPolicy = new ExpiryPolicy.Default<K, V>();
         } else {
-            this.cacheEntryExpiryPolicy = policy;
+            this.expiryPolicy = policy;
         }
         return this;
     }
@@ -307,9 +306,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * 
      * @param level the {@link IsolationLevel}
      * @param mode  the {@link Mode}
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
+    public SimpleConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
         this.txnIsolationLevel = level;
         this.txnMode = mode;
         return this;
@@ -327,9 +326,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set the Transaction {@link Mode}.
      * 
      * @param mode the {@link Mode}
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setTransactionMode(Mode mode) {
+    public SimpleConfiguration<K, V> setTransactionMode(Mode mode) {
         this.txnMode = mode;
         return this;
     }
@@ -346,9 +345,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set if read-through caching should be used.
      * 
      * @param isReadThrough <code>true</code> if read-through is required
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setReadThrough(boolean isReadThrough) {
+    public SimpleConfiguration<K, V> setReadThrough(boolean isReadThrough) {
         this.isReadThrough = isReadThrough;
         return this;
     }
@@ -365,9 +364,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set if write-through caching should be used.
      * 
      * @param isWriteThrough <code>true</code> if write-through is required
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setWriteThrough(boolean isWriteThrough) {
+    public SimpleConfiguration<K, V> setWriteThrough(boolean isWriteThrough) {
         this.isWriteThrough = isWriteThrough;
         return this;
     }
@@ -386,9 +385,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * 
      * @param isStoreByValue <code>true</code> if "store-by-value" is required,
      *                       <code>false</code> for "store-by-reference"
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setStoreByValue(boolean isStoreByValue) {
+    public SimpleConfiguration<K, V> setStoreByValue(boolean isStoreByValue) {
         this.isStoreByValue = isStoreByValue;
         return this;
     }
@@ -421,9 +420,9 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
      * Set if transactions should be enabled.
      * 
      * @param isTransactionsEnabled <code>true</code> if transactions should be enabled
-     * @return the {@link SimpleCacheConfiguration} to permit fluent-style method calls
+     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
      */
-    public SimpleCacheConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
+    public SimpleConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
         this.isTransactionsEnabled = isTransactionsEnabled;
         return this;
     }
@@ -444,7 +443,7 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
         result = prime * result
                 + ((cacheWriter == null) ? 0 : cacheWriter.hashCode());
         result = prime * result
-                + ((cacheEntryExpiryPolicy == null) ? 0 : cacheEntryExpiryPolicy.hashCode());
+                + ((expiryPolicy == null) ? 0 : expiryPolicy.hashCode());
         result = prime * result + (isReadThrough ? 1231 : 1237);
         result = prime * result + (isStatisticsEnabled ? 1231 : 1237);
         result = prime * result + (isStoreByValue ? 1231 : 1237);
@@ -468,10 +467,10 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
         if (object == null) {
             return false;
         }
-        if (!(object instanceof SimpleCacheConfiguration)) {
+        if (!(object instanceof SimpleConfiguration)) {
             return false;
         }
-        SimpleCacheConfiguration<?, ?> other = (SimpleCacheConfiguration<?, ?>) object;
+        SimpleConfiguration<?, ?> other = (SimpleConfiguration<?, ?>) object;
         if (cacheEntryListenerRegistrations == null) {
             if (other.cacheEntryListenerRegistrations != null) {
                 return false;
@@ -493,11 +492,11 @@ public class SimpleCacheConfiguration<K, V> implements CacheConfiguration<K, V> 
         } else if (!cacheWriter.equals(other.cacheWriter)) {
             return false;
         }
-        if (cacheEntryExpiryPolicy == null) {
-            if (other.cacheEntryExpiryPolicy != null) {
+        if (expiryPolicy == null) {
+            if (other.expiryPolicy != null) {
                 return false;
             }
-        } else if (!cacheEntryExpiryPolicy.equals(other.cacheEntryExpiryPolicy)) {
+        } else if (!expiryPolicy.equals(other.expiryPolicy)) {
             return false;
         }
         if (isReadThrough != other.isReadThrough) {

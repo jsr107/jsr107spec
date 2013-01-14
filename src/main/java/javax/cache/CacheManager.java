@@ -58,20 +58,20 @@ public interface CacheManager {
     Status getStatus();
     
     /**
-     * Ensures that a {@link Cache} conforming to the specified {@link CacheConfiguration}
+     * Ensures that a {@link Cache} conforming to the specified {@link Configuration}
      * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown 
      * to the {@link CacheManager}, one is created and configured according to the provided
      * configuration, after which it becomes managed by the said {@link CacheManager}. 
      * If such a {@link Cache} already exists, it is simply returned.
      * <p/>
-     * Importantly {@link CacheConfiguration}s provided to this method are always
+     * Importantly {@link Configuration}s provided to this method are always
      * validated with in the context of the {@link CacheManager} implementation.
-     * For example:  Attempting use a {@link CacheConfiguration} requiring transactional
+     * For example:  Attempting use a {@link Configuration} requiring transactional
      * support with an implementation that does not support transactions will result
      * in an {@link UnsupportedOperationException}. 
      * <p/>
      * Note 1: Implementors of this method are required to make a copy of the provided
-     * {@link CacheConfiguration} so that it may be further used to configure and
+     * {@link Configuration} so that it may be further used to configure and
      * ensure other {@link Cache}s without causing side-effects. 
      * <p/>
      * Note 2: There's no requirement on the part of a developer to call this method
@@ -82,18 +82,18 @@ public interface CacheManager {
      * {@link #getCache(String)} to retrieve a pre-configured {@link Cache}.
      * 
      * @param cacheName the name of the cache
-     * @param cacheConfiguration the {@link CacheConfiguration}
+     * @param configuration the {@link Configuration}
      * 
      * @return a configured {@link Cache}
      * 
      * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state
      * @throws CacheException if there was an error adding the cache to the CacheManager
-     * @throws InvalidConfigurationException when the {@link CacheConfiguration} is invalid
-     * @throws UnsupportedOperationException when the {@link CacheConfiguration} attempts 
+     * @throws InvalidConfigurationException when the {@link Configuration} is invalid
+     * @throws UnsupportedOperationException when the {@link Configuration} attempts
      *                                       to use an unsupported feature
      * @throws NullPointerException if the cache configuration is null
      */
-    <K, V> Cache<K, V> configureCache(String cacheName, CacheConfiguration<K, V> cacheConfiguration);
+    <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration);
     
     /**
      * Looks up a {@link Cache} given it's name.
