@@ -8,7 +8,8 @@
 package javax.cache.event;
 
 /**
- * Invoked if a cache entry is read, or if a batch call is made, after the entries are read.
+ * Invoked if a cache entry is read, or if a batch call is made, after the entries are read. Iterating over a cache causes the entries
+ * to be read.
  * <p/>
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
