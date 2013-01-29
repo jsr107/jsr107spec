@@ -85,7 +85,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * <h1>Effects:</h1>
      * <ul>
-     * <li>Expiry - updates {@link Configuration.ExpiryType#ACCESSED Access Time}.</li>
+     * <li>Expiry - updates expiry time based on the Configuration ExpiryPolicy.</li>
      * <li>Read-Through - will use the {@link CacheLoader} if enabled and key not present in cache</li>
      * </ul>
      *
@@ -538,7 +538,20 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
 
     /**
      * {@inheritDoc}
-     * The ordering of the entries is undefined
+     *
+     * The ordering of iteration over entries is undefined.
+     * <p/>
+     * During iteration, calling iterator.hasNext() determines if there is an
+     * available non-expired entry in the cache to which to iterate to, that of
+     * which will be returned by a subsequent call to next().  If hasNext() returns
+     * true, an infinite amount of time may elapse between the call to hasNext()
+     * and next(), without the prospective entry expirying.  That is, it's impossible
+     * for hasNext() to return true and then a subsequent call to next() to
+     * fail on the same iterator.
+     * <p/>
+     * During iteration, any entries that are a). read will have their appropriate
+     * CacheEntryReadListeners notified and b). removed will have their appropriate
+     * CacheEntryRemoveListeners notified.
      */
     Iterator<Cache.Entry<K, V>> iterator();
 
