@@ -35,7 +35,7 @@ public interface CacheWriter<K, V> {
      * @param entry the entry to be written
      * @throws CacheException if ????? TODO describe when
      */
-    void write(Cache.Entry<K, V> entry);
+    void write(Cache.Entry<? extends K, ? extends V> entry);
 
     /**
      * Write the specified entries to the underlying store. This method is intended to support both insert and update.
