@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.management.MXBean;
 import java.util.Date;
 
 /**
@@ -19,6 +20,7 @@ import java.util.Date;
  * @since 1.0
  *
  */
+@MXBean
 public interface CacheStatistics {
 
     /**
