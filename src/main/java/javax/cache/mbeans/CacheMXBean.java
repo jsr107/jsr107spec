@@ -27,7 +27,7 @@ import javax.management.MXBean;
  * @since 1.0
  */
 @MXBean
-public interface CacheMXBean extends CacheStatisticsMXBean {
+public interface CacheMXBean {
     /**
      * @return the name of the Cache these statistics are for
      */
