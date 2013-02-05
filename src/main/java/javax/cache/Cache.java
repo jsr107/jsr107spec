@@ -9,7 +9,6 @@ package javax.cache;
 
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
-import javax.cache.mbeans.CacheMXBean;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -176,13 +175,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     Future<Map<K, ? extends V>> loadAll(Set<? extends K> keys);
 
     /**
-     * Returns the {@link CacheStatistics} MXBean associated with the cache.
+     * Returns the {@link CacheStatisticsMXBean} MXBean associated with the cache.
      * May return null if the cache does not support statistics gathering.
      *
      * @return the CacheStatisticsMBean
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      */
-    CacheStatistics getStatistics();
+    CacheStatisticsMXBean getStatistics();
 
     /**
      * Associates the specified value with the specified key in this cache

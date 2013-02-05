@@ -4,9 +4,8 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache.mbeans;
+package javax.cache;
 
-import javax.cache.Status;
 import javax.management.MXBean;
 
 /**

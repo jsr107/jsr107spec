@@ -21,7 +21,7 @@ import java.util.Date;
  *
  */
 @MXBean
-public interface CacheStatistics {
+public interface CacheStatisticsMXBean {
 
     /**
      * Clears the statistics counters to 0 for the associated Cache.
