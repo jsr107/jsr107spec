@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.management.MXBean;
 import java.util.Date;
 
 /**
@@ -19,7 +20,8 @@ import java.util.Date;
  * @since 1.0
  *
  */
-public interface CacheStatistics {
+@MXBean
+public interface CacheStatisticsMXBean {
 
     /**
      * Clears the statistics counters to 0 for the associated Cache.

@@ -4,9 +4,8 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache.mbeans;
+package javax.cache;
 
-import javax.cache.Status;
 import javax.management.MXBean;
 
 /**
@@ -15,7 +14,7 @@ import javax.management.MXBean;
  * Each cache's statistics object must be registered with an ObjectName that is unique and has the following:
  * <p/>
  * Type:
- * <code>javax.cache:type=CacheStatistics</code>
+ * <code>javax.cache:type=Cache</code>
  * <p/>
  * Required Attributes:
  * <ul>
@@ -27,7 +26,7 @@ import javax.management.MXBean;
  * @since 1.0
  */
 @MXBean
-public interface CacheMXBean extends CacheStatisticsMXBean {
+public interface CacheMXBean {
     /**
      * @return the name of the Cache these statistics are for
      */
