@@ -557,7 +557,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     /**
      * Get the MBean for this cache.
      * @return the MBean
-     * TODO: not sure this belongs here
+     * TODO: Require implementations being tested to register MBeans where statistics are enabled so that they be found by ObjectName
+     * removing the need for this method.
      */
     CacheMXBean getMBean();
 
