@@ -66,9 +66,9 @@ public interface CacheWriter<K, V> {
      * <p/>
      * Expiry of a cache entry is not a delete hence will not cause this method to be invoked.
      *
-     * @param entries the entries that have been removed from the cache
+     * @param keys the keys for entries that have to be removed from the cache
      * @throws CacheException if ????? TODO describe when
      */
-    void deleteAll(Collection<?> entries);
+    void deleteAll(Collection<?> keys);
 
 }
