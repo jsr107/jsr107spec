@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * @author Brian Oliver
  * @since 1.0
  */
-public class SimpleConfiguration<K, V> implements Configuration<K, V> {
+public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
     /**
      * The {@link CacheEntryListenerRegistration}s for the {@link Configuration}.
@@ -91,10 +91,10 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
     protected Mode txnMode;
     
     /**
-     * Constructs an {@link SimpleConfiguration} with the standard
+     * Constructs an {@link MutableConfiguration} with the standard
      * default values.
      */
-    public SimpleConfiguration() {
+    public MutableConfiguration() {
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
         this.cacheLoader = null;
         this.cacheWriter = null;
@@ -109,7 +109,7 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
     }
     
     /**
-     * Constructs a {@link SimpleConfiguration} based on a set of parameters.
+     * Constructs a {@link MutableConfiguration} based on a set of parameters.
      * 
      * @param cacheEntryListenerRegistrations the {@link CacheEntryListenerRegistration}s
      * @param cacheLoader                     the {@link CacheLoader}
@@ -124,7 +124,7 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * @param txnIsolationLevel               the {@link IsolationLevel}
      * @param txnMode                         the {@link Mode}
      */
-    public SimpleConfiguration(
+    public MutableConfiguration(
             Iterable<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations,
             CacheLoader<K, ? extends V> cacheLoader,
             CacheWriter<? super K, ? super V> cacheWriter,
@@ -167,11 +167,11 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
     }
     
     /**
-     * A copy-constructor for a {@link SimpleConfiguration}.
+     * A copy-constructor for a {@link MutableConfiguration}.
      * 
      * @param configuration  the {@link Configuration} from which to copy
      */
-    public SimpleConfiguration(Configuration<K, V> configuration) {
+    public MutableConfiguration(Configuration<K, V> configuration) {
         this(configuration.getCacheEntryListenerRegistrations(), 
              configuration.getCacheLoader(), 
              configuration.getCacheWriter(), 
@@ -203,7 +203,7 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * @param cacheEntryEventFilter the {@link CacheEntryEventFilter}
      * @param synchronous           whether the caller is blocked until the listener invocation completes.
      */
-    public SimpleConfiguration<K, V> registerCacheEntryListener(
+    public MutableConfiguration<K, V> registerCacheEntryListener(
         CacheEntryListener<? super K, ? super V> cacheEntryListener,
         boolean requireOldValue,
         CacheEntryEventFilter<? super K, ? super V> cacheEntryEventFilter,
@@ -244,9 +244,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set the {@link CacheLoader}.
      * 
      * @param loader the {@link CacheLoader}
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setCacheLoader(CacheLoader<K, ? extends V> loader) {
+    public MutableConfiguration<K, V> setCacheLoader(CacheLoader<K, ? extends V> loader) {
         this.cacheLoader = loader;
         return this;
     }
@@ -263,9 +263,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set the {@link CacheWriter}.
      * 
      * @param writer the {@link CacheWriter}
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setCacheWriter(CacheWriter<? super K, ? super V> writer) {
+    public MutableConfiguration<K, V> setCacheWriter(CacheWriter<? super K, ? super V> writer) {
         this.cacheWriter = writer;
         return this;
     }
@@ -282,9 +282,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * the {@link ExpiryPolicy} Default is assumed.
      * 
      * @param policy the {@link ExpiryPolicy}
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setExpiryPolicy(ExpiryPolicy<? super K, ? super V> policy) {
+    public MutableConfiguration<K, V> setExpiryPolicy(ExpiryPolicy<? super K, ? super V> policy) {
         if (policy == null) {
             this.expiryPolicy = new ExpiryPolicy.Default<K, V>();
         } else {
@@ -306,9 +306,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * 
      * @param level the {@link IsolationLevel}
      * @param mode  the {@link Mode}
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
+    public MutableConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
         this.txnIsolationLevel = level;
         this.txnMode = mode;
         return this;
@@ -326,9 +326,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set the Transaction {@link Mode}.
      * 
      * @param mode the {@link Mode}
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setTransactionMode(Mode mode) {
+    public MutableConfiguration<K, V> setTransactionMode(Mode mode) {
         this.txnMode = mode;
         return this;
     }
@@ -345,9 +345,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set if read-through caching should be used.
      * 
      * @param isReadThrough <code>true</code> if read-through is required
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setReadThrough(boolean isReadThrough) {
+    public MutableConfiguration<K, V> setReadThrough(boolean isReadThrough) {
         this.isReadThrough = isReadThrough;
         return this;
     }
@@ -364,9 +364,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set if write-through caching should be used.
      * 
      * @param isWriteThrough <code>true</code> if write-through is required
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setWriteThrough(boolean isWriteThrough) {
+    public MutableConfiguration<K, V> setWriteThrough(boolean isWriteThrough) {
         this.isWriteThrough = isWriteThrough;
         return this;
     }
@@ -385,9 +385,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * 
      * @param isStoreByValue <code>true</code> if "store-by-value" is required,
      *                       <code>false</code> for "store-by-reference"
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setStoreByValue(boolean isStoreByValue) {
+    public MutableConfiguration<K, V> setStoreByValue(boolean isStoreByValue) {
         this.isStoreByValue = isStoreByValue;
         return this;
     }
@@ -424,9 +424,9 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
      * Set if transactions should be enabled.
      * 
      * @param isTransactionsEnabled <code>true</code> if transactions should be enabled
-     * @return the {@link SimpleConfiguration} to permit fluent-style method calls
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public SimpleConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
+    public MutableConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
         this.isTransactionsEnabled = isTransactionsEnabled;
         return this;
     }
@@ -471,10 +471,10 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
         if (object == null) {
             return false;
         }
-        if (!(object instanceof SimpleConfiguration)) {
+        if (!(object instanceof MutableConfiguration)) {
             return false;
         }
-        SimpleConfiguration<?, ?> other = (SimpleConfiguration<?, ?>) object;
+        MutableConfiguration<?, ?> other = (MutableConfiguration<?, ?>) object;
         if (cacheEntryListenerRegistrations == null) {
             if (other.cacheEntryListenerRegistrations != null) {
                 return false;

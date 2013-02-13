@@ -12,6 +12,5 @@
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
     <suppress checks="MagicNumber" files=""/>
     
-    <suppress checks="CyclomaticComplexity" files="SimpleConfiguration.java"/>
-    <suppress checks="NPathComplexity" files="SimpleConfiguration.java"/>
+    <suppress checks="CyclomaticComplexity" files="MutableConfiguration.java"/> <suppress checks="NPathComplexity" files="MutableConfiguration.java"/>
 </suppressions>
