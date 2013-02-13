@@ -399,15 +399,19 @@ public class SimpleConfiguration<K, V> implements Configuration<K, V> {
     public boolean isStatisticsEnabled() {
         return this.isStatisticsEnabled;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * Sets whether statistics gathering is enabled on a cache.
+     * <p/>
+     * Statistics may be enabled or disabled at runtime via {@link CacheManager#enableStatistics(String, boolean)}.
+     *
+     * @param enabled true to enable statistics, false to disable.
+     *
      */
-    @Override
-    public void setStatisticsEnabled(boolean isStatisticsEnabled) {
-        this.isStatisticsEnabled = isStatisticsEnabled;
+    public void setStatisticsEnabled(boolean enabled) {
+        this.isStatisticsEnabled = enabled;
     }
-    
+
     /**
      * {@inheritDoc}
      */

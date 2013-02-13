@@ -13,14 +13,13 @@ import javax.cache.transaction.Mode;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The basic representation of a configuration for a {@link Cache}.
+ * A read-only representation of a {@link Cache} configuration.
  * <p/>
  * The properties provided by instances of this interface are used by 
  * {@link CacheManager}s to configure {@link Cache}s.
  * <p/>
  * Implementations of this interface must always override {@link #hashCode()} and
- * {@link #equals(Object)} as {@link Configuration}s are often compared
- * at runtime.
+ * {@link #equals(Object)} as {@link Configuration}s are often compared at runtime.
  * 
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
@@ -101,13 +100,6 @@ public interface Configuration<K, V> {
      * @return true if statistics collection is enabled
      */
     boolean isStatisticsEnabled();
-
-    /**
-     * Sets whether statistics gathering is enabled on this cache. This may be changed at runtime.
-     *
-     * @param enableStatistics true to enable statistics, false to disable.
-     */
-    void setStatisticsEnabled(boolean enableStatistics);
 
     /**
      * Checks whether transactions are enabled for this cache.

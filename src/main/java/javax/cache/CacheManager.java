@@ -10,19 +10,19 @@ package javax.cache;
 import javax.transaction.UserTransaction;
 
 /**
- * A CacheManager is used for establishing, looking up and managing the lifecycle 
+ * A CacheManager is used for establishing, looking up and managing the lifecycle
  * of zero or more Caches.
  * <p/>
- * To the extent that implementations have configuration at the CacheManager level, 
- * it is a way for these caches to share common configuration. For example a 
- * CacheManager might be clustered so all caches in that CacheManager will 
+ * To the extent that implementations have configuration at the CacheManager level,
+ * it is a way for these caches to share common configuration. For example a
+ * CacheManager might be clustered so all caches in that CacheManager will
  * participate in the same cluster.
  * <p/>
  * <h2>Creation</h2>
  * Concrete implementations can be created in a number of ways:
  * <ul>
  * <li>Through a ServiceLoader using {@link Caching}</li>
- * <li>Simple creation with <code>new</code> of a concrete implementation, if 
+ * <li>Simple creation with <code>new</code> of a concrete implementation, if
  * supported by an implementation</li>
  * </ul>
  * <p/>
@@ -37,7 +37,6 @@ import javax.transaction.UserTransaction;
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @author Brian Oliver
- * 
  * @since 1.0
  */
 public interface CacheManager {
@@ -53,48 +52,47 @@ public interface CacheManager {
      * Returns the status of this CacheManager.
      * <p/>
      * Calls to this method will block while the state is changing.
+     *
      * @return one of {@link Status}
      */
     Status getStatus();
-    
+
     /**
      * Ensures that a {@link Cache} conforming to the specified {@link Configuration}
-     * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown 
+     * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown
      * to the {@link CacheManager}, one is created and configured according to the provided
-     * configuration, after which it becomes managed by the said {@link CacheManager}. 
+     * configuration, after which it becomes managed by the said {@link CacheManager}.
      * If such a {@link Cache} already exists, it is simply returned.
      * <p/>
      * Importantly {@link Configuration}s provided to this method are always
      * validated with in the context of the {@link CacheManager} implementation.
      * For example:  Attempting use a {@link Configuration} requiring transactional
      * support with an implementation that does not support transactions will result
-     * in an {@link UnsupportedOperationException}. 
+     * in an {@link UnsupportedOperationException}.
      * <p/>
      * Note 1: Implementors of this method are required to make a copy of the provided
      * {@link Configuration} so that it may be further used to configure and
-     * ensure other {@link Cache}s without causing side-effects. 
+     * ensure other {@link Cache}s without causing side-effects.
      * <p/>
      * Note 2: There's no requirement on the part of a developer to call this method
-     * for each {@link Cache} than an application may use.  This is simply because 
-     * when instantiated a {@link CacheManager} may be pre-configured with one or more 
+     * for each {@link Cache} than an application may use.  This is simply because
+     * when instantiated a {@link CacheManager} may be pre-configured with one or more
      * {@link Cache}s, thus meaning there's no requirement to "configure" them
-     * in an application.  In such circumstances a developer may simply call 
+     * in an application.  In such circumstances a developer may simply call
      * {@link #getCache(String)} to retrieve a pre-configured {@link Cache}.
-     * 
-     * @param cacheName the name of the cache
+     *
+     * @param cacheName     the name of the cache
      * @param configuration the {@link Configuration}
-     * 
      * @return a configured {@link Cache}
-     * 
-     * @throws IllegalStateException if the CacheManager is not in {@link Status#STARTED} state
-     * @throws CacheException if there was an error adding the cache to the CacheManager
+     * @throws IllegalStateException         if the CacheManager is not in {@link Status#STARTED} state
+     * @throws CacheException                if there was an error adding the cache to the CacheManager
      * @throws InvalidConfigurationException when the {@link Configuration} is invalid
      * @throws UnsupportedOperationException when the {@link Configuration} attempts
      *                                       to use an unsupported feature
-     * @throws NullPointerException if the cache configuration is null
+     * @throws NullPointerException          if the cache configuration is null
      */
     <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration);
-    
+
     /**
      * Looks up a {@link Cache} given it's name.
      *
@@ -120,7 +118,7 @@ public interface CacheManager {
      * @param cacheName the cache name
      * @return true if the cache was removed
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws NullPointerException if cacheName is null
+     * @throws NullPointerException  if cacheName is null
      */
     boolean removeCache(String cacheName);
 
@@ -140,6 +138,18 @@ public interface CacheManager {
      */
     boolean isSupported(OptionalFeature optionalFeature);
 
+
+    /**
+     * Enables or disables statistics gathering for a cache at runtime.
+     *
+     * @param cacheName        the name of the cache to look for
+     * @param enabled true to enable statistics, false to disable.
+     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws NullPointerException  if cacheName is null
+     */
+    void enableStatistics(String cacheName, boolean enabled);
+
+
     /**
      * Shuts down the CacheManager.
      * <p/>
@@ -154,17 +164,18 @@ public interface CacheManager {
      * will return an empty collection.
      * <p/>
      * A given CacheManager instance cannot be restarted after it has been stopped. A new one must be created.
+     *
      * @throws IllegalStateException if an operation is performed on CacheManager while stopping or stopped.
      */
     void shutdown();
-    
+
     /**
      * Return an object of the specified type to allow access to the provider-specific API. If the provider's
      * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
-     * 
+     *
      * @param cls the class of the object to be returned. This is normally either the
      *            underlying implementation class or an interface that it implements.
-     * @return an instance of the specified class 
+     * @return an instance of the specified class
      * @throws IllegalArgumentException if the provider doesn't support the specified class.
      */
     <T> T unwrap(java.lang.Class<T> cls);
