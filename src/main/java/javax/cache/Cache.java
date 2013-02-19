@@ -9,10 +9,10 @@ package javax.cache;
 
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
+import javax.cache.event.CompletionListener;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Future;
 
 /**
  * A Cache provides storage of data for later fast retrieval.
@@ -133,46 +133,28 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     boolean containsKey(K key);
 
     /**
-     * The load method provides a means to "pre-load" the cache. This method
-     * will, asynchronously, load the specified object into the cache using
-     * the associated {@link CacheLoader} for the given key.
-     * <p/>
-     * If the object already exists in the cache, no action is taken and null is returned.
-     * If no loader is associated with the cache no object will be loaded into the cache and null is returned.
-     * <p/>
-     * If a problem is encountered during the retrieving or loading of the object, an exception
-     * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
-     *
-     * @param key the key
-     * @return a Future which can be used to monitor execution.
-     * @throws NullPointerException  if key is null.
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     * @throws CacheException        if there is a problem doing the load
-     */
-    Future<V> load(K key);
-
-    /**
      * The loadAll method provides a means to "pre-load" objects into the cache.
      * This method will, asynchronously, load the specified objects into the
      * cache using the associated cache loader for the given keys.
      * <p/>
-     * If the an object already exists
-     * in the cache, no action is taken. If no loader is associated with the
-     * object, no object will be loaded into the cache.  If a problem is
-     * encountered during the retrieving or loading of the objects, an
-     * exception (to be defined) should be logged.
+     * If the an object already exists in the cache, no action is taken. If no
+     * loader is provided for the cache, no objects will be loaded.  If a problem
+     * is encountered during the retrieving or loading of the objects, an
+     * exception provided to the specified CompletionListener.  Once the operation
+     * has completed, the specified CompletionListener is notified.
      * <p/>
-     * If a problem is encountered during the retrieving or loading of the object, an exception
-     * must be propagated on {@link java.util.concurrent.Future#get()} as a {@link java.util.concurrent.ExecutionException}
-     *
+     * Implementations may choose to load multiple keys from the provided
+     * iterable in parallel.  Iteration must not occur in parallel, thus
+     * allow for non-thread-sage Iterables, but loading may.
      *
      * @param keys the keys
-     * @return a Future which can be used to monitor execution
+     * @param listener the CompletionListener (may be null)
+     *
      * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem doing the load
      */
-    Future<Map<K, ? extends V>> loadAll(Set<? extends K> keys);
+    void loadAll(Iterable<? extends K> keys, CompletionListener listener);
 
     /**
      * Returns the {@link CacheStatisticsMXBean} MXBean associated with the cache.
@@ -456,9 +438,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Returns a Configuration.
      * <p/>
      * When status is {@link Status#STARTED} an implementation must respect the following:
-     * <ul>
-     * <li>Statistics must be mutable when status is {@link Status#STARTED} ({@link Configuration#setStatisticsEnabled(boolean)})</li>
-     * </ul>
      * <p/>
      * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
      * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
