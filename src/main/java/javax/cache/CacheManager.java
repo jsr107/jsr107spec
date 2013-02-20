@@ -149,8 +149,8 @@ public interface CacheManager {
      * <p/>
      * Required Attributes:
      * <ul>
-     * <li>CacheManager Name
-     * <li>Cache Name
+     * <li>CacheManager the name of the CacheManager
+     * <li>Cache the name of the Cache
      * </ul>
      *
      * @param cacheName the name of the cache to register
@@ -174,8 +174,8 @@ public interface CacheManager {
      * <p/>
      * Required Attributes:
      * <ul>
-     * <li>CacheManager Name
-     * <li>Cache Name
+     * <li>CacheManager the name of the CacheManager
+     * <li>Cache the name of the Cache
      * </ul>
      *
      * @param cacheName the name of the cache to register

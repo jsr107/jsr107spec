@@ -18,8 +18,8 @@ import javax.management.MXBean;
  * <p/>
  * Required Attributes:
  * <ul>
- * <li>CacheManager Name
- * <li>Cache Name
+ * <li>CacheManager the name of the CacheManager
+ * <li>Cache the name of the Cache
  * </ul>
  * <p/>
  *
@@ -30,7 +30,7 @@ import javax.management.MXBean;
 @MXBean
 public interface CacheMXBean {
     /**
-     * @return the name of the Cache these statistics are for
+     * @return the name of the Cache
      */
     String getName();
 

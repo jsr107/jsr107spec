@@ -24,8 +24,8 @@ import java.util.Date;
  * <p/>
  * Required Attributes:
  * <ul>
- * <li>CacheManager Name
- * <li>Cache Name
+ * <li>CacheManager the name of the CacheManager
+ * <li>Cache the name of the Cache
  * </ul>
  *
  *
@@ -35,6 +35,11 @@ import java.util.Date;
  */
 @MXBean
 public interface CacheStatisticsMXBean {
+
+    /**
+     * @return the name of the Cache these statistics are for
+     */
+    String getName();
 
     /**
      * Clears the statistics counters to 0 for the associated Cache.

@@ -418,9 +418,17 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     }
 
     /**
-     * Sets whether statistics gathering is enabled on a cache.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isManagementEnabled() {
+        return this.isManagementEnabled;
+    }
+
+    /**
+     * Sets whether management is enabled on a cache.
      * <p/>
-     * Statistics may be enabled or disabled at runtime via {@link CacheManager#enableStatistics(String, boolean)}.
+     * Management may be enabled or disabled at runtime via {@link CacheManager#enableManagement(String, boolean)}.
      *
      * @param enabled true to enable statistics, false to disable.
      *

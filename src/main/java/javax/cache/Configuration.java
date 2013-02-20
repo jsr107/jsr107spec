@@ -102,6 +102,15 @@ public interface Configuration<K, V> {
     boolean isStatisticsEnabled();
 
     /**
+     * Checks whether management is enabled on this cache.
+     * <p/>
+     * The default value is <code>false</code>.
+     *
+     * @return true if management is enabled
+     */
+    boolean isManagementEnabled();
+
+    /**
      * Checks whether transactions are enabled for this cache.
      * <p/>
      * Note that in a transactional cache, entries being mutated within a 
