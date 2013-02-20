@@ -9,9 +9,9 @@ package javax.cache;
 import javax.management.MXBean;
 
 /**
- * A management bean for cache.
+ * A management bean for cache. It provides configuration information. It does not allow mutation of configuration.
  * <p/>
- * Each cache's statistics object must be registered with an ObjectName that is unique and has the following:
+ * Each cache's management object must be registered with an ObjectName that is unique and has the following type and attributes:
  * <p/>
  * Type:
  * <code>javax.cache:type=Cache</code>
@@ -21,6 +21,8 @@ import javax.management.MXBean;
  * <li>CacheManager Name
  * <li>Cache Name
  * </ul>
+ * <p/>
+ *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0

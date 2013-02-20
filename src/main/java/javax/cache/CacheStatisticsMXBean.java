@@ -16,6 +16,19 @@ import java.util.Date;
  * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clear}.
  * <p/>
  * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
+ * <p/>
+ * Each cache's statistics object must be registered with an ObjectName that is unique and has the following type and attributes:
+ * <p/>
+ * Type:
+ * <code>javax.cache:type=CacheStatistics</code>
+ * <p/>
+ * Required Attributes:
+ * <ul>
+ * <li>CacheManager Name
+ * <li>Cache Name
+ * </ul>
+ *
+ *
  * @author Greg Luck
  * @since 1.0
  *

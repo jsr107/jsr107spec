@@ -157,15 +157,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     void loadAll(Iterable<? extends K> keys, CompletionListener listener);
 
     /**
-     * Returns the {@link CacheStatisticsMXBean} MXBean associated with the cache.
-     * May return null if the cache does not support statistics gathering.
-     *
-     * @return the CacheStatisticsMBean
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
-     */
-    CacheStatisticsMXBean getStatistics();
-
-    /**
      * Associates the specified value with the specified key in this cache
      * If the cache previously contained a mapping for
      * the key, the old value is replaced by the specified value.  (A cache
@@ -532,14 +523,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * CacheEntryRemoveListeners notified.
      */
     Iterator<Cache.Entry<K, V>> iterator();
-
-    /**
-     * Get the MBean for this cache.
-     * @return the MBean
-     * TODO: Require implementations being tested to register MBeans where statistics are enabled so that they be found by ObjectName
-     * removing the need for this method.
-     */
-    CacheMXBean getMBean();
 
     /**
      * A cache entry (key-value pair).

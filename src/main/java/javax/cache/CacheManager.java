@@ -141,13 +141,48 @@ public interface CacheManager {
 
     /**
      * Enables or disables statistics gathering for a cache at runtime.
+     * <p/>
+     * Each cache's statistics object must be registered with an ObjectName that is unique and has the following type and attributes:
+     * <p/>
+     * Type:
+     * <code>javax.cache:type=CacheStatistics</code>
+     * <p/>
+     * Required Attributes:
+     * <ul>
+     * <li>CacheManager Name
+     * <li>Cache Name
+     * </ul>
      *
-     * @param cacheName        the name of the cache to look for
+     * @param cacheName the name of the cache to register
      * @param enabled true to enable statistics, false to disable.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws NullPointerException  if cacheName is null
      */
     void enableStatistics(String cacheName, boolean enabled);
+
+
+    /**
+     * Controls whether management is enabled. If enabled the {@link CacheMXBean} for each cache is registered
+     * in the platform MBean server. THe platform MBeanServer is obtained using {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
+     * <p/>
+     * Managment information includes the name and configuration information for the cache.
+     *
+     Each cache's management object must be registered with an ObjectName that is unique and has the following type and attributes:
+     * <p/>
+     * Type:
+     * <code>javax.cache:type=Cache</code>
+     * <p/>
+     * Required Attributes:
+     * <ul>
+     * <li>CacheManager Name
+     * <li>Cache Name
+     * </ul>
+     *
+     * @param cacheName the name of the cache to register
+     * @param enabled true to enable management, false to disable.
+     */
+    void enableManagement(String cacheName, boolean enabled);
+
 
 
     /**

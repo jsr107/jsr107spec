@@ -89,7 +89,12 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * The transaction {@link Mode}.
      */
     protected Mode txnMode;
-    
+
+    /**
+     * Whether management is enabled
+     */
+    protected boolean isManagementEnabled;
+
     /**
      * Constructs an {@link MutableConfiguration} with the standard
      * default values.
@@ -411,6 +416,19 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     public void setStatisticsEnabled(boolean enabled) {
         this.isStatisticsEnabled = enabled;
     }
+
+    /**
+     * Sets whether statistics gathering is enabled on a cache.
+     * <p/>
+     * Statistics may be enabled or disabled at runtime via {@link CacheManager#enableStatistics(String, boolean)}.
+     *
+     * @param enabled true to enable statistics, false to disable.
+     *
+     */
+    public void setManagementEnabled(boolean enabled) {
+        this.isManagementEnabled = enabled;
+    }
+
 
     /**
      * {@inheritDoc}
