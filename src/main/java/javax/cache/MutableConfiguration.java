@@ -411,10 +411,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * Statistics may be enabled or disabled at runtime via {@link CacheManager#enableStatistics(String, boolean)}.
      *
      * @param enabled true to enable statistics, false to disable.
-     *
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public void setStatisticsEnabled(boolean enabled) {
+    public MutableConfiguration<K, V> setStatisticsEnabled(boolean enabled) {
         this.isStatisticsEnabled = enabled;
+        return this;
     }
 
     /**
@@ -431,10 +432,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * Management may be enabled or disabled at runtime via {@link CacheManager#enableManagement(String, boolean)}.
      *
      * @param enabled true to enable statistics, false to disable.
-     *
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public void setManagementEnabled(boolean enabled) {
+    public MutableConfiguration<K, V> setManagementEnabled(boolean enabled) {
         this.isManagementEnabled = enabled;
+        return this;
     }
 
 
