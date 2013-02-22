@@ -30,7 +30,7 @@ import java.util.ServiceLoader;
  * <p/>
  * "org.jsr107.ri.RIServiceFactory"
  * <p/>
- * If more than one CachingProvider is found, getCacheManagerFactory will throw an exception
+ * If more than one CachingProvider is found, getCacheManagerFactory will throw an exception todo #8 support multiple providers
  * <p/>
  * Also keeps track of all CacheManagers created by the factory. Subsequent calls
  * to {@link #getCacheManager()} return the same CacheManager.
@@ -81,6 +81,7 @@ public final class Caching {
      * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
      * @return the default cache manager
      * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @see #getCacheManager(ClassLoader, String)
      */
     public static CacheManager getCacheManager(ClassLoader classLoader) {
         return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
@@ -94,6 +95,7 @@ public final class Caching {
      * @return the named cache manager
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @see #getCacheManager(ClassLoader, String)
      */
     public static CacheManager getCacheManager(String name) {
         return getCacheManagerFactory().getCacheManager(name);
