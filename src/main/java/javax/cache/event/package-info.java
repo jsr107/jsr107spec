@@ -13,10 +13,10 @@
  is desired on.
  <p/>
  Event notifications occur synchronously in the line of execution of the calling thread.
- The calling thread blocks until the listener has completed execution or thrown a {@link CacheEntryListenerException}.
+ The calling thread blocks until the listener has completed execution or thrown a {@link javax.cache.event.CacheEntryCreatedListener}.
  <p/>
  Listeners are invoked <strong>after</strong> the cache is updated. If the listener throws
- an {@link CacheEntryListenerException} this will propagate back to the caller but it does not affect the cache update
+ an {@link javax.cache.event.CacheEntryCreatedListener} this will propagate back to the caller but it does not affect the cache update
  as it already completed before the listener was called. If the cache is transactional, transactions
  must commit <strong>before</strong> listeners are called. If an exception is thrown by a listener this does not
  affect the transaction as the transaction has already completed.

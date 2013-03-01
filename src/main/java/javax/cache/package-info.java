@@ -9,7 +9,8 @@
  * <p/>
  * This package contains the API for JCache.
  * <p/>
- * The entry point is the {@link Caching} class. {@link CacheManager} holds and controls a collection of {@link Cache}s.
+ * The entry point is the {@link javax.cache.Caching} class. {@link javax.cache.CacheManager} holds and controls a collection
+ * of {@link javax.cache.Cache}s.
  * A cache is an association of key to value.
  * <p/>
  *

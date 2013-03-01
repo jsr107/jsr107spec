@@ -88,7 +88,7 @@ public @interface CacheResult {
     String cacheName() default "";
 
     /**
-     * (Optional) If set to true the pre-invocation {@link Cache#get(Object)} is skipped and the annotated method is
+     * (Optional) If set to true the pre-invocation {@link javax.cache.Cache#get(Object)} is skipped and the annotated method is
      * always executed with the returned value being cached as normal. This is useful for create or update methods
      * which should always be executed and have their returned value placed in the cache.
      * <p/>

@@ -553,7 +553,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
 
         /**
          * Checks for the existence of the entry in the cache
-         * @return
+         * @return true if the entry exists
          */
         boolean exists();
 
@@ -581,24 +581,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Allows execution of code which may mutate a cache entry with exclusive
      * access (including reads) to that entry.
      * <p/>
-     * Any mutations will not take effect till after the processor has completed; if an exception
-     * thrown inside the processor, the exception will be returned wrapped in an 
-     * ExecutionException.  No changes will be made to the cache.
+     * Any {@link Cache.Entry} mutations will not take effect till after the processor has completed;
+     * if an exception is thrown inside the processor, the exception will be returned wrapped in an
+     * {@link java.util.concurrent.ExecutionException}.  No changes will be made to the cache.
      * <p/>
      * This enables a way to perform compound operations without transactions
      * involving a cache entry atomically. Such operations may include mutations.
      * <p/>
-     * The mutations can be potentially done in place avoiding expensive network transfers.
-     * An example is a value which is a list and you simply want to append a new element to it.
+     * Implementations may process in situ, avoiding expensive network transfers. e.g. appending
+     * to a list. Another is computing a function on a value and returning just that.
      * <p/>
-     * An entry processor cannot invoke any cache operations, including processor operations.
+     * An entry processor cannot invoke any cache operations, including other processor operations.
+     * Recursion and chaining are not permitted.
      * <p/>
      * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
-     * to the local one will execute the invocation. For remote to execution to succeed, the
+     * to the local one will execute the invocation. For remote execution to succeed, the
      * EntryProcessor implementation class must be in the executing class loader as must K and
-     * V if {@link Cache.MutableEntry#getKey()} or {@link Cache.MutableEntry#getValue()}
+     * if {@link Cache.MutableEntry#getKey()} is used and V if {@link Cache.MutableEntry#getValue()}
      * is invoked.
-     *
      *
      * @param <K> the type of keys maintained by this cache
      * @param <V> the type of cached values

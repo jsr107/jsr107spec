@@ -33,9 +33,9 @@ import javax.management.MXBean;
 public interface CacheMXBean {
 
     /**
-     * Determines if a {@link Cache} should operate in "read-through" mode.
+     * Determines if a {@link Cache} should operate in read-through mode.
      * <p/>
-     * When in "read-through" mode, cache misses that occur due to cache entries
+     * When in read-through mode, cache misses that occur due to cache entries
      * not existing as a result of performing a "get" call via one of {@link Cache#get(Object)},
      * {@link Cache#getAll(java.util.Set)}, {@link Cache#getAndRemove(Object)} and/or
      * {@link Cache#getAndReplace(Object, Object)} will appropriately cause
@@ -45,7 +45,7 @@ public interface CacheMXBean {
      *
      * @return <code>true</code> when a {@link Cache} is in "read-through" mode.
      *
-     * @see #getCacheLoader()
+     * @see CacheLoader
      */
     boolean isReadThrough();
 
@@ -63,7 +63,7 @@ public interface CacheMXBean {
      *
      * @return <code>true</code> when a {@link Cache} is in "write-through" mode.
      *
-     * @see #getCacheWriter()
+     * @see CacheWriter
      */
     boolean isWriteThrough();
 

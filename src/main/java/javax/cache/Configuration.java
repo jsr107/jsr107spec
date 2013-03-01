@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
  * The properties provided by instances of this interface are used by 
  * {@link CacheManager}s to configure {@link Cache}s.
  * <p/>
- * Implementations of this interface must always override {@link #hashCode()} and
- * {@link #equals(Object)} as {@link Configuration}s are often compared at runtime.
+ * Implementations of this interface must override {@link Object#hashCode()} and
+ * {@link Object#equals(Object)} as {@link Configuration}s are often compared at runtime.
  * 
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
@@ -153,7 +153,7 @@ public interface Configuration<K, V> {
      * <p/>
      * A CacheLoader should be configured for "Read Through" caches
      * to load values when a cache miss occurs using either the
-     * {@link Cache#get(Object)} and/or {@link Cache#getAll(java.util.Set} methods.
+     * {@link Cache#get(Object)} and/or {@link Cache#getAll(java.util.Set)} methods.
      * <p/>
      * The default value is <code>null</code>.
      * 
@@ -173,7 +173,7 @@ public interface Configuration<K, V> {
     /**
      * Gets the {@link ExpiryPolicy} to be used for caches.
      * <p/>
-     * The default value is {@link ExpiryPolicy#DEFAULT}.
+     * The default value is {@link javax.cache.ExpiryPolicy.Default}.
      * 
      * @return the {@link ExpiryPolicy} (must not be <code>null</code>)
      */
