@@ -41,19 +41,19 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     protected ArrayList<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations;
 
     /**
-     * The {@link CacheLoader} for the built {@link Configuration}.
+     * The {@link Factory} for the {@link CacheLoader}.
      */
-    protected CacheLoader<K, V> cacheLoader;
+    protected Factory<CacheLoader<K, V>> cacheLoaderFactory;
+
+    /**
+     * The {@link Factory} for the {@link CacheWriter}.
+     */
+    protected Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory;
     
     /**
-     * The {@link CacheWriter} for the built {@link Configuration}.
+     * The {@link Factory} for the {@link ExpiryPolicy}.
      */
-    protected CacheWriter<? super K, ? super V> cacheWriter;
-    
-    /**
-     * The {@link ExpiryPolicy} for the {@link Configuration}.
-     */
-    protected ExpiryPolicy<? super K, ? super V> expiryPolicy;
+    protected Factory<ExpiryPolicy<? super K, ? super V>> expiryPolicyFactory;
     
     /**
      * A flag indicating if "read-through" mode is required.
@@ -101,9 +101,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      */
     public MutableConfiguration() {
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
-        this.cacheLoader = null;
-        this.cacheWriter = null;
-        this.expiryPolicy = new ExpiryPolicy.Default<K, V>();
+        this.cacheLoaderFactory = null;
+        this.cacheWriterFactory = null;
+        this.expiryPolicyFactory = ExpiryPolicy.Default.<K, V>getFactory();
         this.isReadThrough = false;
         this.isWriteThrough = false;
         this.isStatisticsEnabled = false;
@@ -117,9 +117,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * Constructs a {@link MutableConfiguration} based on a set of parameters.
      * 
      * @param cacheEntryListenerRegistrations the {@link CacheEntryListenerRegistration}s
-     * @param cacheLoader                     the {@link CacheLoader}
-     * @param cacheWriter                     the {@link CacheWriter}
-     * @param expiryPolicy          the {@link ExpiryPolicy}
+     * @param cacheLoaderFactory              the {@link CacheLoader} {@link Factory}
+     * @param cacheWriterFactory              the {@link CacheWriter} {@link Factory}
+     * @param expiryPolicyFactory             the {@link ExpiryPolicy} {@link Factory}
      * @param isReadThrough                   is read-through caching supported
      * @param isWriteThrough                  is write-through caching supported
      * @param isStatisticsEnabled             are statistics enabled
@@ -131,9 +131,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      */
     public MutableConfiguration(
             Iterable<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations,
-            CacheLoader<K, V> cacheLoader,
-            CacheWriter<? super K, ? super V> cacheWriter,
-            ExpiryPolicy<? super K, ? super V> expiryPolicy,
+            Factory<CacheLoader<K, V>> cacheLoaderFactory,
+            Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory,
+            Factory<ExpiryPolicy<? super K, ? super V>> expiryPolicyFactory,
             boolean isReadThrough,
             boolean isWriteThrough,
             boolean isStatisticsEnabled,
@@ -154,10 +154,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
             this.cacheEntryListenerRegistrations.add(registration);
         }
         
-        this.cacheLoader = cacheLoader;
-        this.cacheWriter = cacheWriter;
-        
-        this.expiryPolicy = expiryPolicy;
+        this.cacheLoaderFactory = cacheLoaderFactory;
+        this.cacheWriterFactory = cacheWriterFactory;
+
+        if (expiryPolicyFactory == null) {
+            this.expiryPolicyFactory = ExpiryPolicy.Default.<K, V>getFactory();
+        } else {
+            this.expiryPolicyFactory = expiryPolicyFactory;
+        }
         
         this.isReadThrough = isReadThrough;
         this.isWriteThrough = isWriteThrough;
@@ -178,9 +182,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      */
     public MutableConfiguration(Configuration<K, V> configuration) {
         this(configuration.getCacheEntryListenerRegistrations(), 
-             configuration.getCacheLoader(), 
-             configuration.getCacheWriter(), 
-             configuration.getExpiryPolicy(),
+             configuration.getCacheLoaderFactory(),
+             configuration.getCacheWriterFactory(),
+             configuration.getExpiryPolicyFactory(),
              configuration.isReadThrough(), 
              configuration.isWriteThrough(),
              configuration.isStatisticsEnabled(), 
@@ -241,18 +245,18 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * {@inheritDoc}
      */
     @Override
-    public CacheLoader<K, V> getCacheLoader() {
-        return this.cacheLoader;
+    public Factory<CacheLoader<K, V>> getCacheLoaderFactory() {
+        return this.cacheLoaderFactory;
     }
     
     /**
      * Set the {@link CacheLoader}.
      * 
-     * @param loader the {@link CacheLoader}
+     * @param factory the {@link CacheLoader} {@link Factory}
      * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public MutableConfiguration<K, V> setCacheLoader(CacheLoader<K, V> loader) {
-        this.cacheLoader = loader;
+    public MutableConfiguration<K, V> setCacheLoaderFactory(Factory<? extends CacheLoader<K, V>> factory) {
+        this.cacheLoaderFactory = (Factory<CacheLoader<K, V>>)factory;
         return this;
     }
     
@@ -260,40 +264,40 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * {@inheritDoc}
      */
     @Override
-    public CacheWriter<? super K, ? super V> getCacheWriter() {
-        return this.cacheWriter;
+    public Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory() {
+        return this.cacheWriterFactory;
     }
     
     /**
      * Set the {@link CacheWriter}.
      * 
-     * @param writer the {@link CacheWriter}
+     * @param factory the {@link CacheWriter} {@link Factory}
      * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public MutableConfiguration<K, V> setCacheWriter(CacheWriter<? super K, ? super V> writer) {
-        this.cacheWriter = writer;
+    public MutableConfiguration<K, V> setCacheWriterFactory(Factory<? extends CacheWriter<? super K, ? super V>> factory) {
+        this.cacheWriterFactory = (Factory<CacheWriter<? super K, ? super V>>)factory;
         return this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public ExpiryPolicy<? super K, ? super V> getExpiryPolicy() {
-        return this.expiryPolicy;
+    public Factory<ExpiryPolicy<? super K, ? super V>> getExpiryPolicyFactory() {
+        return this.expiryPolicyFactory;
     }
     
     /**
-     * Set the {@link ExpiryPolicy}.  If <code>null</code> is specified
-     * the {@link ExpiryPolicy} Default is assumed.
+     * Set the {@link Factory} for the {@link ExpiryPolicy}.  If <code>null</code>
+     * is specified the default {@link ExpiryPolicy} is used.
      * 
-     * @param policy the {@link ExpiryPolicy}
+     * @param factory the {@link ExpiryPolicy} {@link Factory}
      * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public MutableConfiguration<K, V> setExpiryPolicy(ExpiryPolicy<? super K, ? super V> policy) {
-        if (policy == null) {
-            this.expiryPolicy = new ExpiryPolicy.Default<K, V>();
+    public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
+        if (factory == null) {
+            this.expiryPolicyFactory = ExpiryPolicy.Default.<K, V>getFactory();
         } else {
-            this.expiryPolicy = policy;
+            this.expiryPolicyFactory = (Factory<ExpiryPolicy<? super K, ? super V>>)factory;
         }
         return this;
     }
@@ -471,11 +475,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
                 + ((cacheEntryListenerRegistrations == null) ? 0 : cacheEntryListenerRegistrations
                         .hashCode());
         result = prime * result
-                + ((cacheLoader == null) ? 0 : cacheLoader.hashCode());
+                + ((cacheLoaderFactory == null) ? 0 : cacheLoaderFactory.hashCode());
         result = prime * result
-                + ((cacheWriter == null) ? 0 : cacheWriter.hashCode());
+                + ((cacheWriterFactory == null) ? 0 : cacheWriterFactory.hashCode());
         result = prime * result
-                + ((expiryPolicy == null) ? 0 : expiryPolicy.hashCode());
+                + ((expiryPolicyFactory == null) ? 0 : expiryPolicyFactory.hashCode());
         result = prime * result + (isReadThrough ? 1231 : 1237);
         result = prime * result + (isStatisticsEnabled ? 1231 : 1237);
         result = prime * result + (isStoreByValue ? 1231 : 1237);
@@ -510,25 +514,25 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
         } else if (!cacheEntryListenerRegistrations.equals(other.cacheEntryListenerRegistrations)) {
             return false;
         }
-        if (cacheLoader == null) {
-            if (other.cacheLoader != null) {
+        if (cacheLoaderFactory == null) {
+            if (other.cacheLoaderFactory != null) {
                 return false;
             }
-        } else if (!cacheLoader.equals(other.cacheLoader)) {
+        } else if (!cacheLoaderFactory.equals(other.cacheLoaderFactory)) {
             return false;
         }
-        if (cacheWriter == null) {
-            if (other.cacheWriter != null) {
+        if (cacheWriterFactory == null) {
+            if (other.cacheWriterFactory != null) {
                 return false;
             }
-        } else if (!cacheWriter.equals(other.cacheWriter)) {
+        } else if (!cacheWriterFactory.equals(other.cacheWriterFactory)) {
             return false;
         }
-        if (expiryPolicy == null) {
-            if (other.expiryPolicy != null) {
+        if (expiryPolicyFactory == null) {
+            if (other.expiryPolicyFactory != null) {
                 return false;
             }
-        } else if (!expiryPolicy.equals(other.expiryPolicy)) {
+        } else if (!expiryPolicyFactory.equals(other.expiryPolicyFactory)) {
             return false;
         }
         if (isReadThrough != other.isReadThrough) {

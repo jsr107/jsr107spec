@@ -45,7 +45,7 @@ public interface Configuration<K, V> {
      * 
      * @return <code>true</code> when a {@link Cache} is in "read-through" mode. 
      * 
-     * @see #getCacheLoader()
+     * @see #getCacheLoaderFactory()
      */
     boolean isReadThrough();
     
@@ -63,7 +63,7 @@ public interface Configuration<K, V> {
      * 
      * @return <code>true</code> when a {@link Cache} is in "write-through" mode.
      * 
-     * @see #getCacheWriter()
+     * @see #getCacheWriterFactory()
      */
     boolean isWriteThrough();
     
@@ -149,7 +149,7 @@ public interface Configuration<K, V> {
     Iterable<CacheEntryListenerRegistration<? super K, ? super V>> getCacheEntryListenerRegistrations();
     
     /**
-     * Gets the registered {@link CacheLoader}, if any.
+     * Gets the {@link Factory} for the {@link CacheLoader}, if any.
      * <p/>
      * A CacheLoader should be configured for "Read Through" caches
      * to load values when a cache miss occurs using either the
@@ -157,27 +157,28 @@ public interface Configuration<K, V> {
      * <p/>
      * The default value is <code>null</code>.
      * 
-     * @return the {@link CacheLoader} or null if none has been set.
+     * @return the {@link Factory} for the {@link CacheLoader} or null if none has been set.
      */
-    CacheLoader<K, V> getCacheLoader();
+    Factory<CacheLoader<K, V>> getCacheLoaderFactory();
 
     /**
-     * Gets the registered {@link CacheWriter}, if any.
+     * Gets the {@link Factory} for the {@link CacheWriter}, if any.
      * <p/>
      * The default value is <code>null</code>.
      * 
-     * @return the {@link CacheWriter} or null if none has been set.
+     * @return the {@link Factory} for the {@link CacheWriter} or null if none has been set.
      */
-    CacheWriter<? super K, ? super V> getCacheWriter();
+    Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
 
     /**
-     * Gets the {@link ExpiryPolicy} to be used for caches.
+     * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used for caches.
      * <p/>
-     * The default value is {@link javax.cache.ExpiryPolicy.Default}.
-     * 
-     * @return the {@link ExpiryPolicy} (must not be <code>null</code>)
+     * The default value is a {@link Factory} that will produce a
+     * {@link ExpiryPolicy.Default} instance.
+     *
+     * @return the {@link Factory} for {@link ExpiryPolicy} (must not be <code>null</code>)
      */
-    ExpiryPolicy<? super K, ? super V> getExpiryPolicy();
+    Factory<ExpiryPolicy<? super K, ? super V>> getExpiryPolicyFactory();
 
     /**
      * A time duration.
@@ -261,14 +262,18 @@ public interface Configuration<K, V> {
         }
         
         /**
-         * @return the TimeUnit used to specify this duration
+         * Obtain the TimeUnit for the Duration
+         *
+         * @return the TimeUnit
          */
         public TimeUnit getTimeUnit() {
             return timeUnit;
         }
 
         /**
-         * @return the number of TimeUnits which quantify this duration
+         * Obtain the number of TimeUnits in the Duration
+         *
+         * @return the number of TimeUnits
          */
         public long getDurationAmount() {
             return durationAmount;

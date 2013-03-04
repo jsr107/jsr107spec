@@ -164,7 +164,7 @@ public interface ExpiryPolicy<K, V> {
      * @param <V> the type of cache values
      */
     public static final class Modified<K, V> implements ExpiryPolicy<K, V> {
-        
+
         /**
          * The {@link Duration} a Cache Entry should be available before it expires.
          */
@@ -252,6 +252,16 @@ public interface ExpiryPolicy<K, V> {
      * choose to expire entries that are not due to expire.
      */
     public static final class Default<K, V> implements ExpiryPolicy<K, V> {
+
+        /**
+         * Obtains a {@link Factory} for a Default {@link ExpiryPolicy}.
+         *
+         * @return a {@link Factory} for a Default {@link ExpiryPolicy}.
+         */
+        public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory() {
+            return new Factories.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new Default<K, V>());
+        }
+
         /**
          * {@inheritDoc}
          */

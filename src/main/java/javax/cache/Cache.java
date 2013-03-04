@@ -72,6 +72,7 @@ import java.util.Set;
  * @param <V> the type of cached values
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
+ * @author Brian Oliver
  * @since 1.0
  */
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle {

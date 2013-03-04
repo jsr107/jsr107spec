@@ -148,7 +148,7 @@ public interface CacheMXBean {
      *
      * @return the {@link ExpiryPolicy} (must not be <code>null</code>)
      */
-    //ExpiryPolicy getExpiryPolicy();
+    //ExpiryPolicy getExpiryPolicyFactory();
 
 
 }
