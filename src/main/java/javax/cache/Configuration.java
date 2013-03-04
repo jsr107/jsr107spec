@@ -287,7 +287,16 @@ public interface Configuration<K, V> {
         public boolean isEternal() {
             return timeUnit == null && durationAmount == 0;
         }
-        
+
+        /**
+         * Determines if a {@link Duration} is zero.
+         *
+         * @return true if the {@link Duration} is zero
+         */
+        public boolean isZero() {
+            return timeUnit != null && durationAmount == 0;
+        }
+
         /**
          * Calculates the adjusted time (from the Epoc) given a specified time 
          * (to be adjusted) by the duration.
