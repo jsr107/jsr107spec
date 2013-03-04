@@ -159,7 +159,7 @@ public interface Configuration<K, V> {
      * 
      * @return the {@link CacheLoader} or null if none has been set.
      */
-    CacheLoader<K, ? extends V> getCacheLoader();
+    CacheLoader<K, V> getCacheLoader();
 
     /**
      * Gets the registered {@link CacheWriter}, if any.

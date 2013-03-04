@@ -43,7 +43,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     /**
      * The {@link CacheLoader} for the built {@link Configuration}.
      */
-    protected CacheLoader<K, ? extends V> cacheLoader;
+    protected CacheLoader<K, V> cacheLoader;
     
     /**
      * The {@link CacheWriter} for the built {@link Configuration}.
@@ -131,7 +131,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      */
     public MutableConfiguration(
             Iterable<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations,
-            CacheLoader<K, ? extends V> cacheLoader,
+            CacheLoader<K, V> cacheLoader,
             CacheWriter<? super K, ? super V> cacheWriter,
             ExpiryPolicy<? super K, ? super V> expiryPolicy,
             boolean isReadThrough,
@@ -241,7 +241,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * {@inheritDoc}
      */
     @Override
-    public CacheLoader<K, ? extends V> getCacheLoader() {
+    public CacheLoader<K, V> getCacheLoader() {
         return this.cacheLoader;
     }
     
@@ -251,7 +251,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * @param loader the {@link CacheLoader}
      * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
-    public MutableConfiguration<K, V> setCacheLoader(CacheLoader<K, ? extends V> loader) {
+    public MutableConfiguration<K, V> setCacheLoader(CacheLoader<K, V> loader) {
         this.cacheLoader = loader;
         return this;
     }
