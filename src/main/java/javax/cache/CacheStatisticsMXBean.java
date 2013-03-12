@@ -144,22 +144,22 @@ public interface CacheStatisticsMXBean {
      * <p/>
      * In a read-through cache the time taken to load an entry on miss is not included in get time.
      *
-     * @return the time in milliseconds
+     * @return the time in µs
      */
-    float getAverageGetMillis();
+    float getAverageGetTime();
 
     /**
      * The mean time to execute puts.
      *
-     * @return the time in milliseconds
+     * @return the time in µs
      */
-    float getAveragePutMillis();
+    float getAveragePutTime();
 
     /**
      * The mean time to execute removes.
      *
-     * @return the time in milliseconds
+     * @return the time in µs
      */
-    float getAverageRemoveMillis();
+    float getAverageRemoveTime();
 
 }

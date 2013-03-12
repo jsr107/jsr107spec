@@ -6,8 +6,6 @@
  */
 package javax.cache;
 
-import com.sun.xml.internal.bind.v2.ClassFactory;
-
 /**
  * This class exclusively defines static methods to aid in the construction
  * and manipulation of {@link Factory} instances.
