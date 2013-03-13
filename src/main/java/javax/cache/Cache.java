@@ -467,9 +467,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     boolean unregisterCacheEntryListener(CacheEntryListener<?, ?> cacheEntryListener);
 
     /**
-     * Passes the cache entry associated with K to be passed to the entry
+     * Passes the cache entry associated with the key to the entry
      * processor. All operations performed by the processor will be done atomically
-     * i.e. all The processor will perform the operations against
      *
      * @param key the key to the entry
      * @param entryProcessor the processor which will process the entry
@@ -592,9 +591,25 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Implementations may process in situ, avoiding expensive network transfers. e.g. appending
      * to a list. Another is computing a function on a value and returning just that.
      * <p/>
-     * An entry processor cannot invoke any cache operations, including other processor operations.
-     * Recursion and chaining are not permitted.
+     * <h2>Chaining &amp Recursion </h2>
+     * An entry processor cannot invoke any cache operations, including other processor operations
+     * against another key.
      * <p/>
+     * However multiple EntryProcessors can be execute against the same key. For example an EntryProcessor
+     * might be a composite of entry processors or a chain of entry processors. The outermost EntryProcessor
+     * will lock and unlock the entry. todo define this behaviour more thoroughly.
+     * <p/>
+     * <h2>Statistics</h2>
+     * Invocation of an entry processor is regarded as a get operation for statistics purposes.
+     * <p/>
+     * If {@link MutableEntry#setValue(Object)} is called in an EntryProcessor it is considered a put
+     * for statistics purposes.
+     *
+     * <h2>CacheEntryListeners</h2>
+     * CacheEntryListeners are invoked by entry processors.
+     *
+     * <h2>Remote Invocation</h2>
+     *
      * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
      * to the local one will execute the invocation. For remote execution to succeed, the
      * EntryProcessor implementation class must be in the executing class loader as must K and
@@ -612,7 +627,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * Process an entry. Exclusive read and write access to the entry is obtained to
          * the entry.
          * @param entry the entry
-         * @return the result
+         * @return the result of the processing, if any, which is user defined.
          */
         T process(Cache.MutableEntry<K, V> entry);
     }

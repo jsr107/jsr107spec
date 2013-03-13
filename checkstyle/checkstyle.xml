@@ -189,7 +189,6 @@
         <module name="DefaultComesLast"/>
         <module name="FallThrough"/>
         <module name="MultipleVariableDeclarations"/>
-        <module name="DoubleCheckedLocking"/>
         <module name="EmptyStatement"/>
         <module name="HiddenField">
             <property name="tokens" value="VARIABLE_DEF"/>
