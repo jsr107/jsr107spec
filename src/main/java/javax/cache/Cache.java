@@ -609,12 +609,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * CacheEntryListeners are invoked by entry processors.
      *
      * <h2>Remote Invocation</h2>
-     *
      * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
      * to the local one will execute the invocation. For remote execution to succeed, the
      * EntryProcessor implementation class must be in the executing class loader as must K and
      * if {@link Cache.MutableEntry#getKey()} is used and V if {@link Cache.MutableEntry#getValue()}
      * is invoked.
+     * <p/>
+     * In order to simplify placement of EntryProcessors in remote JVMs, arguments are passed separately,
+     * thus obviating the need for specific sub-classes of EntryProcessors. EntryProcessors therefore
+     * do not need to be {@link java.io.Serializable}. Arguments will need to be serializable in an implementation
+     * specific way. {@link java.io.Serializable} is not mandated.
+     *
      *
      * @param <K> the type of keys maintained by this cache
      * @param <V> the type of cached values
@@ -627,8 +632,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * Process an entry. Exclusive read and write access to the entry is obtained to
          * the entry.
          * @param entry the entry
+         * @param arguments a number of arguments to the process.
          * @return the result of the processing, if any, which is user defined.
          */
-        T process(Cache.MutableEntry<K, V> entry);
+        T process(Cache.MutableEntry<K, V> entry, Object... arguments);
     }
 }
