@@ -37,11 +37,6 @@ import java.util.Date;
 public interface CacheStatisticsMXBean {
 
     /**
-     * @return the name of the Cache these statistics are for
-     */
-    String getName();
-
-    /**
      * Clears the statistics counters to 0 for the associated Cache.
      */
     void clear();
