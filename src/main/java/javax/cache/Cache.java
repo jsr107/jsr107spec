@@ -472,12 +472,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      *
      * @param key the key to the entry
      * @param entryProcessor the processor which will process the entry
-     * @return an object
+     * @param arguments a number of arguments to the process.
+     * @return the result of the processing, if any, which is user defined.
      * @throws NullPointerException if key or entryProcessor are null
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @see EntryProcessor
      */
-    <T> T invokeEntryProcessor(K key, EntryProcessor<K, V, T> entryProcessor);
+    <T> T invokeEntryProcessor(K key, EntryProcessor<K, V, T> entryProcessor, Object... arguments);
 
     /**
      * Return the name of the cache.
@@ -606,21 +607,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * for statistics purposes.
      *
      * <h2>CacheEntryListeners</h2>
-     * CacheEntryListeners are invoked by entry processors.
+     * As a result of an entry processor registered CacheEntryListeners are called.
      *
      * <h2>Remote Invocation</h2>
      * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
      * to the local one will execute the invocation. For remote execution to succeed, the
-     * EntryProcessor implementation class must be in the executing class loader as must K and
+     * EntryProcessor implementation class must be in the executing class loader, as must K
      * if {@link Cache.MutableEntry#getKey()} is used and V if {@link Cache.MutableEntry#getValue()}
      * is invoked.
      * <p/>
-     * In order to simplify placement of EntryProcessors in remote JVMs, arguments are passed separately,
-     * thus obviating the need for specific sub-classes of EntryProcessors. EntryProcessors therefore
-     * do not need to be {@link java.io.Serializable}. Arguments will need to be serializable in an implementation
-     * specific way. {@link java.io.Serializable} is not mandated.
-     *
-     * tst
+     * In order to simplify placement of EntryProcessors in remote JVMs, arguments can be passed separately.
+     * In such cases EntryProcessors do not need to be {@link java.io.Serializable}.
      *
      * @param <K> the type of keys maintained by this cache
      * @param <V> the type of cached values
