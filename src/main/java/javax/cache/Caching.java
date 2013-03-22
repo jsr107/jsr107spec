@@ -7,46 +7,62 @@
 
 package javax.cache;
 
-import javax.cache.spi.AnnotationProvider;
 import javax.cache.spi.CachingProvider;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.ServiceLoader;
+import java.util.WeakHashMap;
 
 /**
- * A factory for creating CacheManagers using the SPI conventions in the JDK's {@link ServiceLoader}
+ * The bootstrap and helper class for locating and managing CachingProvider
+ * implementations.
  * <p/>
- * For a provider to be discovered, its jar must contain a resource called:
+ * This implementation follows the SPI conventions outlined by the JDK
+ * {@link ServiceLoader} class.
+ * <p/>
+ * For a CachingProvider to be automatically discovered by this class, the
+ * CachingProvider implementation class name must be declared in the following
+ * file:
  * <pre>
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>
- * containing the class name implementing {@link javax.cache.spi.CachingProvider}
+ * that of which must be available on the classpath.  Alternatively if the
+ * system property <code>javax.cache.cachingprovider</code> is defined, the
+ * specified value is used as the name of the CachingProvider implementation.
  * <p/>
- * For example, in the reference implementation the contents are:
+ * For example, in the reference implementation the contents of the file are:
+ * <code>org.jsr107.ri.RICachingProvider</code>
  * <p/>
- * "org.jsr107.ri.RIServiceFactory"
+ * Multiple CachingProvider declarations are permitted, however in such circumstances
+ * calls to {@link #getCachingProvider()} will raise an exception as this method
+ * expects only a single CachingProvider to be configured.
  * <p/>
- * If more than one CachingProvider is found, getCacheManagerFactory will throw an exception todo #8 support multiple providers
+ * This class additionally keeps track of CachingProviders that have been previously
+ * loaded.  Hence requests for previously loaded CachingProviders will simply be
+ * returned, without reloading and/or instantiating them.
  * <p/>
- * Also keeps track of all CacheManagers created by the factory. Subsequent calls
- * to {@link #getCacheManager()} return the same CacheManager.
+ * Applications and/or Containers are not required to use this class to load
+ * and/or manage CachingProviders.  They may instead choose to load and manage
+ * CachingProviders independently of the services provided by this class.
  *
- * @author Yannis Cosmadopoulos
+ * @author Brian Oliver
+ *
  * @see java.util.ServiceLoader
  * @see javax.cache.spi.CachingProvider
- * @since 1.0
  */
 public final class Caching {
+
     /**
-     * The name of the default cache manager.
-     * This is the name of the CacheManager returned when {@link #getCacheManager()} is invoked.
-     * The default CacheManager is always created.
+     * The javax.cache.cachingprovider constant.
      */
-    public static final String DEFAULT_CACHE_MANAGER_NAME = "__default__";
+    public static final String JAVAX_CACHE_CACHINGPROVIDER = "javax.cache.cachingprovider";
+
+    /**
+     * The CachingProviderManager that manages the CachingProviders.
+     */
+    private static final CachingProviderManager CACHING_PROVIDERS = new CachingProviderManager();
 
     /**
      * No public constructor as all methods are static.
@@ -55,234 +71,332 @@ public final class Caching {
     }
 
     /**
-     * Get the singleton CacheManagerFactory
-     * @return the cache manager factory
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * Obtains the ClassLoader to use for API methods that don't explicitly require
+     * a ClassLoader but internally require one.
+     * <p/>
+     * By default this is the {@link Thread#getContextClassLoader()}.
+     *
+     * @return  the default ClassLoader
      */
-    public static CacheManagerFactory getCacheManagerFactory() {
-      return ServiceFactoryHolder.INSTANCE.getCachingProvider().getCacheManagerFactory();
+    public static ClassLoader getDefaultClassLoader() {
+        return CACHING_PROVIDERS.getDefaultClassLoader();
     }
 
     /**
-     * Get the default cache manager with the default classloader.
-     * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
+     * Obtains the ClassLoader to use for API methods that don't explicitly require
+     * a ClassLoader but internally require one.
+     * <p/>
+     * By default this is the {@link Thread#getContextClassLoader()}.
      *
-     * @return the default cache manager
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @return  the default ClassLoader
      */
-    public static CacheManager getCacheManager() {
-        return getCacheManager(DEFAULT_CACHE_MANAGER_NAME);
+    public static CachingProvider getCachingProvider() {
+        return CACHING_PROVIDERS.getCachingProvider();
     }
 
     /**
-     * Get the default cache manager.
-     * The default cache manager is named {@link #DEFAULT_CACHE_MANAGER_NAME}
+     * Obtains the only CachingProvider defined by the specified ClassLoader.
+     * <p/>
+     * Should zero or more than one CachingProviders be available, a CacheException is
+     * thrown.
      *
-     * @param classLoader the ClassLoader that should be used in converting values into Java Objects. May be null.
-     * @return the default cache manager
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
-     * @see #getCacheManager(ClassLoader, String)
+     * @see #getCachingProviders(ClassLoader)
+     *
+     * @param classLoader  the ClassLoader to use for loading the CachingProvider
+     *
+     * @return the CachingProvider
+     *
+     * @throws CacheException should zero or more than one CachingProvider be available
+     *                        or a CachingProvider could not be loaded
      */
-    public static CacheManager getCacheManager(ClassLoader classLoader) {
-        return getCacheManager(classLoader, DEFAULT_CACHE_MANAGER_NAME);
+    public static CachingProvider getCachingProvider(ClassLoader classLoader) {
+        return CACHING_PROVIDERS.getCachingProvider(classLoader);
     }
 
     /**
-     * Get a named cache manager using the default cache loader as specified by
-     * the implementation.
+     * Obtain the CachingProviders that are available via the {@link #getDefaultClassLoader()}.
+     * <p/>
+     * If a <code>javax.cache.cachingprovider</code> system property is defined,
+     * only that CachingProvider specified by that property is returned.
+     * Otherwise all CachingProviders that are available via a ServiceLoader
+     * for CachingProviders using the default ClassLoader (and those explicitly
+     * requested via {@link #getCachingProvider(String)}) are returned.
      *
-     * @param name the name of the cache manager
-     * @return the named cache manager
-     * @throws NullPointerException  if name is null
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
-     * @see #getCacheManager(ClassLoader, String)
+     * @return an Iterable of CachingProviders loaded by the specified ClassLoader
      */
-    public static CacheManager getCacheManager(String name) {
-        return getCacheManagerFactory().getCacheManager(name);
+    public static Iterable<CachingProvider> getCachingProviders() {
+        return CACHING_PROVIDERS.getCachingProviders();
     }
 
     /**
-     * Get a named cache manager.
+     * Obtain the CachingProviders that are available via the specified ClassLoader.
      * <p/>
-     * The first time a name is used, a new CacheManager is created.
-     * Subsequent calls will return the same cache manager.
-     * <p/>
-     * During creation, the name of the CacheManager is passed through to {@link javax.cache.spi.CachingProvider}
-     * so that concrete implementations may use it to point to a specific configuration
-     * used to configure the CacheManager. This allows CacheManagers to have different configurations. For example,
-     * one CacheManager might be configured for standalone operation and another might be configured to participate
-     * in a cluster.
-     * <p/>
-     * Generally, It makes sense that a CacheManager is associated with a ClassLoader. I.e. all caches emanating
-     * from the CacheManager, all code including key and value classes must be present in that ClassLoader.
-     * <p/>
-     * Secondly, the Caching may be in a different ClassLoader than the
-     * CacheManager (i.e. the Caching may be shared in an application server setting).
-     * <p/>
-     * For this purpose a ClassLoader may be specified. If specified it will be used for all conversion between
-     * values and Java Objects. While Java's in-built serialization may be used other schemes may also be used.
-     * Either way the specified ClassLoader will be used.
-     * <p/>
-     * The name parameter may be used to associate a configuration with this CacheManager instance.
+     * If a <code>javax.cache.cachingprovider</code> system property is defined,
+     * only that CachingProvider specified by that property is returned.
+     * Otherwise all CachingProviders that are available via a ServiceLoader
+     * for CachingProviders using the specified ClassLoader (and those explicitly
+     * requested via {@link #getCachingProvider(String, ClassLoader)}) are
+     * returned.
      *
-     * @param classLoader the ClassLoader that should be used in converting values into Java Objects.
-     * @param name        the name of this cache manager
-     * @return the new cache manager
-     * @throws NullPointerException  if classLoader or name is null
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @param classLoader  the ClassLoader of the returned CachingProviders
+     *
+     * @return an Iterable of CachingProviders loaded by the specified ClassLoader
      */
-    public static CacheManager getCacheManager(ClassLoader classLoader, String name) {
-        return getCacheManagerFactory().getCacheManager(classLoader, name);
+    public static Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
+        return CACHING_PROVIDERS.getCachingProviders(classLoader);
     }
 
     /**
-     * Reclaims all resources obtained from this factory.
-     * <p/>
-     * All cache managers obtained from the factory are shutdown.
-     * <p/>
-     * Subsequent requests from this factory will return different cache managers than would have been obtained before
-     * shutdown. So for example
-     * <pre>
-     *  CacheManager cacheManager = CacheFactory.getCacheManager();
-     *  assertSame(cacheManager, CacheFactory.getCacheManager());
-     *  CacheFactory.close();
-     *  assertNotSame(cacheManager, CacheFactory.getCacheManager());
-     * </pre>
+     * Obtain the CachingProvider that is implemented by the specified class
+     * name using the {@link #getDefaultClassLoader()}.   Should this CachingProvider
+     * already be loaded it is simply returned, otherwise an attempt will be
+     * made to load and instantiate the specified class name (using a no-args constructor).
      *
-     * @throws CachingShutdownException if any of the individual shutdowns failed
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @param fullyQualifiedClassName  the fully qualified class name of the CachingProvider
+     *
+     * @return the CachingProvider
+     *
+     * @throws CacheException  when the CachingProvider can't be created
      */
-    public static void close() throws CachingShutdownException {
-        getCacheManagerFactory().close();
+    public static CachingProvider getCachingProvider(String fullyQualifiedClassName) {
+        return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName);
     }
 
     /**
-     * Reclaims all resources for a ClassLoader from this factory.
-     * <p/>
-     * All cache managers linked to the specified CacheLoader obtained from the factory are shutdown.
+     * Obtain the CachingProvider that is implemented by the specified class
+     * name using the provided ClassLoader.   Should this CachingProvider already be
+     * loaded it is returned, otherwise an attempt will be made to load and
+     * instantiate the specified class name (using a no-args constructor).
      *
-     * @param classLoader the class loader for which managers will be shut down
-     * @return true if found, false otherwise
-     * @throws CachingShutdownException if any of the individual shutdowns failed
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * @param fullyQualifiedClassName  the fully qualified class name of the CachingProvider
+     * @param classLoader              the ClassLoader to load the CachingProvider
+     *
+     * @return the CachingProvider
+     *
+     * @throws CacheException  when the CachingProvider can't be created
      */
-    public static boolean close(ClassLoader classLoader) throws CachingShutdownException {
-        return getCacheManagerFactory().close(classLoader);
+    public static CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
+        return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName, classLoader);
     }
 
     /**
-     * Reclaims all resources for a ClassLoader from this factory.
-     * <p/>
-     * the named cache manager obtained from the factory is closed.
-     *
-     * @param classLoader the class loader for which managers will be shut down
-     * @param name        the name of the cache manager
-     * @return true if found, false otherwise
-     * @throws CachingShutdownException if any of the individual shutdowns failed
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
+     * Manages one or more CachingProviders scoped by ClassLoader.
      */
-    public static boolean close(ClassLoader classLoader, String name) throws CachingShutdownException {
-        return getCacheManagerFactory().close(classLoader, name);
-    }
+    public static class CachingProviderManager {
 
-    /**
-     * Indicates whether a optional feature is supported by this implementation
-     *
-     * @param optionalFeature the feature to check for
-     * @return true if the feature is supported
-     * @throws IllegalStateException if no CachingProvider is found or if more than one CachingProvider is found
-     */
-    public static boolean isSupported(OptionalFeature optionalFeature) {
-        return ServiceFactoryHolder.INSTANCE.getCachingProvider().isSupported(optionalFeature);
-    }
-    
-    /**
-     * Indicates whether annotations are supported
-     *
-     * @return true if annotations are supported
-     */
-    public static boolean isAnnotationsSupported() {
-        final AnnotationProvider annotationProvider = ServiceFactoryHolder.INSTANCE.getAnnotationProvider();
-        return annotationProvider != null && annotationProvider.isSupported();
-    }
-
-    /**
-     * Holds the ServiceFactory
-     */
-    private enum ServiceFactoryHolder {
         /**
-         * The singleton.
+         * The CachingProviders by Class Name organized by the ClassLoader was used to
+         * load them.
          */
-        INSTANCE;
+        private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>> cachingProviders;
 
-        private final List<CachingProvider> cachingProviders;
-        private final List<AnnotationProvider> annotationProviders;
-
-        private ServiceFactoryHolder() {
-            cachingProviders = AccessController.doPrivileged(new PrivilegedAction<List<CachingProvider>>() {
-
-                @Override
-                public List<CachingProvider> run() {
-                    List<CachingProvider> result = new ArrayList<CachingProvider>();
-                    ServiceLoader<CachingProvider> serviceLoader = ServiceLoader.load(CachingProvider.class);
-                    for (CachingProvider provider : serviceLoader) {
-                        result.add(provider);
-                    }
-                    return result;
-                }
-            });
-
-            annotationProviders = AccessController.doPrivileged(new PrivilegedAction<List<AnnotationProvider>>() {
-
-                @Override
-                public List<AnnotationProvider> run() {
-                    List<AnnotationProvider> result = new ArrayList<AnnotationProvider>();
-                    ServiceLoader<AnnotationProvider> serviceLoader = ServiceLoader.load(AnnotationProvider.class);
-                    for (AnnotationProvider provider : serviceLoader) {
-                        result.add(provider);
-                    }
-                    return result;
-                }
-            });
+        /**
+         * Constructs a CachingProviderManager.
+         */
+        public CachingProviderManager() {
+            this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>();
         }
 
-        //todo support multiple providers
-        //note that repeated calls to this can give different results if this is more than one implementation on the classpath.
+        /**
+         * Obtains the ClassLoader to use for API methods that don't explicitly require
+         * a ClassLoader but internally require one.
+         * <p/>
+         * By default this is the {@link Thread#getContextClassLoader()}.
+         *
+         * @return  the default ClassLoader
+         */
+        public ClassLoader getDefaultClassLoader() {
+            return Thread.currentThread().getContextClassLoader();
+        }
+
+        /**
+         * Obtains the only CachingProvider defined by the {@link #getDefaultClassLoader()}.
+         * <p/>
+         * Should zero or more than one CachingProviders be available, a CacheException is
+         * thrown.
+         *
+         * @see #getCachingProvider(ClassLoader)
+         * @see #getCachingProviders(ClassLoader)
+         *
+         * @return the CachingProvider
+         *
+         * @throws CacheException should zero or more than one CachingProvider be available
+         *                        or a CachingProvider could not be loaded
+         */
         public CachingProvider getCachingProvider() {
-            switch (cachingProviders.size()) {
-                case 0: throw new IllegalStateException("No CachingProviders found in classpath.");
-                case 1: return cachingProviders.get(0);
-                default: throw new IllegalStateException("Multiple CachingProviders found in classpath." +
-                        " There should only be one. CachingProviders found were: "
-                        + createListOfClassNames(cachingProviders));
+            return getCachingProvider(getDefaultClassLoader());
+        }
+
+        /**
+         * Obtains the only CachingProvider defined by the specified ClassLoader.
+         * <p/>
+         * Should zero or more than one CachingProviders be available, a CacheException is
+         * thrown.
+         *
+         * @see #getCachingProviders(ClassLoader)
+         *
+         * @param classLoader  the ClassLoader to use for loading the CachingProvider
+         *
+         * @return the CachingProvider
+         *
+         * @throws CacheException should zero or more than one CachingProvider be available
+         *                        or a CachingProvider could not be loaded
+         */
+        public CachingProvider getCachingProvider(ClassLoader classLoader) {
+            Iterator<CachingProvider> iterator = getCachingProviders(classLoader).iterator();
+
+            if (iterator.hasNext()) {
+                CachingProvider provider = iterator.next();
+
+                if (iterator.hasNext()) {
+                    throw new CacheException("Multiple CachingProviders have been configured when only a single CachingProvider is expected");
+                } else {
+                    return provider;
+                }
+            } else {
+                throw new CacheException("No CachingProviders have been configured");
             }
         }
 
-        //todo support multiple providers
-        public AnnotationProvider getAnnotationProvider() {
-            switch (annotationProviders.size()) {
-                case 0: return null;
-                case 1: return annotationProviders.get(0);
-                default: throw new IllegalStateException("Multiple AnnotationProviders found in classpath." +
-                        " There should only be one. AnnotationProviders found were: "
-                        + createListOfClassNames(annotationProviders));
+        /**
+         * Obtain the CachingProviders that are available via the {@link #getDefaultClassLoader()}.
+         * <p/>
+         * If a <code>javax.cache.cachingprovider</code> system property is defined,
+         * only that CachingProvider specified by that property is returned.
+         * Otherwise all CachingProviders that are available via a ServiceLoader
+         * for CachingProviders using the default ClassLoader (and those explicitly
+         * requested via {@link #getCachingProvider(String)}) are returned.
+         *
+         * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+         */
+        public Iterable<CachingProvider> getCachingProviders() {
+            return getCachingProviders(getDefaultClassLoader());
+        }
+
+        /**
+         * Obtain the CachingProviders that are available via the specified ClassLoader.
+         * <p/>
+         * If a <code>javax.cache.cachingprovider</code> system property is defined,
+         * only that CachingProvider specified by that property is returned.
+         * Otherwise all CachingProviders that are available via a ServiceLoader
+         * for CachingProviders using the specified ClassLoader (and those explicitly
+         * requested via {@link #getCachingProvider(String, ClassLoader)}) are
+         * returned.
+         *
+         * @param classLoader  the ClassLoader of the returned CachingProviders
+         *
+         * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+         */
+        public synchronized Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
+
+            final ClassLoader serviceClassLoader = classLoader == null ? getDefaultClassLoader() : classLoader;
+            LinkedHashMap<String, CachingProvider> providers = cachingProviders.get(serviceClassLoader);
+
+            if (providers == null) {
+
+                if (System.getProperties().containsKey(JAVAX_CACHE_CACHINGPROVIDER)) {
+                    String className = System.getProperty(JAVAX_CACHE_CACHINGPROVIDER);
+                    providers = new LinkedHashMap<String, CachingProvider>();
+                    providers.put(className, loadCachingProvider(className, serviceClassLoader));
+
+                } else {
+                    providers = AccessController.doPrivileged(new PrivilegedAction<LinkedHashMap<String, CachingProvider>>() {
+                        @Override
+                        public LinkedHashMap<String, CachingProvider> run() {
+                            LinkedHashMap<String, CachingProvider> result = new LinkedHashMap<String, CachingProvider>();
+
+                            ServiceLoader<CachingProvider> serviceLoader = ServiceLoader.load(CachingProvider.class, serviceClassLoader);
+                            for (CachingProvider provider : serviceLoader) {
+                                result.put(provider.getClass().getName(), provider);
+                            }
+                            return result;
+                        }
+                    });
+
+                }
+
+                cachingProviders.put(serviceClassLoader, providers);
+            }
+
+            return providers.values();
+        }
+
+        /**
+         * Obtain the CachingProvider that is implemented by the specified class
+         * name using the {@link #getDefaultClassLoader()}.   Should this CachingProvider
+         * already be loaded it is simply returned, otherwise an attempt will be
+         * made to load and instantiate the specified class name (using a no-args constructor).
+         *
+         * @param fullyQualifiedClassName  the fully qualified class name of the CachingProvider
+         *
+         * @return the CachingProvider
+         *
+         * @throws CacheException  when the CachingProvider can't be created
+         */
+        public CachingProvider getCachingProvider(String fullyQualifiedClassName) {
+            return getCachingProvider(fullyQualifiedClassName, getDefaultClassLoader());
+        }
+
+        /**
+         * Load and instantiate the CachingProvider with the specified class name
+         * using the provided ClassLoader
+         *
+         * @param fullyQualifiedClassName  the name of the CachingProvider class
+         * @param classLoader              the ClassLoader to use
+         *
+         * @return a new CachingProvider instance
+         *
+         * @throws CacheException if the specified CachingProvider could not be loaded
+         *                        or the specified class is not a CachingProvider
+         */
+        protected CachingProvider loadCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) throws CacheException {
+            synchronized (classLoader) {
+                try {
+                    Class<?> clazz = classLoader.loadClass(fullyQualifiedClassName);
+                    if (CachingProvider.class.isAssignableFrom(clazz)) {
+                        return ((Class<CachingProvider>)clazz).newInstance();
+                    } else {
+                        throw new CacheException("The specified class [" + fullyQualifiedClassName + "] is not a CachingProvider");
+                    }
+                } catch (Exception e) {
+                    throw new CacheException("Failed to load the CachingProvider [" + fullyQualifiedClassName + "]", e);
+                }
             }
         }
-        
-        private static String createListOfClassNames(Collection<?> names) {
-            if (names.isEmpty()) {
-                return "<none>";
-            } else {
-                StringBuilder sb = new StringBuilder();
-                for (Iterator<?> it = names.iterator(); it.hasNext();) {
-                    Object o = it.next();
-                    sb.append(o.getClass().getName());
-                    if (it.hasNext()) {
-                        sb.append(", ");
-                    }
-                }
-                return sb.toString();
+
+        /**
+         * Obtain the CachingProvider that is implemented by the specified class
+         * name using the provided ClassLoader.   Should this CachingProvider already be
+         * loaded it is returned, otherwise an attempt will be made to load and
+         * instantiate the specified class name (using a no-args constructor).
+         *
+         * @param fullyQualifiedClassName  the fully qualified class name of the CachingProvider
+         * @param classLoader              the ClassLoader to load the CachingProvider
+         *
+         * @return the CachingProvider
+         *
+         * @throws CacheException  when the CachingProvider can't be created
+         */
+        public synchronized CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
+            ClassLoader serviceClassLoader = classLoader == null ? getDefaultClassLoader() : classLoader;
+
+            LinkedHashMap<String, CachingProvider> providers = cachingProviders.get(serviceClassLoader);
+
+            if (providers == null) {
+                // first load the CachingProviders for the ClassLoader
+                // this may automatically load the CachingProvider we desire
+                getCachingProviders(serviceClassLoader);
+                providers = cachingProviders.get(serviceClassLoader);
             }
+
+            CachingProvider provider = providers.get(fullyQualifiedClassName);
+
+            if (provider == null) {
+                provider = loadCachingProvider(fullyQualifiedClassName, serviceClassLoader);
+                providers.put(fullyQualifiedClassName, provider);
+            }
+
+            return provider;
         }
     }
 }

@@ -58,7 +58,7 @@ public class CachingShutdownException extends CacheException {
     public String toString() {
         StringBuilder failuresMessage = new StringBuilder("The following CacheManagers through these exceptions on close()");
         for (CacheManager cacheManager : failures.keySet()) {
-            failuresMessage.append("\n").append("CacheManager ").append(cacheManager.getName()).append(": ").append(failures.get(cacheManager));
+            failuresMessage.append("\n").append("CacheManager ").append(cacheManager.getURI()).append(": ").append(failures.get(cacheManager));
         }
         return failuresMessage.toString();
     }

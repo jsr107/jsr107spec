@@ -7,7 +7,10 @@
 
 package javax.cache;
 
+import javax.cache.spi.CachingProvider;
 import javax.transaction.UserTransaction;
+import java.net.URI;
+import java.util.Properties;
 
 /**
  * A CacheManager is used for establishing, looking up and managing the lifecycle
@@ -42,11 +45,27 @@ import javax.transaction.UserTransaction;
 public interface CacheManager {
 
     /**
-     * Get the name of this cache manager
+     * Obtain the CachingProvider that created and is responsible for
+     * this CacheManager.
      *
-     * @return the name of this cache manager
+     * @return  the CachingProvider or <code>null</code> if the CacheManager
+     *          was created without using a CachingProvider
      */
-    String getName();
+    CachingProvider getCachingProvider();
+
+    /**
+     * Get the URI of this CacheManager.
+     *
+     * @return the URI of this CacheManager
+     */
+    URI getURI();
+
+    /**
+     * Get the Properties that were used to create this CacheManager.
+     *
+     * @return the Properties used to create the CacheManager
+     */
+    Properties getProperties();
 
     /**
      * Returns the status of this CacheManager.
@@ -186,7 +205,7 @@ public interface CacheManager {
 
 
     /**
-     * Shuts down the CacheManager.
+     * Closes the CacheManager.
      * <p/>
      * For each cache in the cache manager the {@link javax.cache.Cache#stop()}
      * method will be invoked, in no guaranteed order.
@@ -202,7 +221,7 @@ public interface CacheManager {
      *
      * @throws IllegalStateException if an operation is performed on CacheManager while stopping or stopped.
      */
-    void shutdown();
+    void close();
 
     /**
      * Return an object of the specified type to allow access to the provider-specific API. If the provider's

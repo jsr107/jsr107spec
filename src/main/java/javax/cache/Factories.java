@@ -12,7 +12,14 @@ package javax.cache;
  *
  * @author Brian Oliver
  */
-public class Factories {
+public final class Factories {
+
+    /**
+     * A private constructor to prevent instantiation.
+     */
+    private Factories() {
+        //deliberately empty - no instances allowed!
+    }
 
     /**
      * Constructs a {@link Factory} that will produce instances of the
