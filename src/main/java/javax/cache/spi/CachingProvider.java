@@ -41,6 +41,9 @@ public interface CachingProvider {
      * @param properties   the Properties for the CachingProvider to
      *                     create the CacheManager (null means no vendor specific
      *                     Properties are required)
+     *
+     * @throws javax.cache.CacheException  when a CacheManager for the specified
+     *                                     arguments could not be produced
      */
     CacheManager getCacheManager(URI uri, ClassLoader classLoader, Properties properties);
 
@@ -83,6 +86,9 @@ public interface CachingProvider {
      *                     use {@link #getDefaultURI()})
      * @param classLoader  the ClassLoader to use for the CacheManager (null means
      *                     use {@link #getDefaultClassLoader()})
+     *
+     * @throws javax.cache.CacheException  when a CacheManager for the specified
+     *                                     arguments could not be produced
      */
     CacheManager getCacheManager(URI uri, ClassLoader classLoader);
 
