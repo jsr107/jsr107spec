@@ -72,7 +72,7 @@ public @interface CacheDefaults {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
@@ -81,7 +81,7 @@ public @interface CacheDefaults {
      * <p/>
      * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemoveEntry}
      * 
-     * @see CacheKeyParam
+     * @see CacheKey
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

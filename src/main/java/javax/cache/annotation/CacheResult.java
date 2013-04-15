@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 
 
 /**
- * When a method annotated with {@link CacheResult} is invoked a {@link CacheKey} will be generated and
+ * When a method annotated with {@link CacheResult} is invoked a {@link GeneratedCacheKey} will be generated and
  * {@link javax.cache.Cache#get(Object)} is called before the annotated method actually executes. If a value is found in the
  * cache it is returned and the annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache with the generated key.
@@ -44,7 +44,7 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre></blockquote></p>
- * Example using the {@link CacheKey} annotation so that only the domainId parameter is used in key
+ * Example using the {@link GeneratedCacheKey} annotation so that only the domainId parameter is used in key
  * generation
  * <p><blockquote><pre>
  * package my.app;
@@ -72,7 +72,7 @@ import java.lang.annotation.Target;
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
- * @see CacheKeyParam
+ * @see CacheKey
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -120,14 +120,14 @@ public @interface CacheResult {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
      * 
-     * @see CacheKeyParam
+     * @see CacheKey
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

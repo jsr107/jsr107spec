@@ -10,7 +10,7 @@ package javax.cache.annotation;
 import java.lang.annotation.Annotation;
 
 /**
- * Generates a {@link CacheKey} based on a {@link CacheKeyInvocationContext}.
+ * Generates a {@link GeneratedCacheKey} based on a {@link CacheKeyInvocationContext}.
  * <p/>
  * Implementations MUST be thread-safe.
  *
@@ -20,10 +20,12 @@ import java.lang.annotation.Annotation;
 public interface CacheKeyGenerator {
 
     /**
-     * Called for each intercepted method invocation. Generate a {@link CacheKey} from the {@link CacheKeyInvocationContext} data.
+     * Called for each intercepted method invocation to generate a suitable
+     * cache key (as a {@link GeneratedCacheKey}) from the
+     * {@link CacheKeyInvocationContext} data.
      *
      * @param cacheKeyInvocationContext Information about the intercepted method invocation
      * @return A non-null cache key for the invocation.
      */
-    CacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> cacheKeyInvocationContext);
+    GeneratedCacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> cacheKeyInvocationContext);
 }

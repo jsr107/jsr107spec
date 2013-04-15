@@ -16,14 +16,14 @@ import java.lang.annotation.Target;
 
 
 /**
- * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link CacheKey} will be generated and
+ * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link GeneratedCacheKey} will be generated and
  * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
  * <p/>
  * The default behavior is to call {@link javax.cache.Cache#remove(Object)} after the annotated method is invoked,
  * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#remove(Object)}
  * will be called before the annotated method is invoked. 
  * <p/>
- * Example of removing a specific Domain object from the "domainCache". A {@link CacheKey} will be generated
+ * Example of removing a specific Domain object from the "domainCache". A {@link GeneratedCacheKey} will be generated
  * from the String and int parameters and used to call {@link javax.cache.Cache#remove(Object)} after
  * the deleteDomain method completes successfully.
  * <p><blockquote><pre>
@@ -51,7 +51,7 @@ import java.lang.annotation.Target;
  * @author Eric Dalquist
  * @author Rick Hightower
  * @since 1.0
- * @see CacheKeyParam
+ * @see CacheKey
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -86,14 +86,14 @@ public @interface CacheRemoveEntry {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link CacheKey} for interacting
+     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
      * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
      * {@link CacheKeyInvocationContext#getKeyParameters()}
      * 
-     * @see CacheKeyParam
+     * @see CacheKey
      */
     @Nonbinding
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;

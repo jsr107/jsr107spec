@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
  * with {@link CacheResult}, {@link CachePut}, or {@link CacheRemoveEntry}.
  * <p/>
  * Used with {@link CacheKeyGenerator#generateCacheKey(CacheKeyInvocationContext)} to generate a
- * {@link CacheKey} for the invocation.
+ * {@link GeneratedCacheKey} for the invocation.
  * 
  * @author Eric Dalquist
  * @version $Revision$
@@ -26,14 +26,14 @@ public interface CacheKeyInvocationContext<A extends Annotation> extends CacheIn
     
     /**
      * Returns a clone of the array of all method parameters to be used by the {@link CacheKeyGenerator} in creating
-     * a {@link CacheKey}. The returned array may be the same as or a subset of the array returned by
+     * a {@link GeneratedCacheKey}. The returned array may be the same as or a subset of the array returned by
      * {@link #getAllParameters()}
      * <p/>
      * Parameters in this array are selected by the following rules:
      * <ul>
-     *   <li>If no parameters are annotated with {@link CacheKeyParam} or {@link CacheValue} then all parameters are included</li>
-     *   <li>If a {@link CacheValue} annotation exists and no {@link CacheKeyParam} then all parameters except the one annotated with {@link CacheValue} are included</li>
-     *   <li>If one or more {@link CacheKeyParam} annotations exist only those parameters with the {@link CacheKeyParam} annotation are included</li>
+     *   <li>If no parameters are annotated with {@link CacheKey} or {@link CacheValue} then all parameters are included</li>
+     *   <li>If a {@link CacheValue} annotation exists and no {@link CacheKey} then all parameters except the one annotated with {@link CacheValue} are included</li>
+     *   <li>If one or more {@link CacheKey} annotations exist only those parameters with the {@link CacheKey} annotation are included</li>
      * </ul>
      * 
      * @return An array of all parameters to be used in cache key generation
