@@ -33,7 +33,10 @@ public interface ExpiryPolicy<K, V> {
      * entry is added to a cache, to determine the {@link Duration} before the 
      * said entry expires.  If a {@link Duration#ZERO} is returned the Cache.Entry is 
      * considered to be already expired and will not be added to the Cache.
-     * 
+     * <p/>
+     * Should an exception occur while determining the Duration, an implementation
+     * specific default Duration will be used.
+     *
      * @param entry the cache entry that was created
      * @return the duration until the entry expires
      */
@@ -46,7 +49,10 @@ public interface ExpiryPolicy<K, V> {
      * {@link Duration} before the said entry expires in the future.  If a 
      * {@link Duration#ZERO} is returned the Cache.Entry will be considered 
      * expired for future access.
-     * 
+     * <p/>
+     * Should an exception occur while determining the Duration, an implementation
+     * specific default Duration will be used.
+     *
      * @param entry    the cache entry that was accessed
      * @param duration the current {@link Duration} before the entry expires
      * @return the duration until the entry expires
@@ -60,7 +66,10 @@ public interface ExpiryPolicy<K, V> {
      * {@link Duration} before the updated entry expires.  If a 
      * {@link Duration#ZERO} is returned the Cache.Entry is considered already
      * expired. 
-     * 
+     * <p/>
+     * Should an exception occur while determining the Duration, an implementation
+     * specific default Duration will be used.
+     *
      * @param entry    the cache entry that was modified
      * @param duration the current {@link Duration} before the updated entry expires
      * @return the duration until the entry expires
