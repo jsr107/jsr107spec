@@ -472,12 +472,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * Passes the cache entry associated with the key to the entry
      * processor. All operations performed by the processor will be done atomically
      *
-     * @param key the key to the entry
-     * @param entryProcessor the processor which will process the entry
-     * @param arguments a number of arguments to the process.
+     * @param key             the key to the entry
+     * @param entryProcessor  the processor which will process the entry
+     * @param arguments       a number of arguments to the process
+     *
      * @return the result of the processing, if any, which is user defined.
-     * @throws NullPointerException if key or entryProcessor are null
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     *
+     * @throws NullPointerException   if key or entryProcessor are null
+     * @throws IllegalStateException  if the cache is not {@link Status#STARTED}
+     * @throws CacheException         if an exception occurred while executing
+     *                                the EntryProcessor (the causing exception
+     *                                will be wrapped by the CacheException)
      * @see EntryProcessor
      */
     <T> T invokeEntryProcessor(K key, EntryProcessor<K, V, T> entryProcessor, Object... arguments);
@@ -586,7 +591,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * <p/>
      * Any {@link Cache.Entry} mutations will not take effect till after the processor has completed;
      * if an exception is thrown inside the processor, the exception will be returned wrapped in an
-     * {@link java.util.concurrent.ExecutionException}.  No changes will be made to the cache.
+     * {@link CacheException}.  No changes will be made to the cache.
      * <p/>
      * This enables a way to perform compound operations without transactions
      * involving a cache entry atomically. Such operations may include mutations.
