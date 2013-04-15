@@ -79,7 +79,7 @@ import java.lang.annotation.Target;
 public @interface CacheResult {
 
     /**
-     * (Optional) name of the cache.
+     * The name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
      * defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
@@ -88,7 +88,7 @@ public @interface CacheResult {
     String cacheName() default "";
 
     /**
-     * (Optional) If set to true the pre-invocation {@link javax.cache.Cache#get(Object)} is skipped and the annotated method is
+     * If set to true the pre-invocation {@link javax.cache.Cache#get(Object)} is skipped and the annotated method is
      * always executed with the returned value being cached as normal. This is useful for create or update methods
      * which should always be executed and have their returned value placed in the cache.
      * <p/>
@@ -103,7 +103,7 @@ public @interface CacheResult {
     boolean skipGet() default false;
 
     /**
-     * (Optional) If set to false null return values will not be cached. If true (the default) null return
+     * If set to false null return values will not be cached. If true (the default) null return
      * values will be cached.
      * <p/>
      * Defaults to true
@@ -112,7 +112,7 @@ public @interface CacheResult {
     boolean cacheNull() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
      * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
@@ -120,7 +120,7 @@ public @interface CacheResult {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
+     * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 
@@ -133,7 +133,7 @@ public @interface CacheResult {
     Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
     
     /**
-    * (Optional) name of the cache to cache exceptions.
+    * The name of the cache to cache exceptions.
     * <p/>
     * If not specified no exception caching is done.
     */

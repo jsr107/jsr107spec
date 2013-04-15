@@ -52,7 +52,7 @@ import java.lang.annotation.Target;
 public @interface CacheDefaults {
 
     /**
-     * (Optional) default name of the cache for the annotated class
+     * The default name of the cache for the annotated class
      * <p/>
      * If not specified defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
      * <p/>
@@ -62,7 +62,7 @@ public @interface CacheDefaults {
     String cacheName() default "";
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
      * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      * <p/>
@@ -72,7 +72,7 @@ public @interface CacheDefaults {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
+     * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 

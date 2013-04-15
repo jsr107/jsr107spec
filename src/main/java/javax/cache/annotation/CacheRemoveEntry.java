@@ -58,7 +58,7 @@ import java.lang.annotation.Target;
 public @interface CacheRemoveEntry {
 
     /**
-     * (Optional) name of the cache.
+     * The name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()}, if that is not set it
      * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
@@ -67,7 +67,7 @@ public @interface CacheRemoveEntry {
     String cacheName() default "";
 
     /**
-     * (Optional) When {@link javax.cache.Cache#remove(Object)}  should be called. If true it is called after the annotated method
+     * When {@link javax.cache.Cache#remove(Object)}  should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
@@ -78,7 +78,7 @@ public @interface CacheRemoveEntry {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
      * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
@@ -86,7 +86,7 @@ public @interface CacheRemoveEntry {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
+     * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 

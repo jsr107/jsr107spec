@@ -60,7 +60,7 @@ import java.lang.annotation.Target;
 public @interface CachePut {
 
     /**
-     * (Optional) name of the cache.
+     * The name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
      * defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
@@ -69,7 +69,7 @@ public @interface CachePut {
     String cacheName() default "";
 
     /**
-     * (Optional) When {@link javax.cache.Cache#put(Object, Object)} should be called. If true it is called after the annotated method
+     * When {@link javax.cache.Cache#put(Object, Object)} should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
@@ -81,7 +81,7 @@ public @interface CachePut {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) If set to false null {@link CacheValue} values will not be cached. If true (the default) null {@link CacheValue}
+     * If set to false null {@link CacheValue} values will not be cached. If true (the default) null {@link CacheValue}
      * values will be cached.
      * <p/>
      * Defaults to true
@@ -90,7 +90,7 @@ public @interface CachePut {
     boolean cacheNull() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
      * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
@@ -98,7 +98,7 @@ public @interface CachePut {
     Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
     /**
-     * (Optional) The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
+     * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
      * with the specified Cache.
      * <p/>
      * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and 

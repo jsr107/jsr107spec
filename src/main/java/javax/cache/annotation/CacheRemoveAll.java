@@ -54,7 +54,7 @@ import java.lang.annotation.Target;
 public @interface CacheRemoveAll {
 
     /**
-     * (Optional) name of the cache.
+     * The name of the cache.
      * <p/>
      * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
      * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
@@ -63,7 +63,7 @@ public @interface CacheRemoveAll {
     String cacheName() default "";
 
     /**
-     * (Optional) When {@link javax.cache.Cache#removeAll()} should be called. If true it is called after the annotated method
+     * When {@link javax.cache.Cache#removeAll()} should be called. If true it is called after the annotated method
      * invocation completes successfully. If false it is called before the annotated method is invoked.
      * <p/>
      * Defaults to true.
@@ -74,7 +74,7 @@ public @interface CacheRemoveAll {
     boolean afterInvocation() default true;
 
     /**
-     * (Optional) The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
      * <p/>
      * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
      */
