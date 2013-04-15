@@ -26,6 +26,18 @@ import java.util.concurrent.TimeoutException;
  * A CompletionListenerFuture is a CompletionListener implementation that
  * supports being used as a Future.
  * <p/>
+ * For example:
+ * <code>
+ *     //create a completion future to use to wait for loadAll
+ *     CompletionListenerFuture future = new CompletionListenerFuture();
+ *
+ *     //load the values for the set of keys, replacing those that may already exist in the cache
+ *     cache.loadAll(keys, true, future);
+ *
+ *     //wait for the cache to load the keys
+ *     future.get();
+ * </code>
+ * <p/>
  * A CompletionListenerFuture may only be used once.  Attempts to use an instance
  * multiple times, as part of multiple asynchronous calls will result in an
  * java.lang.IllegalStateException being raised.

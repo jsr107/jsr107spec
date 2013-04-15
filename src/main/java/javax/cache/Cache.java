@@ -148,14 +148,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
      * iterable in parallel.  Iteration must not occur in parallel, thus
      * allow for non-thread-sage Iterables, but loading may.
      *
-     * @param keys the keys
-     * @param listener the CompletionListener (may be null)
+     * @param keys                   the keys to load
+     * @param replaceExistingValues  when true existing values in the Cache will
+     *                               be replaced by those loaded from a CacheLoader
+     * @param listener               the CompletionListener (may be null)
      *
      * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is not {@link Status#STARTED}
      * @throws CacheException        if there is a problem doing the load
      */
-    void loadAll(Iterable<? extends K> keys, CompletionListener listener);
+    void loadAll(Iterable<? extends K> keys, boolean replaceExistingValues, CompletionListener listener);
 
     /**
      * Associates the specified value with the specified key in this cache
