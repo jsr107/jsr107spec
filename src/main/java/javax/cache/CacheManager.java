@@ -89,7 +89,7 @@ public interface CacheManager {
      * support with an implementation that does not support transactions will result
      * in an {@link UnsupportedOperationException}.
      * <p/>
-     * Note 1: Implementors of this method are required to make a copy of the provided
+     * Note 1: Implementers of this method are required to make a copy of the provided
      * {@link Configuration} so that it may be further used to configure and
      * ensure other {@link Cache}s without causing side-effects.
      * <p/>

@@ -17,6 +17,8 @@ package javax.cache.event;
  * <p/>
  * To support a Java Future-based approach to synchronously wait for a Cache
  * operation to complete, use a CompletionListenerFuture.
+ * <p/>
+ * A CompletionListener will use an implementation specific thread for the call.
  *
  * @see CompletionListenerFuture
  *

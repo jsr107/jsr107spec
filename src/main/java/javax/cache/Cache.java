@@ -429,13 +429,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
     void clear();
 
     /**
-     * Returns a Configuration.
-     * <p/>
-     * When status is {@link Status#STARTED} an implementation must respect the following:
-     * <p/>
-     * If an implementation permits mutation of configuration to a running cache, those changes must be reflected
-     * in the cache. In the case where mutation is not allowed {@link InvalidConfigurationException} must be thrown on
-     * an attempt to mutate the configuration.
+     * Returns an immutable Configuration object.
      *
      * @return the {@link Configuration} of this cache
      */

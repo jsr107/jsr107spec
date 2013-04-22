@@ -10,7 +10,7 @@ package javax.cache;
 /**
  * An exception to report invalid configuration settings.
  * <p/>
- * This indicates a configuration is invalid for the cache implementation.
+ * For example, it is invalid to have a store by reference cache which is transactional.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
