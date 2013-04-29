@@ -10,7 +10,7 @@ package javax.cache.event;
 /**
  * Invoked after a cache entry is created, or if a batch call is made, after the entries are created.
  * <p/>
- * If an entry for the key existed prior to the operation it is not invoked,   instead {@link CacheEntryUpdatedListener} is invoked.
+ * If an entry for the key existed prior to the operation it is not invoked, instead {@link CacheEntryUpdatedListener} is invoked.
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
  * @see CacheEntryUpdatedListener

@@ -41,7 +41,9 @@ public abstract class CacheEntryEvent<K, V> extends EventObject {
     public abstract K getKey();
 
     /**
-     * Returns the value of the cache entry with the event
+     * Returns the value of the cache entry with the event.
+     * <p/>
+     * Where the entry was removed this will be null.
      * @return the value
      */
     public abstract V getValue();

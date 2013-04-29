@@ -22,12 +22,12 @@ import java.util.EventListener;
  * <p/>
  * A listener is a user supplied object instance and therefore can only be registered programmatically.
  * <p/>
- * The listeners are fired:
+ * Listeners:
  * <ul>
- *     <li>in order in which they were registered</li>
- *     <li>after the entry is mutated in the cache</li>
- *     <li>the calling thread blocks until the listener returns if the listener was registered as synchronous</li>
- *     <li>asynchronous listeners iterating through multiple events have undefined ordering</li>
+ *     <li>are called in the order in which they were registered</li>
+ *     <li>are fired after the entry is mutated in the cache</li>
+ *     <li>block the calling thread until the listener returns if the listener was registered as synchronous</li>
+ *     <li>which are asynchronous iterate through multiple events with an undefined ordering</li>
  * </ul>
  * A synchronous listener is not permitted to mutate the cache it is listening on.
  * <p/>
@@ -39,7 +39,6 @@ import java.util.EventListener;
  *
  * @see CacheEntryCreatedListener
  * @see CacheEntryUpdatedListener
- * @see CacheEntryReadListener
  * @see CacheEntryRemovedListener
  * @see CacheEntryExpiredListener
  * @param <K> the type of keys maintained by the associated cache
