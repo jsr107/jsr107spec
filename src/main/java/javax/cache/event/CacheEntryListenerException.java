@@ -24,7 +24,7 @@ public class CacheEntryListenerException extends CacheException {
 
 
     /**
-     * Constructs a new InvalidConfigurationException.
+     * Constructs a new CacheEntryListenerException.
      */
     public CacheEntryListenerException() {
         super();

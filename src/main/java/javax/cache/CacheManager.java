@@ -105,12 +105,12 @@ public interface CacheManager {
      * @return a configured {@link Cache}
      * @throws IllegalStateException         if the CacheManager is not in {@link Status#STARTED} state
      * @throws CacheException                if there was an error adding the cache to the CacheManager
-     * @throws InvalidConfigurationException when the {@link Configuration} is invalid
+     * @throws IllegalArgumentException when the {@link Configuration} is invalid
      * @throws UnsupportedOperationException when the {@link Configuration} attempts
      *                                       to use an unsupported feature
      * @throws NullPointerException          if the cache configuration is null
      */
-    <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration);
+    <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration) throws IllegalArgumentException;
 
     /**
      * Looks up a {@link Cache} given it's name.
