@@ -224,13 +224,14 @@ public interface CacheManager {
     void close();
 
     /**
-     * Return an object of the specified type to allow access to the provider-specific API. If the provider's
-     * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
+     * Provides a standard way to access the underlying concrete caching implementation to provide access
+     * to further, proprietary features.
      *
-     * @param cls the class of the object to be returned. This is normally either the
-     *            underlying implementation class or an interface that it implements.
-     * @return an instance of the specified class
-     * @throws IllegalArgumentException if the provider doesn't support the specified class.
+     * If the provider's implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
+     *
+     * @param clazz the proprietary class or interface of the underlying concrete cache manager. It is this type which is returned.
+     * @return an instance of the underlying concrete cache manager
+     * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
      */
-    <T> T unwrap(java.lang.Class<T> cls);
+    <T> T unwrap(java.lang.Class<T> clazz);
 }
