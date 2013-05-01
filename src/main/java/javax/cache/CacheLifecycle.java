@@ -9,11 +9,9 @@ package javax.cache;
 
 /**
  * Cache resources may have non-trivial initialisation and disposal procedures.
- * As such it is unrealistic to expect them to be avaiable for service after
- * object creation.
+ * As such it is unrealistic to expect them to be available for service immediately after object creation.
  * <p/>
- * This interface defines a lifecycle for these resources and associates a {@link Status}
- * with each.
+ * This interface defines a lifecycle for these resources and associates a {@link Status} with each.
  * <p/>
  * The {@link Status} of a newly created resource is {@link Status#UNINITIALISED}.
  * @author Greg Luck
@@ -29,7 +27,7 @@ public interface CacheLifecycle {
      *
      * At the completion of this method invocation {@link #getStatus()} must return {@link Status#STARTED}.
      *
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if the cache could not be started
      */
     void start();
 
@@ -44,7 +42,7 @@ public interface CacheLifecycle {
      * <p/>
      * Stop must free any JVM resources used.
      *
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if the cache could not be stopped
      * @throws IllegalStateException thrown if an operation is performed on a cache unless it is started.
      */
     void stop();
