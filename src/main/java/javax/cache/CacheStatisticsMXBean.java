@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.management.MXBean;
-import java.util.Date;
 
 /**
  * Cache statistics.
@@ -40,14 +39,6 @@ public interface CacheStatisticsMXBean {
      * Clears the statistics counters to 0 for the associated Cache.
      */
     void clear();
-
-    /**
-     * The date from which statistics have been accumulated. Because statistics can be cleared, this is not necessarily
-     * since the cache was started.
-     *
-     * @return the date statistics started being accumulated
-     */
-    Date getStartAccumulationDate();
 
     /**
      * The number of get requests that were satisfied by the cache.
