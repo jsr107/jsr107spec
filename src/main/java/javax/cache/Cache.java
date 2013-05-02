@@ -547,6 +547,20 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, CacheLifecycle
          * @return the value corresponding to this entry
          */
         V getValue();
+
+        /**
+         * Provides a standard way to access the underlying concrete cache entry
+         * implementation in order to provide access to further, proprietary features.
+         *
+         * If the provider's implementation does not support the specified class,
+         * the {@link IllegalArgumentException} is thrown.
+         *
+         * @param clazz  the proprietary class or interface of the underlying
+         *               concrete cache. It is this type which is returned.
+         * @return an instance of the underlying concrete cache
+         * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
+         */
+        <T> T unwrap(Class<T> clazz);
     }
 
     /**
