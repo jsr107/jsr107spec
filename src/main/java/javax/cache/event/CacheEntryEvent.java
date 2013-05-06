@@ -16,7 +16,7 @@ import java.util.EventObject;
  * @param <V> the type of cached values
  * @since 1.0
  */
-public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V> {
+public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V>, Cache.MutatedEntry<K, V> {
 
     /**
      * Constructs a cache entry event from a given cache as source
@@ -35,15 +35,8 @@ public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache
     }
 
     /**
-     * Returns the value of the cache entry with the event
-     * @return the value
-     * @throws UnsupportedOperationException if the old value is not available
-     */
-    public abstract V getOldValue() throws UnsupportedOperationException;
-
-
-    /**
-     * Whether the old value is available
+     * Whether the old value is available.
+     *
      * @return true if the old value is populated
      */
     public abstract boolean isOldValueAvailable();

@@ -26,6 +26,4 @@ public interface CacheEntryUpdatedListener<K, V> extends CacheEntryListener<K, V
      * @throws CacheEntryListenerException if there is problem executing the listener
      */
     void onUpdated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
-
-
 }
