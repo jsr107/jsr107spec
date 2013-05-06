@@ -56,7 +56,7 @@ public interface Configuration<K, V> {
      * "put" operations called via one of {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
      * {@link javax.cache.Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
      * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object, Object)}, 
-     * {@link Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor)}
+     * {@link Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor, Object...)}
      * will appropriately cause the configured {@link CacheWriter} to be invoked.
      * <p/>
      * The default value is <code>false</code>.
@@ -82,6 +82,10 @@ public interface Configuration<K, V> {
      * Storage by reference only applies to the local heap. If an entry is moved off heap it will
      * need to be transformed into a representation. Any mutations that occur after transformation
      * may not be reflected in the cache.
+     * <p/>
+     * Additionally Store-By-Reference is only supported for non-transactional caches.  Attempts
+     * to configure a cache using both transactions and Store-By-Reference will result in an
+     * in a CacheException.
      * <p/>
      * When a cache is storeByValue, any mutation to the key or value does not affect the key of value
      * stored in the cache.
