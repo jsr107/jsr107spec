@@ -143,10 +143,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * This method will, asynchronously, load the specified objects into the
      * cache using the associated cache loader for the given keys.
      * <p/>
-     * If the an object already exists in the cache, no action is taken. If no
-     * loader is provided for the cache, no objects will be loaded.  If a problem
-     * is encountered during the retrieving or loading of the objects, an
-     * exception provided to the specified CompletionListener.  Once the operation
+     * If an entry for a key anlready exists in the Cache, a value will be loaded
+     * if and only if replaceExistingValues is true.   If no loader is configured
+     * for the cache, no objects will be loaded.  If a problem is encountered
+     * during the retrieving or loading of the objects, an exception provided to
+     * the specified CompletionListener.  Once the operation
      * has completed, the specified CompletionListener is notified.
      * <p/>
      * Implementations may choose to load multiple keys from the provided
