@@ -68,15 +68,6 @@ public interface CacheManager {
     Properties getProperties();
 
     /**
-     * Returns the status of this CacheManager.
-     * <p/>
-     * Calls to this method will block while the state is changing.
-     *
-     * @return one of {@link Status}
-     */
-    Status getStatus();
-
-    /**
      * Ensures that a {@link Cache} conforming to the specified {@link Configuration}
      * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown
      * to the {@link CacheManager}, one is created and configured according to the provided
@@ -103,7 +94,7 @@ public interface CacheManager {
      * @param cacheName     the name of the cache
      * @param configuration the {@link Configuration}
      * @return a configured {@link Cache}
-     * @throws IllegalStateException         if the CacheManager is not in {@link Status#STARTED} state
+     * @throws IllegalStateException         if the CacheManager {@link #isClosed()}
      * @throws CacheException                if there was an error adding the cache to the CacheManager
      * @throws IllegalArgumentException when the {@link Configuration} is invalid
      * @throws UnsupportedOperationException when the {@link Configuration} attempts
@@ -117,7 +108,7 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
-     * @throws IllegalStateException if the CacheManager is not {@link Status#STARTED}
+     * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 
@@ -136,7 +127,7 @@ public interface CacheManager {
      *
      * @param cacheName the cache name
      * @return true if the cache was removed
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws NullPointerException  if cacheName is null
      */
     boolean removeCache(String cacheName);
@@ -174,11 +165,10 @@ public interface CacheManager {
      *
      * @param cacheName the name of the cache to register
      * @param enabled true to enable statistics, false to disable.
-     * @throws IllegalStateException if the cache is not {@link Status#STARTED}
+     * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws NullPointerException  if cacheName is null
      */
     void enableStatistics(String cacheName, boolean enabled);
-
 
     /**
      * Controls whether management is enabled. If enabled the {@link CacheMXBean} for each cache is registered
@@ -202,26 +192,37 @@ public interface CacheManager {
      */
     void enableManagement(String cacheName, boolean enabled);
 
-
-
     /**
      * Closes the CacheManager.
      * <p/>
-     * For each cache in the cache manager the {@link javax.cache.Cache#stop()}
+     * For each cache in the cache manager the {@link javax.cache.Cache#close()}
      * method will be invoked, in no guaranteed order.
-     * If the stop throws an exception, the exception is ignored.
+     * If a {@link javax.cache.Cache#close()} call throws an exception, the
+     * exception will be ignored.
      * <p/>
-     * Calls to {@link #getStatus()} will block until shutdown completes.
+     * After executing this method, the {@link #isClosed()} method will return
+     * <code>true</code>.
      * <p/>
-     * On completion the CacheManager's status is changed to {@link Status#STOPPED},
-     * and the manager's owned caches will be empty and {@link #getCaches()}
-     * will return an empty collection.
-     * <p/>
-     * A given CacheManager instance cannot be restarted after it has been stopped. A new one must be created.
-     *
-     * @throws IllegalStateException if an operation is performed on CacheManager while stopping or stopped.
+     * All attempts to close a previously closed CacheManager will be ignored.
      */
     void close();
+
+    /**
+     * Determines whether this CacheManager instance has been closed. A CacheManager
+     * is considered closed if;
+     * <ol>
+     *     <li>the {@link #close()} method has been called</li>
+     *     <li>the associated {@link #getCachingProvider()} has been closed, or</li>
+     *     <li>the CacheManager has been closed using the associated {@link #getCachingProvider()}</li>
+     * </ol>
+     * <p/>
+     * This method generally cannot be called to determine whether a CacheManager instance
+     * is valid or invalid. A typical client can determine that a CacheManager is invalid
+     * by catching any exceptions that might be thrown when an operation is attempted.
+     *
+     * @return true if this CacheManager instance is closed; false if it is still open
+     */
+    boolean isClosed();
 
     /**
      * Provides a standard way to access the underlying concrete caching implementation to provide access
