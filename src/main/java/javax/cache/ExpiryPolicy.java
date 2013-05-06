@@ -49,16 +49,17 @@ public interface ExpiryPolicy<K, V> {
      * This method is called after a Cache.Entry is accessed to determine the
      * {@link Duration} before the said entry expires in the future.  If a 
      * {@link Duration#ZERO} is returned the Cache.Entry will be considered 
-     * expired for future access.
+     * expired for future access.  Returning <code>null</code> will result in
+     * no change to the current expiry {@link Duration}.
      * <p/>
      * Should an exception occur while determining the Duration, an implementation
      * specific default Duration will be used.
      *
      * @param entry    the cache entry that was accessed
-     * @param duration the current {@link Duration} before the entry expires
+     *
      * @return the duration until the entry expires
      */
-    Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration);
+    Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry);
         
     /**
      * Gets the time-to-live before the modified Cache.Entry is considered expired.
@@ -66,16 +67,16 @@ public interface ExpiryPolicy<K, V> {
      * This method is called after a Cache.Entry is modified to determine the
      * {@link Duration} before the updated entry expires.  If a 
      * {@link Duration#ZERO} is returned the Cache.Entry is considered already
-     * expired. 
+     * expired.  Returning <code>null</code> will result in no change to the
+     * current expiry {@link Duration}.
      * <p/>
      * Should an exception occur while determining the Duration, an implementation
      * specific default Duration will be used.
      *
      * @param entry    the cache entry that was modified
-     * @param duration the current {@link Duration} before the updated entry expires
      * @return the duration until the entry expires
      */
-    Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry, Duration duration);
+    Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry);
 
     /**
      * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
@@ -114,7 +115,7 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry) {
             //when a cache entry is accessed, we return the specified expiry duration, 
             //ignoring the current expiry duration
             return expiryDuration;
@@ -124,9 +125,9 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry, Duration duration) {
+        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
             //modifying a cache entry has no affect on the current expiry duration
-            return duration;
+            return null;
         }
         
         /**
@@ -203,16 +204,16 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry) {
             //accessing a cache entry has no affect on the current expiry duration
-            return duration;
+            return null;
         }
         
         /**
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry, Duration duration) {
+        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
             //when a cache entry is modified, we return the specified expiry duration, 
             //ignoring the current expiry duration
             return expiryDuration;
@@ -284,16 +285,16 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry, Duration duration) {
-            return duration;
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry) {
+            return null;
         }
         
         /**
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry, Duration duration) {
-            return duration;
+        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
+            return null;
         }
         
         /**
