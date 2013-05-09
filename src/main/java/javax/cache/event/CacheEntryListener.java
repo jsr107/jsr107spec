@@ -26,6 +26,7 @@ import java.util.EventListener;
  * <ul>
  *     <li>are called in the order in which they were registered</li>
  *     <li>are fired after the entry is mutated in the cache</li>
+ *     <li>if synchronous are fired, for a given key, in the order in which events occur</li>
  *     <li>block the calling thread until the listener returns if the listener was registered as synchronous</li>
  *     <li>which are asynchronous iterate through multiple events with an undefined ordering</li>
  * </ul>
