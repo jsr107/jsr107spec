@@ -10,6 +10,7 @@ package javax.cache;
 import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -185,9 +186,15 @@ public interface Configuration<K, V> {
     Factory<ExpiryPolicy<? super K, ? super V>> getExpiryPolicyFactory();
 
     /**
-     * A time duration.
+     * A {@link Serializable} duration of time.
      */
-    public static class Duration {
+    public static class Duration implements Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101442L;
+
         /**
          * ETERNAL (forever).
          */
@@ -203,23 +210,21 @@ public interface Configuration<K, V> {
          */
         private final TimeUnit timeUnit;
 
-       /*
-        * How long, in the specified units, the cache entries should live.
-        * The lifetime is measured from the cache entry was last put (i.e. creation or modification for an update) or
-        * the time accessed depending on the {@link ExpiryType}
-        * 0 means eternal.
-        *
-        */
+        /**
+         * How long, in the specified units, the cache entries should live.
+         * The lifetime is measured from the cache entry was last accessed or
+         * mutated.
+         */
         private final long durationAmount;
 
         /**
-         * A private constructor to an eternal {@link Duration}.
+         * Constructs a Duration (that by default is Eternal).
          */
         private Duration() {
             this.timeUnit = null;
             this.durationAmount = 0;
         }
-        
+
         /**
          * Constructs a duration.
          *

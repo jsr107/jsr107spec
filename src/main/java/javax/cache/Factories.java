@@ -6,6 +6,8 @@
  */
 package javax.cache;
 
+import java.io.Serializable;
+
 /**
  * This class exclusively defines static methods to aid in the construction
  * and manipulation of {@link Factory} instances.
@@ -54,12 +56,17 @@ public final class Factories {
      *
      * @param <T> the type of the instance produced by the {@link Factory}
      */
-    public static class ClassFactory<T> implements Factory<T> {
+    public static class ClassFactory<T> implements Factory<T>, Serializable {
 
         /**
-         * The Class of objects to instantiate when required.
+         * The serialVersionUID required for {@link Serializable}.
          */
-        private Class<T> clazz;
+        public static final long serialVersionUID = 201305101626L;
+
+        /**
+         * The name of the Class.
+         */
+        private String className;
 
         /**
          * Constructor for the {@link ClassFactory}.
@@ -67,15 +74,28 @@ public final class Factories {
          * @param clazz the Class to instantiate
          */
         public ClassFactory(Class<T> clazz) {
-            this.clazz = clazz;
+            this.className = clazz.getCanonicalName();
+        }
+
+        /**
+         * Constructor for the {@link ClassFactory}.
+         *
+         * @param className the name of the Class to instantiate
+         */
+        public ClassFactory(String className) {
+            this.className = className;
         }
 
         @Override
         public T create() {
             try {
-                return clazz.newInstance();
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+                Class<?> clazz = loader.loadClass(className);
+
+                return (T) clazz.newInstance();
             } catch (Exception e) {
-                throw new RuntimeException("Failed to create an instance of " + clazz, e);
+                throw new RuntimeException("Failed to create an instance of " + className, e);
             }
         }
 
@@ -86,14 +106,14 @@ public final class Factories {
 
             ClassFactory that = (ClassFactory) other;
 
-            if (!clazz.equals(that.clazz)) return false;
+            if (!className.equals(that.className)) return false;
 
             return true;
         }
 
         @Override
         public int hashCode() {
-            return clazz.hashCode();
+            return className.hashCode();
         }
     }
 
@@ -104,7 +124,12 @@ public final class Factories {
      *
      * @param <T> the type of the instance produced by the {@link Factory}
      */
-    public static class SingletonFactory<T> implements Factory<T> {
+    public static class SingletonFactory<T> implements Factory<T>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101634L;
 
         /**
          * The singleton instance.

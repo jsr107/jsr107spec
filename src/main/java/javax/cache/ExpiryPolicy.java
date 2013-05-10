@@ -10,6 +10,7 @@ package javax.cache;
 import javax.cache.Cache.Entry;
 import javax.cache.Cache.MutatedEntry;
 import javax.cache.Configuration.Duration;
+import java.io.Serializable;
 
 /**
  * Defines functions to determine when cache entries will expire based on 
@@ -85,13 +86,18 @@ public interface ExpiryPolicy<K, V> {
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
      */
-    public static final class Accessed<K, V> implements ExpiryPolicy<K, V> {
-        
+    public static final class Accessed<K, V> implements ExpiryPolicy<K, V>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101601L;
+
         /**
          * The {@link Duration} a Cache Entry should be available before it expires.
          */
         private Duration expiryDuration;
-        
+
         /**
          * Constructs an {@link Accessed} {@link ExpiryPolicy}.
          * 
@@ -174,13 +180,18 @@ public interface ExpiryPolicy<K, V> {
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
      */
-    public static final class Modified<K, V> implements ExpiryPolicy<K, V> {
+    public static final class Modified<K, V> implements ExpiryPolicy<K, V>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101602L;
 
         /**
          * The {@link Duration} a Cache Entry should be available before it expires.
          */
         private Duration expiryDuration;
-        
+
         /**
          * Constructs an {@link Modified} {@link ExpiryPolicy}.
          * 
@@ -262,7 +273,12 @@ public interface ExpiryPolicy<K, V> {
      * underlying implementation needs to free-up resources where by it may 
      * choose to expire entries that are not due to expire.
      */
-    public static final class Default<K, V> implements ExpiryPolicy<K, V> {
+    public static final class Default<K, V> implements ExpiryPolicy<K, V>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101603L;
 
         /**
          * Obtains a {@link Factory} for a Default {@link ExpiryPolicy}.
