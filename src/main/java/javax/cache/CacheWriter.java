@@ -33,18 +33,18 @@ public interface CacheWriter<K, V> {
      * This method is intended to support both key/value creation and value update for a specific key.
      *
      * @param entry the entry to be written
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if the write fails
      */
     void write(Cache.Entry<? extends K, ? extends V> entry);
 
     /**
      * Write the specified entries to the underlying store. This method is intended to support both insert and update.
      * If this operation fails (by throwing an exception) after a partial success,
-     * the convention is that entries which have been written successfully are to be removed from the specified entries,
+     * the convention is that entries which have been written successfully are to be removed from the entries parameter,
      * indicating that the write operation for the entries left in the map has failed or has not been attempted.
      *
      * @param entries the entries to be written
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if one or more of the writes fail
      */
     void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries);
 
@@ -53,7 +53,7 @@ public interface CacheWriter<K, V> {
      * Delete the cache entry from the store
      *
      * @param key the key that is used for the delete operation
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if delete fails
      */
     void delete(Object key);
 
@@ -61,13 +61,13 @@ public interface CacheWriter<K, V> {
     /**
      * Remove data and keys from the underlying store for the given collection of keys, if present. If this operation fails
      * (by throwing an exception) after a partial success, the convention is that keys which have been erased successfully
-     * are to be removed from the specified keys, indicating that the erase operation for the keys left in the collection
+     * are to be removed from the keys parameter, indicating that the erase operation for the keys left in the collection
      * has failed or has not been attempted.
      * <p/>
      * Expiry of a cache entry is not a delete hence will not cause this method to be invoked.
      *
      * @param keys the keys for entries that have to be removed from the cache
-     * @throws CacheException if ????? TODO describe when
+     * @throws CacheException if one or more deletes fail
      */
     void deleteAll(Collection<?> keys);
 

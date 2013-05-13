@@ -140,15 +140,4 @@ public interface CacheMXBean {
      */
     Mode getTransactionMode();
 
-    /**
-     * todo ExpiryPolicy is not an OpenType
-     * Gets the {@link ExpiryPolicy} to be used for caches.
-     * <p/>
-     * The default value is {@link ExpiryPolicy#DEFAULT}.
-     *
-     * @return the {@link ExpiryPolicy} (must not be <code>null</code>)
-     */
-    //ExpiryPolicy getExpiryPolicyFactory();
-
-
 }
