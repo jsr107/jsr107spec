@@ -28,7 +28,8 @@ import java.util.EventListener;
  *     <li>are fired after the entry is mutated in the cache</li>
  *     <li>if synchronous are fired, for a given key, in the order in which events occur</li>
  *     <li>block the calling thread until the listener returns if the listener was registered as synchronous</li>
- *     <li>which are asynchronous iterate through multiple events with an undefined ordering</li>
+ *     <li>which are asynchronous iterate through multiple events with an undefined ordering, except that events on the same key
+ *     are in the the order in which the events occur.</li>
  * </ul>
  * A synchronous listener is not permitted to mutate the cache it is listening on.
  * <p/>

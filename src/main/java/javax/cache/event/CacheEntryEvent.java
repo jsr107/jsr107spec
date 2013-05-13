@@ -18,12 +18,15 @@ import java.util.EventObject;
  */
 public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V>, Cache.MutatedEntry<K, V> {
 
+    private EventType eventType;
+
     /**
      * Constructs a cache entry event from a given cache as source
      * @param source the cache that originated the event
      */
-    public CacheEntryEvent(Cache source) {
+    public CacheEntryEvent(Cache source, EventType eventType) {
         super(source);
+        this.eventType = eventType;
     }
 
     /**
@@ -40,4 +43,12 @@ public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache
      * @return true if the old value is populated
      */
     public abstract boolean isOldValueAvailable();
+
+    /**
+     * Gets the event type of this event
+     * @return the event type.
+     */
+    public final EventType getEventType() {
+        return eventType;
+    }
 }
