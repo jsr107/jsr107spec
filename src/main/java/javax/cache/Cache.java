@@ -668,7 +668,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * <p/>
      * However multiple EntryProcessors can be execute against the same key. For example an EntryProcessor
      * might be a composite of entry processors or a chain of entry processors. The outermost EntryProcessor
-     * will lock and unlock the entry. todo define this behaviour more thoroughly.
+     * will lock and unlock the entry.
      * <p/>
      * <h2>Statistics</h2>
      * Invocation of an entry processor is regarded as a get operation for statistics purposes.
