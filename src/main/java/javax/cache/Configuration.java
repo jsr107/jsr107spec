@@ -341,7 +341,7 @@ public interface Configuration<K, V> {
          */
         @Override
         public int hashCode() {
-            return ((Long)timeUnit.toMillis(durationAmount)).hashCode();
+            return timeUnit == null ? (int)durationAmount : ((Long)timeUnit.toMillis(durationAmount)).hashCode();
         }
     }
 }
