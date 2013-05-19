@@ -601,21 +601,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     }
 
     /**
-     * A Mutated Cache Entry that provides access to the old value.
-     */
-    public interface MutatedEntry<K, V> extends Entry<K, V> {
-
-        /**
-         * Returns the previous value, that of which existed prior to the
-         * modification of the Entry value.
-         *
-         * @return the previous value or <code>null</code> if there was no
-         *         previous value
-         */
-        V getOldValue();
-    }
-
-    /**
      * An accessor and mutator to the underlying Cache
      * @param <K>
      * @param <V>

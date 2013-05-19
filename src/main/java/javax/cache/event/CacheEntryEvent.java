@@ -16,7 +16,7 @@ import java.util.EventObject;
  * @param <V> the type of cached values
  * @since 1.0
  */
-public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V>, Cache.MutatedEntry<K, V> {
+public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V> {
 
     private EventType eventType;
 
@@ -36,6 +36,15 @@ public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache
     public final Cache getSource() {
         return (Cache) super.getSource();
     }
+
+    /**
+     * Returns the previous value, that of which existed prior to the
+     * modification of the Entry value.
+     *
+     * @return the previous value or <code>null</code> if there was no
+     *         previous value
+     */
+    public abstract V getOldValue();
 
     /**
      * Whether the old value is available.
