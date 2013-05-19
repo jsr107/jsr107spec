@@ -377,14 +377,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean replace(K key, V value);
 
     /**
-     * Atomically replaces the entry for a key only if currently mapped to some value.
+     * Atomically replaces the value for a given key if and only if there is a
+     * value currently mapped by the key.
      * <p/>
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key)) {
-     *       V value = cache.get(key, value);
+     *       V oldValue = cache.get(key);
      *       cache.put(key, value);
-     *       return value;
+     *       return oldValue;
      *   } else {
      *       return null;
      *   }</pre>
