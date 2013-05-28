@@ -31,7 +31,8 @@ import java.util.EventListener;
  *     <li>which are asynchronous iterate through multiple events with an undefined ordering, except that events on the same key
  *     are in the the order in which the events occur.</li>
  * </ul>
- * A synchronous listener is not permitted to mutate the cache it is listening on.
+ * A listener which mutates a cache on the CacheManager may cause a deadlock. Detection and response to deadlocks
+ * is implementation specific.
  * <p/>
  * A listener on a transactional cache is executed orthogonally to the transaction. If synchronous it is executed after the mutation
  * and not after the transaction commits, and if asynchronous the timing is undefined. A listener which throws an exception will not affect
