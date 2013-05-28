@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.Cache.Entry;
-import javax.cache.Cache.MutatedEntry;
 import javax.cache.Configuration.Duration;
 import java.io.Serializable;
 
@@ -77,7 +76,7 @@ public interface ExpiryPolicy<K, V> {
      * @param entry    the cache entry that was modified
      * @return the duration until the entry expires
      */
-    Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry);
+    Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry);
 
     /**
      * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
@@ -131,7 +130,7 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry) {
             //modifying a cache entry has no affect on the current expiry duration
             return null;
         }
@@ -224,7 +223,7 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry) {
             //when a cache entry is modified, we return the specified expiry duration, 
             //ignoring the current expiry duration
             return expiryDuration;
@@ -309,7 +308,7 @@ public interface ExpiryPolicy<K, V> {
          * {@inheritDoc}
          */
         @Override
-        public Duration getTTLForModifiedEntry(MutatedEntry<? extends K, ? extends V> entry) {
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry) {
             return null;
         }
         

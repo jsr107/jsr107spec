@@ -377,14 +377,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
     boolean replace(K key, V value);
 
     /**
-     * Atomically replaces the entry for a key only if currently mapped to some value.
+     * Atomically replaces the value for a given key if and only if there is a
+     * value currently mapped by the key.
      * <p/>
      * This is equivalent to
      * <pre>
      *   if (cache.containsKey(key)) {
-     *       V value = cache.get(key, value);
+     *       V oldValue = cache.get(key);
      *       cache.put(key, value);
-     *       return value;
+     *       return oldValue;
      *   } else {
      *       return null;
      *   }</pre>
@@ -598,21 +599,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
          * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
          */
         <T> T unwrap(Class<T> clazz);
-    }
-
-    /**
-     * A Mutated Cache Entry that provides access to the old value.
-     */
-    public interface MutatedEntry<K, V> extends Entry<K, V> {
-
-        /**
-         * Returns the previous value, that of which existed prior to the
-         * modification of the Entry value.
-         *
-         * @return the previous value or <code>null</code> if there was no
-         *         previous value
-         */
-        V getOldValue();
     }
 
     /**

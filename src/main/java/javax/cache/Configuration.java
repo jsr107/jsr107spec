@@ -235,20 +235,28 @@ public interface Configuration<K, V> {
          */
         public Duration(TimeUnit timeUnit, long durationAmount) {
             if (timeUnit == null) {
-                throw new NullPointerException();
+                if (durationAmount == 0) {
+                    //allow creation of an Eternal Duration
+                    this.timeUnit = null;
+                    this.durationAmount = 0;
+                } else {
+                    throw new NullPointerException();
+                }
+
+            } else {
+                switch (timeUnit) {
+                    case NANOSECONDS:
+                    case MICROSECONDS:
+                        throw new IllegalArgumentException("Must specify a TimeUnit of milliseconds or higher.");
+                    default:
+                        this.timeUnit = timeUnit;
+                        break;
+                }
+                if (durationAmount < 0) {
+                    throw new IllegalArgumentException("Cannot specify a negative durationAmount.");
+                }
+                this.durationAmount = durationAmount;
             }
-            switch (timeUnit) {
-                case NANOSECONDS:
-                case MICROSECONDS:
-                    throw new IllegalArgumentException("Must specify a TimeUnit of milliseconds or higher.");
-                default:
-                    this.timeUnit = timeUnit;
-                    break;
-            }
-            if (durationAmount < 0) {
-                throw new IllegalArgumentException("Cannot specify a negative durationAmount.");
-            }
-            this.durationAmount = durationAmount;
         }
 
         /**
@@ -341,7 +349,7 @@ public interface Configuration<K, V> {
          */
         @Override
         public int hashCode() {
-            return ((Long)timeUnit.toMillis(durationAmount)).hashCode();
+            return timeUnit == null ? (int)durationAmount : ((Long)timeUnit.toMillis(durationAmount)).hashCode();
         }
     }
 }
