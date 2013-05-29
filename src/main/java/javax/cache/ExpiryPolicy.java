@@ -20,7 +20,6 @@ import java.io.Serializable;
  * This {@link Duration} is often called a "time-to-live", commonly abbreviated 
  * to simply "TTL".
  *
- * todo Add Created and Touched
  * todo rename TTL to Expiry
  * todo rename Default to Eternal
  *
@@ -83,7 +82,101 @@ public interface ExpiryPolicy<K, V> {
     Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry);
 
     /**
-     * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
+     * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
+     * of a Cache Entry based on when it was created. An update does not reset
+     * the expiry time.
+     *
+     * @param <K> the type of cache keys
+     * @param <V> the type of cache values
+     */
+    public static final class Created<K, V> implements ExpiryPolicy<K, V>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305291023L;
+
+        /**
+         * The {@link Duration} a Cache Entry should be available before it expires.
+         */
+        private Duration expiryDuration;
+
+        /**
+         * Constructs an {@link Created} {@link ExpiryPolicy}.
+         *
+         * @param expiryDuration the {@link Duration} a Cache Entry should exist be
+         *                       before it expires after being modified
+         */
+        public Created(Duration expiryDuration) {
+            this.expiryDuration = expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForCreatedEntry(Entry<? extends K, ? extends V> entry) {
+            //for newly created entries we use the specified expiry duration
+            return expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry) {
+            //accessing a cache entry has no affect on the current expiry duration
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry) {
+            //accessing a cache entry has no affect on the current expiry duration
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((expiryDuration == null) ? 0 : expiryDuration.hashCode());
+            return result;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!(obj instanceof Created)) {
+                return false;
+            }
+            Created<?, ?> other = (Created<?, ?>) obj;
+            if (expiryDuration == null) {
+                if (other.expiryDuration != null) {
+                    return false;
+                }
+            } else if (!expiryDuration.equals(other.expiryDuration)) {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    /**
+     * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
      * of a Cache Entry based on the last time it was accessed. Accessed
      * does not include a cache update.
      *
@@ -178,7 +271,7 @@ public interface ExpiryPolicy<K, V> {
     }
 
     /**
-     * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
+     * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
      * of a Cache Entry based on the last time it was modified. Modified
      * includes created and updated.
      * 
@@ -271,7 +364,101 @@ public interface ExpiryPolicy<K, V> {
             return true;
         }
     }
-    
+
+    /**
+     * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
+     * of a Cache Entry based on when it was last touched. A touch includes
+     * creation, update or access.
+     *
+     * @param <K> the type of cache keys
+     * @param <V> the type of cache values
+     */
+    public static final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305291023L;
+
+        /**
+         * The {@link Duration} a Cache Entry should be available before it expires.
+         */
+        private Duration expiryDuration;
+
+        /**
+         * Constructs an {@link Touched} {@link ExpiryPolicy}.
+         *
+         * @param expiryDuration the {@link Duration} a Cache Entry should exist be
+         *                       before it expires after being modified
+         */
+        public Touched(Duration expiryDuration) {
+            this.expiryDuration = expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForCreatedEntry(Entry<? extends K, ? extends V> entry) {
+            //for newly created entries we use the specified expiry duration.
+            return expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForAccessedEntry(Entry<? extends K, ? extends V> entry) {
+            //accessing a cache entry resets the duration.
+            return expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Duration getTTLForModifiedEntry(Entry<? extends K, ? extends V> entry) {
+            //accessing a cache entry resets the duration.
+            return expiryDuration;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((expiryDuration == null) ? 0 : expiryDuration.hashCode());
+            return result;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!(obj instanceof Touched)) {
+                return false;
+            }
+            Touched<?, ?> other = (Touched<?, ?>) obj;
+            if (expiryDuration == null) {
+                if (other.expiryDuration != null) {
+                    return false;
+                }
+            } else if (!expiryDuration.equals(other.expiryDuration)) {
+                return false;
+            }
+            return true;
+        }
+    }
+
     /**
      * The default {@link ExpiryPolicy} specifies that Cache Entries
      * won't expire.  This however doesn't mean they won't be expired if an
