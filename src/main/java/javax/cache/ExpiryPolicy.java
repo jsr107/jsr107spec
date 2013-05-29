@@ -20,6 +20,8 @@ import java.io.Serializable;
  * This {@link Duration} is often called a "time-to-live", commonly abbreviated 
  * to simply "TTL".
  *
+ * todo Add Created and Touched
+ *
  * @param <K> the type of keys
  * @param <V> the type of values
  * 
@@ -80,8 +82,9 @@ public interface ExpiryPolicy<K, V> {
 
     /**
      * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
-     * of a Cache Entry based on the last time it was accessed.
-     * 
+     * of a Cache Entry based on the last time it was accessed. Accessed
+     * does not include a cache update.
+     *
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
      */
@@ -174,7 +177,8 @@ public interface ExpiryPolicy<K, V> {
 
     /**
      * A {@link ExpiryPolicy} that defines the expiry {@link Duration}
-     * of a Cache Entry based on the last time it was modified.
+     * of a Cache Entry based on the last time it was modified. Modified
+     * includes created and updated.
      * 
      * @param <K> the type of cache keys
      * @param <V> the type of cache values
