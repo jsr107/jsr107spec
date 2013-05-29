@@ -21,6 +21,8 @@ import java.io.Serializable;
  * to simply "TTL".
  *
  * todo Add Created and Touched
+ * todo rename TTL to Expiry
+ * todo rename Default to Eternal
  *
  * @param <K> the type of keys
  * @param <V> the type of values
