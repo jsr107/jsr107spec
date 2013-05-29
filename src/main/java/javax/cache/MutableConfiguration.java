@@ -36,6 +36,16 @@ import java.util.ArrayList;
 public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
     /**
+     * The type of keys for {@link Cache}s configured with this {@link Configuration}.
+     */
+    protected Class<K> keyType;
+
+    /**
+     * The type of values for {@link Cache}s configured with this {@link Configuration}.
+     */
+    protected Class<V> valueType;
+
+    /**
      * The {@link CacheEntryListenerRegistration}s for the {@link Configuration}.
      */
     protected ArrayList<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations;
@@ -96,10 +106,22 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     protected boolean isManagementEnabled;
 
     /**
-     * Constructs an {@link MutableConfiguration} with the standard
-     * default values.
+     * Constructs a default {@link MutableConfiguration}.
      */
     public MutableConfiguration() {
+        this(null, null);
+    }
+
+    /**
+     * Constructs default {@link MutableConfiguration} for {@link Cache}s
+     * with specific key and value types.
+     *
+     * @param keyType    the required type of keys
+     * @param valueType  the required type of values
+     */
+    public MutableConfiguration(Class<K> keyType, Class<V> valueType) {
+        this.keyType = keyType;
+        this.valueType = valueType;
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
         this.cacheLoaderFactory = null;
         this.cacheWriterFactory = null;
@@ -108,43 +130,25 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
         this.isWriteThrough = false;
         this.isStatisticsEnabled = false;
         this.isStoreByValue = true;
+        this.isManagementEnabled = false;
         this.isTransactionsEnabled = false;
         this.txnIsolationLevel = IsolationLevel.NONE;
         this.txnMode = Mode.NONE;
     }
-    
+
     /**
-     * Constructs a {@link MutableConfiguration} based on a set of parameters.
-     * 
-     * @param cacheEntryListenerRegistrations the {@link CacheEntryListenerRegistration}s
-     * @param cacheLoaderFactory              the {@link CacheLoader} {@link Factory}
-     * @param cacheWriterFactory              the {@link CacheWriter} {@link Factory}
-     * @param expiryPolicyFactory             the {@link ExpiryPolicy} {@link Factory}
-     * @param isReadThrough                   is read-through caching supported
-     * @param isWriteThrough                  is write-through caching supported
-     * @param isStatisticsEnabled             are statistics enabled
-     * @param isStoreByValue                  <code>true</code> if the "store-by-value" more
-     *                                        or <code>false</code> for "store-by-reference"
-     * @param isTransactionsEnabled           <code>true</code> if transactions are enabled                                       
-     * @param txnIsolationLevel               the {@link IsolationLevel}
-     * @param txnMode                         the {@link Mode}
+     * A copy-constructor for a {@link MutableConfiguration}.
+     *
+     * @param configuration  the {@link Configuration} from which to copy
      */
-    public MutableConfiguration(
-            Iterable<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations,
-            Factory<CacheLoader<K, V>> cacheLoaderFactory,
-            Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory,
-            Factory<ExpiryPolicy<? super K, ? super V>> expiryPolicyFactory,
-            boolean isReadThrough,
-            boolean isWriteThrough,
-            boolean isStatisticsEnabled,
-            boolean isStoreByValue,
-            boolean isTransactionsEnabled,
-            IsolationLevel txnIsolationLevel,
-            Mode txnMode) {
-        
+    public MutableConfiguration(Configuration<K, V> configuration) {
+
+        this.keyType = configuration.getKeyType();
+        this.valueType = configuration.getValueType();
+
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
         
-        for (CacheEntryListenerRegistration<? super K, ? super V> r : cacheEntryListenerRegistrations) {
+        for (CacheEntryListenerRegistration<? super K, ? super V> r : configuration.getCacheEntryListenerRegistrations()) {
             SimpleCacheEntryListenerRegistration<K, V> registration = 
                 new SimpleCacheEntryListenerRegistration<K, V>(r.getCacheEntryListener(), 
                                                                r.getCacheEntryFilter(), 
@@ -154,44 +158,69 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
             this.cacheEntryListenerRegistrations.add(registration);
         }
         
-        this.cacheLoaderFactory = cacheLoaderFactory;
-        this.cacheWriterFactory = cacheWriterFactory;
+        this.cacheLoaderFactory = configuration.getCacheLoaderFactory();
+        this.cacheWriterFactory = configuration.getCacheWriterFactory();
 
-        if (expiryPolicyFactory == null) {
+        if (configuration.getExpiryPolicyFactory() == null) {
             this.expiryPolicyFactory = ExpiryPolicy.Default.<K, V>getFactory();
         } else {
-            this.expiryPolicyFactory = expiryPolicyFactory;
+            this.expiryPolicyFactory = configuration.getExpiryPolicyFactory();
         }
         
-        this.isReadThrough = isReadThrough;
-        this.isWriteThrough = isWriteThrough;
+        this.isReadThrough = configuration.isReadThrough();
+        this.isWriteThrough = configuration.isWriteThrough();
         
-        this.isStatisticsEnabled = isStatisticsEnabled;
+        this.isStatisticsEnabled = configuration.isStatisticsEnabled();
         
-        this.isStoreByValue = isStoreByValue;
-        
-        this.isTransactionsEnabled = isTransactionsEnabled;
-        this.txnIsolationLevel = txnIsolationLevel;
-        this.txnMode = txnMode;
+        this.isStoreByValue = configuration.isStoreByValue();
+
+        this.isManagementEnabled = configuration.isManagementEnabled();
+
+        this.isTransactionsEnabled = configuration.isTransactionsEnabled();
+        this.txnIsolationLevel = configuration.getTransactionIsolationLevel();
+        this.txnMode = configuration.getTransactionMode();
     }
-    
+
     /**
-     * A copy-constructor for a {@link MutableConfiguration}.
-     * 
-     * @param configuration  the {@link Configuration} from which to copy
+     * {@inheritDoc}
      */
-    public MutableConfiguration(Configuration<K, V> configuration) {
-        this(configuration.getCacheEntryListenerRegistrations(), 
-             configuration.getCacheLoaderFactory(),
-             configuration.getCacheWriterFactory(),
-             configuration.getExpiryPolicyFactory(),
-             configuration.isReadThrough(), 
-             configuration.isWriteThrough(),
-             configuration.isStatisticsEnabled(), 
-             configuration.isStoreByValue(),
-             configuration.isTransactionsEnabled(),
-             configuration.getTransactionIsolationLevel(), 
-             configuration.getTransactionMode());
+    @Override
+    public Class<K> getKeyType() {
+        return keyType;
+    }
+
+    /**
+     * Sets the expected type of key values for a {@link Cache} configured with
+     * this {@link Configuration}.  Setting to <code>null</code> means type-safety
+     * checks are not required.
+     *
+     * @param keyType the expected key type
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
+     */
+    public MutableConfiguration<K, V> setKeyType(Class<K> keyType) {
+        this.keyType = keyType;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Class<V> getValueType() {
+        return valueType;
+    }
+
+    /**
+     * Sets the expected type of values for a {@link Cache} configured with
+     * this {@link Configuration}.  Setting to <code>null</code> means type-safety
+     * checks are not required.
+     *
+     * @param valueType the expected value type
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
+     */
+    public MutableConfiguration<K, V> setValueType(Class<V> valueType) {
+        this.valueType = valueType;
+        return this;
     }
 
     /**
@@ -211,6 +240,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      * @param requireOldValue       whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}.
      * @param cacheEntryEventFilter the {@link CacheEntryEventFilter}
      * @param synchronous           whether the caller is blocked until the listener invocation completes.
+     * @return the {@link MutableConfiguration} to permit fluent-style method calls
      */
     public MutableConfiguration<K, V> registerCacheEntryListener(
         CacheEntryListener<? super K, ? super V> cacheEntryListener,

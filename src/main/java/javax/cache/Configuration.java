@@ -34,6 +34,22 @@ import java.util.concurrent.TimeUnit;
 public interface Configuration<K, V> {
 
     /**
+     * Determines the required type of keys for {@link Cache}s configured with
+     * this {@link Configuration}.
+     *
+     * @return  the key type or <code>null</code> if the type is undefined
+     */
+    Class<K> getKeyType();
+
+    /**
+     * Determines the required type of values for {@link Cache}s configured with
+     * this {@link Configuration}.
+     *
+     * @return  the value type or <code>null</code> if the type is undefined
+     */
+    Class<V> getValueType();
+
+    /**
      * Determines if a {@link Cache} should operate in "read-through" mode.
      * <p/>
      * When in "read-through" mode, cache misses that occur due to cache entries

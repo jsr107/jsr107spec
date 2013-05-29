@@ -104,11 +104,46 @@ public interface CacheManager {
     <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration) throws IllegalArgumentException;
 
     /**
+     * Looks up a {@link Cache} given it's name and configured key and value types.
+     *
+     * Implementations must ensure that the key and value types are assignment
+     * compatible with the configured {@link Cache} prior to returning from
+     * this method.
+     *
+     * Implementations may further perform type checking on cache mutation and
+     * throw a ClassCastException if said checks fail.
+     *
+     * If key and value types have not configured (set to <code>null</code>) this
+     * method may still be used however the keyType and valueType must be
+     * {@link Object}.
+     *
+     * @param cacheName the name of the cache to look for
+     * @param keyType the expected type of the key
+     * @param valueType the expected type of the value
+     * @return the Cache or null if it does exist
+     * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
+     *         ClassCastException if the specified key and/or value types are incompatible
+     *                            with the configured cache
+     */
+    <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
+
+    /**
      * Looks up a {@link Cache} given it's name.
+     *
+     * This method should only be used when runtime type checking is not required.
+     *
+     * Implementations must check that no key and value types were specified
+     * when the cache was configured.
+     *
+     * If either the keyType or valueType of the configured cache are not their
+     * defaults then a ClassCastException
+     * is thrown.
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
      * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
+     * @throws ClassCastException if the {@link Cache} was configured with specific
+     *                            types
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 
@@ -147,7 +182,6 @@ public interface CacheManager {
      * @return true if the feature is supported
      */
     boolean isSupported(OptionalFeature optionalFeature);
-
 
     /**
      * Enables or disables statistics gathering for a cache at runtime.
