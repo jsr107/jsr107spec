@@ -19,7 +19,7 @@ import java.io.Serializable;
  * amount of time that must pass before a cache entry is considered expired.
  * This {@link Duration} is often called a "time-to-live", commonly abbreviated 
  * to simply "TTL".
- *  
+ *
  * @param <K> the type of keys
  * @param <V> the type of values
  * 
@@ -30,8 +30,8 @@ public interface ExpiryPolicy<K, V> {
     /**
      * Gets the time-to-live before the newly Cache.Entry is considered expired.
      * <p/>
-     * This method is called after a Cache.Entry is created, but before the said
-     * entry is added to a cache, to determine the {@link Duration} before the 
+     * This method is called by the caching implementation after a Cache.Entry is created, but before
+     * the said entry is added to a cache, to determine the {@link Duration} before the
      * said entry expires.  If a {@link Duration#ZERO} is returned the Cache.Entry is 
      * considered to be already expired and will not be added to the Cache.
      * <p/>
@@ -46,11 +46,11 @@ public interface ExpiryPolicy<K, V> {
     /**
      * Gets the time-to-live before the accessed Cache.Entry is considered expired.
      * <p/>
-     * This method is called after a Cache.Entry is accessed to determine the
-     * {@link Duration} before the said entry expires in the future.  If a 
+     * This method is called by the caching implementation after a Cache.Entry is accessed
+     * to determine the {@link Duration} before the said entry expires in the future.  If a
      * {@link Duration#ZERO} is returned the Cache.Entry will be considered 
      * expired for future access.  Returning <code>null</code> will result in
-     * no change to the current expiry {@link Duration}.
+     * no change to the previously understood expiry {@link Duration}.
      * <p/>
      * Should an exception occur while determining the Duration, an implementation
      * specific default Duration will be used.
@@ -64,11 +64,11 @@ public interface ExpiryPolicy<K, V> {
     /**
      * Gets the time-to-live before the modified Cache.Entry is considered expired.
      * <p/>
-     * This method is called after a Cache.Entry is modified to determine the
-     * {@link Duration} before the updated entry expires.  If a 
+     * This method is called by the caching implementation after a Cache.Entry is modified to
+     * determine the {@link Duration} before the updated entry expires.  If a
      * {@link Duration#ZERO} is returned the Cache.Entry is considered already
      * expired.  Returning <code>null</code> will result in no change to the
-     * current expiry {@link Duration}.
+     * previously understood expiry {@link Duration}.
      * <p/>
      * Should an exception occur while determining the Duration, an implementation
      * specific default Duration will be used.
