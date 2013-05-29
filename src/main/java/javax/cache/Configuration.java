@@ -37,7 +37,7 @@ public interface Configuration<K, V> {
      * Determines the required type of keys for {@link Cache}s configured with
      * this {@link Configuration}.
      *
-     * @return  the key type or <code>null</code> if the type is undefined
+     * @return the key type or <code>null</code> if the type is undefined
      */
     Class<K> getKeyType();
 

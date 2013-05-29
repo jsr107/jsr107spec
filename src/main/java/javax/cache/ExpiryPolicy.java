@@ -27,6 +27,7 @@ import java.io.Serializable;
  * @param <V> the type of values
  * 
  * @author Brian Oliver
+ * @author Greg Luck
  */
 public interface ExpiryPolicy<K, V> {
        

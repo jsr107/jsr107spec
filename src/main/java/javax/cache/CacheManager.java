@@ -104,7 +104,10 @@ public interface CacheManager {
     <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration) throws IllegalArgumentException;
 
     /**
-     * Looks up a {@link Cache} given it's name and configured key and value types.
+     * Looks up a {@link Cache} given it's name.
+     *
+     * This method is used with caches that were configured with runtime types for key and value.
+     * Use {@link #getCache(String)} for caches where these were not specified.
      *
      * Implementations must ensure that the key and value types are assignment
      * compatible with the configured {@link Cache} prior to returning from
@@ -112,10 +115,6 @@ public interface CacheManager {
      *
      * Implementations may further perform type checking on cache mutation and
      * throw a ClassCastException if said checks fail.
-     *
-     * If key and value types have not configured (set to <code>null</code>) this
-     * method may still be used however the keyType and valueType must be
-     * {@link Object}.
      *
      * @param cacheName the name of the cache to look for
      * @param keyType the expected type of the key
@@ -128,22 +127,21 @@ public interface CacheManager {
     <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
     /**
-     * Looks up a {@link Cache} given it's name.
+     * Looks up a {@link Cache}, given it's name.
      *
-     * This method should only be used when runtime type checking is not required.
+     * This method should only be used when runtime type checking was not configured.
+     * Use {@link #getCache(String, Class, Class)} to lookup caches that specify runtime types.
      *
      * Implementations must check that no key and value types were specified
-     * when the cache was configured.
-     *
-     * If either the keyType or valueType of the configured cache are not their
-     * defaults then a ClassCastException
+     * when the cache was configured. If either the keyType or valueType of the
+     * configured cache are not their defaults then a ClassCastException
      * is thrown.
      *
      * @param cacheName the name of the cache to look for
      * @return the Cache or null if it does exist
      * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-     * @throws ClassCastException if the {@link Cache} was configured with specific
-     *                            types
+     * @throws ClassCastException if the {@link Cache} was configured with specific types
+     * @see #getCache(String, Class, Class)
      */
     <K, V> Cache<K, V> getCache(String cacheName);
 

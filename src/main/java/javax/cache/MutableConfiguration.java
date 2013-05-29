@@ -212,7 +212,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
     /**
      * Sets the expected type of values for a {@link Cache} configured with
-     * this {@link Configuration}.  Setting to <code>null</code> means type-safety
+     * this {@link Configuration}. Setting to <code>null</code> means type-safety
      * checks are not required.
      *
      * @param valueType the expected value type
