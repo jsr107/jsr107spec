@@ -12,15 +12,11 @@ import javax.cache.Configuration.Duration;
 import java.io.Serializable;
 
 /**
- * Defines functions to determine when cache entries will expire based on 
+ * Defines functions to determine when cache entries will expire based on
  * creation, access and modification operations.
  * <p/>
- * Each of the functions return a {@link Duration} that of which specifies the
+ * Each of the functions return a new {@link Duration} that of which specifies the
  * amount of time that must pass before a cache entry is considered expired.
- * This {@link Duration} is often called a "time-to-live", commonly abbreviated 
- * to simply "TTL".
- *
- * todo rename TTL to Expiry
  *
  * @param <K> the type of keys
  * @param <V> the type of values
@@ -42,7 +38,7 @@ public interface ExpiryPolicy<K, V> {
      * specific default Duration will be used.
      *
      * @param entry the cache entry that was created
-     * @return the duration until the entry expires
+     * @return the new duration until the entry expires
      */
     Duration getExpiryForCreatedEntry(Entry<? extends K, ? extends V> entry);
 
@@ -60,7 +56,7 @@ public interface ExpiryPolicy<K, V> {
      *
      * @param entry    the cache entry that was accessed
      *
-     * @return the duration until the entry expires
+     * @return the new duration until the entry expires
      */
     Duration getExpiryForAccessedEntry(Entry<? extends K, ? extends V> entry);
         
@@ -77,7 +73,7 @@ public interface ExpiryPolicy<K, V> {
      * specific default Duration will be used.
      *
      * @param entry    the cache entry that was modified
-     * @return the duration until the entry expires
+     * @return the new duration until the entry expires
      */
     Duration getExpiryForModifiedEntry(Entry<? extends K, ? extends V> entry);
 
