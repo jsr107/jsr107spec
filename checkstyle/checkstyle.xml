@@ -27,7 +27,7 @@
     <module name="StrictDuplicateCode">
         <property name="min" value="30"/>
     </module>
-    
+
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>
         <property name="severity" value="warning"/>
@@ -42,7 +42,8 @@
     </module>
     <!-- Make sure commons logging is not used -->
     <module name="RegexpSingleline">
-        <property name="format" value="import org\.apache\.commons\.logging\.Log;"/>
+        <property name="format"
+                  value="import org\.apache\.commons\.logging\.Log;"/>
     </module>
     <!-- Make sure we are using safe element.get methods everywhere -->
     <module name="RegexpSingleline">
@@ -56,7 +57,7 @@
 
     <module name="TreeWalker">
         <!--<property name="cacheFile" value="checkstyle.cache}"/>-->
-        
+
         <!--Java 5 checks-->
         <module name="MissingDeprecated">
             <property name="severity" value="warning"/>
@@ -267,7 +268,7 @@
         <module name="ArrayTypeStyle"/>
         <module name="TodoComment">
             <property name="format" value="WARNING"/>
-            </module>
+        </module>
         <module name="TrailingComment"/>
         <module name="UpperEll"/>
     </module>

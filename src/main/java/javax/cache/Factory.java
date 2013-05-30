@@ -17,15 +17,14 @@ package javax.cache;
  * other for equivalence.
  *
  * @param <T> the type of object constructed
- *
  * @author Brian Oliver
  */
 public interface Factory<T> {
 
-    /**
-     * Constructs and returns a fully configured instance of T.
-     *
-     * @return an instance of T.
-     */
-    T create();
+  /**
+   * Constructs and returns a fully configured instance of T.
+   *
+   * @return an instance of T.
+   */
+  T create();
 }

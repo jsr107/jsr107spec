@@ -24,12 +24,12 @@ import java.util.EventListener;
  * <p/>
  * Listeners:
  * <ul>
- *     <li>are called in the order in which they were registered</li>
- *     <li>are fired after the entry is mutated in the cache</li>
- *     <li>if synchronous are fired, for a given key, in the order in which events occur</li>
- *     <li>block the calling thread until the listener returns if the listener was registered as synchronous</li>
- *     <li>which are asynchronous iterate through multiple events with an undefined ordering, except that events on the same key
- *     are in the the order in which the events occur.</li>
+ * <li>are called in the order in which they were registered</li>
+ * <li>are fired after the entry is mutated in the cache</li>
+ * <li>if synchronous are fired, for a given key, in the order in which events occur</li>
+ * <li>block the calling thread until the listener returns if the listener was registered as synchronous</li>
+ * <li>which are asynchronous iterate through multiple events with an undefined ordering, except that events on the same key
+ * are in the the order in which the events occur.</li>
  * </ul>
  * A listener which mutates a cache on the CacheManager may cause a deadlock. Detection and response to deadlocks
  * is implementation specific.
@@ -40,14 +40,14 @@ import java.util.EventListener;
  * <p/>
  * A listener will be notified of events for the time it is registered. Listeners are not required to be durable.
  *
- * @see CacheEntryCreatedListener
- * @see CacheEntryUpdatedListener
- * @see CacheEntryRemovedListener
- * @see CacheEntryExpiredListener
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
+ * @see CacheEntryCreatedListener
+ * @see CacheEntryUpdatedListener
+ * @see CacheEntryRemovedListener
+ * @see CacheEntryExpiredListener
  * @since 1.0
  */
 public interface CacheEntryListener<K, V> extends EventListener {

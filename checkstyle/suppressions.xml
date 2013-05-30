@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE suppressions PUBLIC
-    "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
 
@@ -9,13 +10,15 @@
     <suppress checks="StrictDuplicateCode" files=".java" lines="1-6"/>
 
     <!--Includes Configuration -->
-    <suppress checks="StrictDuplicateCode" files="CacheMXBean.java" lines="34-150" />
-    <suppress checks="StrictDuplicateCode" files="Configuration.java" lines="34-150" />
+    <suppress checks="StrictDuplicateCode" files="CacheMXBean.java"
+              lines="34-150"/>
+    <suppress checks="StrictDuplicateCode" files="Configuration.java"
+              lines="34-150"/>
 
     <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
     <suppress checks="MagicNumber" files=""/>
-    
+
     <suppress checks="CyclomaticComplexity" files="MutableConfiguration.java"/>
     <suppress checks="NPathComplexity" files="MutableConfiguration.java"/>
 

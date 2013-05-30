@@ -17,16 +17,15 @@ import java.lang.annotation.Target;
  * If no arguments are marked all arguments are used. The exception is
  * for a method annotated with {@link CachePut} where the {@link CacheValue}
  * parameter is never included in the key
- * 
+ *
  * @author Rick Hightower
- * @since 1.0
- * 
  * @see CacheResult
  * @see CachePut
  * @see CacheRemoveEntry
  * @see CacheKeyInvocationContext#getKeyParameters()
+ * @since 1.0
  */
-@Target({ ElementType.PARAMETER })
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheKey {
 

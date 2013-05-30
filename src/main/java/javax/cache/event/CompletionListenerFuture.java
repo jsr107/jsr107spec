@@ -28,14 +28,14 @@ import java.util.concurrent.TimeoutException;
  * <p/>
  * For example:
  * <code>
- *     //create a completion future to use to wait for loadAll
- *     CompletionListenerFuture future = new CompletionListenerFuture();
- *
- *     //load the values for the set of keys, replacing those that may already exist in the cache
- *     cache.loadAll(keys, true, future);
- *
- *     //wait for the cache to load the keys
- *     future.get();
+ * //create a completion future to use to wait for loadAll
+ * CompletionListenerFuture future = new CompletionListenerFuture();
+ * <p/>
+ * //load the values for the set of keys, replacing those that may already exist in the cache
+ * cache.loadAll(keys, true, future);
+ * <p/>
+ * //wait for the cache to load the keys
+ * future.get();
  * </code>
  * <p/>
  * A CompletionListenerFuture may only be used once.  Attempts to use an instance
@@ -46,90 +46,90 @@ import java.util.concurrent.TimeoutException;
  */
 public class CompletionListenerFuture implements CompletionListener, Future<Void> {
 
-    private boolean isCompleted;
-    private Exception exception;
+  private boolean isCompleted;
+  private Exception exception;
 
-    /**
-     * Constructs a CompletionListenerFuture.
-     */
-    public CompletionListenerFuture() {
-        this.isCompleted = false;
-        this.exception = null;
+  /**
+   * Constructs a CompletionListenerFuture.
+   */
+  public CompletionListenerFuture() {
+    this.isCompleted = false;
+    this.exception = null;
+  }
+
+  @Override
+  public void onCompletion() {
+    synchronized (this) {
+      if (isCompleted) {
+        throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
+      } else {
+        isCompleted = true;
+        notify();
+      }
     }
+  }
 
-    @Override
-    public void onCompletion() {
-        synchronized (this) {
-            if (isCompleted) {
-                throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
-            } else {
-                isCompleted = true;
-                notify();
-            }
+  @Override
+  public void onException(Exception e) {
+    synchronized (this) {
+      if (isCompleted) {
+        throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
+      } else {
+        isCompleted = true;
+        exception = e;
+        notify();
+      }
+    }
+  }
+
+  @Override
+  public boolean cancel(boolean b) {
+    throw new UnsupportedOperationException("CompletionListenerFutures can't be cancelled");
+  }
+
+  @Override
+  public boolean isCancelled() {
+    return false;
+  }
+
+  @Override
+  public boolean isDone() {
+    synchronized (this) {
+      return isCompleted;
+    }
+  }
+
+  @Override
+  public Void get() throws InterruptedException, ExecutionException {
+    synchronized (this) {
+      if (!isCompleted) {
+        wait();
+      }
+
+      if (exception == null) {
+        return null;
+      } else {
+        throw new ExecutionException(exception);
+      }
+    }
+  }
+
+  @Override
+  public Void get(long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
+    synchronized (this) {
+      if (!isCompleted) {
+        timeUnit.timedWait(this, l);
+      }
+
+      if (isCompleted) {
+        if (exception == null) {
+          return null;
+        } else {
+          throw new ExecutionException(exception);
         }
+      } else {
+        throw new TimeoutException();
+      }
     }
-
-    @Override
-    public void onException(Exception e) {
-        synchronized (this) {
-            if (isCompleted) {
-                throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
-            } else {
-                isCompleted = true;
-                exception = e;
-                notify();
-            }
-        }
-    }
-
-    @Override
-    public boolean cancel(boolean b) {
-        throw new UnsupportedOperationException("CompletionListenerFutures can't be cancelled");
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return false;
-    }
-
-    @Override
-    public boolean isDone() {
-        synchronized (this) {
-            return isCompleted;
-        }
-    }
-
-    @Override
-    public Void get() throws InterruptedException, ExecutionException {
-        synchronized (this) {
-            if (!isCompleted) {
-                wait();
-            }
-
-            if (exception == null) {
-                return null;
-            } else {
-                throw new ExecutionException(exception);
-            }
-        }
-    }
-
-    @Override
-    public Void get(long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
-        synchronized (this) {
-            if (!isCompleted) {
-                timeUnit.timedWait(this, l);
-            }
-
-            if (isCompleted) {
-                if (exception == null) {
-                    return null;
-                } else {
-                    throw new ExecutionException(exception);
-                }
-            } else {
-                throw new TimeoutException();
-            }
-        }
-    }
+  }
 }

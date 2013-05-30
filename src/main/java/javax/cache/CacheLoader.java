@@ -23,25 +23,25 @@ import java.util.Map;
  */
 public interface CacheLoader<K, V> {
 
-    /**
-     * Loads an object. Application writers should implement this
-     * method to customize the loading of cache object. This method is called
-     * by the caching service when the requested object is not in the cache.
-     * <p/>
-     *
-     * @param key the key identifying the object being loaded
-     * @return The entry for the object that is to be stored in the cache.
-     */
-    Cache.Entry<K, V> load(K key);
+  /**
+   * Loads an object. Application writers should implement this
+   * method to customize the loading of cache object. This method is called
+   * by the caching service when the requested object is not in the cache.
+   * <p/>
+   *
+   * @param key the key identifying the object being loaded
+   * @return The entry for the object that is to be stored in the cache.
+   */
+  Cache.Entry<K, V> load(K key);
 
-    /**
-     * Loads multiple objects. Application writers should implement this
-     * method to customize the loading of cache object. This method is called
-     * by the caching service when the requested object is not in the cache.
-     * <p/>
-     *
-     * @param keys keys identifying the values to be loaded
-     * @return A Map of objects that are to be stored in the cache.
-     */
-    Map<K, V> loadAll(Iterable<? extends K> keys);
+  /**
+   * Loads multiple objects. Application writers should implement this
+   * method to customize the loading of cache object. This method is called
+   * by the caching service when the requested object is not in the cache.
+   * <p/>
+   *
+   * @param keys keys identifying the values to be loaded
+   * @return A Map of objects that are to be stored in the cache.
+   */
+  Map<K, V> loadAll(Iterable<? extends K> keys);
 }

@@ -15,13 +15,13 @@ package javax.cache;
  */
 public enum OptionalFeature {
 
-    /**
-     * Implementation supports XA and Local Transactions
-     */
-    TRANSACTIONS,
+  /**
+   * Implementation supports XA and Local Transactions
+   */
+  TRANSACTIONS,
 
-    /**
-     * Implementation supports store by reference
-     */
-    STORE_BY_REFERENCE
+  /**
+   * Implementation supports store by reference
+   */
+  STORE_BY_REFERENCE
 }

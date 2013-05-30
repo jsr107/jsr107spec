@@ -20,28 +20,28 @@ import java.io.Serializable;
  * representation of the key.
  *
  * @author Eric Dalquist
- * @since 1.0
  * @see CacheKeyGenerator
+ * @since 1.0
  */
 public interface GeneratedCacheKey extends Serializable {
 
-    /**
-     * The immutable hash code of the cache key.
-     * 
-     * @return The hash code of the object
-     * @see Object#hashCode()
-     */
-    @Override
-    int hashCode();
+  /**
+   * The immutable hash code of the cache key.
+   *
+   * @return The hash code of the object
+   * @see Object#hashCode()
+   */
+  @Override
+  int hashCode();
 
-    /**
-     * Compare this {@link GeneratedCacheKey} with another. If the two objects
-     * are equal their {@link #hashCode()} values MUST be equal as well.
-     *
-     * @param o The other object to compare to.
-     * @return true if the objects are equal
-     * @see Object#equals(Object)
-     */
-    @Override
-    boolean equals(Object o);
+  /**
+   * Compare this {@link GeneratedCacheKey} with another. If the two objects
+   * are equal their {@link #hashCode()} values MUST be equal as well.
+   *
+   * @param o The other object to compare to.
+   * @return true if the objects are equal
+   * @see Object#equals(Object)
+   */
+  @Override
+  boolean equals(Object o);
 }

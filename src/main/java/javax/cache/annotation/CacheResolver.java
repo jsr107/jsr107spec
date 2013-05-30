@@ -17,17 +17,17 @@ import java.lang.annotation.Annotation;
  * Implementations MUST be thread-safe.
  *
  * @author Eric Dalquist
- * @since 1.0
  * @see CacheResolverFactory
+ * @since 1.0
  */
 public interface CacheResolver {
 
-    /**
-     * Resolve the {@link Cache} to use for the {@link CacheInvocationContext}.
-     * 
-     * @param cacheInvocationContext The context data for the intercepted method invocation
-     * @return The {@link Cache} instance to be used by the intercepter
-     */
-    <K, V> Cache<K, V> resolveCache(CacheInvocationContext<? extends Annotation> cacheInvocationContext);
-    
+  /**
+   * Resolve the {@link Cache} to use for the {@link CacheInvocationContext}.
+   *
+   * @param cacheInvocationContext The context data for the intercepted method invocation
+   * @return The {@link Cache} instance to be used by the intercepter
+   */
+  <K, V> Cache<K, V> resolveCache(CacheInvocationContext<? extends Annotation> cacheInvocationContext);
+
 }

@@ -18,13 +18,13 @@ package javax.cache.event;
  */
 public interface CacheEntryRemovedListener<K, V> extends CacheEntryListener<K, V> {
 
-    /**
-     * Called after one or more entries have been removed. If no entry existed for a key an event is not raised for it.
-     *
-     * @param events The entries just removed.
-     * @throws CacheEntryListenerException if there is problem executing the listener
-     */
-    void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
+  /**
+   * Called after one or more entries have been removed. If no entry existed for a key an event is not raised for it.
+   *
+   * @param events The entries just removed.
+   * @throws CacheEntryListenerException if there is problem executing the listener
+   */
+  void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
 
 
 }

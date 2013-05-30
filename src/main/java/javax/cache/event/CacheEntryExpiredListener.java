@@ -18,14 +18,14 @@ package javax.cache.event;
  */
 public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener<K, V> {
 
-    /**
-     * Called after one or more entries have been expired by the cache. This is not necessarily when an entry is expired,
-     * but when the cache detects the expiry.
-     *
-     * @param events The entries just removed.
-     * @throws CacheEntryListenerException if there is problem executing the listener
-     */
-    void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
+  /**
+   * Called after one or more entries have been expired by the cache. This is not necessarily when an entry is expired,
+   * but when the cache detects the expiry.
+   *
+   * @param events The entries just removed.
+   * @throws CacheEntryListenerException if there is problem executing the listener
+   */
+  void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
 
 
 }

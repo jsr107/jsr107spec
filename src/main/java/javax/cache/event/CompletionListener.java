@@ -20,21 +20,20 @@ package javax.cache.event;
  * <p/>
  * A CompletionListener will use an implementation specific thread for the call.
  *
- * @see CompletionListenerFuture
- *
  * @author Brian Oliver
+ * @see CompletionListenerFuture
  */
 public interface CompletionListener {
 
-    /**
-     * Notifies the application that the operation completed successfully.
-     */
-    void onCompletion();
+  /**
+   * Notifies the application that the operation completed successfully.
+   */
+  void onCompletion();
 
-    /**
-     * Notifies the application that the operation failed.
-     *
-     * @param e the Exception that occurred
-     */
-    void onException(Exception e);
+  /**
+   * Notifies the application that the operation failed.
+   *
+   * @param e the Exception that occurred
+   */
+  void onException(Exception e);
 }

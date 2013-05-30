@@ -9,30 +9,31 @@ package javax.cache.event;
 
 /**
  * The type of event received by the listener.
+ *
  * @author Greg Luck
  */
 public enum EventType {
 
-    /**
-     * An event type indicating that the cache entry was created.
-     */
-    CREATED,
+  /**
+   * An event type indicating that the cache entry was created.
+   */
+  CREATED,
 
-    /**
-     * An event type indicating that the cache entry was updated. i.e. a previous mapping existed
-     */
-    UPDATED,
-
-
-    /**
-     * An event type indicating that the cache entry was removed.
-     */
-    REMOVED,
+  /**
+   * An event type indicating that the cache entry was updated. i.e. a previous mapping existed
+   */
+  UPDATED,
 
 
-    /**
-     * An event type indicating that the cache entry has expired.
-     */
-    EXPIRED
+  /**
+   * An event type indicating that the cache entry was removed.
+   */
+  REMOVED,
+
+
+  /**
+   * An event type indicating that the cache entry has expired.
+   */
+  EXPIRED
 
 }

@@ -19,13 +19,13 @@ import java.lang.annotation.Annotation;
  */
 public interface CacheKeyGenerator {
 
-    /**
-     * Called for each intercepted method invocation to generate a suitable
-     * cache key (as a {@link GeneratedCacheKey}) from the
-     * {@link CacheKeyInvocationContext} data.
-     *
-     * @param cacheKeyInvocationContext Information about the intercepted method invocation
-     * @return A non-null cache key for the invocation.
-     */
-    GeneratedCacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> cacheKeyInvocationContext);
+  /**
+   * Called for each intercepted method invocation to generate a suitable
+   * cache key (as a {@link GeneratedCacheKey}) from the
+   * {@link CacheKeyInvocationContext} data.
+   *
+   * @param cacheKeyInvocationContext Information about the intercepted method invocation
+   * @return A non-null cache key for the invocation.
+   */
+  GeneratedCacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> cacheKeyInvocationContext);
 }

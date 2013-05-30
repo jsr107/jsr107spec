@@ -14,13 +14,13 @@ import java.lang.annotation.Target;
 
 /**
  * Marks the parameter to be cached for a method annotated with {@link CachePut}.
- * 
+ *
  * @author Eric Dalquist
  * @author Rick Hightower
- * @since 1.0
  * @see CachePut
+ * @since 1.0
  */
-@Target({ ElementType.PARAMETER })
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheValue {
 
