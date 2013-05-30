@@ -25,7 +25,7 @@ import javax.cache.Cache.Entry;
 public interface ExpiryPolicy<K, V> {
        
     /**
-     * Gets the time-to-live before the newly Cache.Entry is considered expired.
+     * Gets the duration before the newly Cache.Entry is considered expired.
      * <p/>
      * This method is called by the caching implementation after a Cache.Entry is created, but before
      * the said entry is added to a cache, to determine the {@link Duration} before the
@@ -41,7 +41,7 @@ public interface ExpiryPolicy<K, V> {
     Duration getExpiryForCreatedEntry(Entry<? extends K, ? extends V> entry);
 
     /**
-     * Gets the time-to-live before the accessed Cache.Entry is considered expired.
+     * Gets the duration before the accessed Cache.Entry is considered expired.
      * <p/>
      * This method is called by the caching implementation after a Cache.Entry is accessed
      * to determine the {@link Duration} before the said entry expires in the future.  If a
@@ -59,7 +59,7 @@ public interface ExpiryPolicy<K, V> {
     Duration getExpiryForAccessedEntry(Entry<? extends K, ? extends V> entry);
         
     /**
-     * Gets the time-to-live before the modified Cache.Entry is considered expired.
+     * Gets the duration before the modified Cache.Entry is considered expired.
      * <p/>
      * This method is called by the caching implementation after a Cache.Entry is modified to
      * determine the {@link Duration} before the updated entry expires.  If a
