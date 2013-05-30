@@ -143,7 +143,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * This method will, asynchronously, load the specified objects into the
      * cache using the associated cache loader for the given keys.
      * <p/>
-     * If an entry for a key anlready exists in the Cache, a value will be loaded
+     * If an entry for a key already exists in the Cache, a value will be loaded
      * if and only if replaceExistingValues is true.   If no loader is configured
      * for the cache, no objects will be loaded.  If a problem is encountered
      * during the retrieving or loading of the objects, an exception provided to
@@ -153,6 +153,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * Implementations may choose to load multiple keys from the provided
      * iterable in parallel.  Iteration must not occur in parallel, thus
      * allow for non-thread-sage Iterables, but loading may.
+     * <p/>
+     * The thread on which the completion listener is called is implementation
+     * dependent. An implementation may also choose to serialize calls to
+     * different CompletionListeners rather than use a thread per
+     * CompletionListener.
      *
      * @param keys                   the keys to load
      * @param replaceExistingValues  when true existing values in the Cache will
@@ -161,7 +166,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      *
      * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is {@link #isClosed()}
-     * @throws CacheException        if there is a problem doing the load
+     * @throws CacheException        thrown if there is a problem performing the
+     *                               load. This may also be thrown on calling if
+     *                               their are insufficient threads available to
+     *                               perform the load.
      */
     void loadAll(Iterable<? extends K> keys, boolean replaceExistingValues, CompletionListener listener);
 
