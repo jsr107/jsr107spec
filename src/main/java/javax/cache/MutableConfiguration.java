@@ -20,6 +20,8 @@ package javax.cache;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerRegistration;
+import javax.cache.expiry.Eternal;
+import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     protected Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory;
     
     /**
-     * The {@link Factory} for the {@link ExpiryPolicy}.
+     * The {@link Factory} for the {@link javax.cache.expiry.ExpiryPolicy}.
      */
     protected Factory<ExpiryPolicy<? super K, ? super V>> expiryPolicyFactory;
     
@@ -125,7 +127,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
         this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
         this.cacheLoaderFactory = null;
         this.cacheWriterFactory = null;
-        this.expiryPolicyFactory = ExpiryPolicy.Eternal.<K, V>getFactory();
+        this.expiryPolicyFactory = Eternal.<K, V>getFactory();
         this.isReadThrough = false;
         this.isWriteThrough = false;
         this.isStatisticsEnabled = false;
@@ -162,7 +164,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
         this.cacheWriterFactory = configuration.getCacheWriterFactory();
 
         if (configuration.getExpiryPolicyFactory() == null) {
-            this.expiryPolicyFactory = ExpiryPolicy.Eternal.<K, V>getFactory();
+            this.expiryPolicyFactory = Eternal.<K, V>getFactory();
         } else {
             this.expiryPolicyFactory = configuration.getExpiryPolicyFactory();
         }
@@ -325,7 +327,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      */
     public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
         if (factory == null) {
-            this.expiryPolicyFactory = ExpiryPolicy.Eternal.<K, V>getFactory();
+            this.expiryPolicyFactory = Eternal.<K, V>getFactory();
         } else {
             this.expiryPolicyFactory = (Factory<ExpiryPolicy<? super K, ? super V>>)factory;
         }

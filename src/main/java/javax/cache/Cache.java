@@ -556,6 +556,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
      * During iteration, any entries that are a). read will have their appropriate
      * CacheEntryReadListeners notified and b). removed will have their appropriate
      * CacheEntryRemoveListeners notified.
+     * <p/>
+     * {@link java.util.Iterator#next()} may return null if the entry is no longer present.
+     *
      */
     Iterator<Cache.Entry<K, V>> iterator();
 
