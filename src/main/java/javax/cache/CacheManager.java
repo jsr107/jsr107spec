@@ -70,11 +70,13 @@ public interface CacheManager {
   Properties getProperties();
 
   /**
-   * Ensures that a named {@link Cache} is being managed by the {@link CacheManager}.
+   * Ensures that a named {@link Cache} is being managed by the
+   * {@link CacheManager}.
    * <p/>
    * If such a {@link Cache} is unknown to the {@link CacheManager}, one is
-   * created according to the provided {@link javax.cache.configuration.Configuration}
-   * after which it becomes managed by the {@link CacheManager}.
+   * created according to the provided
+   * {@link javax.cache.configuration.Configuration} after which it becomes
+   * managed by the {@link CacheManager}.
    * <p/>
    * If such a {@link Cache} is known to the {@link CacheManager}, it is returned,
    * however there is no guarantee that the returned {@link Cache} will be of the
@@ -111,7 +113,8 @@ public interface CacheManager {
    *                                       an unsupported feature
    * @throws NullPointerException          if the cache configuration is null
    */
-  <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration)
+  <K, V> Cache<K, V> configureCache(String cacheName,
+                                    Configuration<K, V> configuration)
       throws IllegalArgumentException;
 
   /**
