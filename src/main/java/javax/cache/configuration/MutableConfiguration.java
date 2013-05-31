@@ -29,7 +29,7 @@ import javax.cache.transaction.Mode;
 import java.util.ArrayList;
 
 /**
- * A simple mutable implementation of a {@link javax.cache.configuration.Configuration}.
+ * A simple mutable implementation of a {@link Configuration}.
  *
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
@@ -39,12 +39,14 @@ import java.util.ArrayList;
 public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
-   * The type of keys for {@link javax.cache.Cache}s configured with this {@link Configuration}.
+   * The type of keys for {@link javax.cache.Cache}s configured with this
+   * {@link Configuration}.
    */
   protected Class<K> keyType;
 
   /**
-   * The type of values for {@link javax.cache.Cache}s configured with this {@link Configuration}.
+   * The type of values for {@link javax.cache.Cache}s configured with this
+   * {@link Configuration}.
    */
   protected Class<V> valueType;
 
@@ -190,9 +192,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of keys and values for a {@link javax.cache.Cache} configured with
-   * this {@link Configuration}. Setting both to <code>null</code> means type-safety
-   * checks are not required.
+   * Sets the expected type of keys and values for a {@link javax.cache.Cache}
+   * configured with this {@link Configuration}. Setting both to
+   * <code>null</code> means type-safety checks are not required.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type
@@ -223,9 +225,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * add it is ignored.
    *
    * @param cacheEntryListener    the {@link CacheEntryListener}
-   * @param requireOldValue       whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}.
+   * @param requireOldValue       whether the old value is supplied to
+   *                              {@link javax.cache.event.CacheEntryEvent}.
    * @param cacheEntryEventFilter the {@link CacheEntryEventFilter}
-   * @param synchronous           whether the caller is blocked until the listener invocation completes.
+   * @param synchronous           whether the caller is blocked until the
+   *                              listener invocation completes.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> registerCacheEntryListener(
@@ -428,7 +432,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Sets whether statistics gathering is enabled on a cache.
    * <p/>
-   * Statistics may be enabled or disabled at runtime via {@link javax.cache.CacheManager#enableStatistics(String, boolean)}.
+   * Statistics may be enabled or disabled at runtime via
+   * {@link javax.cache.CacheManager#enableStatistics(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -449,7 +454,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Sets whether management is enabled on a cache.
    * <p/>
-   * Management may be enabled or disabled at runtime via {@link javax.cache.CacheManager#enableManagement(String, boolean)}.
+   * Management may be enabled or disabled at runtime via
+   * {@link javax.cache.CacheManager#enableManagement(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -471,7 +477,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Set if transactions should be enabled.
    *
-   * @param isTransactionsEnabled <code>true</code> if transactions should be enabled
+   * @param isTransactionsEnabled <code>true</code> if transactions should be
+   *                              enabled
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
@@ -593,8 +600,10 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
      *
      * @param listener           the {@link CacheEntryListener}
      * @param filter             the optional {@link CacheEntryEventFilter}
-     * @param isOldValueRequired if the old value is required for events with this listener
-     * @param isSynchronous      if the listener should block the thread causing the event
+     * @param isOldValueRequired if the old value is required for events with
+     *                           this listener
+     * @param isSynchronous      if the listener should block the thread causing
+     *                           the event
      */
     public SimpleCacheEntryListenerRegistration(CacheEntryListener<? super K, ? super V> listener,
                                                 CacheEntryEventFilter<? super K, ? super V> filter,
