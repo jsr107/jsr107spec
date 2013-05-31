@@ -110,19 +110,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * Constructs a default {@link MutableConfiguration}.
    */
   public MutableConfiguration() {
-    this(null, null);
-  }
-
-  /**
-   * Constructs default {@link MutableConfiguration} for {@link Cache}s
-   * with specific key and value types.
-   *
-   * @param keyType   the required type of keys
-   * @param valueType the required type of values
-   */
-  public MutableConfiguration(Class<K> keyType, Class<V> valueType) {
-    this.keyType = keyType;
-    this.valueType = valueType;
+    this.keyType = null;
+    this.valueType = null;
     this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
@@ -191,19 +180,6 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of key values for a {@link Cache} configured with
-   * this {@link Configuration}.  Setting to <code>null</code> means type-safety
-   * checks are not required.
-   *
-   * @param keyType the expected key type
-   * @return the {@link MutableConfiguration} to permit fluent-style method calls
-   */
-  public MutableConfiguration<K, V> setKeyType(Class<K> keyType) {
-    this.keyType = keyType;
-    return this;
-  }
-
-  /**
    * {@inheritDoc}
    */
   @Override
@@ -212,16 +188,23 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of values for a {@link Cache} configured with
-   * this {@link Configuration}. Setting to <code>null</code> means type-safety
+   * Sets the expected type of keys and values for a {@link Cache} configured with
+   * this {@link Configuration}. Setting both to <code>null</code> means type-safety
    * checks are not required.
    *
+   * @param keyType the expected key type
    * @param valueType the expected value type
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setValueType(Class<V> valueType) {
-    this.valueType = valueType;
-    return this;
+  public MutableConfiguration<K, V> setTypes(Class<K> keyType, Class<V> valueType) {
+    if ((keyType == null && valueType == null) ||
+        (keyType != null && valueType != null)) {
+      this.keyType = keyType;
+      this.valueType = valueType;
+      return this;
+    } else {
+      throw new IllegalArgumentException("Both keyType and valueType must be null or a type");
+    }
   }
 
   /**
