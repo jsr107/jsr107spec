@@ -29,7 +29,7 @@ import javax.cache.transaction.Mode;
 import java.util.ArrayList;
 
 /**
- * A simple mutable implementation of a {@link javax.cache.configuration.Configuration}.
+ * A simple mutable implementation of a {@link Configuration}.
  *
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
@@ -39,12 +39,14 @@ import java.util.ArrayList;
 public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
-   * The type of keys for {@link javax.cache.Cache}s configured with this {@link Configuration}.
+   * The type of keys for {@link javax.cache.Cache}s configured with this
+   * {@link Configuration}.
    */
   protected Class<K> keyType;
 
   /**
-   * The type of values for {@link javax.cache.Cache}s configured with this {@link Configuration}.
+   * The type of values for {@link javax.cache.Cache}s configured with this
+   * {@link Configuration}.
    */
   protected Class<V> valueType;
 
@@ -190,9 +192,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of keys and values for a {@link javax.cache.Cache}
-   * configured with this {@link Configuration}. Setting both to <code>null</code>
-   * means type-safety checks are not required.
+   * Sets the expected type of keys and values for a {@link javax.cache.Cache} configured with
+   * this {@link Configuration}. Setting both to <code>null</code> means type-safety
+   * checks are not required.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type
