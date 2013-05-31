@@ -270,12 +270,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheLoader}.
+   * Set the {@link Factory} for the {@link CacheLoader}.
    *
    * @param factory the {@link CacheLoader} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setCacheLoaderFactory(Factory<? extends CacheLoader<K, V>> factory) {
+  public MutableConfiguration<K, V> setCacheLoaderFactory(
+      Factory<? extends CacheLoader<K, V>> factory) {
+
     this.cacheLoaderFactory = (Factory<CacheLoader<K, V>>) factory;
     return this;
   }
@@ -289,12 +291,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheWriter}.
+   * Set the {@link Factory} for the {@link CacheWriter}.
    *
    * @param factory the {@link CacheWriter} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setCacheWriterFactory(Factory<? extends CacheWriter<? super K, ? super V>> factory) {
+  public MutableConfiguration<K, V> setCacheWriterFactory(
+      Factory<? extends CacheWriter<? super K, ? super V>> factory) {
+
     this.cacheWriterFactory = (Factory<CacheWriter<? super K, ? super V>>) factory;
     return this;
   }
@@ -313,7 +317,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * @param factory the {@link ExpiryPolicy} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
+  public MutableConfiguration<K, V> setExpiryPolicyFactory(
+      Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
+
     if (factory == null) {
       this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
     } else {
@@ -409,8 +415,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set if a configured cache should use "store-by-value" or "store-by-reference"
-   * semantics.
+   * Set if a configured cache should use "store-by-value" or
+   * "store-by-reference" semantics.
    *
    * @param isStoreByValue <code>true</code> if "store-by-value" is required,
    *                       <code>false</code> for "store-by-reference"
@@ -481,7 +487,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    *                              enabled
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
+  public MutableConfiguration<K, V> setTransactionsEnabled(
+      boolean isTransactionsEnabled) {
+    
     this.isTransactionsEnabled = isTransactionsEnabled;
     return this;
   }
