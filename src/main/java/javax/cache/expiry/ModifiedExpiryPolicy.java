@@ -7,18 +7,18 @@ import java.io.Serializable;
 
 /**
  * An {@link javax.cache.expiry.ExpiryPolicy} that defines the expiry {@link Duration}
- * of a Cache Entry based on when it was last touched. A touch includes
- * creation, update or access.
+ * of a Cache Entry based on the last time it was modified. Modified
+ * includes created and updated.
  *
  * @param <K> the type of cache keys
  * @param <V> the type of cache values
  */
-public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
+public final class ModifiedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
    */
-  public static final long serialVersionUID = 201305291023L;
+  public static final long serialVersionUID = 201305101602L;
 
   /**
    * The {@link Duration} a Cache Entry should be available before it expires.
@@ -26,22 +26,22 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
   private Duration expiryDuration;
 
   /**
-   * Constructs an {@link javax.cache.expiry.Touched} {@link javax.cache.expiry.ExpiryPolicy}.
+   * Constructs an {@link ModifiedExpiryPolicy} {@link javax.cache.expiry.ExpiryPolicy}.
    *
    * @param expiryDuration the {@link Duration} a Cache Entry should exist be
    *                       before it expires after being modified
    */
-  public Touched(Duration expiryDuration) {
+  public ModifiedExpiryPolicy(Duration expiryDuration) {
     this.expiryDuration = expiryDuration;
   }
 
   /**
-   * Obtains a {@link javax.cache.configuration.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
+   * Obtains a {@link javax.cache.configuration.Factory} for a Modified {@link javax.cache.expiry.ExpiryPolicy}.
    *
-   * @return a {@link javax.cache.configuration.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
+   * @return a {@link javax.cache.configuration.Factory} for a Modified {@link javax.cache.expiry.ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new javax.cache.expiry.Touched<K, V>(duration));
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new ModifiedExpiryPolicy<K, V>(duration));
   }
 
   /**
@@ -49,7 +49,7 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
    */
   @Override
   public Duration getExpiryForCreatedEntry(Cache.Entry<? extends K, ? extends V> entry) {
-    //for newly created entries we use the specified expiry duration.
+    //for newly created entries we use the specified expiry duration
     return expiryDuration;
   }
 
@@ -58,8 +58,8 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
    */
   @Override
   public Duration getExpiryForAccessedEntry(Cache.Entry<? extends K, ? extends V> entry) {
-    //accessing a cache entry resets the duration.
-    return expiryDuration;
+    //accessing a cache entry has no affect on the current expiry duration
+    return null;
   }
 
   /**
@@ -67,7 +67,8 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
    */
   @Override
   public Duration getExpiryForModifiedEntry(Cache.Entry<? extends K, ? extends V> entry) {
-    //accessing a cache entry resets the duration.
+    //when a cache entry is modified, we return the specified expiry duration,
+    //ignoring the current expiry duration
     return expiryDuration;
   }
 
@@ -93,10 +94,10 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
     if (obj == null) {
       return false;
     }
-    if (!(obj instanceof javax.cache.expiry.Touched)) {
+    if (!(obj instanceof ModifiedExpiryPolicy)) {
       return false;
     }
-    javax.cache.expiry.Touched<?, ?> other = (javax.cache.expiry.Touched<?, ?>) obj;
+    ModifiedExpiryPolicy<?, ?> other = (ModifiedExpiryPolicy<?, ?>) obj;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;

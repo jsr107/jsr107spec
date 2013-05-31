@@ -22,7 +22,7 @@ import javax.cache.CacheWriter;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerRegistration;
-import javax.cache.expiry.Eternal;
+import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
@@ -117,7 +117,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.cacheEntryListenerRegistrations = new ArrayList<CacheEntryListenerRegistration<? super K, ? super V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
-    this.expiryPolicyFactory = Eternal.<K, V>getFactory();
+    this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
     this.isReadThrough = false;
     this.isWriteThrough = false;
     this.isStatisticsEnabled = false;
@@ -154,7 +154,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.cacheWriterFactory = configuration.getCacheWriterFactory();
 
     if (configuration.getExpiryPolicyFactory() == null) {
-      this.expiryPolicyFactory = Eternal.<K, V>getFactory();
+      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
     } else {
       this.expiryPolicyFactory = configuration.getExpiryPolicyFactory();
     }
@@ -194,7 +194,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * this {@link Configuration}. Setting both to <code>null</code> means type-safety
    * checks are not required.
    *
-   * @param keyType the expected key type
+   * @param keyType   the expected key type
    * @param valueType the expected value type
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
@@ -311,7 +311,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    */
   public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
     if (factory == null) {
-      this.expiryPolicyFactory = Eternal.<K, V>getFactory();
+      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
     } else {
       this.expiryPolicyFactory = (Factory<ExpiryPolicy<? super K, ? super V>>) factory;
     }

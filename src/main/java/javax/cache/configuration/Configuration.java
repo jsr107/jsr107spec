@@ -192,7 +192,7 @@ public interface Configuration<K, V> {
    * Gets the {@link Factory} for the {@link javax.cache.expiry.ExpiryPolicy} to be used for caches.
    * <p/>
    * The default value is a {@link Factory} that will produce a
-   * {@link javax.cache.expiry.Eternal} instance.
+   * {@link javax.cache.expiry.EternalExpiryPolicy} instance.
    *
    * @return the {@link Factory} for {@link javax.cache.expiry.ExpiryPolicy} (must not be <code>null</code>)
    */

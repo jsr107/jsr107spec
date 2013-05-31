@@ -1,3 +1,10 @@
+/**
+ *  Copyright (c) 2011 Terracotta, Inc.
+ *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *
+ *  All rights reserved. Use is subject to license terms.
+ */
+
 package javax.cache.expiry;
 
 import javax.cache.Cache;
@@ -7,18 +14,18 @@ import java.io.Serializable;
 
 /**
  * An {@link javax.cache.expiry.ExpiryPolicy} that defines the expiry {@link Duration}
- * of a Cache Entry based on the last time it was modified. Modified
- * includes created and updated.
+ * of a Cache Entry based on when it was created. An update does not reset
+ * the expiry time.
  *
  * @param <K> the type of cache keys
  * @param <V> the type of cache values
  */
-public final class Modified<K, V> implements ExpiryPolicy<K, V>, Serializable {
+public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
    */
-  public static final long serialVersionUID = 201305101602L;
+  public static final long serialVersionUID = 201305291023L;
 
   /**
    * The {@link Duration} a Cache Entry should be available before it expires.
@@ -26,22 +33,22 @@ public final class Modified<K, V> implements ExpiryPolicy<K, V>, Serializable {
   private Duration expiryDuration;
 
   /**
-   * Constructs an {@link javax.cache.expiry.Modified} {@link javax.cache.expiry.ExpiryPolicy}.
+   * Constructs an {@link CreatedExpiryPolicy} {@link javax.cache.expiry.ExpiryPolicy}.
    *
    * @param expiryDuration the {@link Duration} a Cache Entry should exist be
    *                       before it expires after being modified
    */
-  public Modified(Duration expiryDuration) {
+  public CreatedExpiryPolicy(Duration expiryDuration) {
     this.expiryDuration = expiryDuration;
   }
 
   /**
-   * Obtains a {@link javax.cache.configuration.Factory} for a Modified {@link javax.cache.expiry.ExpiryPolicy}.
+   * Obtains a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
    *
-   * @return a {@link javax.cache.configuration.Factory} for a Modified {@link javax.cache.expiry.ExpiryPolicy}.
+   * @return a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new javax.cache.expiry.Modified<K, V>(duration));
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new CreatedExpiryPolicy<K, V>(duration));
   }
 
   /**
@@ -67,9 +74,8 @@ public final class Modified<K, V> implements ExpiryPolicy<K, V>, Serializable {
    */
   @Override
   public Duration getExpiryForModifiedEntry(Cache.Entry<? extends K, ? extends V> entry) {
-    //when a cache entry is modified, we return the specified expiry duration,
-    //ignoring the current expiry duration
-    return expiryDuration;
+    //accessing a cache entry has no affect on the current expiry duration
+    return null;
   }
 
   /**
@@ -94,10 +100,10 @@ public final class Modified<K, V> implements ExpiryPolicy<K, V>, Serializable {
     if (obj == null) {
       return false;
     }
-    if (!(obj instanceof javax.cache.expiry.Modified)) {
+    if (!(obj instanceof CreatedExpiryPolicy)) {
       return false;
     }
-    javax.cache.expiry.Modified<?, ?> other = (javax.cache.expiry.Modified<?, ?>) obj;
+    CreatedExpiryPolicy<?, ?> other = (CreatedExpiryPolicy<?, ?>) obj;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;

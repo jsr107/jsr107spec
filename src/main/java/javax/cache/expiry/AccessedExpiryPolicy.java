@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @param <K> the type of cache keys
  * @param <V> the type of cache values
  */
-public final class Accessed<K, V> implements ExpiryPolicy<K, V>, Serializable {
+public final class AccessedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Serializable {
 
 
   /**
@@ -34,12 +34,12 @@ public final class Accessed<K, V> implements ExpiryPolicy<K, V>, Serializable {
   private Duration expiryDuration;
 
   /**
-   * Constructs an {@link javax.cache.expiry.Accessed} {@link javax.cache.expiry.ExpiryPolicy}.
+   * Constructs an {@link AccessedExpiryPolicy} {@link javax.cache.expiry.ExpiryPolicy}.
    *
    * @param expiryDuration the {@link Duration} a Cache Entry should exist be
    *                       before it expires after being accessed
    */
-  public Accessed(Duration expiryDuration) {
+  public AccessedExpiryPolicy(Duration expiryDuration) {
     this.expiryDuration = expiryDuration;
   }
 
@@ -49,7 +49,7 @@ public final class Accessed<K, V> implements ExpiryPolicy<K, V>, Serializable {
    * @return a {@link javax.cache.configuration.Factory} for an Accessed {@link javax.cache.expiry.ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new javax.cache.expiry.Accessed<K, V>(duration));
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new AccessedExpiryPolicy<K, V>(duration));
   }
 
   /**
@@ -102,10 +102,10 @@ public final class Accessed<K, V> implements ExpiryPolicy<K, V>, Serializable {
     if (obj == null) {
       return false;
     }
-    if (!(obj instanceof javax.cache.expiry.Accessed)) {
+    if (!(obj instanceof AccessedExpiryPolicy)) {
       return false;
     }
-    javax.cache.expiry.Accessed<?, ?> other = (javax.cache.expiry.Accessed<?, ?>) obj;
+    AccessedExpiryPolicy<?, ?> other = (AccessedExpiryPolicy<?, ?>) obj;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;
