@@ -343,7 +343,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * @param mode  the {@link Mode}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
+  public MutableConfiguration<K, V> setTransactions(
+      IsolationLevel level, Mode mode) {
+
     this.txnIsolationLevel = level;
     this.txnMode = mode;
     return this;
@@ -489,7 +491,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    */
   public MutableConfiguration<K, V> setTransactionsEnabled(
       boolean isTransactionsEnabled) {
-    
+
     this.isTransactionsEnabled = isTransactionsEnabled;
     return this;
   }
