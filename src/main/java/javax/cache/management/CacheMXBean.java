@@ -39,12 +39,12 @@ public interface CacheMXBean {
    * not existing as a result of performing a "get" call via one of {@link javax.cache.Cache#get(Object)},
    * {@link javax.cache.Cache#getAll(java.util.Set)}, {@link javax.cache.Cache#getAndRemove(Object)} and/or
    * {@link javax.cache.Cache#getAndReplace(Object, Object)} will appropriately cause
-   * the configured {@link javax.cache.configuration.CacheLoader} to be invoked.
+   * the configured {@link javax.cache.integration.CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link javax.cache.Cache} is in "read-through" mode.
-   * @see javax.cache.configuration.CacheLoader
+   * @see javax.cache.integration.CacheLoader
    */
   boolean isReadThrough();
 
@@ -56,12 +56,12 @@ public interface CacheMXBean {
    * {@link javax.cache.Cache#removeAll()}, {@link javax.cache.Cache#getAndPut(Object, Object)}
    * {@link javax.cache.Cache#getAndRemove(Object)}, {@link javax.cache.Cache#getAndReplace(Object, Object)},
    * {@link javax.cache.Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor, Object...)}
-   * will appropriately cause the configured {@link javax.cache.configuration.CacheWriter} to be invoked.
+   * will appropriately cause the configured {@link javax.cache.integration.CacheWriter} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link javax.cache.Cache} is in "write-through" mode.
-   * @see javax.cache.configuration.CacheWriter
+   * @see javax.cache.integration.CacheWriter
    */
   boolean isWriteThrough();
 

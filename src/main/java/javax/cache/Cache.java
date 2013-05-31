@@ -86,13 +86,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
    * Gets an entry from the cache.
    * <p/>
    * If the cache is configured read-through, and get would return null because the entry
-   * is missing from the cache, the Cache's {@link javax.cache.configuration.CacheLoader} is called which will attempt
+   * is missing from the cache, the Cache's {@link javax.cache.integration.CacheLoader} is called which will attempt
    * to load the entry.
    * <p/>
    * <h1>Effects:</h1>
    * <ul>
    * <li>Expiry - updates expiry time based on the Configuration ExpiryPolicy.</li>
-   * <li>Read-Through - will use the {@link javax.cache.configuration.CacheLoader} if enabled and key not present in cache</li>
+   * <li>Read-Through - will use the {@link javax.cache.integration.CacheLoader} if enabled and key not present in cache</li>
    * </ul>
    *
    * @param key the key whose associated value is to be returned
@@ -109,7 +109,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
    * associated with the Collection of keys in argument "keys".
    * <p/>
    * If the cache is configured read-through, and a get would return null because an entry
-   * is missing from the cache, the Cache's {@link javax.cache.configuration.CacheLoader} is called which will attempt
+   * is missing from the cache, the Cache's {@link javax.cache.integration.CacheLoader} is called which will attempt
    * to load the entry. This is done for each key in the collection for which this is the case.
    * If an entry cannot be loaded for a given key, the key will not be present in the returned Map.
    * <p/>
@@ -435,7 +435,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
   void removeAll();
 
   /**
-   * Clears the contents of the cache, without notifying listeners or {@link javax.cache.configuration.CacheWriter}s.
+   * Clears the contents of the cache, without notifying listeners or {@link javax.cache.integration.CacheWriter}s.
    *
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the remove

@@ -22,6 +22,8 @@ import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
+import javax.cache.integration.CacheLoader;
+import javax.cache.integration.CacheWriter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 import java.util.ArrayList;
@@ -52,12 +54,12 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   protected ArrayList<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations;
 
   /**
-   * The {@link Factory} for the {@link CacheLoader}.
+   * The {@link Factory} for the {@link javax.cache.integration.CacheLoader}.
    */
   protected Factory<CacheLoader<K, V>> cacheLoaderFactory;
 
   /**
-   * The {@link Factory} for the {@link CacheWriter}.
+   * The {@link Factory} for the {@link javax.cache.integration.CacheWriter}.
    */
   protected Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory;
 

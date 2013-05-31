@@ -5,7 +5,7 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache.configuration;
+package javax.cache.integration;
 
 import javax.cache.Cache;
 import java.util.Map;

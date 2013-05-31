@@ -9,6 +9,8 @@ package javax.cache.configuration;
 
 import javax.cache.event.CacheEntryListenerRegistration;
 import javax.cache.expiry.ExpiryPolicy;
+import javax.cache.integration.CacheLoader;
+import javax.cache.integration.CacheWriter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 
@@ -53,7 +55,7 @@ public interface Configuration<K, V> {
    * not existing as a result of performing a "get" call via one of {@link javax.cache.Cache#get(Object)},
    * {@link javax.cache.Cache#getAll(java.util.Set)}, {@link javax.cache.Cache#getAndRemove(Object)} and/or
    * {@link javax.cache.Cache#getAndReplace(Object, Object)} will appropriately cause
-   * the configured {@link CacheLoader} to be invoked.
+   * the configured {@link javax.cache.integration.CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
@@ -70,7 +72,7 @@ public interface Configuration<K, V> {
    * {@link javax.cache.Cache#removeAll()}, {@link javax.cache.Cache#getAndPut(Object, Object)}
    * {@link javax.cache.Cache#getAndRemove(Object)}, {@link javax.cache.Cache#getAndReplace(Object, Object)},
    * {@link javax.cache.Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor, Object...)}
-   * will appropriately cause the configured {@link CacheWriter} to be invoked.
+   * will appropriately cause the configured {@link javax.cache.integration.CacheWriter} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
@@ -165,7 +167,7 @@ public interface Configuration<K, V> {
   Iterable<CacheEntryListenerRegistration<? super K, ? super V>> getCacheEntryListenerRegistrations();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheLoader}, if any.
+   * Gets the {@link Factory} for the {@link javax.cache.integration.CacheLoader}, if any.
    * <p/>
    * A CacheLoader should be configured for "Read Through" caches
    * to load values when a cache miss occurs using either the
@@ -173,16 +175,16 @@ public interface Configuration<K, V> {
    * <p/>
    * The default value is <code>null</code>.
    *
-   * @return the {@link Factory} for the {@link CacheLoader} or null if none has been set.
+   * @return the {@link Factory} for the {@link javax.cache.integration.CacheLoader} or null if none has been set.
    */
   Factory<CacheLoader<K, V>> getCacheLoaderFactory();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheWriter}, if any.
+   * Gets the {@link Factory} for the {@link javax.cache.integration.CacheWriter}, if any.
    * <p/>
    * The default value is <code>null</code>.
    *
-   * @return the {@link Factory} for the {@link CacheWriter} or null if none has been set.
+   * @return the {@link Factory} for the {@link javax.cache.integration.CacheWriter} or null if none has been set.
    */
   Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
 
