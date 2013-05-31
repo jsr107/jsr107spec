@@ -106,9 +106,9 @@ public interface CacheManager {
    * @throws IllegalStateException         if the CacheManager {@link #isClosed()}
    * @throws CacheException                if there was an error adding the cache
    *                                       to the CacheManager
-   * @throws IllegalArgumentException      when the {@link javax.cache.configuration.Configuration} is invalid
-   * @throws UnsupportedOperationException when the {@link javax.cache.configuration.Configuration} attempts
-   *                                       to use an unsupported feature
+   * @throws IllegalArgumentException      when the configuration is invalid
+   * @throws UnsupportedOperationException when the configuration specifies
+   *                                       an unsupported feature
    * @throws NullPointerException          if the cache configuration is null
    */
   <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration)
