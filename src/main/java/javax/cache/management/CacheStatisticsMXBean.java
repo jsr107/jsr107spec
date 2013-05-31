@@ -5,7 +5,7 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache;
+package javax.cache.management;
 
 import javax.management.MXBean;
 

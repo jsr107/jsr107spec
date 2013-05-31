@@ -4,7 +4,7 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache;
+package javax.cache.management;
 
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
@@ -33,35 +33,35 @@ import javax.management.MXBean;
 public interface CacheMXBean {
 
   /**
-   * Determines if a {@link Cache} should operate in read-through mode.
+   * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
    * <p/>
    * When in read-through mode, cache misses that occur due to cache entries
-   * not existing as a result of performing a "get" call via one of {@link Cache#get(Object)},
-   * {@link Cache#getAll(java.util.Set)}, {@link Cache#getAndRemove(Object)} and/or
-   * {@link Cache#getAndReplace(Object, Object)} will appropriately cause
-   * the configured {@link CacheLoader} to be invoked.
+   * not existing as a result of performing a "get" call via one of {@link javax.cache.Cache#get(Object)},
+   * {@link javax.cache.Cache#getAll(java.util.Set)}, {@link javax.cache.Cache#getAndRemove(Object)} and/or
+   * {@link javax.cache.Cache#getAndReplace(Object, Object)} will appropriately cause
+   * the configured {@link javax.cache.CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
-   * @return <code>true</code> when a {@link Cache} is in "read-through" mode.
-   * @see CacheLoader
+   * @return <code>true</code> when a {@link javax.cache.Cache} is in "read-through" mode.
+   * @see javax.cache.CacheLoader
    */
   boolean isReadThrough();
 
   /**
-   * Determines if a {@link Cache} should operate in "write-through" mode.
+   * Determines if a {@link javax.cache.Cache} should operate in "write-through" mode.
    * <p/>
    * When in "write-through" mode, cache updates that occur as a result of performing
-   * "put" operations called via one of {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
-   * {@link javax.cache.Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
-   * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object, Object)},
-   * {@link Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor)}
-   * will appropriately cause the configured {@link CacheWriter} to be invoked.
+   * "put" operations called via one of {@link javax.cache.Cache#put(Object, Object)}, {@link javax.cache.Cache#getAndRemove(Object)},
+   * {@link javax.cache.Cache#removeAll()}, {@link javax.cache.Cache#getAndPut(Object, Object)}
+   * {@link javax.cache.Cache#getAndRemove(Object)}, {@link javax.cache.Cache#getAndReplace(Object, Object)},
+   * {@link javax.cache.Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor, Object...)}
+   * will appropriately cause the configured {@link javax.cache.CacheWriter} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
-   * @return <code>true</code> when a {@link Cache} is in "write-through" mode.
-   * @see CacheWriter
+   * @return <code>true</code> when a {@link javax.cache.Cache} is in "write-through" mode.
+   * @see javax.cache.CacheWriter
    */
   boolean isWriteThrough();
 

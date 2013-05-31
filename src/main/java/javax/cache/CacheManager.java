@@ -213,7 +213,7 @@ public interface CacheManager {
   void enableStatistics(String cacheName, boolean enabled);
 
   /**
-   * Controls whether management is enabled. If enabled the {@link CacheMXBean} for each cache is registered
+   * Controls whether management is enabled. If enabled the {@link javax.cache.management.CacheMXBean} for each cache is registered
    * in the platform MBean server. THe platform MBeanServer is obtained using {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
    * <p/>
    * Managment information includes the name and configuration information for the cache.
