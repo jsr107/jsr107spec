@@ -10,6 +10,11 @@ package javax.cache.expiry;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 /**
  * A {@link java.io.Serializable} duration of time.
  */
@@ -25,10 +30,47 @@ public class Duration implements Serializable {
    */
   public static final Duration ETERNAL = new Duration();
 
+
   /**
-   * ZERO (no time).
+   * One day
    */
-  public static final Duration ZERO = new Duration(TimeUnit.SECONDS, 0);
+  public static final Duration ONE_DAY = new Duration(DAYS, 1);
+
+  /**
+   * One hour
+   */
+  public static final Duration ONE_HOUR = new Duration(HOURS, 1);
+
+  /**
+   * Thirty minutes
+   */
+  public static final Duration THIRTY_MINUTES = new Duration(MINUTES, 30);
+
+  /**
+   * Twenty minutes
+   */
+  public static final Duration TWENTY_MINUTES = new Duration(MINUTES, 20);
+
+  /**
+   * Ten minutes
+   */
+  public static final Duration TEN_MINUTES = new Duration(MINUTES, 10);
+
+  /**
+   * Five minutes
+   */
+  public static final Duration FIVE_MINUTES = new Duration(MINUTES, 5);
+
+  /**
+   * One minute
+   */
+  public static final Duration ONE_MINUTE = new Duration(MINUTES, 1);
+
+
+  /**
+   * Zero (no time).
+   */
+  public static final Duration ZERO = new Duration(SECONDS, 0);
 
   /**
    * The unit of time to specify time in. The minimum time unit is milliseconds.
