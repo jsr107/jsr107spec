@@ -27,15 +27,6 @@ public class Duration implements Serializable {
 
   /**
    * ZERO (no time).
-   *
-   * One Day
-   * One Hour
-   * 30 Minutes
-   * 20 Minutes
-   * 10 minutes
-   * 5 minutes
-   * 1 minute
-   *
    */
   public static final Duration ZERO = new Duration(TimeUnit.SECONDS, 0);
 
