@@ -5,9 +5,10 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache;
+package javax.cache.configuration;
 
 
+import javax.cache.Cache;
 import java.util.Collection;
 
 /**
@@ -32,7 +33,7 @@ public interface CacheWriter<K, V> {
    * This method is intended to support both key/value creation and value update for a specific key.
    *
    * @param entry the entry to be written
-   * @throws CacheException if the write fails
+   * @throws javax.cache.CacheException if the write fails
    */
   void write(Cache.Entry<? extends K, ? extends V> entry);
 
@@ -43,7 +44,7 @@ public interface CacheWriter<K, V> {
    * indicating that the write operation for the entries left in the map has failed or has not been attempted.
    *
    * @param entries the entries to be written
-   * @throws CacheException if one or more of the writes fail
+   * @throws javax.cache.CacheException if one or more of the writes fail
    */
   void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries);
 
@@ -52,7 +53,7 @@ public interface CacheWriter<K, V> {
    * Delete the cache entry from the store
    *
    * @param key the key that is used for the delete operation
-   * @throws CacheException if delete fails
+   * @throws javax.cache.CacheException if delete fails
    */
   void delete(Object key);
 
@@ -66,7 +67,7 @@ public interface CacheWriter<K, V> {
    * Expiry of a cache entry is not a delete hence will not cause this method to be invoked.
    *
    * @param keys the keys for entries that have to be removed from the cache
-   * @throws CacheException if one or more deletes fail
+   * @throws javax.cache.CacheException if one or more deletes fail
    */
   void deleteAll(Collection<?> keys);
 

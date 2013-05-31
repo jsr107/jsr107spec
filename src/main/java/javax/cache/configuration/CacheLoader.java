@@ -5,13 +5,14 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache;
+package javax.cache.configuration;
 
+import javax.cache.Cache;
 import java.util.Map;
 
 /**
  * Used when a cache is read-through or when loading data into a cache via the
- * and {@link Cache#loadAll(Iterable, boolean, javax.cache.event.CompletionListener)} method.
+ * and {@link javax.cache.Cache#loadAll(Iterable, boolean, javax.cache.event.CompletionListener)} method.
  * <p/>
  * See {@link CacheWriter} which is the corollary for load used for write-through caching.
  *

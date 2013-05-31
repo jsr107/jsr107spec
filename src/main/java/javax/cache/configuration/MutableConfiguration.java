@@ -17,8 +17,6 @@
 
 package javax.cache.configuration;
 
-import javax.cache.CacheLoader;
-import javax.cache.CacheWriter;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerRegistration;
@@ -54,12 +52,12 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   protected ArrayList<CacheEntryListenerRegistration<? super K, ? super V>> cacheEntryListenerRegistrations;
 
   /**
-   * The {@link Factory} for the {@link javax.cache.CacheLoader}.
+   * The {@link Factory} for the {@link CacheLoader}.
    */
   protected Factory<CacheLoader<K, V>> cacheLoaderFactory;
 
   /**
-   * The {@link Factory} for the {@link javax.cache.CacheWriter}.
+   * The {@link Factory} for the {@link CacheWriter}.
    */
   protected Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory;
 
