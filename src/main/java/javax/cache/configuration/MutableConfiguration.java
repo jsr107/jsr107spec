@@ -190,9 +190,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of keys and values for a {@link javax.cache.Cache} configured with
-   * this {@link Configuration}. Setting both to <code>null</code> means type-safety
-   * checks are not required.
+   * Sets the expected type of keys and values for a {@link javax.cache.Cache}
+   * configured with this {@link Configuration}. Setting both to <code>null</code>
+   * means type-safety checks are not required.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type

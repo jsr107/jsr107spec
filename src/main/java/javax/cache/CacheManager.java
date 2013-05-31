@@ -171,7 +171,7 @@ public interface CacheManager {
    * @return an Iterable over the managed Caches
    * @throws UnsupportedOperationException if an attempt it made to remove an element
    */
-  Iterable<Cache<?, ?>> getCaches();
+  Iterable<String> getCacheNames();
 
   /**
    * Removes and closes a cache known to the CacheManager.
