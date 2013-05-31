@@ -70,33 +70,38 @@ public interface CacheManager {
   Properties getProperties();
 
   /**
-   * Ensures that a {@link Cache} conforming to the specified {@link javax.cache.configuration.Configuration}
-   * is being managed by the {@link CacheManager}.  If such a {@link Cache} is
-   * unknown to the {@link CacheManager}, one is created and configured according
-   * to the provided configuration, after which it becomes managed by the said
-   * {@link CacheManager}.
+   * Ensures that a named {@link Cache} is being managed by the {@link CacheManager}.
    * <p/>
-   * If such a {@link Cache} already exists, it is simply returned.
+   * If such a {@link Cache} is unknown to the {@link CacheManager}, one is
+   * created according to the provided {@link javax.cache.configuration.Configuration}
+   * after which it becomes managed by the {@link CacheManager}.
    * <p/>
-   * Importantly {@link javax.cache.configuration.Configuration}s provided to this method are always
-   * validated with in the context of the {@link CacheManager} implementation.
-   * For example:  Attempting use a {@link javax.cache.configuration.Configuration} requiring transactional
-   * support with an implementation that does not support transactions will result
-   * in an {@link UnsupportedOperationException}.
+   * If such a {@link Cache} is known to the {@link CacheManager}, it is returned,
+   * however there is no guarantee that the returned {@link Cache} will be of the
+   * same configuration as that which has been provided.
    * <p/>
-   * Note 1: Implementers of this method are required to make a copy of the provided
-   * {@link javax.cache.configuration.Configuration} so that it may be further used to configure and
-   * ensure other {@link Cache}s without causing side-effects.
+   * {@link javax.cache.configuration.Configuration}s provided to this method are
+   * always validated with in the context of the {@link CacheManager}.
    * <p/>
-   * Note 2: There's no requirement on the part of a developer to call this method
-   * for each {@link Cache} than an application may use.  This is simply because
-   * when instantiated a {@link CacheManager} may be pre-configured with one or more
-   * {@link Cache}s, thus meaning there's no requirement to "configure" them
-   * in an application.  In such circumstances a developer may simply call
-   * {@link #getCache(String)} to retrieve a pre-configured {@link Cache}.
+   * For example: Attempting use a {@link javax.cache.configuration.Configuration}
+   * requiring transactional support with an implementation that does not support
+   * transactions will result in an {@link UnsupportedOperationException}.
+   * <p/>
+   * Implementers of this method are required to make a copy of the provided
+   * {@link javax.cache.configuration.Configuration} so that it may be further
+   * used to configure other {@link Cache}s without causing side-effects.
+   * <p/>
+   * There's no requirement on the part of a developer to call this method for
+   * each {@link Cache} an application may use.  Implementations may support
+   * the use of declarative mechanisms to pre-configure {@link Cache}s, thus
+   * removing the requirement to "configure" them in an application.  In such
+   * circumstances a developer may simply call either the {@link #getCache(String)}
+   * or {@link #getCache(String, Class, Class)} methods to acquire a
+   * pre-configured {@link Cache}.
    *
-   * @param cacheName     the name of the cache
+   * @param cacheName     the name of the {@link Cache}
    * @param configuration the {@link javax.cache.configuration.Configuration}
+   *                      to use if the {@link Cache} is known
    * @return a configured {@link Cache}
    * @throws IllegalStateException         if the CacheManager {@link #isClosed()}
    * @throws CacheException                if there was an error adding the cache
@@ -116,9 +121,8 @@ public interface CacheManager {
    * key and value. Use {@link #getCache(String)} for caches where these were not
    * specified.
    * <p/>
-   * Implementations must ensure that the key and value types are assignment
-   * compatible with the configured {@link Cache} prior to returning from
-   * this method.
+   * Implementations must ensure that the key and value types are the same as
+   * those configured for the {@link Cache} prior to returning from this method.
    * <p/>
    * Implementations may further perform type checking on cache mutation and
    * throw a ClassCastException if said checks fail.
@@ -137,9 +141,9 @@ public interface CacheManager {
   /**
    * Looks up a {@link Cache}, given it's name.
    * <p/>
-   * This method should only be used when runtime type checking was not configured.
-   * Use {@link #getCache(String, Class, Class)} to lookup caches that specify
-   * runtime types.
+   * This method should only be used when runtime type checking was not configured
+   * with a cache.  Use {@link #getCache(String, Class, Class)} to lookup caches
+   * that were configured with specific runtime types.
    * <p/>
    * Implementations must check that no key and value types were specified
    * when the cache was configured. If either the keyType or valueType of the
@@ -157,8 +161,9 @@ public interface CacheManager {
 
   /**
    * Returns an Iterable over the caches managed by this CacheManager.
-   * The Iterable is immutable (iterator.remove will throw an IllegalStateException) and independent
-   * of the cache manager; if the caches managed by the cache manager change the Iterable is not affected
+   * The Iterable is immutable (iterator.remove will throw an IllegalStateException)
+   * and independent of the cache manager; if the caches managed by the cache
+   * manager change the Iterable is not affected
    *
    * @return an Iterable over the managed Caches
    * @throws UnsupportedOperationException if an attempt it made to remove an element
@@ -166,10 +171,10 @@ public interface CacheManager {
   Iterable<Cache<?, ?>> getCaches();
 
   /**
-   * Remove a cache from the CacheManager. The cache will be stopped.
+   * Removes and closes a cache known to the CacheManager.
    *
    * @param cacheName the cache name
-   * @return true if the cache was removed
+   * @return true if the cache was removed and closed
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws NullPointerException  if cacheName is null
    */
@@ -194,7 +199,8 @@ public interface CacheManager {
   /**
    * Enables or disables statistics gathering for a cache at runtime.
    * <p/>
-   * Each cache's statistics object must be registered with an ObjectName that is unique and has the following type and attributes:
+   * Each cache's statistics object must be registered with an ObjectName that
+   * is unique and has the following type and attributes:
    * <p/>
    * Type:
    * <code>javax.cache:type=CacheStatistics</code>
@@ -213,12 +219,16 @@ public interface CacheManager {
   void enableStatistics(String cacheName, boolean enabled);
 
   /**
-   * Controls whether management is enabled. If enabled the {@link javax.cache.management.CacheMXBean} for each cache is registered
-   * in the platform MBean server. THe platform MBeanServer is obtained using {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
+   * Controls whether management is enabled. If enabled the
+   * {@link javax.cache.management.CacheMXBean} for each cache is registered in
+   * the platform MBean server. THe platform MBeanServer is obtained using
+   * {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
    * <p/>
-   * Managment information includes the name and configuration information for the cache.
+   * Management information includes the name and configuration information for
+   * the cache.
    * <p/>
-   * Each cache's management object must be registered with an ObjectName that is unique and has the following type and attributes:
+   * Each cache's management object must be registered with an ObjectName that
+   * is unique and has the following type and attributes:
    * <p/>
    * Type:
    * <code>javax.cache:type=Cache</code>
