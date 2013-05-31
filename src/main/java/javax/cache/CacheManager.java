@@ -156,8 +156,8 @@ public interface CacheManager {
    * @param cacheName the name of the cache to look for
    * @return the Cache or null if it does exist
    * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-   * @throws ClassCastException    if the {@link Cache} was configured with
-   *                               specific types
+   * @throws IllegalArgumentException    if the {@link Cache} was configured with
+   *                               specific types, this method cannot be used
    * @see #getCache(String, Class, Class)
    */
   <K, V> Cache<K, V> getCache(String cacheName);
