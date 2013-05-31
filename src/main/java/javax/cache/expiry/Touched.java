@@ -1,8 +1,8 @@
 package javax.cache.expiry;
 
 import javax.cache.Cache;
-import javax.cache.Factories;
-import javax.cache.Factory;
+import javax.cache.configuration.FactoryBuilder;
+import javax.cache.configuration.Factory;
 import java.io.Serializable;
 
 /**
@@ -36,12 +36,12 @@ public final class Touched<K, V> implements ExpiryPolicy<K, V>, Serializable {
   }
 
   /**
-   * Obtains a {@link javax.cache.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
+   * Obtains a {@link javax.cache.configuration.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
    *
-   * @return a {@link javax.cache.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
+   * @return a {@link javax.cache.configuration.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
-    return new Factories.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new javax.cache.expiry.Touched<K, V>(duration));
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new javax.cache.expiry.Touched<K, V>(duration));
   }
 
   /**

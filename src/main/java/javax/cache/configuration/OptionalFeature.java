@@ -4,7 +4,7 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache;
+package javax.cache.configuration;
 
 /**
  * Optional features that may be present in an implementation.

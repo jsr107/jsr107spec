@@ -8,7 +8,7 @@
 package javax.cache.spi;
 
 import javax.cache.CacheManager;
-import javax.cache.OptionalFeature;
+import javax.cache.configuration.OptionalFeature;
 import java.net.URI;
 import java.util.Properties;
 

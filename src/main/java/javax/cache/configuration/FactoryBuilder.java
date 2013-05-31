@@ -4,22 +4,23 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache;
+package javax.cache.configuration;
 
 import java.io.Serializable;
 
 /**
- * This class exclusively defines static methods to aid in the construction
+ * This class defines static methods to aid in the construction
  * and manipulation of {@link Factory} instances.
  *
  * @author Brian Oliver
+ * @author Greg Luck
  */
-public final class Factories {
+public final class FactoryBuilder {
 
   /**
    * A private constructor to prevent instantiation.
    */
-  private Factories() {
+  private FactoryBuilder() {
     //deliberately empty - no instances allowed!
   }
 
@@ -34,7 +35,7 @@ public final class Factories {
    * @param <T>   the type of the instances produced by the {@link Factory}
    * @return a {@link Factory} for the specified clazz
    */
-  public static <T> Factory<T> of(Class<T> clazz) {
+  public static <T> Factory<T> factoryOf(Class<T> clazz) {
     return new ClassFactory<T>(clazz);
   }
 
@@ -46,7 +47,7 @@ public final class Factories {
    * @param <T>      the type of the instances returned
    * @return a {@link Factory} for the instance
    */
-  public static <T> Factory<T> of(T instance) {
+  public static <T> Factory<T> factoryOf(T instance) {
     return new SingletonFactory<T>(instance);
   }
 
@@ -120,7 +121,7 @@ public final class Factories {
   /**
    * A {@link Factory} that always returns a specific instance. ie: the
    * factory returns a singleton, regardless of the number of times
-   * {@link javax.cache.Factory#create()} is called.
+   * {@link Factory#create()} is called.
    *
    * @param <T> the type of the instance produced by the {@link Factory}
    */

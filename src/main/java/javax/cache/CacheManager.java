@@ -7,6 +7,8 @@
 
 package javax.cache;
 
+import javax.cache.configuration.Configuration;
+import javax.cache.configuration.OptionalFeature;
 import javax.cache.spi.CachingProvider;
 import javax.transaction.UserTransaction;
 import java.net.URI;
@@ -68,20 +70,22 @@ public interface CacheManager {
   Properties getProperties();
 
   /**
-   * Ensures that a {@link Cache} conforming to the specified {@link Configuration}
-   * is being managed by the {@link CacheManager}.  If such a {@link Cache} is unknown
-   * to the {@link CacheManager}, one is created and configured according to the provided
-   * configuration, after which it becomes managed by the said {@link CacheManager}.
+   * Ensures that a {@link Cache} conforming to the specified {@link javax.cache.configuration.Configuration}
+   * is being managed by the {@link CacheManager}.  If such a {@link Cache} is
+   * unknown to the {@link CacheManager}, one is created and configured according
+   * to the provided configuration, after which it becomes managed by the said
+   * {@link CacheManager}.
+   * <p/>
    * If such a {@link Cache} already exists, it is simply returned.
    * <p/>
-   * Importantly {@link Configuration}s provided to this method are always
+   * Importantly {@link javax.cache.configuration.Configuration}s provided to this method are always
    * validated with in the context of the {@link CacheManager} implementation.
-   * For example:  Attempting use a {@link Configuration} requiring transactional
+   * For example:  Attempting use a {@link javax.cache.configuration.Configuration} requiring transactional
    * support with an implementation that does not support transactions will result
    * in an {@link UnsupportedOperationException}.
    * <p/>
    * Note 1: Implementers of this method are required to make a copy of the provided
-   * {@link Configuration} so that it may be further used to configure and
+   * {@link javax.cache.configuration.Configuration} so that it may be further used to configure and
    * ensure other {@link Cache}s without causing side-effects.
    * <p/>
    * Note 2: There's no requirement on the part of a developer to call this method
@@ -92,22 +96,25 @@ public interface CacheManager {
    * {@link #getCache(String)} to retrieve a pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the cache
-   * @param configuration the {@link Configuration}
+   * @param configuration the {@link javax.cache.configuration.Configuration}
    * @return a configured {@link Cache}
    * @throws IllegalStateException         if the CacheManager {@link #isClosed()}
-   * @throws CacheException                if there was an error adding the cache to the CacheManager
-   * @throws IllegalArgumentException      when the {@link Configuration} is invalid
-   * @throws UnsupportedOperationException when the {@link Configuration} attempts
+   * @throws CacheException                if there was an error adding the cache
+   *                                       to the CacheManager
+   * @throws IllegalArgumentException      when the {@link javax.cache.configuration.Configuration} is invalid
+   * @throws UnsupportedOperationException when the {@link javax.cache.configuration.Configuration} attempts
    *                                       to use an unsupported feature
    * @throws NullPointerException          if the cache configuration is null
    */
-  <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration) throws IllegalArgumentException;
+  <K, V> Cache<K, V> configureCache(String cacheName, Configuration<K, V> configuration)
+      throws IllegalArgumentException;
 
   /**
    * Looks up a {@link Cache} given it's name.
    * <p/>
-   * This method is used with caches that were configured with runtime types for key and value.
-   * Use {@link #getCache(String)} for caches where these were not specified.
+   * This method is used with caches that were configured with runtime types for
+   * key and value. Use {@link #getCache(String)} for caches where these were not
+   * specified.
    * <p/>
    * Implementations must ensure that the key and value types are assignment
    * compatible with the configured {@link Cache} prior to returning from
@@ -121,8 +128,9 @@ public interface CacheManager {
    * @param valueType the expected type of the value
    * @return the Cache or null if it does exist
    * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-   *                               ClassCastException if the specified key and/or value types are incompatible
-   *                               with the configured cache
+   *                               ClassCastException if the specified key and/or
+   *                               value types are incompatible with the configured
+   *                               cache.
    */
   <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
@@ -130,7 +138,8 @@ public interface CacheManager {
    * Looks up a {@link Cache}, given it's name.
    * <p/>
    * This method should only be used when runtime type checking was not configured.
-   * Use {@link #getCache(String, Class, Class)} to lookup caches that specify runtime types.
+   * Use {@link #getCache(String, Class, Class)} to lookup caches that specify
+   * runtime types.
    * <p/>
    * Implementations must check that no key and value types were specified
    * when the cache was configured. If either the keyType or valueType of the
@@ -140,7 +149,8 @@ public interface CacheManager {
    * @param cacheName the name of the cache to look for
    * @return the Cache or null if it does exist
    * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-   * @throws ClassCastException    if the {@link Cache} was configured with specific types
+   * @throws ClassCastException    if the {@link Cache} was configured with
+   *                               specific types
    * @see #getCache(String, Class, Class)
    */
   <K, V> Cache<K, V> getCache(String cacheName);

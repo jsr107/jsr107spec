@@ -6,7 +6,7 @@
  */
 
 /**
- This package contains the transactional support for JCache API.
+ This package contains expiry policies
 
  @author Greg Luck
  @since 1.0

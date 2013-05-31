@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.cache.configuration.Configuration;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CompletionListener;
@@ -444,7 +445,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
   /**
    * Returns an immutable Configuration object.
    *
-   * @return the {@link Configuration} of this cache
+   * @return the {@link javax.cache.configuration.Configuration} of this cache
    */
   Configuration<K, V> getConfiguration();
 

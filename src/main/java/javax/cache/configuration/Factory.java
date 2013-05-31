@@ -4,10 +4,10 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache;
+package javax.cache.configuration;
 
 /**
- * Constructs and returns a fully configured instance of a specific type.
+ * Constructs and returns a fully configured instance of a specific factory type.
  * <p/>
  * Implementations may choose not to construct a new instance, but instead
  * return a previously created instance.
@@ -16,7 +16,7 @@ package javax.cache;
  * {@link Object#hashCode()} as {@link Factory}s are often compared with each
  * other for equivalence.
  *
- * @param <T> the type of object constructed
+ * @param <T> the type of factory constructed
  * @author Brian Oliver
  */
 public interface Factory<T> {
