@@ -30,42 +30,40 @@ public class Duration implements Serializable {
    */
   public static final Duration ETERNAL = new Duration();
 
-
   /**
-   * One day
+   * One day.
    */
   public static final Duration ONE_DAY = new Duration(DAYS, 1);
 
   /**
-   * One hour
+   * One hour.
    */
   public static final Duration ONE_HOUR = new Duration(HOURS, 1);
 
   /**
-   * Thirty minutes
+   * Thirty minutes.
    */
   public static final Duration THIRTY_MINUTES = new Duration(MINUTES, 30);
 
   /**
-   * Twenty minutes
+   * Twenty minutes.
    */
   public static final Duration TWENTY_MINUTES = new Duration(MINUTES, 20);
 
   /**
-   * Ten minutes
+   * Ten minutes.
    */
   public static final Duration TEN_MINUTES = new Duration(MINUTES, 10);
 
   /**
-   * Five minutes
+   * Five minutes.
    */
   public static final Duration FIVE_MINUTES = new Duration(MINUTES, 5);
 
   /**
-   * One minute
+   * One minute.
    */
   public static final Duration ONE_MINUTE = new Duration(MINUTES, 1);
-
 
   /**
    * Zero (no time).
@@ -128,7 +126,7 @@ public class Duration implements Serializable {
 
   /**
    * Constructs a {@link Duration} based on the duration between two
-   * specified points in time (since the Epoc), messured in milliseconds.
+   * specified points in time (since the Epoc), measured in milliseconds.
    *
    * @param startTime the start time (since the Epoc)
    * @param endTime   the end time (since the Epoc)
@@ -200,15 +198,27 @@ public class Duration implements Serializable {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
 
-    Duration duration = (Duration) o;
+    } else if (other == null || getClass() != other.getClass()) {
+      return false;
 
-    long time1 = timeUnit.toMillis(durationAmount);
-    long time2 = duration.timeUnit.toMillis(duration.durationAmount);
-    return time1 == time2;
+    } else {
+      Duration duration = (Duration) other;
+
+      if (this.timeUnit == null && duration.timeUnit == null &&
+          this.durationAmount == duration.durationAmount) {
+        return true;
+      } else if (this.timeUnit != null && duration.timeUnit != null) {
+        long time1 = timeUnit.toMillis(durationAmount);
+        long time2 = duration.timeUnit.toMillis(duration.durationAmount);
+        return time1 == time2;
+      } else {
+        return false;
+      }
+    }
   }
 
   /**
@@ -216,6 +226,6 @@ public class Duration implements Serializable {
    */
   @Override
   public int hashCode() {
-    return timeUnit == null ? (int) durationAmount : ((Long) timeUnit.toMillis(durationAmount)).hashCode();
+    return timeUnit == null ? -1 : (int)timeUnit.toMillis(durationAmount);
   }
 }
