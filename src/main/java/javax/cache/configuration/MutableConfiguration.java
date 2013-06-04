@@ -477,6 +477,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + ((keyType == null) ? 0 : keyType.hashCode());
+    result = prime * result + ((valueType == null) ? 0 : valueType.hashCode());
     result = prime
         * result
         + ((cacheEntryListenerRegistrations == null) ? 0 : cacheEntryListenerRegistrations
@@ -514,6 +516,19 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
       return false;
     }
     MutableConfiguration<?, ?> other = (MutableConfiguration<?, ?>) object;
+
+    if ((keyType == null && other.keyType != null) ||
+        (keyType != null && other.keyType == null)) {
+      return false;
+    } else if (keyType != null && other.keyType != null && !keyType.equals(other.keyType)) {
+      return false;
+    }
+    if ((valueType == null && other.valueType != null) ||
+        (valueType != null && other.valueType == null)) {
+      return false;
+    } else if (valueType != null && other.valueType != null && !valueType.equals(other.valueType)) {
+      return false;
+    }
     if (cacheEntryListenerRegistrations == null) {
       if (other.cacheEntryListenerRegistrations != null) {
         return false;
