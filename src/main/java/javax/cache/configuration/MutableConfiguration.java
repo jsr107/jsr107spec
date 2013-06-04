@@ -350,17 +350,6 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the Transaction {@link Mode}.
-   *
-   * @param mode the {@link Mode}
-   * @return the {@link MutableConfiguration} to permit fluent-style method calls
-   */
-  public MutableConfiguration<K, V> setTransactionMode(Mode mode) {
-    this.txnMode = mode;
-    return this;
-  }
-
-  /**
    * {@inheritDoc}
    */
   @Override
