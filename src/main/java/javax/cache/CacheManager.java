@@ -129,11 +129,15 @@ public interface CacheManager {
    * <p/>
    * Implementations may further perform type checking on cache mutation and
    * throw a ClassCastException if said checks fail.
+   * <p/>
+   * Implementations that support declarative mechanisms for pre-configuring
+   * {@link Cache}s may return a pre-configured {@link Cache} instead of
+   * <code>null</code>.
    *
    * @param cacheName the name of the cache to look for
    * @param keyType   the expected type of the key
    * @param valueType the expected type of the value
-   * @return the Cache or null if it does exist
+   * @return the Cache or null if it does exist or can't be pre-configured
    * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
    *                               ClassCastException if the specified key and/or
    *                               value types are incompatible with the configured
@@ -152,9 +156,13 @@ public interface CacheManager {
    * when the cache was configured. If either the keyType or valueType of the
    * configured cache are not their defaults then a ClassCastException
    * is thrown.
+   * <p/>
+   * Implementations that support declarative mechanisms for pre-configuring
+   * {@link Cache}s may return a pre-configured {@link Cache} instead of
+   * <code>null</code>.
    *
    * @param cacheName the name of the cache to look for
-   * @return the Cache or null if it does exist
+   * @return the Cache or null if it does exist or can't be pre-configured
    * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
    * @throws IllegalArgumentException    if the {@link Cache} was configured with
    *                               specific types, this method cannot be used
