@@ -137,9 +137,13 @@ public class Duration implements Serializable {
       //so the result must be ETERNAL
       timeUnit = null;
       durationAmount = 0;
+    } else if (startTime < 0) {
+        throw new IllegalArgumentException("Cannot specify a negative startTime.");
+    } else if (endTime < 0) {
+      throw new IllegalArgumentException("Cannot specify a negative endTime.");
     } else {
       timeUnit = TimeUnit.MILLISECONDS;
-      durationAmount = endTime - startTime;
+      durationAmount = Math.max(startTime, endTime) - Math.min(startTime, endTime);
     }
   }
 
