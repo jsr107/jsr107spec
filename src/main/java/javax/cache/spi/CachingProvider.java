@@ -31,7 +31,7 @@ public interface CachingProvider {
    * classes.
    * <p/>
    * Multiple calls to this method with the same URI and ClassLoader
-   * <strong>must</strong> return the same CacheManager instance, accept if a
+   * <strong>must</strong> return the same CacheManager instance, except if a
    * previously returned CacheManager has been closed.
    *
    * @param uri         a vendor specific URI for the CacheManager (null means
