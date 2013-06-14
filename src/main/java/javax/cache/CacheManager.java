@@ -138,10 +138,9 @@ public interface CacheManager {
    * @param keyType   the expected type of the key
    * @param valueType the expected type of the value
    * @return the Cache or null if it does exist or can't be pre-configured
-   * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-   *                               ClassCastException if the specified key and/or
-   *                               value types are incompatible with the configured
-   *                               cache.
+   * @throws IllegalStateException     if the CacheManager is {@link #isClosed()}
+   * @throws IllegalArgumentException  if the specified key and/or value types are
+   *                                   incompatible with the configured cache.
    */
   <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
@@ -154,7 +153,7 @@ public interface CacheManager {
    * <p/>
    * Implementations must check that no key and value types were specified
    * when the cache was configured. If either the keyType or valueType of the
-   * configured cache are not their defaults then a ClassCastException
+   * configured cache are not their defaults then a IllegalArgumentException
    * is thrown.
    * <p/>
    * Implementations that support declarative mechanisms for pre-configuring
