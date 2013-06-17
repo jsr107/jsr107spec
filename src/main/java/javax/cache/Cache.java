@@ -511,16 +511,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
   CacheManager getCacheManager();
 
   /**
-   * Closes the Cache and releases it from the CacheManager that produced it.
-   * After executing, the Cache instance may no longer be used for caching.
-   * <p/>
-   * Any attempt to invoke caching methods on the Cache instance will result
-   * in an IllegalStateException being thrown.
-   * <p/>
-   * After executing this method, the {@link #isClosed()} method will return
-   * <code>true</code>.
-   * <p/>
-   * All attempts to close a previously closed Cache will be ignored.
+   * Signals to the CacheManager that the cache should no longer be managed.
+   *
+   * At this point in time the CacheManager:
+   * <li>
+   * <ul>make the cache not available for operation methods. An attempt to
+   * call an operational method will throw an {@link IllegalStateException}.</ul>
+   * <ul>not return the name of the Cache when the CacheManager getCacheNames()
+   * method is called.</ul>
+   * <ul>unregister and prevent events being delivered to CacheEntryListeners
+   * registered on the Cache</ul>
+   * <ul>unregister and prevent events being delivered to CacheEntryListeners
+   * registered on the Cache</ul>
+   * <ul>If any {@link javax.cache.integration
+   * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
+   * {@link CacheEntryListener} or {@link javax.cache.expiry.ExpiryPolicy}
+   * implements {@link java.io.Closeable}, then it's  <code>close</code> method
+   * is called.
+   * <uL>free any local resources being used</uL>
    */
   void close();
 
