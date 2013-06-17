@@ -8,8 +8,10 @@
 package javax.cache.event;
 
 /**
- * A filter which may be used to check {@link CacheEntryEvent}s prior to being
+ * A function which may be used to check {@link CacheEntryEvent}s prior to being
  * dispatched to {@link CacheEntryListener}s.
+ * <p/>
+ * A filter must not create side effects.
  *
  * @param <K> the type of keys maintained by the associated cache
  * @param <V> the type of values maintained by the associated cache
