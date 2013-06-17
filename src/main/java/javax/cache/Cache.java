@@ -529,6 +529,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
    * implements {@link java.io.Closeable}, then it's  <code>close</code> method
    * is called.
    * <uL>free any local resources being used</uL>
+   * <p/>
+   * A closed cache cannot be used unless it first configured via {@link
+   * CacheManager#configureCache(String, javax.cache.configuration.Configuration)}
+   *
    */
   void close();
 
