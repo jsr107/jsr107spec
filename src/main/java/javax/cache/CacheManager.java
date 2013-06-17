@@ -11,6 +11,7 @@ import javax.cache.configuration.Configuration;
 import javax.cache.configuration.OptionalFeature;
 import javax.cache.spi.CachingProvider;
 import javax.transaction.UserTransaction;
+import java.io.Closeable;
 import java.net.URI;
 import java.util.Properties;
 
@@ -44,7 +45,7 @@ import java.util.Properties;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface CacheManager {
+public interface CacheManager extends Closeable {
 
   /**
    * Obtain the CachingProvider that created and is responsible for
@@ -181,14 +182,21 @@ public interface CacheManager {
   Iterable<String> getCacheNames();
 
   /**
-   * Removes and closes a cache known to the CacheManager.
+   * Destroys a cache. This is equivalent to the following sequence of method
+   * calls:
+   * <ol>
+   *   <li>{@link javax.cache.Cache#clear()}</li>
+   *   <li>{@link javax.cache.Cache#close()}</li>
+   * </ol>
+   * From the time this method is called, a cache is not available for
+   * operational methods. An attempt to call an operational method will throw an
+   * {@link IllegalStateException}.
    *
    * @param cacheName the cache name
-   * @return true if the cache was removed and closed
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws NullPointerException  if cacheName is null
    */
-  boolean removeCache(String cacheName);
+  void destroyCache(String cacheName);
 
   /**
    * This method will return a UserTransaction.

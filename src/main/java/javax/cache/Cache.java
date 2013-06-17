@@ -11,6 +11,7 @@ import javax.cache.configuration.Configuration;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CompletionListener;
+import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +82,8 @@ import java.util.Set;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K,
+    V>>, Closeable {
   /**
    * Gets an entry from the cache.
    * <p/>
@@ -511,28 +513,27 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
   CacheManager getCacheManager();
 
   /**
-   * Signals to the CacheManager that the cache should no longer be managed.
+   * Signals to the CacheManager instance that the cache should no longer
+   * be managed.
    *
-   * At this point in time the CacheManager:
+   * The following sequence of events must occur:
    * <li>
-   * <ul>make the cache not available for operation methods. An attempt to
-   * call an operational method will throw an {@link IllegalStateException}.</ul>
-   * <ul>not return the name of the Cache when the CacheManager getCacheNames()
-   * method is called.</ul>
-   * <ul>unregister and prevent events being delivered to CacheEntryListeners
-   * registered on the Cache</ul>
-   * <ul>unregister and prevent events being delivered to CacheEntryListeners
-   * registered on the Cache</ul>
+   * <ul>{@link javax.cache.Cache#isClosed()} will return true</ul>
+   * <ul>the CacheManager makes the cache not available for operational methods.
+   * An attempts to call an operational method will throw an {@link
+   * IllegalStateException}.</ul>
+   * <ul>will not appear in the list of cache names from {@link
+   * javax.cache.CacheManager#getCacheNames()}
+   * getCacheNames() method is called.</ul>
    * <ul>If any {@link javax.cache.integration
    * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
    * {@link CacheEntryListener} or {@link javax.cache.expiry.ExpiryPolicy}
    * implements {@link java.io.Closeable}, then it's  <code>close</code> method
-   * is called.
-   * <uL>free any local resources being used</uL>
+   * is called.</ul>
+   * <uL>free any resources being used for the cache by the CacheManager</uL>
    * <p/>
-   * A closed cache cannot be used unless it first configured via {@link
+   * A closed cache cannot be reused unless it is first configured via {@link
    * CacheManager#configureCache(String, javax.cache.configuration.Configuration)}
-   *
    */
   void close();
 
