@@ -9,8 +9,11 @@ package javax.cache.configuration;
 import java.io.Serializable;
 
 /**
- * This class defines static methods to aid in the construction
- * and manipulation of {@link Factory} instances.
+ * A convenience class which defines generically typed static methods to aid in
+ * the building of {@link Factory} instances. Factory instances can also be
+ * created in other ways.
+ * <p/>
+ * Built-in expiry policies also have their own convenience factory methods.
  *
  * @author Brian Oliver
  * @author Greg Luck
@@ -25,7 +28,7 @@ public final class FactoryBuilder {
   }
 
   /**
-   * Constructs a {@link Factory} that will produce instances of the
+   * Constructs a {@link Factory} that will produce factory instances of the
    * specified class.
    * <p/>
    * Assumes the specified class as a no-args constructor.
@@ -40,14 +43,17 @@ public final class FactoryBuilder {
   }
 
 
+
+
+
   /**
-   * Constructs a {@link Factory} that will return the specified instance.
+   * Constructs a {@link Factory} that will return the specified factory instance.
    *
-   * @param instance the instance the {@link Factory} will return
+   * @param instance the Serializable instance the {@link Factory} will return
    * @param <T>      the type of the instances returned
    * @return a {@link Factory} for the instance
    */
-  public static <T> Factory<T> factoryOf(T instance) {
+  public static <T extends Serializable> Factory<T> factoryOf(T instance) {
     return new SingletonFactory<T>(instance);
   }
 

@@ -119,7 +119,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.listenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
-    this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
+    this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>factoryOf();
     this.isReadThrough = false;
     this.isWriteThrough = false;
     this.isStatisticsEnabled = false;
@@ -153,7 +153,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.cacheWriterFactory = configuration.getCacheWriterFactory();
 
     if (configuration.getExpiryPolicyFactory() == null) {
-      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
+      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>factoryOf();
     } else {
       this.expiryPolicyFactory = configuration.getExpiryPolicyFactory();
     }
@@ -311,7 +311,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    */
   public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
     if (factory == null) {
-      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
+      this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>factoryOf();
     } else {
       this.expiryPolicyFactory = (Factory<ExpiryPolicy<? super K, ? super V>>) factory;
     }

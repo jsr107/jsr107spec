@@ -40,7 +40,7 @@ public final class TouchedPolicy<K, V> implements ExpiryPolicy<K, V>, Serializab
    *
    * @return a {@link javax.cache.configuration.Factory} for a Touched {@link javax.cache.expiry.ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
+  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf(Duration duration) {
     return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new TouchedPolicy<K, V>(duration));
   }
 

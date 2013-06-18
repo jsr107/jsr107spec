@@ -47,7 +47,7 @@ public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    *
    * @return a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory(Duration duration) {
+  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf(Duration duration) {
     return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new CreatedExpiryPolicy<K, V>(duration));
   }
 

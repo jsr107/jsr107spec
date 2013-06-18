@@ -28,7 +28,7 @@ public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    *
    * @return a {@link javax.cache.configuration.Factory} for an Eternal {@link ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> getFactory() {
+  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf() {
     return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new EternalExpiryPolicy<K, V>());
   }
 
