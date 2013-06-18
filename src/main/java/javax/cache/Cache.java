@@ -8,8 +8,6 @@
 package javax.cache;
 
 import javax.cache.configuration.Configuration;
-import javax.cache.event.CacheEntryEventFilter;
-import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CompletionListener;
 import java.io.Closeable;
 import java.util.Iterator;
@@ -452,34 +450,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   Configuration<K, V> getConfiguration();
 
   /**
-   * Adds a listener to the notification service.
-   * <p/>
-   *
-   * @param cacheEntryListener The listener to add. Listeners fire synchronously in the execution path, and after the
-   *                           causing event. if a listener throws an exception it will be wrapped in a CacheException
-   *                           and propagated back to the caller.  The listener may not be null
-   * @param requireOldValue    whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}. Note that
-   *                           there is additional overhead when this is enabled.
-   * @param cacheEntryFilter   If present the listener will only be called if the filter evaluates to true. If null the listener
-   *                           is always called.
-   * @param synchronous        whether the caller is blocked until the listener invocation completes.
-   * @return true if the listener is being added and was not already added
-   * @throws NullPointerException if the listener is null.
-   */
-  boolean registerCacheEntryListener(CacheEntryListener<? super K, ? super V> cacheEntryListener,
-                                     boolean requireOldValue,
-                                     CacheEntryEventFilter<? super K, ? super V> cacheEntryFilter,
-                                     boolean synchronous);
-
-  /**
-   * Removes a call back listener.
-   *
-   * @param cacheEntryListener the listener to remove
-   * @return true if the listener was present
-   */
-  boolean unregisterCacheEntryListener(CacheEntryListener<?, ?> cacheEntryListener);
-
-  /**
    * Passes the cache entry associated with the key to the entry
    * processor. All operations performed by the processor will be done atomically
    *
@@ -527,7 +497,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * getCacheNames() method is called.</ul>
    * <ul>If any {@link javax.cache.integration
    * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
-   * {@link CacheEntryListener} or {@link javax.cache.expiry.ExpiryPolicy}
+   * {@link javax.cache.event.CacheEntryListener} or {@link javax.cache.expiry.ExpiryPolicy}
    * implements {@link java.io.Closeable}, then it's  <code>close</code> method
    * is called.</ul>
    * <uL>free any resources being used for the cache by the CacheManager</uL>
