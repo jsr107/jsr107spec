@@ -26,21 +26,21 @@ import java.util.Properties;
 public interface CachingProvider {
 
   /**
-   * Requests a CacheManager configured according to the vendor specific URI
-   * be made available that uses the provided ClassLoader for loading underlying
-   * classes.
+   * Requests a CacheManager configured according to the implementation specific
+   * URI be made available that uses the provided ClassLoader for loading
+   * underlying classes.
    * <p/>
    * Multiple calls to this method with the same URI and ClassLoader
    * <strong>must</strong> return the same CacheManager instance, except if a
    * previously returned CacheManager has been closed.
    *
-   * @param uri         a vendor specific URI for the CacheManager (null means
-   *                    use {@link #getDefaultURI()})
+   * @param uri         an implementation specific URI for the CacheManager (null
+   *                    means use {@link #getDefaultURI()})
    * @param classLoader the ClassLoader to use for the CacheManager (null means
    *                    use {@link #getDefaultClassLoader()})
    * @param properties  the Properties for the CachingProvider to
-   *                    create the CacheManager (null means no vendor specific
-   *                    Properties are required)
+   *                    create the CacheManager (null means no implementation
+   *                    specific Properties are required)
    * @throws javax.cache.CacheException when a CacheManager for the specified
    *                                    arguments could not be produced
    */
@@ -73,15 +73,16 @@ public interface CachingProvider {
   Properties getDefaultProperties();
 
   /**
-   * Requests a CacheManager configured according to the vendor specific URI
-   * be made available that uses the provided ClassLoader for loading underlying
-   * classes.
+   * Requests a CacheManager configured according to the implementation specific
+   * URI be made available that uses the provided ClassLoader for loading
+   * underlying classes.
    * <p/>
    * Multiple calls to this method with the same URI and ClassLoader
    * <strong>must</strong> return the same CacheManager instance, accept if a
    * previously returned CacheManager has been closed.
    *
-   * @param uri         a vendor specific URI for the CacheManager (null means
+   * @param uri         an implementation specific URI for the
+   *                    CacheManager (null means
    *                    use {@link #getDefaultURI()})
    * @param classLoader the ClassLoader to use for the CacheManager (null means
    *                    use {@link #getDefaultClassLoader()})

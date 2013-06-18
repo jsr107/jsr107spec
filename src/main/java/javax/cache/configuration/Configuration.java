@@ -75,6 +75,8 @@ public interface Configuration<K, V> extends Serializable {
    * {@link javax.cache.Cache#invokeEntryProcessor(Object, javax.cache.Cache.EntryProcessor, Object...)}
    * will appropriately cause the configured {@link javax.cache.integration.CacheWriter} to be invoked.
    * <p/>
+   *
+   *
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link javax.cache.Cache} is in "write-through" mode.
