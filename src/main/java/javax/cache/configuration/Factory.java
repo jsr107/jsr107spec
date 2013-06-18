@@ -6,6 +6,8 @@
  */
 package javax.cache.configuration;
 
+import java.io.Serializable;
+
 /**
  * Constructs and returns a fully configured instance of a specific factory type.
  * <p/>
@@ -19,7 +21,7 @@ package javax.cache.configuration;
  * @param <T> the type of factory constructed
  * @author Brian Oliver
  */
-public interface Factory<T> {
+public interface Factory<T> extends Serializable {
 
   /**
    * Constructs and returns a fully configured instance of T.

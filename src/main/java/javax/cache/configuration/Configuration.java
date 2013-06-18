@@ -13,6 +13,7 @@ import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
+import java.io.Serializable;
 
 /**
  * A read-only representation of a {@link javax.cache.Cache} configuration.
@@ -30,7 +31,7 @@ import javax.cache.transaction.Mode;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface Configuration<K, V> {
+public interface Configuration<K, V> extends Serializable {
 
   /**
    * Determines the required type of keys for {@link javax.cache.Cache}s configured with
