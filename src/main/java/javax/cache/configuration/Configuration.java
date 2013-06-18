@@ -7,7 +7,7 @@
 
 package javax.cache.configuration;
 
-import javax.cache.event.CacheEntryListenerRegistration;
+import javax.cache.event.CacheEntryListenerDefinition;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
@@ -159,12 +159,12 @@ public interface Configuration<K, V> {
   Mode getTransactionMode();
 
   /**
-   * Obtains the {@link CacheEntryListenerRegistration}s for CacheEntryListeners
+   * Obtains the {@link javax.cache.event.CacheEntryListenerDefinition}s for CacheEntryListeners
    * to be configured on a {@link javax.cache.Cache}.
    *
-   * @return an {@link Iterable} over the {@link CacheEntryListenerRegistration}s
+   * @return an {@link Iterable} over the {@link javax.cache.event.CacheEntryListenerDefinition}s
    */
-  Iterable<CacheEntryListenerRegistration<? super K, ? super V>> getCacheEntryListenerRegistrations();
+  Iterable<CacheEntryListenerDefinition<K, V>> getCacheEntryListenerDefinitions();
 
   /**
    * Gets the {@link Factory} for the {@link javax.cache.integration.CacheLoader}, if any.
