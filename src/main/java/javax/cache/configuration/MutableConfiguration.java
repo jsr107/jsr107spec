@@ -53,7 +53,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * The {@link javax.cache.event.CacheEntryListenerDefinition}s for the {@link Configuration}.
    */
-  protected ArrayList<CacheEntryListenerDefinition<K, V>> cacheEntryListenerDefinitions;
+  protected ArrayList<CacheEntryListenerDefinition<K, V>> listenerDefinitions;
 
   /**
    * The {@link Factory} for the {@link javax.cache.integration.CacheLoader}.
@@ -116,7 +116,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public MutableConfiguration() {
     this.keyType = null;
     this.valueType = null;
-    this.cacheEntryListenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
+    this.listenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
     this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>getFactory();
@@ -140,16 +140,13 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.keyType = configuration.getKeyType();
     this.valueType = configuration.getValueType();
 
-    this.cacheEntryListenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
-
-    for (CacheEntryListenerDefinition<K, V> r : configuration.getCacheEntryListenerDefinitions()) {
-      SimpleCacheEntryListenerDefinition<K, V> registration =
-          new SimpleCacheEntryListenerDefinition<K, V>(r.getCacheEntryListenerFactory(),
-              r.getCacheEntryFilterFactory(),
-              r.isOldValueRequired(),
-              r.isSynchronous());
-
-      this.cacheEntryListenerDefinitions.add(registration);
+    listenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
+    for (CacheEntryListenerDefinition<K, V> definition : configuration.getCacheEntryListenerDefinitions()) {
+      registerCacheEntryListener(
+          definition.getCacheEntryListenerFactory(),
+          definition.isOldValueRequired(),
+          definition.getCacheEntryFilterFactory(),
+          definition.isSynchronous());
     }
 
     this.cacheLoaderFactory = configuration.getCacheLoaderFactory();
@@ -216,7 +213,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    */
   @Override
   public Iterable<CacheEntryListenerDefinition<K, V>> getCacheEntryListenerDefinitions() {
-    return cacheEntryListenerDefinitions;
+    return listenerDefinitions;
   }
 
   /**
@@ -248,14 +245,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
             synchronous);
 
     boolean alreadyExists = false;
-    for (CacheEntryListenerDefinition<? super K, ? super V> r : cacheEntryListenerDefinitions) {
-      if (r.equals(definition)) {
+    for (CacheEntryListenerDefinition<? super K, ? super V> defn : listenerDefinitions) {
+      if (defn.equals(definition)) {
         alreadyExists = true;
       }
     }
 
     if (!alreadyExists) {
-      this.cacheEntryListenerDefinitions.add(definition);
+      this.listenerDefinitions.add(definition);
     }
     return this;
   }
@@ -482,7 +479,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     result = prime * result + ((valueType == null) ? 0 : valueType.hashCode());
     result = prime
         * result
-        + ((cacheEntryListenerDefinitions == null) ? 0 : cacheEntryListenerDefinitions
+        + ((listenerDefinitions == null) ? 0 : listenerDefinitions
         .hashCode());
     result = prime * result
         + ((cacheLoaderFactory == null) ? 0 : cacheLoaderFactory.hashCode());
@@ -530,11 +527,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     } else if (valueType != null && other.valueType != null && !valueType.equals(other.valueType)) {
       return false;
     }
-    if (cacheEntryListenerDefinitions == null) {
-      if (other.cacheEntryListenerDefinitions != null) {
+    if (listenerDefinitions == null) {
+      if (other.listenerDefinitions != null) {
         return false;
       }
-    } else if (!cacheEntryListenerDefinitions.equals(other.cacheEntryListenerDefinitions)) {
+    } else if (!listenerDefinitions.equals(other.listenerDefinitions)) {
       return false;
     }
     if (cacheLoaderFactory == null) {
