@@ -31,6 +31,10 @@ import java.util.EventListener;
  * <li>which are asynchronous iterate through multiple events with an undefined ordering, except that events on the same key
  * are in the the order in which the events occur.</li>
  * </ul>
+ * Listeners follow the observer pattern. An exception thrown by a
+ * listener does not cause the cache operation to fail.
+ *
+ * <p/>
  * A listener which mutates a cache on the CacheManager may cause a deadlock. Detection and response to deadlocks
  * is implementation specific.
  * <p/>

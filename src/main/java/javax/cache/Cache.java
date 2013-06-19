@@ -225,14 +225,21 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * of calling {@link #put(Object, Object) put(k, v)} on this cache once
    * for each mapping from key <tt>k</tt> to value <tt>v</tt> in the
    * specified map.
-   * The order in which the individual puts will occur is undefined.
-   * The behavior of this operation is undefined if the specified cache or map is modified while the
-   * operation is in progress.
+   * <p/>
+   * The order in which the individual puts occur is undefined.
+   * <p/>
+   * The behavior of this operation is undefined if entries in the cache
+   * corresponding to entries in the map are modified or removed while this
+   * operation is in progress. or if map is modified while the operation is in
+   * progress.
+   * <p/>
+   * In Default Consistency mode, individual puts are done atomically but not
+   * the entire putAll.
    *
    * @param map mappings to be stored in this cache
    * @throws NullPointerException  if map is null or if map contains null keys or values.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws CacheException        if there is a problem doing the put
+   * @throws CacheException        if there is a problem doing the put.
    * @see java.util.Map#putAll(java.util.Map)
    */
   void putAll(java.util.Map<? extends K, ? extends V> map);
