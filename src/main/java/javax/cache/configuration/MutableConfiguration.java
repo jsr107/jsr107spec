@@ -19,7 +19,7 @@ package javax.cache.configuration;
 
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
-import javax.cache.event.CacheEntryListenerDefinition;
+import javax.cache.event.CacheEntryListenerFactoryDefinition;
 import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
@@ -51,9 +51,10 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   protected Class<V> valueType;
 
   /**
-   * The {@link javax.cache.event.CacheEntryListenerDefinition}s for the {@link Configuration}.
+   * The {@link javax.cache.event.CacheEntryListenerFactoryDefinition}s for the {@link Configuration}.
    */
-  protected ArrayList<CacheEntryListenerDefinition<K, V>> listenerDefinitions;
+  protected ArrayList<CacheEntryListenerFactoryDefinition<K,
+      V>> listenerFactoryDefinitions;
 
   /**
    * The {@link Factory} for the {@link javax.cache.integration.CacheLoader}.
@@ -116,7 +117,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public MutableConfiguration() {
     this.keyType = null;
     this.valueType = null;
-    this.listenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
+    this.listenerFactoryDefinitions = new
+        ArrayList<CacheEntryListenerFactoryDefinition<K, V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
     this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>factoryOf();
@@ -140,13 +142,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     this.keyType = configuration.getKeyType();
     this.valueType = configuration.getValueType();
 
-    listenerDefinitions = new ArrayList<CacheEntryListenerDefinition<K, V>>();
-    for (CacheEntryListenerDefinition<K, V> definition : configuration.getCacheEntryListenerDefinitions()) {
-      registerCacheEntryListener(
-          definition.getCacheEntryListenerFactory(),
-          definition.isOldValueRequired(),
-          definition.getCacheEntryFilterFactory(),
-          definition.isSynchronous());
+    listenerFactoryDefinitions = new
+        ArrayList<CacheEntryListenerFactoryDefinition<K, V>>();
+    for (CacheEntryListenerFactoryDefinition<K, V> definition : configuration
+        .getCacheEntryListenerFactoryDefinitions()) {
+      addCacheEntryListenerFactoryDefinition(definition);
     }
 
     this.cacheLoaderFactory = configuration.getCacheLoaderFactory();
@@ -189,9 +189,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of keys and values for a {@link javax.cache.Cache} configured with
-   * this {@link Configuration}. Setting both to <code>null</code> means type-safety
-   * checks are not required.
+   * Sets the expected type of keys and values for a {@link javax.cache.Cache}
+   * configured with this {@link Configuration}. Setting both to <code>null</code>
+   * means type-safety checks are not required.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type
@@ -212,47 +212,37 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * {@inheritDoc}
    */
   @Override
-  public Iterable<CacheEntryListenerDefinition<K, V>> getCacheEntryListenerDefinitions() {
-    return listenerDefinitions;
+  public Iterable<CacheEntryListenerFactoryDefinition<K,
+      V>> getCacheEntryListenerFactoryDefinitions() {
+    return listenerFactoryDefinitions;
   }
 
   /**
-   * Add a definition for a {@link CacheEntryListener}.  If a definition with
-   * the same configuration is already defined, the registration request is
-   * ignored.
+   * Add a definition for a {@link CacheEntryListener} {@link Factory}.  One or
+   * more factories can be registered
    *
-   * @param listenerFactory  the {@link CacheEntryListener} {@link Factory}
-   * @param requireOldValue  whether the old value is supplied to {@link javax.cache.event.CacheEntryEvent}.
-   * @param filterFactory    the optional {@link CacheEntryEventFilter} {@link Factory}
-   * @param synchronous      whether the caller is blocked until the listenerFactory invocation completes.
+   * @param listenerFactoryDefinition the {@link CacheEntryListener} {@link
+   * Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> registerCacheEntryListener(
-      Factory<? extends CacheEntryListener<? super K, ? super V>> listenerFactory,
-      boolean requireOldValue,
-      Factory<? extends CacheEntryEventFilter<? super K, ? super V>> filterFactory,
-      boolean synchronous) {
+  public MutableConfiguration<K, V> addCacheEntryListenerFactoryDefinition(
+      CacheEntryListenerFactoryDefinition<K,
+          V> listenerFactoryDefinition) {
 
-    if (listenerFactory == null) {
+    if (listenerFactoryDefinition == null) {
       throw new NullPointerException("CacheEntryListener Factory can't be null");
     }
 
-    SimpleCacheEntryListenerDefinition<K, V> definition =
-        new SimpleCacheEntryListenerDefinition<K, V>(
-            (Factory<CacheEntryListener<? super K, ? super V>>)listenerFactory,
-            (Factory<CacheEntryEventFilter<? super K, ? super V>>)filterFactory,
-            requireOldValue,
-            synchronous);
-
     boolean alreadyExists = false;
-    for (CacheEntryListenerDefinition<? super K, ? super V> defn : listenerDefinitions) {
-      if (defn.equals(definition)) {
+    for (CacheEntryListenerFactoryDefinition<? super K,
+        ? super V> definition : listenerFactoryDefinitions) {
+      if (definition.equals(listenerFactoryDefinition)) {
         alreadyExists = true;
       }
     }
 
     if (!alreadyExists) {
-      this.listenerDefinitions.add(definition);
+      this.listenerFactoryDefinitions.add(listenerFactoryDefinition);
     }
     return this;
   }
@@ -266,12 +256,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheLoader}.
+   * Set the {@link CacheLoader} factory. Only one {@link CacheLoader} may be
+   * defined.
    *
    * @param factory the {@link CacheLoader} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setCacheLoaderFactory(Factory<? extends CacheLoader<K, V>> factory) {
+  public MutableConfiguration<K, V> setCacheLoaderFactory(Factory<? extends
+      CacheLoader<K, V>> factory) {
     this.cacheLoaderFactory = (Factory<CacheLoader<K, V>>) factory;
     return this;
   }
@@ -285,12 +277,14 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheWriter}.
+   * Set the {@link CacheWriter} factory. Only one {@link CacheWriter} may be
+   * defined.
    *
    * @param factory the {@link CacheWriter} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setCacheWriterFactory(Factory<? extends CacheWriter<? super K, ? super V>> factory) {
+  public MutableConfiguration<K, V> setCacheWriterFactory(Factory<? extends
+      CacheWriter<? super K, ? super V>> factory) {
     this.cacheWriterFactory = (Factory<CacheWriter<? super K, ? super V>>) factory;
     return this;
   }
@@ -309,7 +303,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * @param factory the {@link ExpiryPolicy} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends ExpiryPolicy<? super K, ? super V>> factory) {
+  public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends
+      ExpiryPolicy<? super K, ? super V>> factory) {
     if (factory == null) {
       this.expiryPolicyFactory = EternalExpiryPolicy.<K, V>factoryOf();
     } else {
@@ -327,13 +322,15 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the Transaction {@link IsolationLevel} and {@link Mode}.
+   * Set the Transaction {@link IsolationLevel} and {@link Mode},
+   * which also sets {@link #isTransactionsEnabled()} to true.
    *
    * @param level the {@link IsolationLevel}
    * @param mode  the {@link Mode}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
-  public MutableConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
+  public MutableConfiguration<K, V> setTransactions(IsolationLevel level,
+                                                    Mode mode) {
     this.txnIsolationLevel = level;
     this.txnMode = mode;
     this.isTransactionsEnabled = true;
@@ -358,6 +355,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
    * Set if read-through caching should be used.
+   * <p/>
+   * It is an invalid configuration to set this to true without specifying a
+   * {@link CacheLoader} {@link Factory}.
    *
    * @param isReadThrough <code>true</code> if read-through is required
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -377,6 +377,9 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
    * Set if write-through caching should be used.
+   * <p/>
+   * It is an invalid configuration to set this to true without specifying a
+   * {@link CacheWriter} {@link Factory}.
    *
    * @param isWriteThrough <code>true</code> if write-through is required
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -395,11 +398,11 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set if a configured cache should use "store-by-value" or "store-by-reference"
+   * Set if a configured cache should use store-by-value or store-by-reference
    * semantics.
    *
-   * @param isStoreByValue <code>true</code> if "store-by-value" is required,
-   *                       <code>false</code> for "store-by-reference"
+   * @param isStoreByValue <code>true</code> if store-by-value is required,
+   *                       <code>false</code> for store-by-reference
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> setStoreByValue(boolean isStoreByValue) {
@@ -418,7 +421,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Sets whether statistics gathering is enabled on a cache.
    * <p/>
-   * Statistics may be enabled or disabled at runtime via {@link javax.cache.CacheManager#enableStatistics(String, boolean)}.
+   * Statistics may be enabled or disabled at runtime via
+   * {@link javax.cache.CacheManager#enableStatistics(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -439,7 +443,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Sets whether management is enabled on a cache.
    * <p/>
-   * Management may be enabled or disabled at runtime via {@link javax.cache.CacheManager#enableManagement(String, boolean)}.
+   * Management may be enabled or disabled at runtime via
+   * {@link javax.cache.CacheManager#enableManagement(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -469,7 +474,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     result = prime * result + ((valueType == null) ? 0 : valueType.hashCode());
     result = prime
         * result
-        + ((listenerDefinitions == null) ? 0 : listenerDefinitions
+        + ((listenerFactoryDefinitions == null) ? 0 : listenerFactoryDefinitions
         .hashCode());
     result = prime * result
         + ((cacheLoaderFactory == null) ? 0 : cacheLoaderFactory.hashCode());
@@ -517,11 +522,12 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     } else if (valueType != null && other.valueType != null && !valueType.equals(other.valueType)) {
       return false;
     }
-    if (listenerDefinitions == null) {
-      if (other.listenerDefinitions != null) {
+    if (listenerFactoryDefinitions == null) {
+      if (other.listenerFactoryDefinitions != null) {
         return false;
       }
-    } else if (!listenerDefinitions.equals(other.listenerDefinitions)) {
+    } else if (!listenerFactoryDefinitions.equals(other
+        .listenerFactoryDefinitions)) {
       return false;
     }
     if (cacheLoaderFactory == null) {
@@ -570,12 +576,13 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * An implementation of a {@link javax.cache.event.CacheEntryListenerDefinition}.
+   * An implementation of a {@link javax.cache.event.CacheEntryListenerFactoryDefinition}.
    *
    * @param <K> the type of the keys
    * @param <V> the type of the values
    */
-  static class SimpleCacheEntryListenerDefinition<K, V> implements CacheEntryListenerDefinition<K, V> {
+  public static class MutableCacheEntryListenerFactoryDefinition<K,
+      V> implements CacheEntryListenerFactoryDefinition<K, V> {
 
     private Factory<CacheEntryListener<? super K, ? super V>> listenerFactory;
     private Factory<CacheEntryEventFilter<? super K, ? super V>> filterFactory;
@@ -583,19 +590,20 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     private boolean isSynchronous;
 
     /**
-     * Constructs an {@link javax.cache.configuration.MutableConfiguration.SimpleCacheEntryListenerDefinition}.
+     * Constructs an {@link javax.cache.configuration.MutableConfiguration.MutableCacheEntryListenerFactoryDefinition}.
      *
      * @param listenerFactory    the {@link CacheEntryListener} {@link Factory}
      * @param filterFactory      the optional {@link CacheEntryEventFilter} {@link Factory}
      * @param isOldValueRequired if the old value is required for events with this listenerFactory
      * @param isSynchronous      if the listenerFactory should block the thread causing the event
      */
-    public SimpleCacheEntryListenerDefinition(Factory<CacheEntryListener<? super K, ? super V>> listenerFactory,
-                                              Factory<CacheEntryEventFilter<? super K, ? super V>> filterFactory,
-                                              boolean isOldValueRequired,
-                                              boolean isSynchronous) {
-      this.listenerFactory = listenerFactory;
-      this.filterFactory = filterFactory;
+    public MutableCacheEntryListenerFactoryDefinition(Factory<? extends CacheEntryListener<? super K, ? super V>> listenerFactory,
+                                                             Factory<? extends
+                                                                 CacheEntryEventFilter<? super K, ? super V>> filterFactory,
+                                                             boolean isOldValueRequired,
+                                                             boolean isSynchronous) {
+      this.listenerFactory = (Factory<CacheEntryListener<? super K, ? super V>>) listenerFactory;
+      this.filterFactory = (Factory<CacheEntryEventFilter<? super K, ? super V>>) filterFactory;
       this.isOldValueRequired = isOldValueRequired;
       this.isSynchronous = isSynchronous;
     }
@@ -658,10 +666,10 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
       if (object == null) {
         return false;
       }
-      if (!(object instanceof SimpleCacheEntryListenerDefinition)) {
+      if (!(object instanceof MutableCacheEntryListenerFactoryDefinition)) {
         return false;
       }
-      SimpleCacheEntryListenerDefinition<?, ?> other = (SimpleCacheEntryListenerDefinition<?, ?>) object;
+      MutableCacheEntryListenerFactoryDefinition<?, ?> other = (MutableCacheEntryListenerFactoryDefinition<?, ?>) object;
       if (filterFactory == null) {
         if (other.filterFactory != null) {
           return false;

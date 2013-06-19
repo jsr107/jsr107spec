@@ -15,7 +15,7 @@ import javax.cache.configuration.Factory;
  * @param <V> the type of values
  * @author Brian Oliver
  */
-public interface CacheEntryListenerDefinition<K, V> {
+public interface CacheEntryListenerFactoryDefinition<K, V> {
   /**
    * Obtains the {@link Factory} for the {@link CacheEntryListener}.
    *

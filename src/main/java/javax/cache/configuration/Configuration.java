@@ -7,7 +7,7 @@
 
 package javax.cache.configuration;
 
-import javax.cache.event.CacheEntryListenerDefinition;
+import javax.cache.event.CacheEntryListenerFactoryDefinition;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
@@ -50,7 +50,7 @@ public interface Configuration<K, V> extends Serializable {
   Class<V> getValueType();
 
   /**
-   * Determines if a {@link javax.cache.Cache} should operate in "read-through" mode.
+   * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
    * <p/>
    * When in "read-through" mode, cache misses that occur due to cache entries
    * not existing as a result of performing a "get" call via one of {@link javax.cache.Cache#get(Object)},
@@ -66,7 +66,7 @@ public interface Configuration<K, V> extends Serializable {
   boolean isReadThrough();
 
   /**
-   * Determines if a {@link javax.cache.Cache} should operate in "write-through" mode.
+   * Determines if a {@link javax.cache.Cache} should operate in write-through mode.
    * <p/>
    * When in "write-through" mode, cache updates that occur as a result of performing
    * "put" operations called via one of {@link javax.cache.Cache#put(Object, Object)}, {@link javax.cache.Cache#getAndRemove(Object)},
@@ -162,12 +162,13 @@ public interface Configuration<K, V> extends Serializable {
   Mode getTransactionMode();
 
   /**
-   * Obtains the {@link javax.cache.event.CacheEntryListenerDefinition}s for CacheEntryListeners
+   * Obtains the {@link javax.cache.event.CacheEntryListenerFactoryDefinition}s for CacheEntryListeners
    * to be configured on a {@link javax.cache.Cache}.
    *
-   * @return an {@link Iterable} over the {@link javax.cache.event.CacheEntryListenerDefinition}s
+   * @return an {@link Iterable} over the {@link javax.cache.event.CacheEntryListenerFactoryDefinition}s
    */
-  Iterable<CacheEntryListenerDefinition<K, V>> getCacheEntryListenerDefinitions();
+  Iterable<CacheEntryListenerFactoryDefinition<K,
+      V>> getCacheEntryListenerFactoryDefinitions();
 
   /**
    * Gets the {@link Factory} for the {@link javax.cache.integration.CacheLoader}, if any.
