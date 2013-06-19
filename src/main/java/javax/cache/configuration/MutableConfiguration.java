@@ -336,6 +336,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public MutableConfiguration<K, V> setTransactions(IsolationLevel level, Mode mode) {
     this.txnIsolationLevel = level;
     this.txnMode = mode;
+    this.isTransactionsEnabled = true;
     return this;
   }
 
@@ -455,17 +456,6 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   @Override
   public boolean isTransactionsEnabled() {
     return this.isTransactionsEnabled;
-  }
-
-  /**
-   * Set if transactions should be enabled.
-   *
-   * @param isTransactionsEnabled <code>true</code> if transactions should be enabled
-   * @return the {@link MutableConfiguration} to permit fluent-style method calls
-   */
-  public MutableConfiguration<K, V> setTransactionsEnabled(boolean isTransactionsEnabled) {
-    this.isTransactionsEnabled = isTransactionsEnabled;
-    return this;
   }
 
   /**
