@@ -251,10 +251,15 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   /**
    * Add a configuration for a {@link javax.cache.event.CacheEntryListener}.
    *
-   * @param listenerFactory    the {@link javax.cache.event.CacheEntryListener} {@link Factory}
-   * @param filterFactory      the optional {@link javax.cache.event.CacheEntryEventFilter} {@link Factory}
-   * @param isOldValueRequired if the old value is required for events with this listenerFactory
-   * @param isSynchronous      if the listenerFactory should block the thread causing the event
+   * @param listenerFactory    the {@link javax.cache.event.CacheEntryListener}
+   *                           {@link Factory}
+   * @param filterFactory      the optional
+   *                           {@link javax.cache.event.CacheEntryEventFilter}
+   *                           {@link Factory}
+   * @param isOldValueRequired if the old value is required for events with this
+   *                           listenerFactory
+   * @param isSynchronous      if the listenerFactory should block the thread
+   *                           causing the event
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> addCacheEntryListenerConfiguration(

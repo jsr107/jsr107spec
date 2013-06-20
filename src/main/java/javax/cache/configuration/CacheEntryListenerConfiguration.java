@@ -19,27 +19,33 @@ import javax.cache.event.CacheEntryListener;
  */
 public interface CacheEntryListenerConfiguration<K, V> {
   /**
-   * Obtains the {@link Factory} for the {@link javax.cache.event.CacheEntryListener}.
+   * Obtains the {@link Factory} for the
+   * {@link javax.cache.event.CacheEntryListener}.
    *
-   * @return the {@link Factory} for the {@link javax.cache.event.CacheEntryListener}
+   * @return the {@link Factory} for the
+   *         {@link javax.cache.event.CacheEntryListener}
    */
   Factory<CacheEntryListener<? super K, ? super V>> getCacheEntryListenerFactory();
 
   /**
-   * Determines if the old value should be provided to the {@link CacheEntryListener}.
+   * Determines if the old value should be provided to the
+   * {@link CacheEntryListener}.
    *
-   * @return <code>true</code> if the old value is required by the {@link CacheEntryListener}
+   * @return <code>true</code> if the old value is required by the
+   *         {@link CacheEntryListener}
    */
   boolean isOldValueRequired();
 
   /**
-   * Obtains the {@link Factory} for the {@link javax.cache.event.CacheEntryEventFilter} that
+   * Obtains the {@link Factory} for the
+   * {@link javax.cache.event.CacheEntryEventFilter} that
    * should be applied prior to notifying the {@link CacheEntryListener}.
    * When <code>null</code> no filtering is applied and all appropriate events
    * are notified.
    *
-   * @return the {@link Factory} for the {@link javax.cache.event.CacheEntryEventFilter} or
-   *         <code>null</code> if no filtering is required
+   * @return the {@link Factory} for the
+   *         {@link javax.cache.event.CacheEntryEventFilter} or <code>null</code>
+   *         if no filtering is required
    */
   Factory<CacheEntryEventFilter<? super K, ? super V>> getCacheEntryEventFilterFactory();
 
