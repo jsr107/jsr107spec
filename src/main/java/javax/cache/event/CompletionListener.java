@@ -11,12 +11,14 @@ package javax.cache.event;
  * notified of the completion of some Cache operation.
  * <p/>
  * When the operation is complete, the Cache provider notifies the application
- * by calling the onCompletion() method of the CompletionListener. If
- * the operation fails for any reason, the Cache provider calls the
- * onException(Exception) method of the CompletionListener.
+ * by calling the {@link #onCompletion()} method of the {@link
+ * CompletionListener}.
+ * <p/>
+ * If the operation fails for any reason, the Cache provider calls the
+ * {@link #onException(Exception)} method of the {@link CompletionListener}.
  * <p/>
  * To support a Java Future-based approach to synchronously wait for a Cache
- * operation to complete, use a CompletionListenerFuture.
+ * operation to complete, use a {@link CompletionListenerFuture}.
  * <p/>
  * A CompletionListener will use an implementation specific thread for the call.
  *

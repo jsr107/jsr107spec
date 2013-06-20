@@ -166,7 +166,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * <p/>
    * Implementations may choose to load multiple keys from the provided
    * iterable in parallel.  Iteration must not occur in parallel, thus
-   * allow for non-thread-sage Iterables, but loading may.
+   * allow for non-thread-safe Iterables, but loading may.
    * <p/>
    * The thread on which the completion listener is called is implementation
    * dependent. An implementation may also choose to serialize calls to
