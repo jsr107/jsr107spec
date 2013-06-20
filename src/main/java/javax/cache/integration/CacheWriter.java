@@ -21,12 +21,12 @@ import java.util.Collection;
  * to the corresponding cache operation.
  * <p/>
  * For batch methods under Default Consistency, the entire cache operation
- * is not required to be atomic in {@link Cache} and is therefore not required to be
- * atomic in the writer. As individual writer operations can fail,
- * cache operations are not required to occur until after the writer batch method
- * has returned or, in the case of partial success, thrown an exception. In the
- * case of partial success, the collection of entries must contain only those
- * entries which failed.
+ * is not required to be atomic in {@link Cache} and is therefore not required to
+ * be atomic in the writer. As individual writer operations can fail, cache
+ * operations are not required to occur until after the writer batch method has
+ * returned or, in the case of partial success, thrown an exception. In the case of
+ * partial success, the collection of entries must contain only those entries which
+ * failed.
  * <p/>
  * The behaviour of the caching implementation in the case of partial success is
  * undefined.
@@ -39,7 +39,9 @@ import java.util.Collection;
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
+ * @author Greg Luck
  * @since 1.0
+ * @see CacheLoader
  */
 public interface CacheWriter<K, V> {
 
@@ -70,7 +72,8 @@ public interface CacheWriter<K, V> {
    *
    * @param entries the entries to be written
    * @throws javax.cache.CacheException if one or more of the writes fail. If
-   *                                    thrown cache mutations will occur for entries which succeeded.
+   *                                    thrown cache mutations will occur for
+   *                                    entries which succeeded.
    */
   void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries);
 
