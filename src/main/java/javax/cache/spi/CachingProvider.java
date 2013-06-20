@@ -14,127 +14,133 @@ import java.util.Properties;
 
 /**
  * Provides mechanisms to create, request and later manage the life-cycle of
- * configured CacheManagers, identified by URIs and scoped by ClassLoaders.
+ * configured {@link CacheManager}s, identified by {@link URI}s and scoped by
+ * {@link ClassLoader}s.
  * <p/>
- * The meaning and semantics of the URI used to identify a CacheManager is
- * defined by CachingProvider implementations.  For applications to remain
- * implementation independent, they should avoid attempting to create URIs and
- * instead use the URI returned by {@link #getDefaultURI()}.
+ * The meaning and semantics of the {@link URI} used to identify a
+ * {@link CacheManager} is implementation dependent.  For applications to remain
+ * implementation independent, they should avoid attempting to create {@link URI}s
+ * and instead use that which is returned by {@link #getDefaultURI()}.
  *
  * @author Brian Oliver
  */
 public interface CachingProvider {
 
   /**
-   * Requests a CacheManager configured according to the implementation specific
-   * URI be made available that uses the provided ClassLoader for loading
-   * underlying classes.
+   * Requests a {@link CacheManager} configured according to the implementation
+   * specific {@link URI} be made available that uses the provided
+   * {@link ClassLoader} for loading underlying classes.
    * <p/>
-   * Multiple calls to this method with the same URI and ClassLoader
-   * <strong>must</strong> return the same CacheManager instance, except if a
-   * previously returned CacheManager has been closed.
+   * Multiple calls to this method with the same {@link URI} and
+   * {@link ClassLoader} must return the same {@link CacheManager} instance,
+   * except if a previously returned {@link CacheManager} has been closed.
    *
-   * @param uri         an implementation specific URI for the CacheManager (null
-   *                    means use {@link #getDefaultURI()})
-   * @param classLoader the ClassLoader to use for the CacheManager (null means
-   *                    use {@link #getDefaultClassLoader()})
-   * @param properties  the Properties for the CachingProvider to
-   *                    create the CacheManager (null means no implementation
-   *                    specific Properties are required)
-   * @throws javax.cache.CacheException when a CacheManager for the specified
-   *                                    arguments could not be produced
+   * @param uri         an implementation specific URI for the
+   *                    {@link CacheManager} (null means use
+   *                    {@link #getDefaultURI()})
+   * @param classLoader the {@link ClassLoader}  to use for the
+   *                    {@link CacheManager} (null means use
+   *                    {@link #getDefaultClassLoader()})
+   * @param properties  the {@link Properties} for the {@link CachingProvider}
+   *                    to create the {@link CacheManager} (null means no
+   *                    implementation specific Properties are required)
+   * @throws javax.cache.CacheException when a {@link CacheManager} for the
+   *                                    specified arguments could not be produced
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader, Properties properties);
 
   /**
-   * Obtains the default ClassLoader that will be used by the CachingProvider.
+   * Obtains the default {@link ClassLoader} that will be used by the
+   * {@link CachingProvider}.
    *
-   * @return the default ClassLoader for the CachingProvider and javax.caching
-   *         API calls
+   * @return the default {@link ClassLoader} used by the {@link CachingProvider}
    */
   ClassLoader getDefaultClassLoader();
 
   /**
-   * Obtains the default URI for the CachingProvider.
+   * Obtains the default {@link URI} for the {@link CachingProvider}.
    * <p/>
-   * Use this method to obtain a suitable URI for the CachingProvider.
+   * Use this method to obtain a suitable {@link URI} for the {@link CachingProvider}.
    *
-   * @return the default URI for the CachingProvider
+   * @return the default {@link URI} for the {@link CachingProvider}
    */
   URI getDefaultURI();
 
   /**
-   * Obtains the default Properties for the CachingProvider.
+   * Obtains the default {@link Properties} for the {@link CachingProvider}.
    * <p/>
-   * Use this method to obtain a suitable Properties for the CachingProvider.
+   * Use this method to obtain suitable {@link Properties} for the {@link CachingProvider}.
    *
-   * @return the default Properties for the CachingProvider
+   * @return the default {@link Properties} for the {@link CachingProvider}
    */
   Properties getDefaultProperties();
 
   /**
-   * Requests a CacheManager configured according to the implementation specific
-   * URI be made available that uses the provided ClassLoader for loading
+   * Requests a {@link CacheManager} configured according to the implementation
+   * specific {@link URI} that uses the provided {@link ClassLoader} for loading
    * underlying classes.
    * <p/>
-   * Multiple calls to this method with the same URI and ClassLoader
-   * <strong>must</strong> return the same CacheManager instance, accept if a
-   * previously returned CacheManager has been closed.
+   * Multiple calls to this method with the same {@link URI} and {@link ClassLoader}
+   * must return the same {@link CacheManager} instance, accept if a previously
+   * returned {@link CacheManager} has been closed.
    *
-   * @param uri         an implementation specific URI for the
-   *                    CacheManager (null means
+   * @param uri         an implementation specific {@link URI} for the
+   *                    {@link CacheManager} (null means
    *                    use {@link #getDefaultURI()})
-   * @param classLoader the ClassLoader to use for the CacheManager (null means
+   * @param classLoader the {@link ClassLoader}  to use for the
+   *                    {@link CacheManager} (null means
    *                    use {@link #getDefaultClassLoader()})
-   * @throws javax.cache.CacheException when a CacheManager for the specified
-   *                                    arguments could not be produced
+   * @throws javax.cache.CacheException when a {@link CacheManager} for the
+   *                                    specified arguments could not be produced
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader);
 
   /**
-   * Requests a CacheManager configured according to the {@link #getDefaultURI()}
-   * and {@link #getDefaultProperties()} be made available that using the
-   * {@link #getDefaultClassLoader()} for loading underlying classes.
+   * Requests a {@link CacheManager} configured according to the
+   * {@link #getDefaultURI()} and {@link #getDefaultProperties()} be made
+   * available that using the {@link #getDefaultClassLoader()} for loading
+   * underlying classes.
    * <p/>
-   * Multiple calls to this method <strong>must</strong> return the same
-   * CacheManager instance, accept if a previously returned CacheManager
-   * has been closed.
+   * Multiple calls to this method must> return the same {@link CacheManager}
+   * instance, accept if a previously returned {@link CacheManager} has been
+   * closed.
    */
   CacheManager getCacheManager();
 
   /**
-   * Closes all of the CacheManager instances and associated resources created
-   * and maintained by the CachingProvider across all ClassLoaders.
+   * Closes all of the {@link CacheManager} instances and associated resources
+   * created and maintained by the {@link CachingProvider} across all
+   * {@link ClassLoader}s.
    * <p/>
-   * After closing the CachingProvider will still be operational.  It may still
-   * be used for acquiring CacheManager instances, though those will now be
+   * After closing the {@link CachingProvider} will still be operational.  It may still
+   * be used for acquiring {@link CacheManager} instances, though those will now be
    * new.
    */
   void close();
 
   /**
-   * Closes all CacheManager instances and associated resources created by
-   * the CachingProvider using the specified ClassLoader.
+   * Closes all {@link CacheManager} instances and associated resources created by
+   * the {@link CachingProvider} using the specified {@link ClassLoader} .
    * <p/>
-   * After closing the CachingProvider will still be operational.  It may still
-   * be used for acquiring CacheManager instances, though those will now be
-   * new for the specified ClassLoader.
+   * After closing the {@link CachingProvider} will still be operational.  It may still
+   * be used for acquiring {@link CacheManager} instances, though those will now be
+   * new for the specified {@link ClassLoader} .
    *
-   * @param classLoader the ClassLoader to release
+   * @param classLoader the {@link ClassLoader}  to release
    */
   void close(ClassLoader classLoader);
 
   /**
-   * Closes all CacheManager instances and associated resources created by
-   * the CachingProvider for the specified URI and ClassLoader.
+   * Closes all {@link CacheManager} instances and associated resources created by
+   * the {@link CachingProvider} for the specified {@link URI} and {@link ClassLoader} .
    *
-   * @param uri         the URI to release
-   * @param classLoader the ClassLoader to release
+   * @param uri         the {@link URI} to release
+   * @param classLoader the {@link ClassLoader}  to release
    */
   void close(URI uri, ClassLoader classLoader);
 
   /**
-   * Determines whether an optional feature is supported by the CachingProvider.
+   * Determines whether an optional feature is supported by the {@link CachingProvider}.
    *
    * @param optionalFeature the feature to check for
    * @return true if the feature is supported
