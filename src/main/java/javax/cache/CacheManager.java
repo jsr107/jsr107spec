@@ -246,29 +246,6 @@ public interface CacheManager extends Closeable {
   boolean isSupported(OptionalFeature optionalFeature);
 
   /**
-   * Enables or disables statistics gathering for a managed {@link Cache} at
-   * runtime.
-   * <p/>
-   * Each cache's statistics object must be registered with an ObjectName that
-   * is unique and has the following type and attributes:
-   * <p/>
-   * Type:
-   * <code>javax.cache:type=CacheStatistics</code>
-   * <p/>
-   * Required Attributes:
-   * <ul>
-   * <li>CacheManager the name of the CacheManager
-   * <li>Cache the name of the Cache
-   * </ul>
-   *
-   * @param cacheName the name of the cache to register
-   * @param enabled   true to enable statistics, false to disable.
-   * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws NullPointerException  if cacheName is null
-   */
-  void enableStatistics(String cacheName, boolean enabled);
-
-  /**
    * Controls whether management is enabled. If enabled the
    * {@link javax.cache.management.CacheMXBean} for each cache is registered in
    * the platform MBean server. THe platform MBeanServer is obtained using
@@ -293,6 +270,29 @@ public interface CacheManager extends Closeable {
    * @param enabled   true to enable management, false to disable.
    */
   void enableManagement(String cacheName, boolean enabled);
+
+  /**
+   * Enables or disables statistics gathering for a managed {@link Cache} at
+   * runtime.
+   * <p/>
+   * Each cache's statistics object must be registered with an ObjectName that
+   * is unique and has the following type and attributes:
+   * <p/>
+   * Type:
+   * <code>javax.cache:type=CacheStatistics</code>
+   * <p/>
+   * Required Attributes:
+   * <ul>
+   * <li>CacheManager the name of the CacheManager
+   * <li>Cache the name of the Cache
+   * </ul>
+   *
+   * @param cacheName the name of the cache to register
+   * @param enabled   true to enable statistics, false to disable.
+   * @throws IllegalStateException if the cache is {@link #isClosed()}
+   * @throws NullPointerException  if cacheName is null
+   */
+  void enableStatistics(String cacheName, boolean enabled);
 
   /**
    * Closes the {@link CacheManager}.

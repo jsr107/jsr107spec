@@ -12,18 +12,21 @@ import javax.management.MXBean;
 /**
  * Cache statistics.
  * <p/>
- * Statistics are accumulated from the time a cache is created. They can be reset to zero using {@link #clear}.
+ * Statistics are accumulated from the time a cache is created. They can be reset
+ * to zero using {@link #clear}.
  * <p/>
- * There are no defined consistency semantics for statistics. Refer to the implementation for precise semantics.
+ * There are no defined consistency semantics for statistics. Refer to the
+ * implementation for precise semantics.
  * <p/>
- * Each cache's statistics object must be registered with an ObjectName that is unique and has the following type and attributes:
+ * Each cache's statistics object must be registered with an ObjectName that is
+ * unique and has the following type and attributes:
  * <p/>
  * Type:
  * <code>javax.cache:type=CacheStatistics</code>
  * <p/>
  * Required Attributes:
  * <ul>
- * <li>CacheManager the name of the CacheManager
+ * <li>CacheManager the URI of the CacheManager
  * <li>Cache the name of the Cache
  * </ul>
  *
@@ -51,7 +54,8 @@ public interface CacheStatisticsMXBean {
   /**
    * This is a measure of cache efficiency.
    * <p/>
-   * It is calculated as {@link #getCacheHits} divided by {@link #getCacheGets()} * 100.
+   * It is calculated as:
+   * {@link #getCacheHits} divided by {@link #getCacheGets ()} * 100.
    *
    * @return the percentage of successful hits, as a decimal e.g 75.
    */
@@ -65,8 +69,9 @@ public interface CacheStatisticsMXBean {
    * In a caches with multiple tiered storage, a miss may be implemented as a miss
    * to the cache or to the first tier.
    * <p/>
-   * In a read-through cache a miss is an absence of the key in the cache which will trigger a call to a CacheLoader. So it is
-   * still a miss even though the cache will load and return the value.
+   * In a read-through cache a miss is an absence of the key in the cache which
+   * will trigger a call to a CacheLoader. So it is still a miss even though the
+   * cache will load and return the value.
    * <p/>
    * Refer to the implementation for precise semantics.
    *
@@ -75,21 +80,25 @@ public interface CacheStatisticsMXBean {
   long getCacheMisses();
 
   /**
-   * Returns the percentage of cache accesses that did not find a requested entry in the cache.
+   * Returns the percentage of cache accesses that did not find a requested entry
+   * in the cache.
    * <p/>
-   * This is calculated as {@link #getCacheMisses()} divided by {@link #getCacheGets()} * 100.
+   * This is calculated as {@link #getCacheMisses()} divided by
+   * {@link #getCacheGets()} * 100.
    *
    * @return the percentage of accesses that failed to find anything
    */
   float getCacheMissPercentage();
 
   /**
-   * The total number of requests to the cache. This will be equal to the sum of the hits and misses.
+   * The total number of requests to the cache. This will be equal to the sum of
+   * the hits and misses.
    * <p/>
-   * A "get" is an operation that returns the current or previous value. It does not include checking for the existence
-   * of a key.
+   * A "get" is an operation that returns the current or previous value. It does
+   * not include checking for the existence of a key.
    * <p/>
-   * In a caches with multiple tiered storage, a gets may be implemented as a get to the cache or to the first tier.
+   * In a caches with multiple tiered storage, a gets may be implemented as a get
+   * to the cache or to the first tier.
    *
    * @return the number of gets
    */
@@ -100,23 +109,25 @@ public interface CacheStatisticsMXBean {
    * <p/>
    * A put is counted even if it is immediately evicted.
    * <p/>
-   * Replaces, where a put occurs which overrides an existing mapping is counted as a put.
+   * Replaces, where a put occurs which overrides an existing mapping is counted
+   * as a put.
    *
    * @return the number of hits
    */
   long getCachePuts();
 
   /**
-   * The total number of removals from the cache. This does not include evictions, where the cache itself
-   * initiates the removal to make space.
+   * The total number of removals from the cache. This does not include evictions,
+   * where the cache itself initiates the removal to make space.
    *
    * @return the number of hits
    */
   long getCacheRemovals();
 
   /**
-   * The total number of evictions from the cache. An eviction is a removal initiated by the cache itself to free
-   * up space. An eviction is not treated as a removal and does not appear in the removal counts.
+   * The total number of evictions from the cache. An eviction is a removal
+   * initiated by the cache itself to free up space. An eviction is not treated as
+   * a removal and does not appear in the removal counts.
    *
    * @return the number of evictions from the cache
    */
@@ -125,7 +136,8 @@ public interface CacheStatisticsMXBean {
   /**
    * The mean time to execute gets.
    * <p/>
-   * In a read-through cache the time taken to load an entry on miss is not included in get time.
+   * In a read-through cache the time taken to load an entry on miss is not
+   * included in get time.
    *
    * @return the time in µs
    */
