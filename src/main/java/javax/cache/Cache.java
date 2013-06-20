@@ -153,16 +153,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   boolean containsKey(K key);
 
   /**
-   * The loadAll method provides a means to "pre-load" objects into the cache.
-   * This method will, asynchronously, load the specified objects into the
-   * cache using the associated cache loader for the given keys.
+   * This method provides a means to "pre-load" objects into the cache. It will,
+   * asynchronously, load the specified objects into the cache using the associated
+   * cache loader for the given keys.
    * <p/>
    * If an entry for a key already exists in the Cache, a value will be loaded
-   * if and only if replaceExistingValues is true.   If no loader is configured
-   * for the cache, no objects will be loaded.  If a problem is encountered
-   * during the retrieving or loading of the objects, an exception provided to
-   * the specified CompletionListener.  Once the operation
-   * has completed, the specified CompletionListener is notified.
+   * if and only if <code>replaceExistingValues</code> is true.   If no loader is
+   * configured for the cache, no objects will be loaded.  If a problem is
+   * encountered during the retrieving or loading of the objects,
+   * an exception is provided to the {@link CompletionListener}.  Once the
+   * operation has completed, the specified CompletionListener is notified.
    * <p/>
    * Implementations may choose to load multiple keys from the provided
    * iterable in parallel.  Iteration must not occur in parallel, thus
@@ -173,10 +173,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * different CompletionListeners rather than use a thread per
    * CompletionListener.
    *
-   * @param keys                  the keys to load
-   * @param replaceExistingValues when true existing values in the Cache will
-   *                              be replaced by those loaded from a CacheLoader
-   * @param listener              the CompletionListener (may be null)
+   * @param keys                   the keys to load
+   * @param replaceExistingValues  when true existing values in the Cache will
+   *                               be replaced by those loaded from a CacheLoader
+   * @param completionListener     the CompletionListener (may be null)
    * @throws NullPointerException  if keys is null or if keys contains a null.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        thrown if there is a problem performing the
@@ -188,7 +188,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               and any key type is incompatible with that
    *                               which has been configured for the {@link Cache}
    */
-  void loadAll(Iterable<? extends K> keys, boolean replaceExistingValues, CompletionListener listener);
+  void loadAll(Iterable<? extends K> keys, boolean replaceExistingValues,
+               CompletionListener completionListener);
 
   /**
    * Associates the specified value with the specified key in this cache
