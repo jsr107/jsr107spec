@@ -567,27 +567,26 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   CacheManager getCacheManager();
 
   /**
-   * Signals to the CacheManager instance that the cache should no longer
+   * Signals to the {@link CacheManager} that the {@link Cache} should no longer
    * be managed.
-   *
-   * The following sequence of events must occur:
-   * <li>
-   * <ul>{@link javax.cache.Cache#isClosed()} will return true</ul>
-   * <ul>the CacheManager makes the cache not available for operational methods.
-   * An attempts to call an operational method will throw an {@link
-   * IllegalStateException}.</ul>
-   * <ul>will not appear in the list of cache names from {@link
-   * javax.cache.CacheManager#getCacheNames()}
-   * getCacheNames() method is called.</ul>
-   * <ul>If any {@link javax.cache.integration
-   * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
-   * {@link javax.cache.event.CacheEntryListener} or {@link javax.cache.expiry.ExpiryPolicy}
-   * implements {@link java.io.Closeable}, then it's  <code>close</code> method
-   * is called.</ul>
-   * <uL>free any resources being used for the cache by the CacheManager</uL>
    * <p/>
-   * A closed cache cannot be reused unless it is first configured via {@link
-   * CacheManager#configureCache(String, javax.cache.configuration.Configuration)}
+   * After calling this method the following conditions will be met;
+   * <li>
+   * <ul>{@link Cache#isClosed()} will return true</ul>
+   * <ul>attempting to use operational methods on the {@link Cache} will throw
+   * an {@link IllegalStateException}.</ul>
+   * <ul>the {@link javax.cache.Cache#getName()} no longer appear in the list of
+   * cache names returned by {@link javax.cache.CacheManager#getCacheNames()}.</ul>
+   * <ul>any {@link javax.cache.integration
+   * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
+   * {@link javax.cache.event.CacheEntryListener}s or {@link javax.cache.expiry.ExpiryPolicy}
+   * configured to the {@link Cache} that implement {@link java.io.Closeable}
+   * will be closed.</ul>
+   * <uL>all resources allocated to the {@link Cache} by the {@link CacheManager}
+   * will be freed.</ul>
+   * <p/>
+   * A closed {@link Cache} instance cannot be reused.  Only new instances may
+   * be acquired via a {@link CacheManager} or as prescribed by an implementation.
    */
   void close();
 
@@ -697,11 +696,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
      * <p/>
      *
      * @param value the value to update the entry with
-     * @throws ClassCastException    if the implementation supports and is
-     *                               configured to perform runtime-type-checking,
-     *                               and value type is incompatible with that
-     *                               which has been configured for the
-     *                               {@link Cache}
+     * @throws ClassCastException if the implementation supports and is
+     *                            configured to perform runtime-type-checking,
+     *                            and value type is incompatible with that
+     *                            which has been configured for the
+     *                            {@link Cache}
      */
     void setValue(V value);
   }
