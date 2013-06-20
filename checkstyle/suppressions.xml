@@ -10,14 +10,14 @@
     <suppress checks="StrictDuplicateCode" files=".java" lines="1-6"/>
 
     <!--Includes Configuration -->
-    <suppress checks="StrictDuplicateCode" files="CacheMXBean.java"
-              lines="34-150"/>
-    <suppress checks="StrictDuplicateCode" files="Configuration.java"
-              lines="34-150"/>
+    <suppress checks="StrictDuplicateCode" files="CacheMXBean.java" lines="34-150"/>
+    <suppress checks="StrictDuplicateCode" files="Configuration.java" lines="34-150"/>
 
     <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
     <suppress checks="MagicNumber" files=""/>
+
+    <suppress checks="NPathComplexity" files="MutableCacheEntryListenerConfiguration.java"/>
 
     <suppress checks="CyclomaticComplexity" files="MutableConfiguration.java"/>
     <suppress checks="NPathComplexity" files="MutableConfiguration.java"/>

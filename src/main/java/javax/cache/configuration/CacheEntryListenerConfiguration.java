@@ -4,22 +4,24 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache.event;
+package javax.cache.configuration;
 
-import javax.cache.configuration.Factory;
+import javax.cache.event.CacheEntryEventFilter;
+import javax.cache.event.CacheEntryListener;
 
 /**
- * Defines the runtime semantics of a {@link CacheEntryListener}.
+ * Defines the configuration requirements for a {@link javax.cache.event.CacheEntryListener}.
  *
  * @param <K> the type of keys
  * @param <V> the type of values
  * @author Brian Oliver
+ * @author Greg Luck
  */
-public interface CacheEntryListenerFactoryDefinition<K, V> {
+public interface CacheEntryListenerConfiguration<K, V> {
   /**
-   * Obtains the {@link Factory} for the {@link CacheEntryListener}.
+   * Obtains the {@link Factory} for the {@link javax.cache.event.CacheEntryListener}.
    *
-   * @return the {@link Factory} for the {@link CacheEntryListener}
+   * @return the {@link Factory} for the {@link javax.cache.event.CacheEntryListener}
    */
   Factory<CacheEntryListener<? super K, ? super V>> getCacheEntryListenerFactory();
 
@@ -31,15 +33,15 @@ public interface CacheEntryListenerFactoryDefinition<K, V> {
   boolean isOldValueRequired();
 
   /**
-   * Obtains the {@link Factory} for the {@link CacheEntryEventFilter} that
+   * Obtains the {@link Factory} for the {@link javax.cache.event.CacheEntryEventFilter} that
    * should be applied prior to notifying the {@link CacheEntryListener}.
    * When <code>null</code> no filtering is applied and all appropriate events
    * are notified.
    *
-   * @return the {@link Factory} for the {@link CacheEntryEventFilter} or
+   * @return the {@link Factory} for the {@link javax.cache.event.CacheEntryEventFilter} or
    *         <code>null</code> if no filtering is required
    */
-  Factory<CacheEntryEventFilter<? super K, ? super V>> getCacheEntryFilterFactory();
+  Factory<CacheEntryEventFilter<? super K, ? super V>> getCacheEntryEventFilterFactory();
 
   /**
    * Determines if the thread that caused an event to be created should be
