@@ -31,7 +31,8 @@ import java.util.concurrent.TimeoutException;
  * //create a completion future to use to wait for loadAll
  * CompletionListenerFuture future = new CompletionListenerFuture();
  * <p/>
- * //load the values for the set of keys, replacing those that may already exist in the cache
+ * //load the values for the set of keys, replacing those that may already exist
+ * //in the cache
  * cache.loadAll(keys, true, future);
  * <p/>
  * //wait for the cache to load the keys
@@ -40,9 +41,10 @@ import java.util.concurrent.TimeoutException;
  * <p/>
  * A CompletionListenerFuture may only be used once.  Attempts to use an instance
  * multiple times, as part of multiple asynchronous calls will result in an
- * java.lang.IllegalStateException being raised.
+ * {@link java.lang.IllegalStateException} being raised.
  *
  * @author Brian Oliver
+ * @author Greg Luck
  */
 public class CompletionListenerFuture implements CompletionListener, Future<Void> {
 
@@ -57,11 +59,15 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
     this.exception = null;
   }
 
+  /**
+   * Notifies the application that the operation completed successfully.
+   * @throws IllegalStateException if the instance is used more than once
+   */
   @Override
-  public void onCompletion() {
+  public void onCompletion() throws IllegalStateException {
     synchronized (this) {
       if (isCompleted) {
-        throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
+        throw new IllegalStateException("Attempted to use a CompletionListenerFuture instance more than once");
       } else {
         isCompleted = true;
         notify();
@@ -69,11 +75,17 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
     }
   }
 
+  /**
+   * Notifies the application that the operation failed.
+   *
+   * @param e the Exception that occurred
+   * @throws IllegalStateException if the instance is used more than once
+   */
   @Override
-  public void onException(Exception e) {
+  public void onException(Exception e) throws IllegalStateException {
     synchronized (this) {
       if (isCompleted) {
-        throw new IllegalStateException("Attempted to use a CompletionListenerFuture for more than one purpose (ie: two or more times)");
+        throw new IllegalStateException("Attempted to use a CompletionListenerFuture instance more than once");
       } else {
         isCompleted = true;
         exception = e;
@@ -99,6 +111,18 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
     }
   }
 
+  /**
+   * Waits if necessary for the computation to complete, and then
+   * retrieves its result.
+   *
+   * @return the computed result
+   * @throws java.util.concurrent.CancellationException if the computation was cancelled
+   * @throws ExecutionException if the computation threw an
+   * exception. This wraps the exception received by {@link #onException
+   * (Exception)}
+   * @throws InterruptedException if the current thread was interrupted
+   * while waiting
+   */
   @Override
   public Void get() throws InterruptedException, ExecutionException {
     synchronized (this) {
@@ -114,11 +138,26 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
     }
   }
 
+  /**
+   * Waits if necessary for at most the given time for the computation
+   * to complete, and then retrieves its result, if available.
+   *
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @return the computed result
+   * @throws java.util.concurrent.CancellationException if the computation was cancelled
+   * @throws ExecutionException if the computation threw an
+   * exception. This wraps the exception received by {@link #onException
+   * (Exception)}
+   * @throws InterruptedException if the current thread was interrupted
+   * while waiting
+   * @throws TimeoutException if the wait timed out
+   */
   @Override
-  public Void get(long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
+  public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
     synchronized (this) {
       if (!isCompleted) {
-        timeUnit.timedWait(this, l);
+        unit.timedWait(this, timeout);
       }
 
       if (isCompleted) {
