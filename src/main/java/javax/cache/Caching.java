@@ -16,51 +16,60 @@ import java.util.ServiceLoader;
 import java.util.WeakHashMap;
 
 /**
- * The bootstrap and helper class for locating and managing CachingProvider implementations.
+ * The {@link Caching} class provides a convenient means for an application to
+ * acquire an appropriate {@link CachingProvider} implementation.
  * <p/>
- * <h3>Automatic Discovery of a CachingProvider via ServiceLoader conventions</h3>
- * Providers may be discovered by following the SPI conventions outlined by the JDK {@link ServiceLoader} class.
- * To be automatically discoverable, its fully qualified class name must be declared in the following file:
+ * While defined as part of the specification, its use is not mandatory.
+ * Applications and/or containers may instead choose to directly instantiate a
+ * {@link CachingProvider} implementation based on implementation specific
+ * instructions.
+ * <p/>
+ * When using the {@link Caching} class, {@link CachingProvider} implementations
+ * are automatically discovered when they follow the conventions outlined by the
+ * Java Development Kit {@link ServiceLoader} class.
+ * <p/>
+ * For a {@link CachingProvider} to be automatically discoverable by the
+ * {@link Caching} class, the fully qualified class name of the
+ * {@link CachingProvider} implementation must be declared in the following
+ * file:
  * <pre>
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>
- * The file must be available on the classpath.
+ * that of which is resolvable via the class path.
  * <p/>
  * For example, in the reference implementation the contents of this file are:
  * <code>org.jsr107.ri.RICachingProvider</code>
  * <p/>
- * <h3>Defining the CachingProvider via a System Property</h3>
- * Alternatively, the fully qualified class name of an implementation's CachingProvider can be defined
- * in the system property <code>javax.cache.CachingProvider</code>, in which case the
- * specified value is used instead to resolve the CachingProvider implementation.
+ * Alternatively when the fully qualified class name of a
+ * {@link CachingProvider} implementation is specified using the system property
+ * <code>javax.cache.CachingProvider</code>, that implementation will be used
+ * as the default {@link CachingProvider}.
  * <p/>
- * <h3>Maintaining a Registry of CachingProviders</h3>
- * Any CachingProviders which have been automatically or explicitly loaded are maintained in a registry.
- * They will be be loaded into the registry:
- * <ol>
- * <li>automatically if they follow the ServiceLoader conventions</li>
- * <li>are explicitly loaded with {@link #getCachingProvider(String)} or {@link #getCachingProvider(String, ClassLoader)}</li>
- * <li>was specified in the <code>javax.cache.CachingProvider</code> system property</li>
- * </ol>
- * Subsequent calls for previously loaded CachingProviders will simply be returned, without reloading and/or reinstantiating them.
+ * All {@link CachingProvider}s that are automatically detected or explicitly
+ * declared and loaded by the {@link Caching} class are maintained in an
+ * internal registry.  Consequently when a previously loaded
+ * {@link CachingProvider} is requested, it will be simply returned from the
+ * internal registry, without reloading and/or instantiating the said
+ * implementation again.
  * <p/>
- * <h3>Resolving a particular CachingProvider when there is more than one</h3>
- * Multiple CachingProviders are permitted.
+ * As required by some applications and containers, multiple co-existing
+ * {@link CachingProvider}s implementations, from the same or different
+ * implementors are permitted at runtime.
  * <p/>
- * To iterate through those present use:
+ * To iterate through those that are currently registered a developer may use
+ * the following methods:
  * <ol>
  * <li>{@link #getCachingProviders()}</li>
  * <li>{@link #getCachingProviders(ClassLoader)}</li>
  * </ol>
- * Or to simply return a specific one use {@link #getCachingProvider(String)} or {@link #getCachingProvider(String, ClassLoader)}.
+ * To request a specific {@link CachingProvider} implementation, a developer
+ * should use either the {@link #getCachingProvider(String)} or
+ * {@link #getCachingProvider(String, ClassLoader)} method.
  * <p/>
- * Where multiple CachingProviders are present the CachingProvider returned by getters {@link #getCachingProvider()} and
- * {@link #getCachingProvider(ClassLoader)} is undefined. As a result a {@link CacheException} will be thrown.
- * <p/>
- * <h3>Bypassing the Caching class</h3>
- * The Caching class is provided for convenience but its use is not mandatory.
- * <o/>
- * Applications and/or Containers may instead choose to directly instantiate a CachingProvider.
+ * Where multiple {@link CachingProvider}s are present, the
+ * {@link CachingProvider} returned by getters {@link #getCachingProvider()} and
+ * {@link #getCachingProvider(ClassLoader)} is undefined and as a result a
+ * {@link CacheException} will be thrown when attempted.
  *
  * @author Brian Oliver
  * @author Greg Luck
@@ -75,7 +84,7 @@ public final class Caching {
   public static final String JAVAX_CACHE_CACHING_PROVIDER = "javax.cache.CachingProvider";
 
   /**
-   * The CachingProviderManager that manages the CachingProviders.
+   * The {@link CachingProviderRegistry} that tracks the {@link CachingProvider}s.
    */
   private static final CachingProviderRegistry CACHING_PROVIDERS = new CachingProviderRegistry();
 
@@ -86,35 +95,52 @@ public final class Caching {
   }
 
   /**
-   * Obtains the ClassLoader to use for API methods that don't explicitly require
-   * a ClassLoader but internally require one.
+   * Obtains the {@link ClassLoader} to use for API methods that don't
+   * explicitly require a {@link ClassLoader} but internally require one.
    * <p/>
    * By default this is the {@link Thread#getContextClassLoader()}.
    *
-   * @return the default ClassLoader
+   * @return the default {@link ClassLoader}
    */
   public static ClassLoader getDefaultClassLoader() {
     return CACHING_PROVIDERS.getDefaultClassLoader();
   }
 
   /**
-   * Obtains the single CachingProvider visible to the default ClassLoader, which is {@link Thread#getContextClassLoader()}.
+   * Set the {@link ClassLoader} to use for API methods that don't explicitly
+   * require a {@link ClassLoader}, but internally use one.
    *
-   * @return the CachingProvider
-   * @throws CacheException should zero, or more than one CachingProvider be available on the classpath,
-   *                        or it could not be loaded
+   * @param classLoader the {@link ClassLoader} or <code>null</code> if the
+   *                    calling {@link Thread#getContextClassLoader()} should
+   *                    be used
+   */
+  public void setDefaultClassLoader(ClassLoader classLoader) {
+    CACHING_PROVIDERS.setDefaultClassLoader(classLoader);
+  }
+
+  /**
+   * Obtains the single {@link CachingProvider} visible to the default
+   * {@link ClassLoader}, which is {@link Thread#getContextClassLoader()}.
+   *
+   * @return the {@link CachingProvider}
+   * @throws CacheException should zero, or more than one
+   *                        {@link CachingProvider} be available on the
+   *                        classpath, or it could not be loaded
    */
   public static CachingProvider getCachingProvider() {
     return CACHING_PROVIDERS.getCachingProvider();
   }
 
   /**
-   * Obtains the single CachingProvider visible to the specified ClassLoader.
+   * Obtains the single {@link CachingProvider} visible to the specified
+   * {@link ClassLoader}.
    *
-   * @param classLoader the ClassLoader to use for loading the CachingProvider
-   * @return the CachingProvider
-   * @throws CacheException should zero, or more than one CachingProvider be available on the classpath,
-   *                        or it could not be loaded
+   * @param classLoader the {@link ClassLoader} to use for loading the
+   *                    {@link CachingProvider}
+   * @return the {@link CachingProvider}
+   * @throws CacheException should zero, or more than one
+   *                        {@link CachingProvider} be available on the
+   *                        classpath, or it could not be loaded
    * @see #getCachingProviders(ClassLoader)
    */
   public static CachingProvider getCachingProvider(ClassLoader classLoader) {
@@ -122,105 +148,139 @@ public final class Caching {
   }
 
   /**
-   * Obtains the CachingProviders that are available via the {@link #getDefaultClassLoader()}.
+   * Obtains the {@link CachingProvider}s that are available via the
+   * {@link #getDefaultClassLoader()}.
    * <p/>
    * If a <code>javax.cache.cachingprovider</code> system property is defined,
-   * only that CachingProvider specified by that property is returned.
-   * Otherwise all CachingProviders that are available via a ServiceLoader
-   * for CachingProviders using the default ClassLoader (plus those previously
-   * requested via {@link #getCachingProvider(String)}) are returned.
+   * only that {@link CachingProvider} specified by that property is returned.
+   * Otherwise all {@link CachingProvider}s that are available via a
+   * {@link ServiceLoader} for {@link CachingProvider}s using the default
+   * {@link ClassLoader} (including those previously requested via
+   * {@link #getCachingProvider(String)}) are returned.
    *
-   * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+   * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
+   *         specified {@link ClassLoader}
    */
   public static Iterable<CachingProvider> getCachingProviders() {
     return CACHING_PROVIDERS.getCachingProviders();
   }
 
   /**
-   * Obtains the CachingProviders that are available via the specified ClassLoader.
+   * Obtains the {@link CachingProvider}s that are available via the specified
+   * {@link ClassLoader}.
    * <p/>
    * If a <code>javax.cache.cachingprovider</code> system property is defined,
-   * only that CachingProvider specified by that property is returned.
-   * Otherwise all CachingProviders that are available via a ServiceLoader
-   * for CachingProviders using the specified ClassLoader (plus those previously
-   * requested via {@link #getCachingProvider(String, ClassLoader)}) are
-   * returned.
+   * only that {@link CachingProvider} specified by that property is returned.
+   * Otherwise all {@link CachingProvider}s that are available via a
+   * {@link ServiceLoader} for {@link CachingProvider}s using the specified
+   * {@link ClassLoader} (including those previously requested via
+   * {@link #getCachingProvider(String, ClassLoader)}) are returned.
    *
-   * @param classLoader the ClassLoader of the returned CachingProviders
-   * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+   * @param classLoader the {@link ClassLoader} of the returned
+   *                    {@link CachingProvider}s
+   * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
+   *         specified {@link ClassLoader}
    */
   public static Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
     return CACHING_PROVIDERS.getCachingProviders(classLoader);
   }
 
   /**
-   * Obtain the CachingProvider that is implemented by the specified class
-   * name using the {@link #getDefaultClassLoader()}.   Should this CachingProvider
-   * already be loaded it is simply returned, otherwise an attempt will be
-   * made to load and instantiate the specified class name (using a no-args constructor).
+   * Obtain the {@link CachingProvider} that is implemented by the specified
+   * fully qualified class name using the {@link #getDefaultClassLoader()}.
+   * Should this {@link CachingProvider} already be loaded it is simply returned,
+   * otherwise an attempt will be made to load and instantiate the specified
+   * class (using a no-args constructor).
    *
-   * @param fullyQualifiedClassName the fully qualified class name of the CachingProvider
-   * @return the CachingProvider
-   * @throws CacheException if the CachingProvider cannot be created
+   * @param fullyQualifiedClassName the fully qualified class name of the
+   *                                {@link CachingProvider}
+   * @return the {@link CachingProvider}
+   * @throws CacheException if the {@link CachingProvider} cannot be created
    */
   public static CachingProvider getCachingProvider(String fullyQualifiedClassName) {
     return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName);
   }
 
   /**
-   * Obtain the CachingProvider that is implemented by the specified class
-   * name using the provided ClassLoader.   Should this CachingProvider already be
-   * loaded it is returned, otherwise an attempt will be made to load and
-   * instantiate the specified class name (using a no-args constructor).
+   * Obtain the {@link CachingProvider} that is implemented by the specified
+   * fully qualified class name using the provided {@link ClassLoader}.
+   * Should this {@link CachingProvider} already be loaded it is returned,
+   * otherwise an attempt will be made to load and instantiate the specified
+   * class (using a no-args constructor).
    *
-   * @param fullyQualifiedClassName the fully qualified class name of the CachingProvider
-   * @param classLoader             the ClassLoader to load the CachingProvider
-   * @return the CachingProvider
-   * @throws CacheException if the CachingProvider cannot be created
+   * @param fullyQualifiedClassName the fully qualified class name of the
+   *                                {@link CachingProvider}
+   * @param classLoader             the {@link ClassLoader} to load the
+   *                                {@link CachingProvider}
+   * @return the {@link CachingProvider}
+   * @throws CacheException if the {@link CachingProvider} cannot be created
    */
   public static CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
     return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName, classLoader);
   }
 
   /**
-   * Maintains a registry of loaded CachingProviders scoped by ClassLoader.
+   * Maintains a registry of loaded {@link CachingProvider}s scoped by
+   * {@link ClassLoader}.
    */
   public static class CachingProviderRegistry {
 
     /**
-     * The CachingProviders by Class Name organized by the ClassLoader was used to
-     * load them.
+     * The {@link CachingProvider}s by Class Name organized by the
+     * {@link ClassLoader} was used to load them.
      */
     private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>> cachingProviders;
+
+    /**
+     * The default {@link ClassLoader}.  When <code>null</code> the
+     * {@link Thread#getContextClassLoader()} will be used.
+     */
+    private volatile ClassLoader classLoader;
 
     /**
      * Constructs a CachingProviderManager.
      */
     public CachingProviderRegistry() {
       this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>();
+      this.classLoader = null;
     }
 
     /**
-     * Obtains the ClassLoader to use for API methods that don't explicitly require
-     * a ClassLoader but internally require one.
+     * Obtains the {@link ClassLoader} to use for API methods that don't
+     * explicitly require a {@link ClassLoader} but internally require one.
      * <p/>
      * By default this is the {@link Thread#getContextClassLoader()}.
      *
-     * @return the default ClassLoader
+     * @return the default {@link ClassLoader}
      */
     public ClassLoader getDefaultClassLoader() {
-      return Thread.currentThread().getContextClassLoader();
+      ClassLoader loader = classLoader;
+      return loader == null ? Thread.currentThread().getContextClassLoader() : loader;
     }
 
     /**
-     * Obtains the only CachingProvider defined by the {@link #getDefaultClassLoader()}.
-     * <p/>
-     * Should zero or more than one CachingProviders be available, a CacheException is
-     * thrown.
+     * Set the {@link ClassLoader} to use for API methods that don't explicitly
+     * require a {@link ClassLoader}, but internally use one.
      *
-     * @return the CachingProvider
-     * @throws CacheException should zero or more than one CachingProvider be available
-     *                        or a CachingProvider could not be loaded
+     * @param classLoader the {@link ClassLoader} or <code>null</code> if the
+     *                    calling {@link Thread#getContextClassLoader()} should
+     *                    be used
+     */
+    public void setDefaultClassLoader(ClassLoader classLoader) {
+      this.classLoader = classLoader;
+    }
+
+    /**
+     * Obtains the only {@link CachingProvider} defined by the
+     * {@link #getDefaultClassLoader()}.
+     * <p/>
+     * Should zero or more than one {@link CachingProvider}s be available, a
+     * CacheException is thrown.
+     *
+     * @return the {@link CachingProvider}
+     * @throws CacheException should zero or more than one
+     *                        {@link CachingProvider} be available
+     *                        or a {@link CachingProvider} could not be loaded
      * @see #getCachingProvider(ClassLoader)
      * @see #getCachingProviders(ClassLoader)
      */
@@ -229,15 +289,18 @@ public final class Caching {
     }
 
     /**
-     * Obtains the only CachingProvider defined by the specified ClassLoader.
+     * Obtains the only {@link CachingProvider} defined by the specified
+     * {@link ClassLoader}.
      * <p/>
-     * Should zero or more than one CachingProviders be available, a CacheException is
-     * thrown.
+     * Should zero or more than one {@link CachingProvider}s be available, a
+     * CacheException is thrown.
      *
-     * @param classLoader the ClassLoader to use for loading the CachingProvider
-     * @return the CachingProvider
-     * @throws CacheException should zero or more than one CachingProvider be available
-     *                        or a CachingProvider could not be loaded
+     * @param classLoader the {@link ClassLoader} to use for loading the
+     *                    {@link CachingProvider}
+     * @return the {@link CachingProvider}
+     * @throws CacheException should zero or more than one
+     *                        {@link CachingProvider} be available
+     *                        or a {@link CachingProvider} could not be loaded
      * @see #getCachingProviders(ClassLoader)
      */
     public CachingProvider getCachingProvider(ClassLoader classLoader) {
@@ -257,32 +320,38 @@ public final class Caching {
     }
 
     /**
-     * Obtain the CachingProviders that are available via the {@link #getDefaultClassLoader()}.
+     * Obtain the {@link CachingProvider}s that are available via the
+     * {@link #getDefaultClassLoader()}.
      * <p/>
      * If a <code>javax.cache.cachingprovider</code> system property is defined,
-     * only that CachingProvider specified by that property is returned.
-     * Otherwise all CachingProviders that are available via a ServiceLoader
-     * for CachingProviders using the default ClassLoader (and those explicitly
-     * requested via {@link #getCachingProvider(String)}) are returned.
+     * only that {@link CachingProvider} specified by that property is returned.
+     * Otherwise all {@link CachingProvider}s that are available via a
+     * {@link ServiceLoader} for {@link CachingProvider}s using the default
+     * {@link ClassLoader} (and those explicitly requested via
+     * {@link #getCachingProvider(String)}) are returned.
      *
-     * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+     * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
+     *         default {@link ClassLoader}
      */
     public Iterable<CachingProvider> getCachingProviders() {
       return getCachingProviders(getDefaultClassLoader());
     }
 
     /**
-     * Obtain the CachingProviders that are available via the specified ClassLoader.
+     * Obtain the {@link CachingProvider}s that are available via the specified
+     * {@link ClassLoader}.
      * <p/>
      * If a <code>javax.cache.cachingprovider</code> system property is defined,
-     * only that CachingProvider specified by that property is returned.
-     * Otherwise all CachingProviders that are available via a ServiceLoader
-     * for CachingProviders using the specified ClassLoader (and those explicitly
-     * requested via {@link #getCachingProvider(String, ClassLoader)}) are
-     * returned.
+     * only that {@link CachingProvider} specified by that property is returned.
+     * Otherwise all {@link CachingProvider}s that are available via a
+     * {@link ServiceLoader} for {@link CachingProvider}s using the specified
+     * {@link ClassLoader} (and those explicitly requested via
+     * {@link #getCachingProvider(String, ClassLoader)}) are returned.
      *
-     * @param classLoader the ClassLoader of the returned CachingProviders
-     * @return an Iterable of CachingProviders loaded by the specified ClassLoader
+     * @param classLoader the {@link ClassLoader} of the returned
+     *                    {@link CachingProvider}s
+     * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
+     *         specified {@link ClassLoader}
      */
     public synchronized Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
 
@@ -319,27 +388,30 @@ public final class Caching {
     }
 
     /**
-     * Obtain the CachingProvider that is implemented by the specified class
-     * name using the {@link #getDefaultClassLoader()}.   Should this CachingProvider
-     * already be loaded it is simply returned, otherwise an attempt will be
-     * made to load and instantiate the specified class name (using a no-args constructor).
+     * Obtain the {@link CachingProvider} that is implemented by the specified
+     * fully qualified class name using the {@link #getDefaultClassLoader()}.
+     * Should this {@link CachingProvider} already be loaded it is simply
+     * returned, otherwise an attempt will be made to load and instantiate the
+     * specified class name (using a no-args constructor).
      *
-     * @param fullyQualifiedClassName the fully qualified class name of the CachingProvider
-     * @return the CachingProvider
-     * @throws CacheException when the CachingProvider can't be created
+     * @param fullyQualifiedClassName the fully qualified class name of the
+     *                                {@link CachingProvider}
+     * @return the {@link CachingProvider}
+     * @throws CacheException when the {@link CachingProvider} can't be created
      */
     public CachingProvider getCachingProvider(String fullyQualifiedClassName) {
       return getCachingProvider(fullyQualifiedClassName, getDefaultClassLoader());
     }
 
     /**
-     * Load and instantiate the CachingProvider with the specified class name using the provided ClassLoader
+     * Load and instantiate the {@link CachingProvider} with the specified
+     * fully qualified class name using the provided {@link ClassLoader}
      *
-     * @param fullyQualifiedClassName the name of the CachingProvider class
-     * @param classLoader             the ClassLoader to use
-     * @return a new CachingProvider instance
-     * @throws CacheException if the specified CachingProvider could not be loaded
-     *                        or the specified class is not a CachingProvider
+     * @param fullyQualifiedClassName the name of the {@link CachingProvider} class
+     * @param classLoader             the {@link ClassLoader} to use
+     * @return a new {@link CachingProvider} instance
+     * @throws CacheException if the specified {@link CachingProvider} could not be loaded
+     *                        or the specified class is not a {@link CachingProvider}
      */
     protected CachingProvider loadCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) throws CacheException {
       synchronized (classLoader) {
@@ -357,15 +429,18 @@ public final class Caching {
     }
 
     /**
-     * Obtain the CachingProvider that is implemented by the specified class
-     * name using the provided ClassLoader.   Should this CachingProvider already be
-     * loaded it is returned, otherwise an attempt will be made to load and
-     * instantiate the specified class name (using a no-args constructor).
+     * Obtain the {@link CachingProvider} that is implemented by the specified
+     * fully qualified class name using the provided {@link ClassLoader}.
+     * Should this {@link CachingProvider} already be loaded it is returned,
+     * otherwise an attempt will be made to load and instantiate the specified
+     * class (using a no-args constructor).
      *
-     * @param fullyQualifiedClassName the fully qualified class name of the CachingProvider
-     * @param classLoader             the ClassLoader to load the CachingProvider
-     * @return the CachingProvider
-     * @throws CacheException when the CachingProvider can't be created
+     * @param fullyQualifiedClassName the fully qualified class name of the
+     *                                {@link CachingProvider}
+     * @param classLoader             the {@link ClassLoader} to load the
+     *                                {@link CachingProvider}
+     * @return the {@link CachingProvider}
+     * @throws CacheException when the {@link CachingProvider} can't be created
      */
     public synchronized CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
       ClassLoader serviceClassLoader = classLoader == null ? getDefaultClassLoader() : classLoader;
@@ -373,7 +448,7 @@ public final class Caching {
       LinkedHashMap<String, CachingProvider> providers = cachingProviders.get(serviceClassLoader);
 
       if (providers == null) {
-        // first load the CachingProviders for the ClassLoader
+        // first load the CachingProviders for the {@link ClassLoader}
         // this may automatically load the CachingProvider we desire
         getCachingProviders(serviceClassLoader);
         providers = cachingProviders.get(serviceClassLoader);
