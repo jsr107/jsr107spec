@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Used when a cache is read-through or when loading data into a cache via the
  * and {@link javax.cache.Cache#loadAll(Iterable, boolean,
- * javax.cache.event.CompletionListener)} method.
+ * CompletionListener)} method.
  * <p/>
  * See {@link CacheWriter} which is the corollary for write-through caching.
  *

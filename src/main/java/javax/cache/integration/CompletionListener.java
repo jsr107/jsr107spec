@@ -4,7 +4,7 @@
  *
  *  All rights reserved. Use is subject to license terms.
  */
-package javax.cache.event;
+package javax.cache.integration;
 
 /**
  * A CompletionListener is implemented by an application when it needs to be

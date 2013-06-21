@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package javax.cache.event;
+package javax.cache.integration;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

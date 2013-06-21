@@ -8,7 +8,7 @@
 package javax.cache;
 
 import javax.cache.configuration.Configuration;
-import javax.cache.event.CompletionListener;
+import javax.cache.integration.CompletionListener;
 import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
