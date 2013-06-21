@@ -14,8 +14,8 @@ package javax.cache.event;
  * If an entry for the key existed prior to the operation it is not invoked,
  * instead {@link CacheEntryUpdatedListener} is invoked.
  *
- * @param <K> the type of keys maintained by the associated cache
- * @param <V> the type of values maintained by the associated cache
+ * @param <K> the type of key
+ * @param <V> the type of value
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
  * @see CacheEntryUpdatedListener
@@ -29,6 +29,7 @@ public interface CacheEntryCreatedListener<K, V> extends CacheEntryListener<K, V
    * @param events The entries just created.
    * @throws CacheEntryListenerException if there is problem executing the listener
    */
-  void onCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events) throws CacheEntryListenerException;
+  void onCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
+      throws CacheEntryListenerException;
 
 }

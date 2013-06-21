@@ -75,8 +75,8 @@ import java.util.Set;
  * <h2>Further Consistency Modes</h2>
  * An implementation may support additional consistency models.
  *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
+ * @param <K> the type of key
+ * @param <V> the type of value
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @author Brian Oliver

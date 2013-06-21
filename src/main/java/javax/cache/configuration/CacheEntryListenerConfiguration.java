@@ -10,7 +10,9 @@ import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
 
 /**
- * Defines the configuration requirements for a {@link javax.cache.event.CacheEntryListener}.
+ * Defines the configuration requirements for a
+ * {@link javax.cache.event.CacheEntryListener} and a {@link Factory} for its
+ * creation.
  *
  * @param <K> the type of keys
  * @param <V> the type of values
@@ -47,7 +49,8 @@ public interface CacheEntryListenerConfiguration<K, V> {
    *         {@link javax.cache.event.CacheEntryEventFilter} or <code>null</code>
    *         if no filtering is required
    */
-  Factory<CacheEntryEventFilter<? super K, ? super V>> getCacheEntryEventFilterFactory();
+  Factory<CacheEntryEventFilter<? super K, ? super V>>
+  getCacheEntryEventFilterFactory();
 
   /**
    * Determines if the thread that caused an event to be created should be

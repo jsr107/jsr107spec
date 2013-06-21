@@ -11,13 +11,15 @@ import javax.cache.Cache;
 import java.util.EventObject;
 
 /**
- * A Cache event base class
+ * A Cache entry event base class.
  *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
+ * @param <K> the type of key
+ * @param <V> the type of value
+ * @author Greg Luck
  * @since 1.0
  */
-public abstract class CacheEntryEvent<K, V> extends EventObject implements Cache.Entry<K, V> {
+public abstract class CacheEntryEvent<K, V> extends EventObject
+    implements Cache.Entry<K, V> {
 
   private EventType eventType;
 

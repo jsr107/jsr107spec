@@ -17,8 +17,6 @@
 
 package javax.cache.configuration;
 
-import javax.cache.event.CacheEntryEventFilter;
-import javax.cache.event.CacheEntryListener;
 import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
@@ -245,33 +243,6 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     if (!alreadyExists) {
       this.listenerConfigurations.add(configuration);
     }
-    return this;
-  }
-
-  /**
-   * Add a configuration for a {@link javax.cache.event.CacheEntryListener}.
-   *
-   * @param listenerFactory    the {@link javax.cache.event.CacheEntryListener}
-   *                           {@link Factory}
-   * @param filterFactory      the optional
-   *                           {@link javax.cache.event.CacheEntryEventFilter}
-   *                           {@link Factory}
-   * @param isOldValueRequired if the old value is required for events with this
-   *                           listenerFactory
-   * @param isSynchronous      if the listenerFactory should block the thread
-   *                           causing the event
-   * @return the {@link MutableConfiguration} to permit fluent-style method calls
-   */
-  public MutableConfiguration<K, V> addCacheEntryListenerConfiguration(
-      Factory<? extends CacheEntryListener<? super K, ? super V>> listenerFactory,
-      Factory<? extends CacheEntryEventFilter<? super K, ? super V>> filterFactory,
-      boolean isOldValueRequired,
-      boolean isSynchronous) {
-
-    this.addCacheEntryListenerConfiguration(
-        new MutableCacheEntryListenerConfiguration<K, V>(
-            listenerFactory, filterFactory, isOldValueRequired, isSynchronous));
-
     return this;
   }
 

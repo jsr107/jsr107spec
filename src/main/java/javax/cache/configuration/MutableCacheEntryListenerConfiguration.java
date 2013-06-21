@@ -21,7 +21,8 @@ import javax.cache.event.CacheEntryListener;
 import java.io.Serializable;
 
 /**
- * A simple mutable implementation of a {@link CacheEntryListenerConfiguration}.
+ * A convenience class providing a mutable, serializable implementation of a
+ * {@link CacheEntryListenerConfiguration}.
  *
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values

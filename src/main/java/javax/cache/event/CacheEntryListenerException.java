@@ -11,7 +11,7 @@ import javax.cache.CacheException;
 
 /**
  * An exception to indicate a problem has occurred with a listener.
- * As listeners are only called after the cache has been updated, the update
+ * As listeners are only called after the cache has been mutated, the mutation
  * to the cache is not affected.
  *
  * @author Greg Luck
@@ -19,7 +19,7 @@ import javax.cache.CacheException;
  */
 public class CacheEntryListenerException extends CacheException {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 20130621110150L;
 
 
   /**

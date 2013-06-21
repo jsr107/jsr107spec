@@ -13,8 +13,8 @@ package javax.cache.event;
  * <p/>
  * A filter must not create side effects.
  *
- * @param <K> the type of keys maintained by the associated cache
- * @param <V> the type of values maintained by the associated cache
+ * @param <K> the type of key
+ * @param <V> the type of value
  * @author Greg Luck
  * @author Brian Oliver
  * @since 1.0
@@ -29,5 +29,6 @@ public interface CacheEntryEventFilter<K, V> {
    *         The effect of returning true is that listener will be invoked
    * @throws CacheEntryListenerException if there is problem executing the listener
    */
-  boolean evaluate(CacheEntryEvent<? extends K, ? extends V> event) throws CacheEntryListenerException;
+  boolean evaluate(CacheEntryEvent<? extends K, ? extends V> event)
+      throws CacheEntryListenerException;
 }
