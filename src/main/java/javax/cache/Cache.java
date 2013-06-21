@@ -530,18 +530,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   Configuration<K, V> getConfiguration();
 
   /**
-   * Passes the cache entry associated with the key to the entry
-   * processor. All operations performed by the processor will be done atomically
+   * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
+   * the provided key.  If an {@link Entry} does not exist for the specified
+   * key, one it loaded (if a loader is configured) or an empty {@link Entry}
+   * is created.
    *
    * @param key            the key to the entry
-   * @param entryProcessor the processor which will process the entry
-   * @param arguments      a number of arguments to the process
-   * @return the result of the processing, if any, which is user defined.
-   * @throws NullPointerException  if key or entryProcessor are null
+   * @param entryProcessor the {@link EntryProcessor} to invoke
+   * @param arguments      additional arguments to pass to the
+   *                       {@link EntryProcessor}
+   * @return the result of the processing, if any, defined by the
+   *         {@link EntryProcessor} implementation
+   *
+   * @throws NullPointerException  if key or {@link EntryProcessor} are null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if an exception occurred while executing
-   *                               the EntryProcessor (the causing exception
-   *                               will be wrapped by the CacheException)
+   *                               the {@link EntryProcessor} (the causing
+   *                               exception will be wrapped by the
+   *                               CacheException)
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and the key or value types are incompatible
@@ -549,7 +555,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               {@link Cache}
    * @see EntryProcessor
    */
-  <T> T invokeEntryProcessor(K key, EntryProcessor<K, V, T> entryProcessor, Object... arguments);
+  <T> T invokeEntryProcessor(K key,
+                             EntryProcessor<K, V, T> entryProcessor,
+                             Object... arguments);
 
   /**
    * Return the name of the cache.
@@ -707,56 +715,54 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   }
 
   /**
-   * Allows execution of code which may mutate a cache entry with exclusive
-   * access (including reads) to that entry.
+   * An invocable function that allows applications to perform compound
+   * operations on a {@link Cache.Entry} atomically, according the the defined
+   * consistency of a {@link Cache}.
    * <p/>
-   * Any {@link Cache.Entry} mutations will not take effect till after the processor has completed;
-   * if an exception is thrown inside the processor, the exception will be returned wrapped in an
-   * {@link CacheException}.  No changes will be made to the cache.
+   * Any {@link Cache.Entry} mutations will not take effect until after the
+   * {@link EntryProcessor#process(javax.cache.Cache.MutableEntry, Object...)}
+   * method has completed execution.
    * <p/>
-   * This enables a way to perform compound operations without transactions
-   * involving a cache entry atomically. Such operations may include mutations.
+   * If an exception is thrown by an {@link EntryProcessor}, the exception will
+   * be returned wrapped in an {@link CacheException}.  No changes will be made
+   * to the {@link Cache.Entry}.
    * <p/>
-   * Implementations may process in situ, avoiding expensive network transfers. e.g. appending
-   * to a list. Another is computing a function on a value and returning just that.
+   * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
+   * locking, round-trips and expensive network transfers.
    * <p/>
-   * <h2>Chaining &amp Recursion </h2>
-   * An entry processor cannot invoke any cache operations, including other processor operations
-   * against another key.
+   * {@link Cache.Entry} access, via a call to
+   * {@link javax.cache.Cache.MutableEntry#getValue()}, will behave as if
+   * {@link Cache#get(Object)} was called for the key.  This includes updating
+   * necessary statistics, consulting the configured
+   * {@link javax.cache.expiry.ExpiryPolicy} and loading from a configured
+   * {@link javax.cache.integration.CacheLoader}.
    * <p/>
-   * However multiple EntryProcessors can be execute against the same key. For example an EntryProcessor
-   * might be a composite of entry processors or a chain of entry processors. The outermost EntryProcessor
-   * will lock and unlock the entry.
+   * {@link Cache.Entry} mutation, via a call to
+   * {@link javax.cache.Cache.MutableEntry#setValue(Object)}, will behave
+   * as if {@link Cache#put(Object, Object)} was called for the key.  This
+   * includes updating necessary statistics, consulting the configured
+   * {@link javax.cache.expiry.ExpiryPolicy}, notifying
+   * {@link javax.cache.event.CacheEntryListener}s and a writing to a configured
+   * {@link javax.cache.integration.CacheWriter}.
    * <p/>
-   * <h2>Statistics</h2>
-   * Invocation of an entry processor is regarded as a get operation for statistics purposes.
+   * {@link Cache.Entry} removal, via a call to
+   * {@link javax.cache.Cache.MutableEntry#remove()}, will behave
+   * as if {@link Cache#remove(Object)} was called for the key.  This
+   * includes updating necessary statistics, notifying
+   * {@link javax.cache.event.CacheEntryListener}s and causing a delete on a
+   * configured {@link javax.cache.integration.CacheWriter}.
    * <p/>
-   * If {@link MutableEntry#setValue(Object)} is called in an EntryProcessor it is considered a put
-   * for statistics purposes.
-   * <p/>
-   * <h2>CacheEntryListeners</h2>
-   * As a result of an entry processor registered CacheEntryListeners are called.
-   * <p/>
-   * <h2>Remote Invocation</h2>
-   * If executed in a JVM remote from the one invoke was called in, an EntryProcessor equal
-   * to the local one will execute the invocation. For remote execution to succeed, the
-   * EntryProcessor implementation class must be in the executing class loader, as must K
-   * if {@link Cache.MutableEntry#getKey()} is used and V if {@link Cache.MutableEntry#getValue()}
-   * is invoked.
-   * <p/>
-   * In order to simplify placement of EntryProcessors in remote JVMs, arguments can be passed separately.
-   * In such cases EntryProcessors do not need to be {@link java.io.Serializable}.
+   * As implementations may choose to execute {@link EntryProcessor}s remotely,
+   * {@link EntryProcessor}s, together with specified parameters and return
+   * values, may be required to implement {@link java.io.Serializable}.
    *
    * @param <K> the type of keys maintained by this cache
    * @param <V> the type of cached values
-   * @author Greg Luck
-   * @author Yannis Cosmadopoulos
    */
   public interface EntryProcessor<K, V, T> {
 
     /**
-     * Process an entry. Exclusive read and write access to the entry is obtained to
-     * the entry.
+     * Process an entry.
      *
      * @param entry     the entry
      * @param arguments a number of arguments to the process.
