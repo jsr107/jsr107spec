@@ -2,7 +2,7 @@ package javax.cache.expiry;
 
 import javax.cache.Cache;
 import javax.cache.configuration.Factory;
-import javax.cache.configuration.InstanceFactoryBuilder;
+import javax.cache.configuration.FactoryBuilder;
 import java.io.Serializable;
 
 /**
@@ -41,7 +41,7 @@ public final class ModifiedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Ser
    * @return a {@link javax.cache.configuration.Factory} for a Modified {@link javax.cache.expiry.ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf(Duration duration) {
-    return new InstanceFactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new ModifiedExpiryPolicy<K, V>(duration));
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new ModifiedExpiryPolicy<K, V>(duration));
   }
 
   /**

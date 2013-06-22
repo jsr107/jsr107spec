@@ -2,7 +2,7 @@ package javax.cache.expiry;
 
 import javax.cache.Cache;
 import javax.cache.configuration.Factory;
-import javax.cache.configuration.InstanceFactoryBuilder;
+import javax.cache.configuration.FactoryBuilder;
 import java.io.Serializable;
 
 import static javax.cache.expiry.Duration.ETERNAL;
@@ -29,7 +29,7 @@ public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    * @return a {@link javax.cache.configuration.Factory} for an Eternal {@link ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf() {
-    return new InstanceFactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new EternalExpiryPolicy<K, V>());
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new EternalExpiryPolicy<K, V>());
   }
 
   /**
