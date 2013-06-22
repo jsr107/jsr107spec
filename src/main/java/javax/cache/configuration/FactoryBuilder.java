@@ -31,7 +31,7 @@ public final class FactoryBuilder {
    * Constructs a {@link Factory} that will produce factory instances of the
    * specified class.
    * <p/>
-   * Assumes the specified class as a no-args constructor.
+   * The specified class must have a no-args constructor.
    *
    * @param clazz the class of instances to be produced by the returned
    *              {@link Factory}
@@ -40,21 +40,6 @@ public final class FactoryBuilder {
    */
   public static <T> Factory<T> factoryOf(Class<T> clazz) {
     return new ClassFactory<T>(clazz);
-  }
-
-
-
-
-
-  /**
-   * Constructs a {@link Factory} that will return the specified factory instance.
-   *
-   * @param instance the Serializable instance the {@link Factory} will return
-   * @param <T>      the type of the instances returned
-   * @return a {@link Factory} for the instance
-   */
-  public static <T extends Serializable> Factory<T> factoryOf(T instance) {
-    return new SingletonFactory<T>(instance);
   }
 
 
@@ -124,54 +109,4 @@ public final class FactoryBuilder {
     }
   }
 
-  /**
-   * A {@link Factory} that always returns a specific instance. ie: the
-   * factory returns a singleton, regardless of the number of times
-   * {@link Factory#create()} is called.
-   *
-   * @param <T> the type of the instance produced by the {@link Factory}
-   */
-  public static class SingletonFactory<T> implements Factory<T>, Serializable {
-
-    /**
-     * The serialVersionUID required for {@link Serializable}.
-     */
-    public static final long serialVersionUID = 201305101634L;
-
-    /**
-     * The singleton instance.
-     */
-    private T instance;
-
-    /**
-     * Constructor for the {@link SingletonFactory}.
-     *
-     * @param instance the instance to return
-     */
-    public SingletonFactory(T instance) {
-      this.instance = instance;
-    }
-
-    @Override
-    public T create() {
-      return instance;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (this == other) return true;
-      if (other == null || getClass() != other.getClass()) return false;
-
-      SingletonFactory that = (SingletonFactory) other;
-
-      if (!instance.equals(that.instance)) return false;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return instance.hashCode();
-    }
-  }
 }
