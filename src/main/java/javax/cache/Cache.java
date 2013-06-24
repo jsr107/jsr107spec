@@ -532,8 +532,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   /**
    * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
    * the provided key.  If an {@link Entry} does not exist for the specified
-   * key, one it loaded (if a loader is configured) or an empty {@link Entry}
-   * is created.
+   * key, an attempt is made to loaded it (if a loader is configured) or an
+   * empty {@link Entry} is created and used instead.
    *
    * @param key            the key to the entry
    * @param entryProcessor the {@link EntryProcessor} to invoke
@@ -558,6 +558,44 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   <T> T invokeEntryProcessor(K key,
                              EntryProcessor<K, V, T> entryProcessor,
                              Object... arguments);
+
+  /**
+   * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
+   * specified by the set of keys.  If an {@link Entry} does not exist for a
+   * specified key, an attempt is made to loaded it (if a loader is configured)
+   * or an empty {@link Entry} is created and used instead.
+   * <p/>
+   * The order in which the entries for the keys are processed is undefined.
+   * Implementations may choose to process the entries in any order, including
+   * concurrently.  Furthermore there is no guarantee implementations will
+   * use the same {@link EntryProcessor} instance to process each entry, as
+   * the case may be in a non-local cache topology.
+   *
+   * @param keys           the set of keys for entries to process
+   * @param entryProcessor the {@link EntryProcessor} to invoke
+   * @param arguments      additional arguments to pass to the
+   *                       {@link EntryProcessor}
+   * @return the map of results of the processing per key, if any, defined by the
+   *         {@link EntryProcessor} implementation.  No mappings will be
+   *         returned for {@link EntryProcessor}s that return a <code>null</code>
+   *         value for a key
+   *
+   * @throws NullPointerException  if keys or {@link EntryProcessor} are null
+   * @throws IllegalStateException if the cache is {@link #isClosed()}
+   * @throws CacheException        if an exception occurred while executing
+   *                               the {@link EntryProcessor} (the causing
+   *                               exception will be wrapped by the
+   *                               CacheException)
+   * @throws ClassCastException    if the implementation supports and is
+   *                               configured to perform runtime-type-checking,
+   *                               and the key or value types are incompatible
+   *                               with those that have been configured for the
+   *                               {@link Cache}
+   * @see EntryProcessor
+   */
+  <T> Map<K, T> invokeEntryProcessor(Set<? extends K> keys,
+                                     EntryProcessor<K, V, T> entryProcessor,
+                                     Object... arguments);
 
   /**
    * Return the name of the cache.
