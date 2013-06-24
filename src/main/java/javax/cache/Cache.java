@@ -141,8 +141,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * operation has completed, the specified CompletionListener is notified.
    * <p/>
    * Implementations may choose to load multiple keys from the provided
-   * {@link Iterable} in parallel.  Iteration must not occur in parallel, thus
-   * allow for non-thread-safe {@link Iterable}s, but loading may.
+   * {@link Set} in parallel.  Iteration however must not occur in parallel,
+   * thus allow for non-thread-safe {@link Set}s to be used.
    * <p/>
    * The thread on which the completion listener is called is implementation
    * dependent. An implementation may also choose to serialize calls to
@@ -162,9 +162,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and any key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   *                               which has been configured for the
+   *                               {@link Cache}
    */
-  void loadAll(Iterable<? extends K> keys, boolean replaceExistingValues,
+  void loadAll(Set<? extends K> keys, boolean replaceExistingValues,
                CompletionListener completionListener);
 
   /**
