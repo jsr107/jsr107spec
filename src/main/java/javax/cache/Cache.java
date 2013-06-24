@@ -555,9 +555,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               {@link Cache}
    * @see EntryProcessor
    */
-  <T> T invokeEntryProcessor(K key,
-                             EntryProcessor<K, V, T> entryProcessor,
-                             Object... arguments);
+  <T> T invoke(K key,
+               EntryProcessor<K, V, T> entryProcessor,
+               Object... arguments);
 
   /**
    * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
@@ -593,9 +593,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               {@link Cache}
    * @see EntryProcessor
    */
-  <T> Map<K, T> invokeEntryProcessor(Set<? extends K> keys,
-                                     EntryProcessor<K, V, T> entryProcessor,
-                                     Object... arguments);
+  <T> Map<K, T> invokeAll(Set<? extends K> keys,
+                          EntryProcessor<K, V, T> entryProcessor,
+                          Object... arguments);
 
   /**
    * Return the name of the cache.
