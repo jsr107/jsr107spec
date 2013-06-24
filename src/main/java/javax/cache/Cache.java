@@ -15,65 +15,44 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A Cache provides storage of data for later fast retrieval.
+ * A {@link Cache} is a Map-like data structure that provides temporary storage
+ * of application data.
  * <p/>
- * This Cache interface is inspired by the {@link java.util.concurrent.ConcurrentMap}
- * API with some modifications to permit high performance in distributed
- * implementations.
+ * Like {@link Map}s, {@link Cache}s
+ * <ol>
+ *   <li>store key-value pairs, each referred to as an {@link Entry}</li>
+ *   <li>allow use Java Generics to improve application type-safety</li>
+ *   <li>are {@link Iterable}</li>
+ * </ol>
  * <p/>
- * A Cache does not allow null keys or values. Attempts to store a null value or
- * to use a null key either in a get or put operation will result in a {@link NullPointerException}.
- * <p/>
- * Caches use generics throughout providing a level of type safety akin to the collections package.
- * <p/>
- * Cache implements {@link Iterable} for {@link Cache.Entry}, providing support for simplified iteration.
- * However iteration should be used with caution. It is an O(n) operation and may be
- * slow on large or distributed caches.
- * <p/>
- * The Cache API also provides:
- * <ul>
- * <li>read-through caching</li>
- * <li>write-through caching</li>
- * <li>cache loading</li>
- * <li>cache listeners</li>
- * <li>statistics</li>
- * <li>configuration</li>
- * </ul>
- * Though not visible in the Cache interface caches may be optionally transactional.
- * <p/>
- * User programs may make use of caching annotations to interact with a cache.
+ * Unlike {@link Map}s, {@link Cache}s
+ * <ol>
+ *   <li>do not allow null keys or values.  Attempts to use <code>null</code>
+ *       will result in a {@link NullPointerException}</li>
+ *   <li>provide the ability to read values from a
+ *       {@link javax.cache.integration.CacheLoader} (read-through-caching)
+ *       when a value being requested is not in a cache</li>
+ *   <li>provide the ability to write values to a
+ *       {@link javax.cache.integration.CacheWriter} (write-through-caching)
+ *       when a value being created/updated/removed from a cache</li>
+ *   <li>provide the ability to observe cache entry changes</li>
+ *   <li>may capture and measure operational statistics</li>
+ *   <li>may be transactional</li>
+ * </ol>
  * <p/>
  * A simple example of how to use a cache is:
- * <pre>
+ * <code>
  * String cacheName = "sampleCache";
  * CachingProvider provider = Caching.getCachingProvider();
  * CacheManager manager = provider.getCacheManager();
- * Cache&lt;Integer, Date&gt; cache = manager.getCache(cacheName);
- * if (cache == null) {
- *   Configuration config = new MutableConfiguration()
- *   cache = manager.configureCache(cacheName, config);
- * }
+ * Cache&lt;Integer, Date&gt; cache = manager.getCache(cacheName,
+ *                                                     Integer.class,
+ *                                                     Date.class);
  * Date value1 = new Date();
  * Integer key = 1;
  * cache.put(key, value1);
  * Date value2 = cache.get(key);
- * </pre>
- * <p/>
- * <h1>Consistency</h1>
- * <h2>Default Consistency</h2>
- * In default consistency, consistency is described as if there exists a locking
- * mechanism on each key.
- * <p/>
- * If a cache operation gets an exclusive read and write lock on a key, then all
- * subsequent operations on that key will block until that lock is released. The
- * consequences are that operations performed by a thread happen-before read or
- * mutation operations performed by another thread, including threads in different
- * Java Virtual Machines.
- * <h2>Transactional Consistency</h2>
- * Where a cache is transactional it will take on the semantics of the Transaction
- * Isolation Level configured.
- * <h2>Further Consistency Modes</h2>
- * An implementation may support additional consistency models.
+ * </code>
  *
  * @param <K> the type of key
  * @param <V> the type of value
@@ -82,20 +61,14 @@ import java.util.Set;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface Cache<K, V> extends Iterable<Cache.Entry<K,
-    V>>, Closeable {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Gets an entry from the cache.
    * <p/>
-   * If the cache is configured read-through, and get would return null because the entry
-   * is missing from the cache, the Cache's {@link javax.cache.integration.CacheLoader} is called which will attempt
+   * If the cache is configured read-through, and get would return null because
+   * the entry is missing from the cache, the Cache's
+   * {@link javax.cache.integration.CacheLoader} is called which will attempt
    * to load the entry.
-   * <p/>
-   * <h1>Effects:</h1>
-   * <ul>
-   * <li>Expiry - updates expiry time based on the Configuration ExpiryPolicy.</li>
-   * <li>Read-Through - will use the {@link javax.cache.integration.CacheLoader} if enabled and key not present in cache</li>
-   * </ul>
    *
    * @param key the key whose associated value is to be returned
    * @return the element, or null, if it does not exist.
@@ -106,38 +79,41 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               configured to perform runtime-type-checking,
    *                               and the key type is incompatible with that
    *                               which has been configured for the {@link Cache}
-   * @see java.util.Map#get(Object)
    */
   V get(K key);
 
   /**
-   * The getAll method will return, from the cache, a {@link Map} of the objects
-   * associated with the Collection of keys in argument "keys".
+   * Gets a collection of entries from the {@link Cache}, returning them as
+   * {@link Map} of the values associated with the set of keys requested.
    * <p/>
-   * If the cache is configured read-through, and a get would return null because an entry
-   * is missing from the cache, the Cache's {@link javax.cache.integration.CacheLoader} is called which will attempt
-   * to load the entry. This is done for each key in the collection for which this is the case.
-   * If an entry cannot be loaded for a given key, the key will not be present in the returned Map.
+   * If the cache is configured read-through, and a get would return null
+   * because an entry is missing from the cache, the Cache's
+   * {@link javax.cache.integration.CacheLoader} is called which will attempt
+   * to load the entry. This is done for each key in the set for which this is
+   * the case. If an entry cannot be loaded for a given key, the key will not be
+   * present in the returned Map.
    * <p/>
    *
    * @param keys The keys whose associated values are to be returned.
-   * @return A map of entries that were found for the given keys. Keys not found in the cache are not in the returned map.
+   * @return A map of entries that were found for the given keys. Keys not found
+   *         in the cache are not in the returned map.
    * @throws NullPointerException  if keys is null or if keys contains a null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem fetching the values
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and any key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   *                               which has been configured for the
+   *                               {@link Cache}
    */
   Map<K, V> getAll(Set<? extends K> keys);
 
   /**
-   * Returns <tt>true</tt> if this cache contains a mapping for the specified
-   * key.  More formally, returns <tt>true</tt> if and only if
-   * this cache contains a mapping for a key <tt>k</tt> such that
-   * <tt>key.equals(k)</tt>.  (There can be at most one such mapping.)
+   * Determines if the {@link Cache} contains an entry for the specified key.
    * <p/>
+   * More formally, returns <tt>true</tt> if and only if this cache contains a
+   * mapping for a key <tt>k</tt> such that <tt>key.equals(k)</tt>.
+   * (There can be at most one such mapping.)
    *
    * @param key key whose presence in this cache is to be tested.
    * @return <tt>true</tt> if this map contains a mapping for the specified key
@@ -147,26 +123,26 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and the key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   *                               which has been configured for the
+   *                               {@link Cache}
    * @see java.util.Map#containsKey(Object)
    */
   boolean containsKey(K key);
 
   /**
-   * This method provides a means to "pre-load" objects into the cache. It will,
-   * asynchronously, load the specified objects into the cache using the associated
-   * cache loader for the given keys.
+   * Asynchronously loads the specified entries into the cache using the
+   * configured {@link javax.cache.integration.CacheLoader} for the given keys.
    * <p/>
    * If an entry for a key already exists in the Cache, a value will be loaded
-   * if and only if <code>replaceExistingValues</code> is true.   If no loader is
-   * configured for the cache, no objects will be loaded.  If a problem is
+   * if and only if <code>replaceExistingValues</code> is true.   If no loader
+   * is configured for the cache, no objects will be loaded.  If a problem is
    * encountered during the retrieving or loading of the objects,
    * an exception is provided to the {@link CompletionListener}.  Once the
    * operation has completed, the specified CompletionListener is notified.
    * <p/>
    * Implementations may choose to load multiple keys from the provided
-   * iterable in parallel.  Iteration must not occur in parallel, thus
-   * allow for non-thread-safe Iterables, but loading may.
+   * {@link Iterable} in parallel.  Iteration must not occur in parallel, thus
+   * allow for non-thread-safe {@link Iterable}s, but loading may.
    * <p/>
    * The thread on which the completion listener is called is implementation
    * dependent. An implementation may also choose to serialize calls to
@@ -192,15 +168,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
                CompletionListener completionListener);
 
   /**
-   * Associates the specified value with the specified key in this cache
-   * If the cache previously contained a mapping for
-   * the key, the old value is replaced by the specified value.  (A cache
+   * Associates the specified value with the specified key in the cache.
+   * <p/>
+   * If the {@link Cache} previously contained a mapping for the key, the old
+   * value is replaced by the specified value.  (A cache
    * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
    * if {@link #containsKey(Object) c.containsKey(k)} would return
    * <tt>true</tt>.)
-   * <p/>
-   * In contrast to the corresponding Map operation, does not return
-   * the previous value.
    *
    * @param key   key with which the specified value is to be associated
    * @param value value to be associated with the specified key
@@ -233,27 +207,27 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *
    * @param key   key with which the specified value is to be associated
    * @param value value to be associated with the specified key
-   * @return the value associated with the key at the start of the operation or null if none was associated
+   * @return the value associated with the key at the start of the operation or
+   *         null if none was associated
    * @throws NullPointerException  if key is null or if value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the put
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible with
-   *                               those which have been configured for the
+   *                               and the key or value types are incompatible
+   *                               with those which have been configured for the
    *                               {@link Cache}
-   * @see java.util.Map#put(Object, Object)
    * @see #put(Object, Object)
    * @see #getAndReplace(Object, Object)
    */
   V getAndPut(K key, V value);
 
   /**
-   * Copies all of the mappings from the specified map to this cache.
-   * The effect of this call is equivalent to that
-   * of calling {@link #put(Object, Object) put(k, v)} on this cache once
-   * for each mapping from key <tt>k</tt> to value <tt>v</tt> in the
-   * specified map.
+   * Copies all of the entries from the specified map to the {@link Cache}.
+   * <p/>
+   * The effect of this call is equivalent to that of calling
+   * {@link #put(Object, Object) put(k, v)} on this cache once for each mapping
+   * from key <tt>k</tt> to value <tt>v</tt> in the specified map.
    * <p/>
    * The order in which the individual puts occur is undefined.
    * <p/>
@@ -262,11 +236,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * operation is in progress. or if map is modified while the operation is in
    * progress.
    * <p/>
-   * In Default Consistency mode, individual puts are done atomically but not
-   * the entire putAll.
+   * In Default Consistency mode, individual puts occur atomically but not
+   * the entire putAll.  Listeners may observe individual updates.
    *
    * @param map mappings to be stored in this cache
-   * @throws NullPointerException  if map is null or if map contains null keys or values.
+   * @throws NullPointerException  if map is null or if map contains null keys
+   *                               or values.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the put.
    * @throws ClassCastException    if the implementation supports and is
@@ -274,7 +249,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               and any of the key or value types are
    *                               incompatible with those that have been
    *                               configured for the {@link Cache}
-   * @see java.util.Map#putAll(java.util.Map)
    */
   void putAll(java.util.Map<? extends K, ? extends V> map);
 
@@ -282,18 +256,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * Atomically associates the specified key with the given value if it is
    * not already associated with a value.
    * <p/>
-   * This is equivalent to
-   * <pre>
+   * This is equivalent to:
+   * <code>
    *   if (!cache.containsKey(key)) {}
    *       cache.put(key, value);
    *       return true;
    *   } else {
    *       return false;
-   *   }</pre>
+   *   }
+   * </code>
    * except that the action is performed atomically.
-   *
-   * In contrast to the corresponding ConcurrentMap operation, does not return
-   * the previous value.
    *
    * @param key   key with which the specified value is to be associated
    * @param value value to be associated with the specified key
@@ -306,21 +278,21 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               and the key or value types are incompatible
    *                               with those that have been configured for the
    *                               {@link Cache}
-   * @see java.util.concurrent.ConcurrentMap#putIfAbsent(Object, Object)
    */
   boolean putIfAbsent(K key, V value);
 
   /**
    * Removes the mapping for a key from this cache if it is present.
-   * More formally, if this cache contains a mapping
-   * from key <tt>k</tt> to value <tt>v</tt> such that
+   * <p/>
+   * More formally, if this cache contains a mapping from key <tt>k</tt> to
+   * value <tt>v</tt> such that
    * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping
    * is removed.  (The cache can contain at most one such mapping.)
    * <p/>
    * <p>Returns <tt>true</tt> if this cache previously associated the key,
    * or <tt>false</tt> if the cache contained no mapping for the key.
    * <p/>
-   * <p>The cache will not contain a mapping for the specified key once the
+   * The cache will not contain a mapping for the specified key once the
    * call returns.
    *
    * @param key key whose mapping is to be removed from the cache
@@ -331,22 +303,24 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and the key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
-   * @see java.util.Map#remove(Object)
+   *                               which has been configured for the
+   *                               {@link Cache}
    */
   boolean remove(K key);
 
   /**
-   * Atomically removes the mapping for a key only if currently mapped to the given value.
+   * Atomically removes the mapping for a key only if currently mapped to the
+   * given value.
    * <p/>
-   * This is equivalent to
-   * <pre>
+   * This is equivalent to:
+   * <code>
    *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(oldValue)) {
    *       cache.remove(key);
    *       return true;
    *   } else {
    *       return false;
-   *   }</pre>
+   *   }
+   * </code>
    * except that the action is performed atomically.
    *
    * @param key      key whose mapping is to be removed from the cache
@@ -360,22 +334,23 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               and the key or value types are incompatible
    *                               with those that have been configured for the
    *                               {@link Cache}
-   * @see java.util.Map#remove(Object)
    */
   boolean remove(K key, V oldValue);
 
   /**
-   * Atomically removes the entry for a key only if currently mapped to a given value.
+   * Atomically removes the entry for a key only if currently mapped to a given
+   * value.
    * <p/>
-   * This is equivalent to
-   * <pre>
+   * This is equivalent to:
+   * <code>
    *   if (cache.containsKey(key)) {
    *       V oldValue = cache.get(key);
    *       cache.remove(key);
    *       return oldValue;
    *   } else {
    *       return null;
-   *   }</pre>
+   *   }
+   * </code>
    * except that the action is performed atomically.
    *
    * @param key key with which the specified value is associated
@@ -387,21 +362,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               configured to perform runtime-type-checking,
    *                               and the key type is incompatible with that
    *                               which has been configured for the {@link Cache}
-   * @see java.util.Map#remove(Object)
    */
   V getAndRemove(K key);
 
   /**
-   * Atomically replaces the entry for a key only if currently mapped to a given value.
+   * Atomically replaces the entry for a key only if currently mapped to a
+   * given value.
    * <p/>
-   * This is equivalent to
-   * <pre>
+   * This is equivalent to:
+   * <code>
    *   if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(oldValue)) {
    *       cache.put(key, newValue);
    *       return true;
    *   } else {
    *       return false;
-   *   }</pre>
+   *   }
+   * </code>
    * except that the action is performed atomically.
    *
    * @param key      key with which the specified value is associated
@@ -416,7 +392,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               and the key or value types are incompatible
    *                               with those which have been configured for the
    *                               {@link Cache}
-   * @see java.util.concurrent.ConcurrentMap#replace(Object, Object, Object)
    */
   boolean replace(K key, V oldValue, V newValue);
 
@@ -424,17 +399,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * Atomically replaces the entry for a key only if currently mapped to some value.
    * <p/>
    * This is equivalent to
-   * <pre>
+   * <code>
    *   if (cache.containsKey(key)) {
    *       cache.put(key, value);
    *       return true;
    *   } else {
    *       return false;
-   *   }</pre>
+   *   }</code>
    * except that the action is performed atomically.
-   *
-   * In contrast to the corresponding ConcurrentMap operation, does not return
-   * the previous value.
    *
    * @param key   key with which the specified value is associated
    * @param value value to be associated with the specified key
@@ -448,7 +420,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    *                               with those that have been configured for the
    *                               {@link Cache}
    * @see #getAndReplace(Object, Object)
-   * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
    */
   boolean replace(K key, V value);
 
@@ -457,14 +428,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * value currently mapped by the key.
    * <p/>
    * This is equivalent to
-   * <pre>
+   * <code>
    *   if (cache.containsKey(key)) {
    *       V oldValue = cache.get(key);
    *       cache.put(key, value);
    *       return oldValue;
    *   } else {
    *       return null;
-   *   }</pre>
+   *   }
+   * </code>
    * except that the action is performed atomically.
    *
    * @param key   key with which the specified value is associated
@@ -487,7 +459,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * Removes entries for the specified keys.
    * <p/>
    * The order in which the individual removes will occur is undefined.
-   * <p/>
    *
    * @param keys the keys to remove
    * @throws NullPointerException  if keys is null or if it contains a null key
@@ -504,6 +475,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * Removes all of the mappings from this cache.
    * <p/>
    * The order in which the individual removes will occur is undefined.
+   * <p/>
    * This is potentially an expensive operation as listeners are invoked.
    * Use {@link #clear()} to avoid this.
    *
@@ -523,9 +495,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   void clear();
 
   /**
-   * Returns an immutable Configuration object.
+   * Obtains an immutable representation of the {@link Configuration} that
+   * was used to configure the {@link Cache}.
    *
-   * @return the {@link javax.cache.configuration.Configuration} of this cache
+   * @return the {@link javax.cache.configuration.Configuration}
    */
   Configuration<K, V> getConfiguration();
 
@@ -605,11 +578,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   String getName();
 
   /**
-   * Gets the CacheManager managing this cache.
-   * <p/>
-   * A cache can be in only one CacheManager.
+   * Gets the {@link CacheManager} that owns and manages the {@link Cache}.
    *
-   * @return the manager
+   * @return the manager or <code>null</code> if the {@link Cache} is not
+   *         managed
    */
   CacheManager getCacheManager();
 
@@ -626,24 +598,25 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * cache names returned by {@link javax.cache.CacheManager#getCacheNames()}.</ul>
    * <ul>any {@link javax.cache.integration
    * .CacheLoader}, {@link javax.cache.integration.CacheWriter},
-   * {@link javax.cache.event.CacheEntryListener}s or {@link javax.cache.expiry.ExpiryPolicy}
+   * {@link javax.cache.event.CacheEntryListener}s or
+   * {@link javax.cache.expiry.ExpiryPolicy}
    * configured to the {@link Cache} that implement {@link java.io.Closeable}
    * will be closed.</ul>
    * <uL>all resources allocated to the {@link Cache} by the {@link CacheManager}
    * will be freed.</ul>
    * <p/>
-   * A closed {@link Cache} instance cannot be reused.  Only new instances may
-   * be acquired via a {@link CacheManager} or as prescribed by an implementation.
+   * A closed {@link Cache} instance cannot be reused.
    */
   void close();
 
   /**
-   * Determines whether this Cache instance has been closed. A Cache is considered
-   * closed if;
+   * Determines whether this Cache instance has been closed. A Cache is
+   * considered closed if;
    * <ol>
    * <li>the {@link #close()} method has been called</li>
    * <li>the associated {@link #getCacheManager()} has been closed, or</li>
-   * <li>the Cache has been removed from the associated {@link #getCacheManager()}</li>
+   * <li>the Cache has been removed from the associated
+   *     {@link #getCacheManager()}</li>
    * </ol>
    * <p/>
    * This method generally cannot be called to determine whether a Cache instance
@@ -655,14 +628,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
   boolean isClosed();
 
   /**
-   * Provides a standard way to access the underlying concrete caching implementation to provide access
-   * to further, proprietary features.
+   * Provides a standard way to access the underlying concrete caching
+   * implementation to provide access to further, proprietary features.
    * <p/>
-   * If the provider's implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
+   * If the provider's implementation does not support the specified class,
+   * the {@link IllegalArgumentException} is thrown.
    *
-   * @param clazz the proprietary class or interface of the underlying concrete cache. It is this type which is returned.
+   * @param clazz the proprietary class or interface of the underlying concrete
+   *              cache. It is this type which is returned.
    * @return an instance of the underlying concrete cache
-   * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
+   * @throws IllegalArgumentException if the caching provider doesn't support
+   *         the specified class.
    */
   <T> T unwrap(java.lang.Class<T> clazz);
 
@@ -675,7 +651,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
    * CacheEntryReadListeners notified and b). removed will have their appropriate
    * CacheEntryRemoveListeners notified.
    * <p/>
-   * {@link java.util.Iterator#next()} may return null if the entry is no longer present.
+   * {@link java.util.Iterator#next()} may return null if the entry is no
+   * longer present, has expired or has been evicted.
    */
   Iterator<Cache.Entry<K, V>> iterator();
 
@@ -708,16 +685,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
      * @param clazz the proprietary class or interface of the underlying
      *              concrete cache. It is this type which is returned.
      * @return an instance of the underlying concrete cache
-     * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
+     * @throws IllegalArgumentException if the caching provider doesn't support
+     *         the specified class.
      */
     <T> T unwrap(Class<T> clazz);
   }
 
   /**
-   * An accessor and mutator to the underlying Cache
+   * A mutable representation of a {@link Cache} {@link Entry}.
    *
-   * @param <K>
-   * @param <V>
+   * @param <K> the type of key
+   * @param <V> the type of value
    */
   public interface MutableEntry<K, V> extends Entry<K, V> {
 
@@ -730,7 +708,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K,
 
     /**
      * Removes the entry from the Cache
-     * <p/>
      */
     void remove();
 
