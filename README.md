@@ -10,17 +10,20 @@ About
 
 ## Releases
 
-* 13 March 2012: 0.5 Early Draft Submission uses this release.
-* December 2011: 0.4
-* 12 October 2011: 0.3
-* 16 August 2011: Initial release, 0.2
+* 25 June 2013:     0.8 Public Review Draft
+* 17 April 2013     0.7
+* 12 February 2013  0.6
+* 13 March 2012:    0.5 Early Draft Submission uses this release.
+* December 2011:    0.4
+* 12 October 2011:  0.3
+* 16 August 2011:   0.2 Initial release
 
 Maven snippet:
 
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.5</version>
+      <version>0.8</version>
     </dependency>
 
 
@@ -48,7 +51,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.5</version>
+      <version>0.9-SNAPSHOT</version>
     </dependency>
 
 Javadoc
@@ -59,7 +62,8 @@ The JavaDoc is available as a jar with the releases. We also have the latest Jav
 Specification
 -------------
 
-The evolving specification is available online on as a [Google Doc](https://docs.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/edit?hl=en_US).
+The specification is available online on as a [Google Doc](https://docs
+.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/edit?hl=en_US).
 
 Reference Implementation
 ------------------------
@@ -155,14 +159,6 @@ Mailing list
 Please join the mailing list if you're interested in using or developing the software: <http://groups.google.com/group/jsr107>
 
 
-IRC
----
-
-We will be using the `#jsr107` channel on Freenode for chat.
-
-We also have set up a commit hook which publishes commits to the channel.
-
-
 Issue tracker
 -------------
 
@@ -172,7 +168,8 @@ Please log issues to: <https://github.com/jsr107/jsr107spec/issues>
 Contributing
 ------------
 
-Right now code contribution is limited to the Expert Group, but please feel free to post to the mailing list.
+Admission to the Expert Group is closed, but please feel free to post to the
+mailing list.
 
 
 License
@@ -180,7 +177,8 @@ License
 
 The API is available under the JPA license and may be freely used.
 
-The TCK is available under a restricted TCK license although the tests.
+The TCK is available under a restricted TCK license and must be licensed from
+Oracle as is the usual case with JSRs.
 
 The reference implementation is available under an Apache 2 license.
 

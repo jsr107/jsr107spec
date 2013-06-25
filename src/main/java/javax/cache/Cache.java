@@ -1,6 +1,6 @@
 /**
- *  Copyright (c) 2011 Terracotta, Inc.
- *  Copyright (c) 2011 Oracle and/or its affiliates.
+ *  Copyright (c) 2011-2013 Terracotta, Inc.
+ *  Copyright (c) 2011-2013 Oracle and/or its affiliates.
  *
  *  All rights reserved. Use is subject to license terms.
  */
