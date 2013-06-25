@@ -14,13 +14,17 @@ import java.util.Set;
 
 /**
  * Static information about a method annotated with one of:
- * {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
+ * {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link
+ * CacheRemoveAll}
  * <p/>
- * Used with {@link CacheResolverFactory#getCacheResolver(CacheMethodDetails)} to determine the {@link CacheResolver} to use
- * with the method.
+ * Used with {@link CacheResolverFactory#getCacheResolver(CacheMethodDetails)} to
+ * determine the {@link CacheResolver} to use with the method.
  *
- * @param <A> The type of annotation this context information is for. One of {@link javax.cache.annotation.CacheResult},
- *            {@link javax.cache.annotation.CachePut}, {@link javax.cache.annotation.CacheRemoveEntry}, or
+ * @param <A> The type of annotation this context information is for. One of
+ *            {@link
+ *            javax.cache.annotation.CacheResult},
+ *            {@link javax.cache.annotation.CachePut}, {@link
+ *            javax.cache.annotation.CacheRemoveEntry}, or
  *            {@link javax.cache.annotation.CacheRemoveAll}.
  * @author Eric Dalquist
  * @version $Revision$
@@ -43,7 +47,8 @@ public interface CacheMethodDetails<A extends Annotation> {
 
   /**
    * The caching related annotation on the method.
-   * One of: {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
+   * One of: {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or
+   * {@link CacheRemoveAll}
    *
    * @return The caching related annotation on the method.
    */
@@ -52,12 +57,14 @@ public interface CacheMethodDetails<A extends Annotation> {
   /**
    * The cache name resolved by the implementation.
    * <p/>
-   * The cache name is determined by first looking at the cacheName attribute of the method level annotation. If
-   * that attribute is not set then the class level {@link CacheDefaults} annotation is checked. If that annotation
-   * does not exist or does not have its cacheName attribute set then the following cache name generation rules are
-   * followed:
+   * The cache name is determined by first looking at the cacheName attribute of
+   * the method level annotation. If that attribute is not set then the class
+   * level {@link CacheDefaults} annotation is checked. If that annotation does
+   * not exist or does not have its cacheName attribute set then the following
+   * cache name generation rules are followed:
    * <p/>
-   * "fully qualified class name"."method name"("fully qualified parameter class names")
+   * "fully qualified class name"."method name"("fully qualified parameter class
+   * names")
    * <p/>
    * For example:
    * <p><blockquote><pre>
@@ -76,3 +83,5 @@ public interface CacheMethodDetails<A extends Annotation> {
    */
   String getCacheName();
 }
+
+

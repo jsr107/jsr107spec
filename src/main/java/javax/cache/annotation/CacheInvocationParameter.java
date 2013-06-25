@@ -11,8 +11,8 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 /**
- * A parameter to an intercepted method invocation. Contains the parameter value as well
- * static type and annotation information about the parameter.
+ * A parameter to an intercepted method invocation. Contains the parameter value
+ * as well static type and annotation information about the parameter.
  *
  * @author Eric Dalquist
  * @version $Revision$
@@ -30,12 +30,14 @@ public interface CacheInvocationParameter {
   Object getValue();
 
   /**
-   * @return An immutable Set of all Annotations on this method parameter, never null.
+   * @return An immutable Set of all Annotations on this method parameter, never
+   * null.
    */
   Set<Annotation> getAnnotations();
 
   /**
-   * The index of the parameter in the original parameter array as returned by {@link CacheInvocationContext#getAllParameters()}
+   * The index of the parameter in the original parameter array as returned by
+   * {@link CacheInvocationContext#getAllParameters()}
    *
    * @return The index of the parameter in the original parameter array.
    */

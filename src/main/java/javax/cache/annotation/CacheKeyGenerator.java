@@ -10,9 +10,10 @@ package javax.cache.annotation;
 import java.lang.annotation.Annotation;
 
 /**
- * Generates a {@link GeneratedCacheKey} based on a {@link CacheKeyInvocationContext}.
+ * Generates a {@link GeneratedCacheKey} based on
+ * a {@link CacheKeyInvocationContext}.
  * <p/>
- * Implementations MUST be thread-safe.
+ * Implementations must be thread-safe.
  *
  * @author Eric Dalquist
  * @since 1.0

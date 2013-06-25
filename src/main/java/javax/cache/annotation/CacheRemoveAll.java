@@ -15,15 +15,18 @@ import java.lang.annotation.Target;
 
 
 /**
- * When a method annotated with {@link CacheRemoveAll} is invoked all elements in the specified cache
- * will be removed via the {@link javax.cache.Cache#removeAll()} method
+ * When a method annotated with {@link CacheRemoveAll} is invoked all elements in
+ * the specified cache will be removed via the
+ * {@link javax.cache.Cache#removeAll()} method
  * <p/>
- * The default behavior is to call {@link javax.cache.Cache#removeAll()} after the annotated method is invoked,
- * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#removeAll()}
+ * The default behavior is to call {@link javax.cache.Cache#removeAll()} after the
+ * annotated method is invoked, this behavior can be changed by setting {@link
+ * #afterInvocation()} to false in which case {@link javax.cache.Cache#removeAll()}
  * will be called before the annotated method is invoked.
  * <p/>
- * Example of removing all Domain objects from the "domainCache". {@link javax.cache.Cache#removeAll()}
- * will be called after deleteAllDomains() returns successfully.
+ * Example of removing all Domain objects from the "domainCache". {@link
+ * javax.cache.Cache#removeAll()} will be called after deleteAllDomains() returns
+ * successfully.
  * <p><blockquote><pre>
  * package my.app;
  * <p/>
@@ -36,14 +39,17 @@ import java.lang.annotation.Target;
  * </pre></blockquote></p>
  * Exception Handling, only used if {@link #afterInvocation()} is true.
  * <ol>
- * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all exceptions prevent the removeAll</li>
- * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not specified then only exceptions
- * which pass an instanceof check against the evictFor list result in a removeAll</li>
- * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not specified then all exceptions
- * which do not pass an instanceof check against the noEvictFor result in a removeAll</li>
- * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then exceptions which pass an
- * instanceof check against the evictFor list but do not pass an instanceof check against the noEvictFor
- * list result in a removeAll</li>
+ * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all
+ * exceptions prevent the removeAll</li>
+ * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not
+ * specified then only exceptions which pass an instanceof check against the
+ * evictFor list result in a removeAll</li>
+ * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not
+ * specified then all exceptions which do not pass an instanceof check against the
+ * noEvictFor result in a removeAll</li>
+ * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then
+ * exceptions which pass an instanceof check against the evictFor list but do not
+ * pass an instanceof check against the noEvictFor list result in a removeAll</li>
  * </ol>
  *
  * @author Eric Dalquist
@@ -55,29 +61,38 @@ import java.lang.annotation.Target;
 public @interface CacheRemoveAll {
 
   /**
+   * /**
    * The name of the cache.
    * <p/>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()} an if that is not set it
-   * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
+   * If not specified defaults first to {@link CacheDefaults#cacheName()} an if
+   * that is not set it defaults to:
+   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
    */
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link javax.cache.Cache#removeAll()} should be called. If true it is called after the annotated method
-   * invocation completes successfully. If false it is called before the annotated method is invoked.
+   * When {@link javax.cache.Cache#removeAll()} should be called. If true it is
+   * called after the annotated method
+   * invocation completes successfully. If false it is called before the annotated
+   * method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
-   * If true and the annotated method throws an exception the put will not be executed.
+   * If true and the annotated method throws an exception the put will not be
+   * executed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
   /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+   * use
+   * at runtime.
    * <p/>
-   * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
+   * The default resolver pair will resolve the cache by name from the default
+   * {@link javax.cache.CacheManager}
    */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
+  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+      default CacheResolverFactory.class;
 
   /**
    * Defines zero (0) or more exception {@link Class classes}, which must be a
@@ -88,7 +103,8 @@ public @interface CacheRemoveAll {
 
   /**
    * Defines zero (0) or more exception {@link Class Classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types must <b>not</b>
+   * subclass of {@link Throwable}, indicating which exception types must
+   * <b>not</b>
    * cause a cache removeAll. Only used if {@link #afterInvocation()} is true.
    */
   @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};

@@ -10,20 +10,27 @@ package javax.cache.annotation;
 import java.lang.annotation.Annotation;
 
 /**
- * Runtime information about an intercepted method invocation for a method annotated
- * with {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link CacheRemoveAll}
+ * Runtime information about an intercepted method invocation for a method
+ * annotated with {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry},
+ * or {@link CacheRemoveAll}
  * <p/>
- * Used with {@link CacheResolver#resolveCache(CacheInvocationContext)} to determine the {@link javax.cache.Cache} to use
- * at runtime for the method invocation.
+ * Used with {@link CacheResolver#resolveCache(CacheInvocationContext)} to
+ * determine the {@link javax.cache.Cache} to use at runtime for the method
+ * invocation.
  *
- * @param <A> The type of annotation this context information is for. One of {@link javax.cache.annotation.CacheResult},
- *            {@link javax.cache.annotation.CachePut}, {@link javax.cache.annotation.CacheRemoveEntry}, or
+ * @param <A> The type of annotation this context information is for. One of
+ *            {@link
+ *            javax.cache.annotation.CacheResult},
+ *            {@link javax.cache.annotation.CachePut}, {@link
+ *            javax.cache.annotation.CacheRemoveEntry}, or
  *            {@link javax.cache.annotation.CacheRemoveAll}.
  * @author Eric Dalquist
  * @version $Revision$
  * @see CacheResolver
  */
-public interface CacheInvocationContext<A extends Annotation> extends CacheMethodDetails<A> {
+public interface CacheInvocationContext<A extends Annotation>
+    extends CacheMethodDetails<A> {
+
   /**
    * @return The object the intercepted method was invoked on.
    */
@@ -37,12 +44,18 @@ public interface CacheInvocationContext<A extends Annotation> extends CacheMetho
   CacheInvocationParameter[] getAllParameters();
 
   /**
-   * Return an object of the specified type to allow access to the provider-specific API. If the provider's
-   * implementation does not support the specified class, the {@link IllegalArgumentException} is thrown.
+   * Return an object of the specified type to allow access to the
+   * provider-specific API. If the provider's
+   * implementation does not support the specified class, the {@link
+   * IllegalArgumentException} is thrown.
    *
-   * @param cls he class of the object to be returned. This is normally either the underlying implementation class or an interface that it implements.
+   * @param cls he class of the object to be returned. This is normally either the
+   *            underlying implementation class or an interface that it
+   *            implements.
    * @return an instance of the specified class
-   * @throws IllegalArgumentException if the provider doesn't support the specified class.
+   * @throws IllegalArgumentException if the provider doesn't support the
+   *                                  specified
+   *                                  class.
    */
   <T> T unwrap(java.lang.Class<T> cls);
 }

@@ -16,16 +16,21 @@ import java.lang.annotation.Target;
 
 
 /**
- * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link GeneratedCacheKey} will be generated and
- * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified cache.
+ * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link
+ * GeneratedCacheKey} will be generated and
+ * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified
+ * cache.
  * <p/>
- * The default behavior is to call {@link javax.cache.Cache#remove(Object)} after the annotated method is invoked,
- * this behavior can be changed by setting {@link #afterInvocation()} to false in which case {@link javax.cache.Cache#remove(Object)}
- * will be called before the annotated method is invoked.
+ * The default behavior is to call {@link javax.cache.Cache#remove(Object)} after
+ * the annotated method is invoked, this behavior can be changed by setting
+ * {@link #afterInvocation()} to false in which case
+ * {@link javax.cache.Cache#remove(Object)} will be called before the annotated
+ * method is invoked.
  * <p/>
- * Example of removing a specific Domain object from the "domainCache". A {@link GeneratedCacheKey} will be generated
- * from the String and int parameters and used to call {@link javax.cache.Cache#remove(Object)} after
- * the deleteDomain method completes successfully.
+ * Example of removing a specific Domain object from the "domainCache". A {@link
+ * GeneratedCacheKey} will be generated from the String and int parameters and
+ * used to call {@link javax.cache.Cache#remove(Object)} after the deleteDomain
+ * method completes successfully.
  * <p><blockquote><pre>
  * package my.app;
  * <p/>
@@ -38,14 +43,19 @@ import java.lang.annotation.Target;
  * </pre></blockquote></p>
  * Exception Handling, only used if {@link #afterInvocation()} is true.
  * <ol>
- * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all exceptions prevent the remove</li>
- * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not specified then only exceptions
- * which pass an instanceof check against the evictFor list result in a remove</li>
- * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not specified then all exceptions
- * which do not pass an instanceof check against the noEvictFor result in a remove</li>
- * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then exceptions which pass an
- * instanceof check against the evictFor list but do not pass an instanceof check against the noEvictFor
- * list result in a remove</li>
+ * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all
+ * exceptions prevent the remove</li>
+ * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not
+ * specified then only exceptions which pass an instanceof check against the
+ * evictFor list result in a
+ * remove</li>
+ * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not
+ * specified then all exceptions which do not pass an instanceof check against the
+ * noEvictFor result in a
+ * remove</li>
+ * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then
+ * exceptions which pass an instanceof check against the evictFor list but do not
+ * pass an instanceof check against the noEvictFor list result in a remove</li>
  * </ol>
  *
  * @author Eric Dalquist
@@ -60,39 +70,47 @@ public @interface CacheRemoveEntry {
   /**
    * The name of the cache.
    * <p/>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()}, if that is not set it
-   * a {@link CacheAnnotationConfigurationException} will be thrown by the provider.
+   * If not specified defaults first to {@link CacheDefaults#cacheName()},
+   * and if that is not set then to:
+   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
    */
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link javax.cache.Cache#remove(Object)}  should be called. If true it is called after the annotated method
-   * invocation completes successfully. If false it is called before the annotated method is invoked.
+   * When {@link javax.cache.Cache#remove(Object)}  should be called. If true it
+   * is called after the annotated method invocation completes successfully. If
+   * false it is called before the annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
-   * If true and the annotated method throws an exception the put will not be executed.
+   * If true and the annotated method throws an exception the put will not be
+   * executed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
   /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+   * use at runtime.
    * <p/>
-   * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
+   * The default resolver pair will resolve the cache by name from the default
+   * {@link javax.cache.CacheManager}
    */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
+  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+      default CacheResolverFactory.class;
 
   /**
-   * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
-   * with the specified Cache.
+   * The {@link CacheKeyGenerator} to use to generate the {@link
+   * GeneratedCacheKey} for interacting with the specified Cache.
    * <p/>
-   * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and
-   * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
-   * {@link CacheKeyInvocationContext#getKeyParameters()}
+   * Defaults to a key generator that uses
+   * {@link java.util.Arrays#deepHashCode(Object[])}
+   * and {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array
+   * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
    *
    * @see CacheKey
    */
-  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
+  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
+      default CacheKeyGenerator.class;
 
   /**
    * Defines zero (0) or more exception {@link Class classes}, which must be a
@@ -103,8 +121,9 @@ public @interface CacheRemoveEntry {
 
   /**
    * Defines zero (0) or more exception {@link Class Classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types must <b>not</b>
-   * cause a cache evict. Only used if {@link #afterInvocation()} is true.
+   * subclass of {@link Throwable}, indicating which exception types must
+   * <b>not</b> cause a cache evict. Only used if {@link #afterInvocation()} is
+   * true.
    */
   @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};
 }

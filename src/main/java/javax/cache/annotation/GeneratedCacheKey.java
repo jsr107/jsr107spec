@@ -13,11 +13,11 @@ import java.io.Serializable;
  * A {@link Serializable}, immutable, thread-safe object that is used as a key,
  * that of which is automatically generated using a CacheKeyGenerator.
  * <p/>
- * The implementation MUST follow the Java contract for {@link Object#hashCode()} and
- * {@link Object#equals(Object)} to ensure correct behavior.
+ * The implementation MUST follow the Java contract for {@link Object#hashCode()}
+ * and {@link Object#equals(Object)} to ensure correct behavior.
  * <p/>
- * It is recommended that implementations also override {@link Object#toString()} and provide a human-readable string
- * representation of the key.
+ * It is recommended that implementations also override {@link Object#toString()}
+ * and provide a human-readable string representation of the key.
  *
  * @author Eric Dalquist
  * @see CacheKeyGenerator
