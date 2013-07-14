@@ -20,7 +20,7 @@
  * <p/>
  * In addition a common idiom is to use a loader to initially
  * populate or refresh a cache. For that purpose there is the {@link
- * javax.cache.Cache#loadAll(Iterable, boolean, CompletionListener)}
+ * javax.cache.Cache#loadAll(java.util.Set, boolean, CompletionListener)}
  * method.
  *
  * @author Greg Luck

@@ -27,17 +27,17 @@ import java.util.concurrent.TimeoutException;
  * supports being used as a Future.
  * <p/>
  * For example:
- * <code>
+ * <pre><code>
  * //create a completion future to use to wait for loadAll
  * CompletionListenerFuture future = new CompletionListenerFuture();
- * <p/>
+ * 
  * //load the values for the set of keys, replacing those that may already exist
  * //in the cache
  * cache.loadAll(keys, true, future);
- * <p/>
+ * 
  * //wait for the cache to load the keys
  * future.get();
- * </code>
+ * </code></pre>
  * <p/>
  * A CompletionListenerFuture may only be used once.  Attempts to use an instance
  * multiple times, as part of multiple asynchronous calls will result in an
