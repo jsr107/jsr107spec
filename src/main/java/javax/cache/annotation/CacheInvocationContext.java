@@ -25,7 +25,6 @@ import java.lang.annotation.Annotation;
  *            javax.cache.annotation.CacheRemoveEntry}, or
  *            {@link javax.cache.annotation.CacheRemoveAll}.
  * @author Eric Dalquist
- * @version $Revision$
  * @see CacheResolver
  */
 public interface CacheInvocationContext<A extends Annotation>

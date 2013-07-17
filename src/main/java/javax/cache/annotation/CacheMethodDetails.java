@@ -27,7 +27,6 @@ import java.util.Set;
  *            javax.cache.annotation.CacheRemoveEntry}, or
  *            {@link javax.cache.annotation.CacheRemoveAll}.
  * @author Eric Dalquist
- * @version $Revision$
  * @see CacheResolverFactory
  */
 public interface CacheMethodDetails<A extends Annotation> {

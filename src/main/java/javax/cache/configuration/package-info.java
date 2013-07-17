@@ -12,7 +12,7 @@
  * portability factories are configured instead, so that instances can be
  * instantiated where needed. To aid in this, FactoryBuilder can build factories
  * of the required type as shown in the following example.
- * <code>
+ * <pre><code>
  *  MutableConfiguration<String, Integer> config = new MutableConfiguration<String, Integer>();
  *
  *  config.setTypes(String.class, Integer.class)
@@ -20,9 +20,9 @@
  *        .setStatisticsEnabled(true)
  *        .setExpiryPolicyFactory(FactoryBuilder.factoryOf(
  *            new Accessed<String, Integer>(new Duration(TimeUnit.HOURS, 1))));
- * </code>
+ * </code></pre>
  * <p/>
- * {@link OptionalFeature}, though not specific to cache configuration, allows
+ * {@link javax.cache.configuration.OptionalFeature}, though not specific to cache configuration, allows
  * application to determine the optional features supported at runtime.
  *
  * @author Greg Luck
