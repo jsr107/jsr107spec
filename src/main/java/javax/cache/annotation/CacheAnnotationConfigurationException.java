@@ -25,7 +25,6 @@ import javax.cache.CacheException;
  * Thrown if an invalid cache annotation configuration is detected.
  *
  * @author Eric Dalquist
- * @version $Revision$
  */
 public class CacheAnnotationConfigurationException extends CacheException {
   private static final long serialVersionUID = 1L;

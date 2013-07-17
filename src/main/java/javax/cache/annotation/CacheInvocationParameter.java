@@ -15,7 +15,6 @@ import java.util.Set;
  * as well static type and annotation information about the parameter.
  *
  * @author Eric Dalquist
- * @version $Revision$
  */
 public interface CacheInvocationParameter {
 

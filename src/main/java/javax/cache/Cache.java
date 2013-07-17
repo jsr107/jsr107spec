@@ -41,7 +41,7 @@ import java.util.Set;
  * </ol>
  * <p/>
  * A simple example of how to use a cache is:
- * <code>
+ * <pre><code>
  * String cacheName = "sampleCache";
  * CachingProvider provider = Caching.getCachingProvider();
  * CacheManager manager = provider.getCacheManager();
@@ -52,7 +52,7 @@ import java.util.Set;
  * Integer key = 1;
  * cache.put(key, value1);
  * Date value2 = cache.get(key);
- * </code>
+ * </code></pre>
  *
  * @param <K> the type of key
  * @param <V> the type of value
