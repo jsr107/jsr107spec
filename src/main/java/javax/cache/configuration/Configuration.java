@@ -52,9 +52,8 @@ public interface Configuration<K, V> extends Serializable {
    * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
    * <p/>
    * When in "read-through" mode, cache misses that occur due to cache entries
-   * not existing as a result of performing a "get" call via one of {@link javax.cache.Cache#get(Object)},
-   * {@link javax.cache.Cache#getAll(java.util.Set)}, {@link javax.cache.Cache#getAndRemove(Object)} and/or
-   * {@link javax.cache.Cache#getAndReplace(Object, Object)} will appropriately cause
+   * not existing as a result of performing a "get" will appropriately
+   * cause
    * the configured {@link javax.cache.integration.CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
