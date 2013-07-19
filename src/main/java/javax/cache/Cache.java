@@ -747,7 +747,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * locking, round-trips and expensive network transfers.
    * <p/>
    * {@link Cache.Entry} access, via a call to
-   * {@link javax.cache.Cache.MutableEntry#getValue()}, will behave as if
+   * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
    * {@link Cache#get(Object)} was called for the key.  This includes updating
    * necessary statistics, consulting the configured
    * {@link javax.cache.expiry.ExpiryPolicy} and loading from a configured
