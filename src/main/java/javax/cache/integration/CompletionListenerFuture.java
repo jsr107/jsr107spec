@@ -126,7 +126,7 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
   @Override
   public Void get() throws InterruptedException, ExecutionException {
     synchronized (this) {
-      if (!isCompleted) {
+      while (!isCompleted) {
         wait();
       }
 

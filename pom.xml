@@ -174,7 +174,6 @@
             </plugin>
 
 
-
         </plugins>
     </build>
 
@@ -253,9 +252,9 @@
                 <reportSets>
                     <reportSet>
 
-                    <reports><!-- select reports -->
-                        <report>index</report>
-                    </reports>
+                        <reports><!-- select reports -->
+                            <!--<report>index</report>-->
+                        </reports>
                     </reportSet>
                 </reportSets>
             </plugin>
@@ -266,12 +265,9 @@
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>2.5.2</version>
                 <configuration>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <outputDirectory>${project.build.directory}/findbugs</outputDirectory>
-                    <xmlOutput>true</xmlOutput>
-                    <!-- Optional directory to put findbugs xdoc xml report -->
-                    <xmlOutputDirectory>target/findbugs</xmlOutputDirectory>
-                    <failOnError>true</failOnError>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                    <excludeFilterFile>${basedir}/findbugs/findbugs-exclude.xml</excludeFilterFile>
                 </configuration>
 
             </plugin>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <!--Two false NO_NOTIFY_NOT_NOTIFYALL errors in CompletionListenerFuture-->
+        <Class name="javax.cache.integration.CompletionListenerFuture" />
+    </Match>
+    <Match>
+        <!--Non problematic SIC_INNER_SHOULD_BE_STATIC_ANON error in anonymous inner class in CachingProviderRegistry -->
+        <Class name="javax.cache.Caching$CachingProviderRegistry$1" />
+    </Match>
+</FindBugsFilter>
