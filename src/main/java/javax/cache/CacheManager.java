@@ -221,9 +221,8 @@ public interface CacheManager extends Closeable {
    * available for operational use. An attempt to call an operational method on
    * the {@link Cache} will throw an {@link IllegalStateException}.
    *
-   * @param cacheName the cache name
-   * @throws IllegalStateException if the {@link Cache} is {@link #isClosed()}
-   * @throws NullPointerException  if cacheName is null
+   * @param cacheName the cache to destroy
+   * @throws NullPointerException if cacheName is null
    */
   void destroyCache(String cacheName);
 
