@@ -186,7 +186,7 @@ public interface CacheManager extends Closeable {
    */
   <K, V> Cache<K, V> createCache(String cacheName,
                                  Configuration<K, V> configuration)
-  throws IllegalArgumentException;
+                                 throws IllegalArgumentException;
 
   /**
    * Looks up a managed {@link Cache} given it's name.
