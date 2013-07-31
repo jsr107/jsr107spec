@@ -139,6 +139,56 @@ public interface CacheManager extends Closeable {
       throws IllegalArgumentException;
 
   /**
+   * Ensures that a named {@link Cache} is being managed by the
+   * {@link CacheManager}.
+   * <p/>
+   * If such a {@link Cache} is unknown to the {@link CacheManager}, one is
+   * created according to the provided
+   * {@link javax.cache.configuration.Configuration} after which it becomes
+   * managed by the {@link CacheManager}.
+   * <p/>
+   * If such a {@link Cache} is known to the {@link CacheManager},
+   * a CacheException is thrown.
+   * <p/>
+   * {@link javax.cache.configuration.Configuration}s provided to this method are
+   * always validated with in the context of the {@link CacheManager}.
+   * <p/>
+   * For example: Attempting use a {@link javax.cache.configuration.Configuration}
+   * requiring transactional support with an implementation that does not support
+   * transactions will result in an {@link UnsupportedOperationException}.
+   * <p/>
+   * Implementers of this method are required to make a clone of the provided
+   * {@link javax.cache.configuration.Configuration} so that it may be further
+   * used to configure other {@link Cache}s without causing side-effects.
+   * <p/>
+   * There's no requirement on the part of a developer to call this method for
+   * each {@link Cache} an application may use.  Implementations may support
+   * the use of declarative mechanisms to pre-configure {@link Cache}s, thus
+   * removing the requirement to configure them in an application.  In such
+   * circumstances a developer may simply call either the {@link #getCache(String)}
+   * or {@link #getCache(String, Class, Class)} methods to acquire a
+   * pre-configured {@link Cache}.
+   *
+   * @param cacheName     the name of the {@link Cache}
+   * @param configuration the {@link javax.cache.configuration.Configuration}
+   *                      to use if the {@link Cache} is known
+   * @throws IllegalStateException         if the {@link CacheManager}
+   *                                       {@link #isClosed()}
+   * @throws CacheException                if there was an error configuring the
+   *                                       {@link Cache},
+   *                                       which includes trying to create a
+   *                                       cache which already exists.
+   * @throws IllegalArgumentException      if the configuration is invalid
+   * @throws UnsupportedOperationException if the configuration specifies
+   *                                       an unsupported feature
+   * @throws NullPointerException          if the cache configuration or name
+   *                                       is null
+   */
+  <K, V> Cache<K, V> createCache(String cacheName,
+                                 Configuration<K, V> configuration)
+  throws IllegalArgumentException;
+
+  /**
    * Looks up a managed {@link Cache} given it's name.
    * <p/>
    * This method must be used for {@link Cache}s that were configured with
