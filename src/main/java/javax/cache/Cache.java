@@ -7,6 +7,7 @@
 
 package javax.cache;
 
+import javax.cache.configuration.CacheEntryListenerConfiguration;
 import javax.cache.configuration.Configuration;
 import javax.cache.integration.CompletionListener;
 import java.io.Closeable;
@@ -642,6 +643,34 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         the specified class.
    */
   <T> T unwrap(java.lang.Class<T> clazz);
+
+  /**
+   * Registers a {@link javax.cache.event.CacheEntryListener}. The supplied
+   * {@link CacheEntryListenerConfiguration} is used to instantiate a listener
+   * and apply it to those events specified in the configuration.
+   * @param cacheEntryListenerConfiguration a factory and related configuration
+   *                                        for creating the listener
+   * @see javax.cache.event.CacheEntryListener
+   * @throws IllegalArgumentException is the same CacheEntryListenerConfiguration
+   * is used more than once
+   */
+  void registerCacheEntryListener(
+      CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration);
+
+  /**
+   * Deregisters a listener, using as its unique identifier the
+   * {@link CacheEntryListenerConfiguration} which was used to register it.
+   * <p/>
+   * Both listeners registered at configuration time,
+   * and those created at runtime with {@link #registerCacheEntryListener} can
+   * be deregistered.
+   *
+   * @param cacheEntryListenerConfiguration the factory and related configuration
+   *                                        that was used to create the
+   *                                        listener
+   */
+  void deregisterCacheEntryListener(CacheEntryListenerConfiguration<K, V>
+                                        cacheEntryListenerConfiguration);
 
   /**
    * {@inheritDoc}

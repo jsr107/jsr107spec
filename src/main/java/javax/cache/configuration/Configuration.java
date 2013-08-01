@@ -13,6 +13,7 @@ import javax.cache.integration.CacheWriter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A read-only representation of a {@link javax.cache.Cache} configuration.
@@ -167,8 +168,8 @@ public interface Configuration<K, V> extends Serializable {
    *
    * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
    */
-  Iterable<CacheEntryListenerConfiguration<K,
-        V>> getCacheEntryListenerConfigurations();
+  List<CacheEntryListenerConfiguration<K,
+          V>> getCacheEntryListenerConfigurations();
 
   /**
    * Gets the {@link Factory} for the {@link javax.cache.integration.CacheLoader}, if any.

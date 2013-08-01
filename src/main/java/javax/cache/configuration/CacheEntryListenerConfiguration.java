@@ -8,6 +8,7 @@ package javax.cache.configuration;
 
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
+import java.io.Serializable;
 
 /**
  * Defines the configuration requirements for a
@@ -19,7 +20,7 @@ import javax.cache.event.CacheEntryListener;
  * @author Brian Oliver
  * @author Greg Luck
  */
-public interface CacheEntryListenerConfiguration<K, V> {
+public interface CacheEntryListenerConfiguration<K, V> extends Serializable {
   /**
    * Obtains the {@link Factory} for the
    * {@link javax.cache.event.CacheEntryListener}.

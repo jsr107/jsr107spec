@@ -24,6 +24,7 @@ import javax.cache.integration.CacheWriter;
 import javax.cache.transaction.IsolationLevel;
 import javax.cache.transaction.Mode;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple mutable implementation of a {@link Configuration}.
@@ -216,32 +217,39 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * {@inheritDoc}
    */
   @Override
-  public Iterable<CacheEntryListenerConfiguration<K, V>> getCacheEntryListenerConfigurations() {
+  public List<CacheEntryListenerConfiguration<K,
+        V>> getCacheEntryListenerConfigurations() {
     return listenerConfigurations;
   }
 
   /**
    * Add a configuration for a {@link javax.cache.event.CacheEntryListener}.
    *
-   * @param configuration the {@link CacheEntryListenerConfiguration}
+   * @param cacheEntryListenerConfiguration the
+   *  {@link CacheEntryListenerConfiguration}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
+   * @throws IllegalArgumentException is the same CacheEntryListenerConfiguration
+   * is used more than once
    */
   public MutableConfiguration<K, V> addCacheEntryListenerConfiguration(
-      CacheEntryListenerConfiguration<K, V> configuration) {
+      CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
 
-    if (configuration == null) {
+    if (cacheEntryListenerConfiguration == null) {
       throw new NullPointerException("CacheEntryListenerConfiguration can't be null");
     }
 
     boolean alreadyExists = false;
     for (CacheEntryListenerConfiguration<? super K, ? super V> c : listenerConfigurations) {
-      if (c.equals(configuration)) {
+      if (c.equals(cacheEntryListenerConfiguration)) {
         alreadyExists = true;
       }
     }
 
     if (!alreadyExists) {
-      this.listenerConfigurations.add(configuration);
+      this.listenerConfigurations.add(cacheEntryListenerConfiguration);
+    } else {
+      throw new IllegalArgumentException("A CacheEntryListenerConfiguration can" +
+          "be registered only once");
     }
     return this;
   }

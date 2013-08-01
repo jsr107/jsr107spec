@@ -18,7 +18,6 @@ package javax.cache.configuration;
 
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.event.CacheEntryListener;
-import java.io.Serializable;
 
 /**
  * A convenience class providing a mutable, serializable implementation of a
@@ -30,7 +29,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 public class MutableCacheEntryListenerConfiguration<K, V>
-    implements CacheEntryListenerConfiguration<K, V>, Serializable {
+    implements CacheEntryListenerConfiguration<K, V> {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
