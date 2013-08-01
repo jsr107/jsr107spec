@@ -248,7 +248,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     if (!alreadyExists) {
       this.listenerConfigurations.add(cacheEntryListenerConfiguration);
     } else {
-      throw new IllegalArgumentException("A CacheEntryListenerConfiguration can" +
+      throw new IllegalArgumentException("A CacheEntryListenerConfiguration can " +
           "be registered only once");
     }
     return this;
