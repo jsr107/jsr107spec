@@ -219,6 +219,45 @@ public final class Caching {
     return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName, classLoader);
   }
 
+
+  /**
+   * A convenience which method that Looks up a managed {@link Cache} given its
+   * name. using the default <code>CachingProvider</code> and <code>CacheManager
+   * </code>. For the full range of <code>Cache</code> look up methods see
+   * {@link CacheManager}.
+   * <p/>
+   * This method must be used for {@link Cache}s that were configured with
+   * runtime key and value types. Use {@link CacheManager#getCache(String)} for
+   * {@link Cache}s where these were not specified.
+   * <p/>
+   * Implementations must ensure that the key and value types are the same as
+   * those configured for the {@link Cache} prior to returning from this method.
+   * <p/>
+   * Implementations may further perform type checking on cache operations and
+   * throw a {@link ClassCastException} if said checks fail.
+   * <p/>
+   * Implementations that support declarative mechanisms for pre-configuring
+   * {@link Cache}s may return a pre-configured {@link Cache} instead of
+   * <code>null</code>.
+   *
+   * @param cacheName the name of the managed {@link Cache} to acquire
+   * @param keyType   the expected {@link Class} of the key
+   * @param valueType the expected {@link Class} of the value
+   * @return the Cache or null if it does exist or can't be pre-configured
+   * @throws IllegalStateException    if the CacheManager is
+   *                                  {@link CacheManager#isClosed()}
+   * @throws IllegalArgumentException if the specified key and/or value types are
+   *                                  incompatible with the configured cache.
+   * @see CacheManager#getCache(String, Class, Class)
+   * @see CacheManager#getCache(String)
+   */
+  public static <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType,
+                              Class<V> valueType) {
+
+    return getCachingProvider().getCacheManager().getCache(cacheName, keyType,
+        valueType);
+  }
+
   /**
    * Maintains a registry of loaded {@link CachingProvider}s scoped by
    * {@link ClassLoader}.
@@ -407,11 +446,14 @@ public final class Caching {
      * Load and instantiate the {@link CachingProvider} with the specified
      * fully qualified class name using the provided {@link ClassLoader}
      *
-     * @param fullyQualifiedClassName the name of the {@link CachingProvider} class
+     * @param fullyQualifiedClassName the name of the {@link CachingProvider}
+     *                                class
      * @param classLoader             the {@link ClassLoader} to use
      * @return a new {@link CachingProvider} instance
-     * @throws CacheException if the specified {@link CachingProvider} could not be loaded
-     *                        or the specified class is not a {@link CachingProvider}
+     * @throws CacheException if the specified {@link CachingProvider} could not be
+     *                        loaded
+     *                        or the specified class is not a {@link
+     *                        CachingProvider}
      */
     protected CachingProvider loadCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) throws CacheException {
       synchronized (classLoader) {
