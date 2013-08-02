@@ -174,9 +174,8 @@ public interface CacheManager extends Closeable {
    * @throws IllegalStateException         if the {@link CacheManager}
    *                                       {@link #isClosed()}
    * @throws CacheException                if there was an error configuring the
-   *                                       {@link Cache},
-   *                                       which includes trying to create a
-   *                                       cache which already exists.
+   *                                       {@link Cache}, which includes trying
+   *                                       to create a cache which already exists.
    * @throws IllegalArgumentException      if the configuration is invalid
    * @throws UnsupportedOperationException if the configuration specifies
    *                                       an unsupported feature
