@@ -132,9 +132,8 @@ public interface CacheManager extends Closeable {
    * @throws NullPointerException          if the cache configuration or name
    *                                       is null
    */
-  <K, V> Cache<K, V> createCache(String cacheName,
-                                 Configuration<K, V> configuration)
-                                 throws IllegalArgumentException;
+  void createCache(String cacheName, Configuration configuration)
+      throws IllegalArgumentException;
 
   /**
    * Looks up a managed {@link Cache} given it's name.
