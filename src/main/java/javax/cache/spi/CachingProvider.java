@@ -9,6 +9,7 @@ package javax.cache.spi;
 
 import javax.cache.CacheManager;
 import javax.cache.configuration.OptionalFeature;
+import java.io.Closeable;
 import java.net.URI;
 import java.util.Properties;
 
@@ -24,7 +25,7 @@ import java.util.Properties;
  *
  * @author Brian Oliver
  */
-public interface CachingProvider {
+public interface CachingProvider extends Closeable {
 
   /**
    * Requests a {@link CacheManager} configured according to the implementation
