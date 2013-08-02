@@ -8,7 +8,6 @@
 package javax.cache;
 
 import javax.cache.configuration.Configuration;
-import javax.cache.configuration.OptionalFeature;
 import javax.cache.spi.CachingProvider;
 import javax.transaction.UserTransaction;
 import java.io.Closeable;
@@ -284,15 +283,6 @@ public interface CacheManager extends Closeable {
    * @throws UnsupportedOperationException if JTA is not supported
    */
   UserTransaction getUserTransaction();
-
-  /**
-   * Determines if a specific optional feature is supported by the
-   * {@link CacheManager}.
-   *
-   * @param optionalFeature the feature to check for
-   * @return true if the feature is supported
-   */
-  boolean isSupported(OptionalFeature optionalFeature);
 
   /**
    * Controls whether management is enabled. If enabled the
