@@ -100,15 +100,16 @@ public interface CacheManager extends Closeable {
    * a CacheException is thrown.
    * <p/>
    * {@link javax.cache.configuration.Configuration}s provided to this method are
-   * always validated with in the context of the {@link CacheManager}.
+   * always validated within the context of the {@link CacheManager}.
    * <p/>
-   * For example: Attempting use a {@link javax.cache.configuration.Configuration}
-   * requiring transactional support with an implementation that does not support
+   * For example: Attempting to use a
+   * {@link javax.cache.configuration.Configuration} requiring transactional
+   * support with an implementation that does not support
    * transactions will result in an {@link UnsupportedOperationException}.
    * <p/>
-   * Implementers of this method are required to make a clone of the provided
-   * {@link javax.cache.configuration.Configuration} so that it may be further
-   * used to configure other {@link Cache}s without causing side-effects.
+   * Implementers should be aware that the
+   * {@link javax.cache.configuration.Configuration} may be used to configure
+   * other {@link Cache}s.
    * <p/>
    * There's no requirement on the part of a developer to call this method for
    * each {@link Cache} an application may use.  Implementations may support
@@ -235,7 +236,7 @@ public interface CacheManager extends Closeable {
   /**
    * Controls whether management is enabled. If enabled the
    * {@link javax.cache.management.CacheMXBean} for each cache is registered in
-   * the platform MBean server. THe platform MBeanServer is obtained using
+   * the platform MBean server. The platform MBeanServer is obtained using
    * {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
    * <p/>
    * Management information includes the name and configuration information for

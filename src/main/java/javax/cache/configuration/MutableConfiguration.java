@@ -263,8 +263,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheLoader} factory. Only one {@link CacheLoader} may be
-   * defined.
+   * Set the {@link CacheLoader} factory.
    *
    * @param factory the {@link CacheLoader} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -284,8 +283,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Set the {@link CacheWriter} factory. Only one {@link CacheWriter} may be
-   * defined.
+   * Set the {@link CacheWriter} factory.
    *
    * @param factory the {@link CacheWriter} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
