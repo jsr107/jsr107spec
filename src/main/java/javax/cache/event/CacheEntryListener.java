@@ -26,7 +26,7 @@ import java.util.EventListener;
  * <li>block the calling thread until the listener returns,
  * where the listener was registered as synchronous</li>
  * <li>which are asynchronous iterate through multiple events with an undefined
- * ordering, except that events on the same key are in the the order in which the
+ * ordering, except that events on the same key are in the order in which the
  * events occur.</li>
  * </ul>
  * Listeners follow the observer pattern. An exception thrown by a

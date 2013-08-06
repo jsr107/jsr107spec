@@ -155,7 +155,7 @@ public interface CacheMXBean {
    * <p/>
    * The default value is {@link javax.cache.transaction.Mode#NONE}.
    *
-   * @return the the mode of the cache.
+   * @return the mode of the cache.
    */
   Mode getTransactionMode();
 

@@ -204,7 +204,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * if {@link #containsKey(Object) c.containsKey(k)} would return
    * <tt>true</tt>.)
    * <p/>
-   * The the previous value is returned, or null if there was no value associated
+   * The previous value is returned, or null if there was no value associated
    * with the key previously.
    *
    * @param key   key with which the specified value is to be associated
@@ -761,7 +761,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * An invocable function that allows applications to perform compound
-   * operations on a {@link Cache.Entry} atomically, according the the defined
+   * operations on a {@link Cache.Entry} atomically, according the defined
    * consistency of a {@link Cache}.
    * <p/>
    * Any {@link Cache.Entry} mutations will not take effect until after the

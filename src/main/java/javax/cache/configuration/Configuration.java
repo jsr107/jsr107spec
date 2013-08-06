@@ -157,7 +157,7 @@ public interface Configuration<K, V> extends Serializable {
    * <p/>
    * The default value is {@link Mode#NONE}.
    *
-   * @return the the mode of the cache.
+   * @return the mode of the cache.
    */
   Mode getTransactionMode();
 
