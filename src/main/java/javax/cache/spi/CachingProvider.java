@@ -35,6 +35,11 @@ public interface CachingProvider extends Closeable {
    * Multiple calls to this method with the same {@link URI} and
    * {@link ClassLoader} must return the same {@link CacheManager} instance,
    * except if a previously returned {@link CacheManager} has been closed.
+   * <p/>
+   * Properties are used in construction of a {@link CacheManager} and do not form
+   * part of the identity of the CacheManager. i.e. if a second call is made to
+   * with the same {@link URI} and {@link ClassLoader} but different properties,
+   * the {@link CacheManager} created in the first call is returned.
    *
    * @param uri         an implementation specific URI for the
    *                    {@link CacheManager} (null means use
