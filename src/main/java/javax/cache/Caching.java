@@ -73,6 +73,7 @@ import java.util.WeakHashMap;
  *
  * @author Brian Oliver
  * @author Greg Luck
+ * @author Yannis Cosmadopoulos
  * @see java.util.ServiceLoader
  * @see javax.cache.spi.CachingProvider
  */
