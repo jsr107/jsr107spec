@@ -176,7 +176,7 @@ mailing list.
 License
 -------
 
-The API is available under the JPA license and may be freely used.
+The API is available under the usual Java Community Process license.
 
 The TCK is available under a restricted TCK license and must be licensed from
 Oracle as is the usual case with JSRs.
