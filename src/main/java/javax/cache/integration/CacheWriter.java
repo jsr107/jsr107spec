@@ -64,7 +64,10 @@ public interface CacheWriter<K, V> {
    * collection so that the caching implementation knows what succeeded and can
    * mutate the cache.
    *
-   * @param entries the entries to be written
+   * @param entries a mutable collection to write. Upon invocation, it contains
+   *                the entries to write for write-through. Upon return the
+   *                collection must only contain entries that were not
+   *                successfully written. (see partial success above)
    * @throws javax.cache.CacheException if one or more of the writes fail. If
    *                                    thrown cache mutations will occur for
    *                                    entries which succeeded.
@@ -100,7 +103,10 @@ public interface CacheWriter<K, V> {
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
    *
-   * @param keys the keys for entries that have to be removed from the cache
+   * @param keys a mutable collection of keys for entries to delete. Upon
+   *             invocation, it contains the keys to delete for write-through.
+   *             Upon return the collection must only contain the keys that were
+   *             not successfully deleted. (see partial success above)
    * @throws javax.cache.CacheException if one or more deletes fail. If thrown
    *                      cache deletes will occur for entries which succeeded.
    */
