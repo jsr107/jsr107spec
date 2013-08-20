@@ -263,7 +263,7 @@ public final class Caching {
    * Maintains a registry of loaded {@link CachingProvider}s scoped by
    * {@link ClassLoader}.
    */
-  public static class CachingProviderRegistry {
+  private static class CachingProviderRegistry {
 
     /**
      * The {@link CachingProvider}s by Class Name organized by the
