@@ -13,7 +13,8 @@
  * of {@link javax.cache.Cache}s.
  * A cache is an association of key to value.
  * <p/>
- *
+ * Implementations may optionally enforce security restrictions. In case of a
+ * violation, a {@link SecurityException} must be thrown.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
