@@ -14,9 +14,6 @@ import java.util.Collection;
 /**
  * A CacheWriter is used for write-through to an external resource.
  * <p/>
- * The semantics of write-through when an <code>Exception</code> is thrown are
- * implementation specific.
- * <p/>
  * Under Default Consistency, the non-batch writer methods are atomic with respect
  * to the corresponding cache operation.
  * <p/>
@@ -27,9 +24,6 @@ import java.util.Collection;
  * returned or, in the case of partial success, thrown an exception. In the case of
  * partial success, the collection of entries must contain only those entries which
  * failed.
- * <p/>
- * The behaviour of the caching implementation in the case of partial success is
- * undefined.
  * <p/>
  * The semantics of Transactional Consistency are implementation specific.
  * <p/>
