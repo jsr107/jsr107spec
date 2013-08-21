@@ -27,25 +27,26 @@ public interface CacheLoader<K, V> {
 
   /**
    * Loads an object. Application developers should implement this
-   * method to customize the loading of cache object. This method is called
+   * method to customize the loading of cache entry. This method is called
    * by the caching service when the requested object is not in the cache. If
    * the object can't be loaded <code>null</code> should be returned.
    *
    * @param key the key identifying the object being loaded
    * @return The entry for the object that is to be stored in the cache or
    *         <code>null</code> if the object can't be loaded
+   * @throws CacheLoaderException if there is problem executing the loader.
    */
-  Cache.Entry<K, V> load(K key);
+  Cache.Entry<K, V> load(K key) throws CacheLoaderException;
 
   /**
    * Loads multiple objects. Application developers should implement this
-   * method to customize the loading of cache object. This method is called
-   * by the caching service when the requested object is not in the cache. If
-   * an object can't be loaded, it is not returned in the resulting map.
-   * <p/>
+   * method to customize the loading of cache entries. This method is called
+   * when the requested object is not in the cache. If an object can't be loaded, it is
+   * not returned in the resulting map.
    *
    * @param keys keys identifying the values to be loaded
    * @return A map of key, values to be stored in the cache.
+   * @throws CacheLoaderException if there is problem executing the loader.
    */
   Map<K, V> loadAll(Iterable<? extends K> keys);
 }
