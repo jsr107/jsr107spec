@@ -80,6 +80,8 @@ public interface CacheWriter<K, V> {
    * <p/>
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
+   * <p/>
+   * This method is invoked even if no mapping for the key exists.
    *
    * @param key the key that is used for the delete operation
    * @throws javax.cache.CacheException if delete fails. If thrown the
@@ -102,6 +104,8 @@ public interface CacheWriter<K, V> {
    * <p/>
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
+   * <p/>
+   * This method is invoked even if no mapping for some or all of the keys exist.
    *
    * @param keys a mutable collection of keys for entries to delete. Upon
    *             invocation, it contains the keys to delete for write-through.
