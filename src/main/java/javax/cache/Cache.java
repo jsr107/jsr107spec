@@ -743,6 +743,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * A mutable representation of a {@link Cache} {@link Entry}.
    *
+   * If an entry processor has multiple operations it is only the net effect
+   * of those operations which invokes writer, loaders and listeners and expiry
+   * policies. All operations take place under an exclusive
+   *
+   * exists returns false, get invoked loader, update with set which invokes a writer,
+   * then set again and finally remove.
+   *
+   * Impacts:
+   * loader is called.
+   * update listener
+   * remove listener fires
+   *
+   * get, set, set, set
+   * statistics;
+   *
+   *
    * @param <K> the type of key
    * @param <V> the type of value
    */
@@ -821,6 +837,55 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * As implementations may choose to execute {@link EntryProcessor}s remotely,
    * {@link EntryProcessor}s, together with specified parameters and return
    * values, may be required to implement {@link java.io.Serializable}.
+   *
+   * Multiple Operations in One Entry Processor
+   * Only the net effect of multiple operations has visibility outside of the Entry
+   * Processor. The entry is locked by the entry processor for the entire scope
+   * of the entry processor, so intermediate effects are not visible.
+   *
+   * For example, a getValue, setValue, getValue, setValue has the following effects:
+   *
+   * Final value of the cache: last setValue
+   * Statistics: one get and one put as the second get and the first put are internal
+   * to the EntryProcessor.
+   * Listeners: second put will cause either a put or an update depending on whether
+   * there was an initial value for the entry.
+   * CacheLoader: Invoked by the first get only if a loader was registered
+   * CacheWriter: Invoked by the second put only as the first put was internal to the
+   * Entry Processor
+   * ExpiryPolicy: The first get and the second put only are visible to the
+   * ExpiryPolicy.
+   *
+   * For example, a getValue, remove, getValue, setValue has the following effects:
+   *
+   * Final value of the cache: last setValue
+   * Statistics: one get and one put as the second get and the first put are internal
+   * to the EntryProcessor.
+   * Listeners: second put will cause either a put or an update depending on whether
+   * there was an initial value for the entry.
+   * CacheLoader: Invoked by the first get only if a loader was registered
+   * CacheWriter: Invoked by the second put only as the first put was internal to the
+   * Entry Processor
+   * ExpiryPolicy: The first get and the second put only are visible to the
+   * ExpiryPolicy.
+   *
+   *
+   * For example, a getValue, setValue, getValue, setValue,
+   * remove has the following effects:
+   *
+   * Final value of the cache: last setValue
+   * Statistics: one get and one remove as the second get and the two puts are
+   * internal to the EntryProcessor.
+   * Listeners: remove if there was initial value in the cache, otherwise no listener
+   * invoked.
+   * CacheLoader: Invoked by the first get only if a loader was registered
+   * CacheWriter: Invoked by the remove only as the two puts are internal to the
+   * Entry Processor
+   * ExpiryPolicy: The first get only is visible to the ExpiryPolicy. There is no
+   * remove event in ExpiryPolicy.
+   *
+   *
+   *
    *
    * @param <K> the type of keys maintained by this cache
    * @param <V> the type of cached values
