@@ -32,6 +32,9 @@ import java.util.EventListener;
  * Listeners follow the observer pattern. An exception thrown by a
  * listener does not cause the cache operation to fail.
  * <p/>
+ * Listeners can only throw {@link CacheEntryListenerException}. Caching implementations
+ * must catch any other {@link Throwable} from a listener, then wrap and rethrow it as a
+ * {@link CacheEntryListenerException}.
  * <p/>
  * A listener which mutates a cache on the CacheManager may cause a deadlock.
  * Detection and response to deadlocks is implementation specific.
@@ -41,7 +44,6 @@ import java.util.EventListener;
  * commits, and if asynchronous the timing is undefined. A listener which throws
  * an exception will not affect the transaction. A transaction which is rolled back
  * will not unfire a listener.
- *
  *
  * @param <K> the type of key
  * @param <V> the type of value
