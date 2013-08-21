@@ -797,7 +797,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   }
 
   /**
-   * An invocable function that allows applications to perform compound
+   * An invokable function that allows applications to perform compound
    * operations on a {@link Cache.Entry} atomically, according the defined
    * consistency of a {@link Cache}.
    * <p/>
