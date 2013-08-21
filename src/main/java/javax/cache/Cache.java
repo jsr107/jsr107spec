@@ -336,7 +336,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @return returns false if there was no matching key
    * @throws NullPointerException  if key is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws CacheException        if there is a problem doing the put
+   * @throws CacheException        if there is a problem doing the remove
    * @throws ClassCastException    if the implementation supports and is
    *                               configured to perform runtime-type-checking,
    *                               and the key or value types are incompatible
