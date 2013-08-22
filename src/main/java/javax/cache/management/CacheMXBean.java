@@ -67,9 +67,9 @@ public interface CacheMXBean {
    * {@link javax.cache.Cache#getAndRemove(Object)},
    * {@link javax.cache.Cache#getAndReplace(Object, Object)},
    * {@link javax.cache.Cache#invoke(Object,
-   * javax.cache.Cache.EntryProcessor, Object...)}
+   * javax.cache.processor.EntryProcessor, Object...)}
    * {@link javax.cache.Cache#invokeAll(java.util.Set,
-   * javax.cache.Cache.EntryProcessor, Object...)}
+   * javax.cache.processor.EntryProcessor, Object...)}
    *
    * will appropriately cause the configured
    * {@link javax.cache.integration.CacheWriter} to be invoked.

@@ -11,6 +11,7 @@ import javax.cache.configuration.CacheEntryListenerConfiguration;
 import javax.cache.configuration.Configuration;
 import javax.cache.integration.CacheWriter;
 import javax.cache.integration.CompletionListener;
+import javax.cache.processor.EntryProcessor;
 import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
@@ -546,7 +547,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @see EntryProcessor
    */
   <T> T invoke(K key,
-               EntryProcessor<K, V, T> entryProcessor,
+               javax.cache.processor.EntryProcessor<K, V, T> entryProcessor,
                Object... arguments);
 
   /**
@@ -584,7 +585,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @see EntryProcessor
    */
   <T> Map<K, T> invokeAll(Set<? extends K> keys,
-                          EntryProcessor<K, V, T> entryProcessor,
+                          javax.cache.processor.EntryProcessor<K, V, T> entryProcessor,
                           Object... arguments);
 
   /**
@@ -740,165 +741,4 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
     <T> T unwrap(Class<T> clazz);
   }
 
-  /**
-   * A mutable representation of a {@link Cache} {@link Entry}.
-   *
-   * If an entry processor has multiple operations it is only the net effect
-   * of those operations which invokes writer, loaders and listeners and expiry
-   * policies. All operations take place under an exclusive
-   *
-   * exists returns false, get invoked loader, update with set which invokes a writer,
-   * then set again and finally remove.
-   *
-   * Impacts:
-   * loader is called.
-   * update listener
-   * remove listener fires
-   *
-   * get, set, set, set
-   * statistics;
-   *
-   *
-   * @param <K> the type of key
-   * @param <V> the type of value
-   */
-  public interface MutableEntry<K, V> extends Entry<K, V> {
-
-    /**
-     * Checks for the existence of the entry in the cache
-     *
-     * @return true if the entry exists
-     */
-    boolean exists();
-
-    /**
-     * Removes the entry from the Cache.
-     * <p/>
-     * This has the same semantics as calling {@link Cache#remove}.
-     */
-    void remove();
-
-    /**
-     * Sets or replaces the value associated with the key
-     * If {@link #exists} is false and setValue is called
-     * then a mapping is added to the cache visible once the EntryProcessor
-     * completes. Moreover a second invocation of {@link #exists()}
-     * will return true.
-     * <p/>
-     *
-     * @param value the value to update the entry with
-     * @throws ClassCastException if the implementation supports and is
-     *                            configured to perform runtime-type-checking,
-     *                            and value type is incompatible with that
-     *                            which has been configured for the
-     *                            {@link Cache}
-     */
-    void setValue(V value);
-  }
-
-  /**
-   * An invokable function that allows applications to perform compound
-   * operations on a {@link Cache.Entry} atomically, according the defined
-   * consistency of a {@link Cache}.
-   * <p/>
-   * Any {@link Cache.Entry} mutations will not take effect until after the
-   * {@link EntryProcessor#process(javax.cache.Cache.MutableEntry, Object...)}
-   * method has completed execution.
-   * <p/>
-   * If an exception is thrown by an {@link EntryProcessor}, the exception will
-   * be returned wrapped in an {@link CacheException}.  No changes will be made
-   * to the {@link Cache.Entry}.
-   * <p/>
-   * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
-   * locking, round-trips and expensive network transfers.
-   * <p/>
-   * {@link Cache.Entry} access, via a call to
-   * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
-   * {@link Cache#get(Object)} was called for the key.  This includes updating
-   * necessary statistics, consulting the configured
-   * {@link javax.cache.expiry.ExpiryPolicy} and loading from a configured
-   * {@link javax.cache.integration.CacheLoader}.
-   * <p/>
-   * {@link Cache.Entry} mutation, via a call to
-   * {@link javax.cache.Cache.MutableEntry#setValue(Object)}, will behave
-   * as if {@link Cache#put(Object, Object)} was called for the key.  This
-   * includes updating necessary statistics, consulting the configured
-   * {@link javax.cache.expiry.ExpiryPolicy}, notifying
-   * {@link javax.cache.event.CacheEntryListener}s and a writing to a configured
-   * {@link CacheWriter}.
-   * <p/>
-   * {@link Cache.Entry} removal, via a call to
-   * {@link javax.cache.Cache.MutableEntry#remove()}, will behave
-   * as if {@link Cache#remove(Object)} was called for the key.  This
-   * includes updating necessary statistics, notifying
-   * {@link javax.cache.event.CacheEntryListener}s and causing a delete on a
-   * configured {@link CacheWriter}.
-   * <p/>
-   * As implementations may choose to execute {@link EntryProcessor}s remotely,
-   * {@link EntryProcessor}s, together with specified parameters and return
-   * values, may be required to implement {@link java.io.Serializable}.
-   *
-   * Multiple Operations in One Entry Processor
-   * Only the net effect of multiple operations has visibility outside of the Entry
-   * Processor. The entry is locked by the entry processor for the entire scope
-   * of the entry processor, so intermediate effects are not visible.
-   *
-   * For example, a getValue, setValue, getValue, setValue has the following effects:
-   *
-   * Final value of the cache: last setValue
-   * Statistics: one get and one put as the second get and the first put are internal
-   * to the EntryProcessor.
-   * Listeners: second put will cause either a put or an update depending on whether
-   * there was an initial value for the entry.
-   * CacheLoader: Invoked by the first get only if a loader was registered
-   * CacheWriter: Invoked by the second put only as the first put was internal to the
-   * Entry Processor
-   * ExpiryPolicy: The first get and the second put only are visible to the
-   * ExpiryPolicy.
-   *
-   * For example, a getValue, remove, getValue, setValue has the following effects:
-   *
-   * Final value of the cache: last setValue
-   * Statistics: one get and one put as the second get and the first put are internal
-   * to the EntryProcessor.
-   * Listeners: second put will cause either a put or an update depending on whether
-   * there was an initial value for the entry.
-   * CacheLoader: Invoked by the first get only if a loader was registered
-   * CacheWriter: Invoked by the second put only as the first put was internal to the
-   * Entry Processor
-   * ExpiryPolicy: The first get and the second put only are visible to the
-   * ExpiryPolicy.
-   *
-   *
-   * For example, a getValue, setValue, getValue, setValue,
-   * remove has the following effects:
-   *
-   * Final value of the cache: last setValue
-   * Statistics: one get and one remove as the second get and the two puts are
-   * internal to the EntryProcessor.
-   * Listeners: remove if there was initial value in the cache, otherwise no listener
-   * invoked.
-   * CacheLoader: Invoked by the first get only if a loader was registered
-   * CacheWriter: Invoked by the remove only as the two puts are internal to the
-   * Entry Processor
-   * ExpiryPolicy: The first get only is visible to the ExpiryPolicy. There is no
-   * remove event in ExpiryPolicy.
-   *
-   *
-   *
-   *
-   * @param <K> the type of keys maintained by this cache
-   * @param <V> the type of cached values
-   */
-  public interface EntryProcessor<K, V, T> {
-
-    /**
-     * Process an entry.
-     *
-     * @param entry     the entry
-     * @param arguments a number of arguments to the process.
-     * @return the result of the processing, if any, which is user defined.
-     */
-    T process(Cache.MutableEntry<K, V> entry, Object... arguments);
-  }
 }

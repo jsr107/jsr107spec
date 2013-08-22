@@ -71,8 +71,8 @@ public interface Configuration<K, V> extends Serializable {
    * "put" operations called via one of {@link javax.cache.Cache#put(Object, Object)}, {@link javax.cache.Cache#getAndRemove(Object)},
    * {@link javax.cache.Cache#removeAll()}, {@link javax.cache.Cache#getAndPut(Object, Object)}
    * {@link javax.cache.Cache#getAndRemove(Object)}, {@link javax.cache.Cache#getAndReplace(Object, Object)},
-   * {@link javax.cache.Cache#invoke(Object, javax.cache.Cache.EntryProcessor, Object...)},
-   * {@link javax.cache.Cache#invokeAll(java.util.Set, javax.cache.Cache.EntryProcessor, Object...)}
+   * {@link javax.cache.Cache#invoke(Object, javax.cache.processor.EntryProcessor, Object...)},
+   * {@link javax.cache.Cache#invokeAll(java.util.Set, javax.cache.processor.EntryProcessor, Object...)}
    * will appropriately cause the configured {@link javax.cache.integration.CacheWriter} to be invoked.
    * <p/>
    *
