@@ -48,5 +48,5 @@ public interface CacheLoader<K, V> {
    * @return A map of key, values to be stored in the cache.
    * @throws CacheLoaderException if there is problem executing the loader.
    */
-  Map<K, V> loadAll(Iterable<? extends K> keys);
+  Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException;
 }

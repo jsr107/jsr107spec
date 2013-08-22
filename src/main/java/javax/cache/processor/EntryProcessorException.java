@@ -5,28 +5,28 @@
  *  All rights reserved. Use is subject to license terms.
  */
 
-package javax.cache.integration;
+package javax.cache.processor;
 
 import javax.cache.CacheException;
 
 /**
- * An exception to indicate a problem has occurred executing a {@link CacheLoader}.
+ * An exception to indicate a problem has occurred executing an {@link EntryProcessor}.
  * <p/>
- * A Caching Implementation must wrap any {@link Exception} thrown by a {@link
- * CacheLoader} in this exception.
+ * A Caching Implementation must wrap any {@link Exception} thrown by an
+ * {@link EntryProcessor} in this exception.
  *
  * @author Greg Luck
  * @since 1.0
  */
-public class CacheLoaderException extends CacheException {
+public class EntryProcessorException extends CacheException {
 
-  private static final long serialVersionUID = 20130822163231L;
+  private static final long serialVersionUID = 20130822110920L;
 
 
   /**
    * Constructs a new CacheLoaderException.
    */
-  public CacheLoaderException() {
+  public EntryProcessorException() {
     super();
   }
 
@@ -36,7 +36,7 @@ public class CacheLoaderException extends CacheException {
    * @param message the detail message. The detail message is saved for
    *                later retrieval by the {@link #getMessage()} method.
    */
-  public CacheLoaderException(String message) {
+  public EntryProcessorException(String message) {
     super(message);
   }
 
@@ -52,7 +52,7 @@ public class CacheLoaderException extends CacheException {
    *                unknown.)
    * @since 1.0
    */
-  public CacheLoaderException(String message, Throwable cause) {
+  public EntryProcessorException(String message, Throwable cause) {
     super(message, cause);
   }
 
@@ -70,7 +70,7 @@ public class CacheLoaderException extends CacheException {
    *              unknown.)
    * @since 1.0
    */
-  public CacheLoaderException(Throwable cause) {
+  public EntryProcessorException(Throwable cause) {
     super(cause);
   }
 

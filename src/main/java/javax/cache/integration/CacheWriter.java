@@ -47,10 +47,10 @@ public interface CacheWriter<K, V> {
    * for a specific key.
    *
    * @param entry the entry to be written
-   * @throws javax.cache.CacheException if the write fails. If thrown the
+   * @throws CacheWriterException if the write fails. If thrown the
    *                                    cache mutation will not occur.
    */
-  void write(Cache.Entry<? extends K, ? extends V> entry);
+  void write(Cache.Entry<? extends K, ? extends V> entry) throws CacheWriterException;
 
   /**
    * Write the specified entries to the external resource. This method is intended
@@ -68,11 +68,12 @@ public interface CacheWriter<K, V> {
    *                the entries to write for write-through. Upon return the
    *                collection must only contain entries that were not
    *                successfully written. (see partial success above)
-   * @throws javax.cache.CacheException if one or more of the writes fail. If
+   * @throws CacheWriterException if one or more of the writes fail. If
    *                                    thrown cache mutations will occur for
    *                                    entries which succeeded.
    */
-  void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries);
+  void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws
+      CacheWriterException;
 
 
   /**
@@ -84,10 +85,10 @@ public interface CacheWriter<K, V> {
    * This method is invoked even if no mapping for the key exists.
    *
    * @param key the key that is used for the delete operation
-   * @throws javax.cache.CacheException if delete fails. If thrown the
-   *                                    cache delete will not occur.
+   * @throws CacheWriterException if delete fails. If thrown the cache delete will not
+   * occur.
    */
-  void delete(Object key);
+  void delete(Object key) throws CacheWriterException;
 
 
   /**
@@ -111,9 +112,9 @@ public interface CacheWriter<K, V> {
    *             invocation, it contains the keys to delete for write-through.
    *             Upon return the collection must only contain the keys that were
    *             not successfully deleted. (see partial success above)
-   * @throws javax.cache.CacheException if one or more deletes fail. If thrown
+   * @throws CacheWriterException if one or more deletes fail. If thrown
    *                      cache deletes will occur for entries which succeeded.
    */
-  void deleteAll(Collection<?> keys);
+  void deleteAll(Collection<?> keys) throws CacheWriterException;
 
 }

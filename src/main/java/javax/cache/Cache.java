@@ -12,6 +12,7 @@ import javax.cache.configuration.Configuration;
 import javax.cache.integration.CacheWriter;
 import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
+import javax.cache.processor.EntryProcessorException;
 import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
@@ -533,22 +534,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *                       {@link EntryProcessor}
    * @return the result of the processing, if any, defined by the
    *         {@link EntryProcessor} implementation
-   * @throws NullPointerException  if key or {@link EntryProcessor} are null
-   * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws CacheException        if an exception occurred while executing
-   *                               the {@link EntryProcessor} (the causing
-   *                               exception will be wrapped by the
-   *                               CacheException)
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those that have been configured for the
-   *                               {@link Cache}
+   * @throws NullPointerException    if key or {@link EntryProcessor} is null
+   * @throws IllegalStateException   if the cache is {@link #isClosed()}
+   * @throws ClassCastException      if the implementation supports and is
+   *                                 configured to perform runtime-type-checking,
+   *                                 and the key or value types are incompatible
+   *                                 with those that have been configured for the
+   *                                 {@link Cache}
+   * @throws EntryProcessorException if an exception is thrown by the {@link
+   *                                 EntryProcessor}, a Caching Implementation must wrap
+   *                                 any {@link Exception} thrown wrapped in an
+   *                                 {@link EntryProcessorException}.
    * @see EntryProcessor
    */
   <T> T invoke(K key,
                javax.cache.processor.EntryProcessor<K, V, T> entryProcessor,
-               Object... arguments);
+               Object... arguments) throws EntryProcessorException;
 
   /**
    * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
@@ -571,17 +572,21 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         {@link EntryProcessor} implementation.  No mappings will be
    *         returned for {@link EntryProcessor}s that return a <code>null</code>
    *         value for a key
-   * @throws NullPointerException  if keys or {@link EntryProcessor} are null
-   * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws CacheException        if an exception occurred while executing
-   *                               the {@link EntryProcessor} (the causing
-   *                               exception will be wrapped by the
-   *                               CacheException)
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those that have been configured for the
-   *                               {@link Cache}
+   * @throws NullPointerException    if keys or {@link EntryProcessor} are null
+   * @throws IllegalStateException   if the cache is {@link #isClosed()}
+   * @throws CacheException          if an exception occurred while executing
+   *                                 the {@link EntryProcessor} (the causing
+   *                                 exception will be wrapped by the
+   *                                 CacheException)
+   * @throws ClassCastException      if the implementation supports and is
+   *                                 configured to perform runtime-type-checking,
+   *                                 and the key or value types are incompatible
+   *                                 with those that have been configured for the
+   *                                 {@link Cache}
+   * @throws EntryProcessorException if an exception is thrown by the {@link
+   *                                 EntryProcessor}, a Caching Implementation must wrap
+   *                                 any {@link Exception} thrown wrapped in an
+   *                                 {@link EntryProcessorException}.
    * @see EntryProcessor
    */
   <T> Map<K, T> invokeAll(Set<? extends K> keys,

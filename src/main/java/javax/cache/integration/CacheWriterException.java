@@ -20,7 +20,7 @@ import javax.cache.CacheException;
  */
 public class CacheWriterException extends CacheException {
 
-  private static final long serialVersionUID = 20130621110150L;
+  private static final long serialVersionUID =  20130822161612L;
 
 
   /**

@@ -12,9 +12,9 @@ import javax.cache.Cache;
  * {@link EntryProcessor#process(MutableEntry, Object...)}
  * method has completed execution.
  * <p/>
- * If an exception is thrown by an {@link EntryProcessor}, the exception will
- * be returned wrapped in an {@link javax.cache.CacheException}.  No changes will be made
- * to the {@link Cache.Entry}.
+ * If an exception is thrown by an {@link EntryProcessor}, a Caching Implementation
+ * must wrap any {@link Exception} thrown wrapped in an {@link EntryProcessorException}.
+ * If this occurs no mutations will be made to the {@link Cache.Entry}.
  * <p/>
  * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
  * locking, round-trips and expensive network transfers.
@@ -106,6 +106,7 @@ public interface EntryProcessor<K, V, T> {
    * @param entry     the entry
    * @param arguments a number of arguments to the process.
    * @return the result of the processing, if any, which is user defined.
+   * @throws EntryProcessorException if there is a failure in entry processing.
    */
-  T process(MutableEntry<K, V> entry, Object... arguments);
+  T process(MutableEntry<K, V> entry, Object... arguments) throws EntryProcessorException;
 }
