@@ -175,7 +175,7 @@ public interface CacheManager extends Closeable {
    * <p/>
    * Implementations must check if key and value types were configured
    * for the requested {@link Cache}. If either the keyType or valueType of the
-   * configured {@link Cache} where specified (and not Object.class) an
+   * configured {@link Cache} were specified (other than <code>Object.class</code>) an
    * {@link IllegalArgumentException} will be thrown.
    * <p/>
    * Implementations that support declarative mechanisms for pre-configuring
