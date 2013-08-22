@@ -19,6 +19,7 @@ import javax.cache.Cache;
  * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
  * locking, round-trips and expensive network transfers.
  * <p/>
+ * <h3>Effect of {@link MutableEntry} operations</h3>
  * {@link Cache.Entry} access, via a call to
  * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
  * {@link Cache#get(Object)} was called for the key.  This includes updating
@@ -45,49 +46,72 @@ import javax.cache.Cache;
  * {@link EntryProcessor}s, together with specified parameters and return
  * values, may be required to implement {@link java.io.Serializable}.
  *
- * Multiple Operations in One Entry Processor
+ * <h3>Effect of multiple {@link MutableEntry} operations performed by one {@link
+ * EntryProcessor}</h3>
  * Only the net effect of multiple operations has visibility outside of the Entry
  * Processor. The entry is locked by the entry processor for the entire scope
  * of the entry processor, so intermediate effects are not visible.
- *
- * For example, a getValue, setValue, getValue, setValue has the following effects:
- *
- * Final value of the cache: last setValue
+ * <h4>Example 1</h4>
+ * In this example, an {@link EntryProcessor} calls:
+ * <ol>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#setValue(Object)}</li>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#setValue(Object)}</li>
+ * </ol>
+ * This will have the following {@link Cache} effects:
+ * <br>
+ * Final value of the cache: last setValue<br>
  * Statistics: one get and one put as the second get and the first put are internal
- * to the EntryProcessor.
+ * to the EntryProcessor.<br>
  * Listeners: second put will cause either a put or an update depending on whether
- * there was an initial value for the entry.
- * CacheLoader: Invoked by the first get only if a loader was registered
+ * there was an initial value for the entry.<br>
+ * CacheLoader: Invoked by the first get only if a loader was registered.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to the
- * Entry Processor
+ * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
- * ExpiryPolicy.
+ * ExpiryPolicy.<br>
  *
- * For example, a getValue, remove, getValue, setValue has the following effects:
- *
- * Final value of the cache: last setValue
+ * <h4>Example 2</h4>
+ * In this example, an {@link EntryProcessor} calls:
+ * <ol>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#remove()}}</li>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#setValue(Object)}</li>
+ * </ol>
+ * This will have the following {@link Cache} effects:
+ * <br>
+ * Final value of the cache: last setValue<br>
  * Statistics: one get and one put as the second get and the first put are internal
- * to the EntryProcessor.
+ * to the EntryProcessor.<br>
  * Listeners: second put will cause either a put or an update depending on whether
- * there was an initial value for the entry.
- * CacheLoader: Invoked by the first get only if a loader was registered
+ * there was an initial value for the entry.<br>
+ * CacheLoader: Invoked by the first get only if a loader was registered.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to the
- * Entry Processor
+ * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
- * ExpiryPolicy.
+ * ExpiryPolicy.<br>
  *
- *
- * For example, a getValue, setValue, getValue, setValue,
- * remove has the following effects:
- *
- * Final value of the cache: last setValue
+ * <h4>Example 3</h4>
+ * In this example, an {@link EntryProcessor} calls:
+ * <ol>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#setValue(Object)}}</li>
+ * <li>{@link MutableEntry#getValue()}</li>
+ * <li>{@link MutableEntry#setValue(Object)}</li>
+ * <li>{@link MutableEntry#remove()}</li>
+ * </ol>
+ * This will have the following {@link Cache} effects:
+ * <br>
+ * Final value of the cache: last setValue<br>
  * Statistics: one get and one remove as the second get and the two puts are
- * internal to the EntryProcessor.
+ * internal to the EntryProcessor.<br>
  * Listeners: remove if there was initial value in the cache, otherwise no listener
- * invoked.
- * CacheLoader: Invoked by the first get only if a loader was registered
+ * invoked.<br>
+ * CacheLoader: Invoked by the first get only if a loader was registered.<br>
  * CacheWriter: Invoked by the remove only as the two puts are internal to the
- * Entry Processor
+ * Entry Processor.<br>
  * ExpiryPolicy: The first get only is visible to the ExpiryPolicy. There is no
  * remove event in ExpiryPolicy.
  *
@@ -98,7 +122,7 @@ import javax.cache.Cache;
  * @author Greg Luck
  * @since 1.0
  */
-public interface EntryProcessor<K, V, T> {
+public abstract class EntryProcessor<K, V, T> {
 
   /**
    * Process an entry.
@@ -108,5 +132,5 @@ public interface EntryProcessor<K, V, T> {
    * @return the result of the processing, if any, which is user defined.
    * @throws EntryProcessorException if there is a failure in entry processing.
    */
-  T process(MutableEntry<K, V> entry, Object... arguments) throws EntryProcessorException;
+  public abstract T process(MutableEntry<K, V> entry, Object... arguments) throws EntryProcessorException;
 }
