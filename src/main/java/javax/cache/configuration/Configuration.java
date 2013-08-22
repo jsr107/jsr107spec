@@ -34,18 +34,18 @@ import java.util.List;
 public interface Configuration<K, V> extends Serializable {
 
   /**
-   * Determines the required type of keys for {@link javax.cache.Cache}s configured with
-   * this {@link Configuration}.
+   * Determines the required type of keys for {@link javax.cache.Cache}s configured
+   * with this {@link Configuration}.
    *
-   * @return the key type or <code>null</code> if the type is undefined
+   * @return the key type or <code>Object.class</code> if the type is undefined
    */
   Class<K> getKeyType();
 
   /**
-   * Determines the required type of values for {@link javax.cache.Cache}s configured with
-   * this {@link Configuration}.
+   * Determines the required type of values for {@link javax.cache.Cache}s configured
+   * with this {@link Configuration}.
    *
-   * @return the value type or <code>null</code> if the type is undefined
+   * @return the value type or <code>Object.class</code> if the type is undefined
    */
   Class<V> getValueType();
 

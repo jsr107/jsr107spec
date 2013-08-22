@@ -119,8 +119,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * Constructs a default {@link MutableConfiguration}.
    */
   public MutableConfiguration() {
-    this.keyType = null;
-    this.valueType = null;
+    this.keyType = (Class<K>)Object.class;
+    this.valueType = (Class<V>)Object.class;
     this.listenerConfigurations = new
         ArrayList<CacheEntryListenerConfiguration<K, V>>();
     this.cacheLoaderFactory = null;
@@ -195,21 +195,21 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
    * Sets the expected type of keys and values for a {@link javax.cache.Cache}
-   * configured with this {@link Configuration}. Setting both to <code>null</code>
-   * means type-safety checks are not required.
+   * configured with this {@link Configuration}. Setting both to
+   * <code>Object.class</code> means type-safety checks are not required.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
+   * @throws NullPointerException should the key or value type be null
    */
   public MutableConfiguration<K, V> setTypes(Class<K> keyType, Class<V> valueType) {
-    if ((keyType == null && valueType == null) ||
-        (keyType != null && valueType != null)) {
+    if (keyType == null || valueType == null) {
+      throw new NullPointerException("keyType and/or valueType can't be null");
+    } else {
       this.keyType = keyType;
       this.valueType = valueType;
       return this;
-    } else {
-      throw new IllegalArgumentException("Both keyType and valueType must be null or a type");
     }
   }
 
@@ -475,8 +475,8 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((keyType == null) ? 0 : keyType.hashCode());
-    result = prime * result + ((valueType == null) ? 0 : valueType.hashCode());
+    result = prime * result + keyType.hashCode();
+    result = prime * result + valueType.hashCode();
     result = prime
         * result
         + ((listenerConfigurations == null) ? 0 : listenerConfigurations
@@ -515,16 +515,10 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
     }
     MutableConfiguration<?, ?> other = (MutableConfiguration<?, ?>) object;
 
-    if ((keyType == null && other.keyType != null) ||
-        (keyType != null && other.keyType == null)) {
-      return false;
-    } else if (keyType != null && other.keyType != null && !keyType.equals(other.keyType)) {
+    if (!keyType.equals(other.keyType)) {
       return false;
     }
-    if ((valueType == null && other.valueType != null) ||
-        (valueType != null && other.valueType == null)) {
-      return false;
-    } else if (valueType != null && other.valueType != null && !valueType.equals(other.valueType)) {
+    if (!valueType.equals(other.valueType)) {
       return false;
     }
     if (listenerConfigurations == null) {

@@ -166,14 +166,17 @@ public interface CacheManager extends Closeable {
   /**
    * Looks up a managed {@link Cache} given it's name.
    * <p/>
-   * This method must be used for {@link Cache}s that were not configured with
-   * runtime key and value types. Use {@link #getCache(String, Class, Class)} to
-   * acquire {@link Cache}s that were configured with specific runtime types.
+   * This method may only be used to acquire {@link Cache}s that were
+   * configured without runtime key and value types, or were configured
+   * to use Object.class key and value types.
    * <p/>
-   * Implementations must check that no key and value types were specified
-   * when the cache was configured. If either the keyType or valueType of the
-   * configured cache are not their defaults then a {@link IllegalArgumentException}
-   * is thrown.
+   * Use the {@link #getCache(String, Class, Class)} method acquire
+   * {@link Cache}s that were configured with specific runtime types.
+   * <p/>
+   * Implementations must check if key and value types were configured
+   * for the requested {@link Cache}. If either the keyType or valueType of the
+   * configured {@link Cache} where specified (and not Object.class) an
+   * {@link IllegalArgumentException} will be thrown.
    * <p/>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
@@ -186,7 +189,7 @@ public interface CacheManager extends Closeable {
    *                               specific types, this method cannot be used
    * @see #getCache(String, Class, Class)
    */
-  <K, V> Cache<K, V> getCache(String cacheName);
+  Cache getCache(String cacheName);
 
   /**
    * Obtains an {@link Iterable} over the names of {@link Cache}s managed by the
