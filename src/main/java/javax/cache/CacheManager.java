@@ -88,19 +88,19 @@ public interface CacheManager extends Closeable {
   Properties getProperties();
 
   /**
-   * Ensures that a named {@link Cache} is being managed by the
-   * {@link CacheManager}.
+   * Creates a named {@link Cache} at runtime.
    * <p/>
-   * If such a {@link Cache} is unknown to the {@link CacheManager}, one is
-   * created according to the provided
+   * If a {@link Cache} with the specified name is known to the {@link CacheManager},
+   * a CacheException is thrown.
+   * <p/>
+   * If a {@link Cache} with the specified name is unknown the {@link CacheManager},
+   * one is created according to the provided
    * {@link javax.cache.configuration.Configuration} after which it becomes
    * managed by the {@link CacheManager}.
    * <p/>
-   * If such a {@link Cache} is known to the {@link CacheManager},
-   * a CacheException is thrown.
-   * <p/>
-   * {@link javax.cache.configuration.Configuration}s provided to this method are
-   * always validated within the context of the {@link CacheManager}.
+   * Prior to a {@link Cache} being created the provided
+   * {@link javax.cache.configuration.Configuration}s is validated within the
+   * context of the {@link CacheManager} properties and implementation.
    * <p/>
    * For example: Attempting to use a
    * {@link javax.cache.configuration.Configuration} requiring transactional
@@ -117,7 +117,7 @@ public interface CacheManager extends Closeable {
    * removing the requirement to configure them in an application.  In such
    * circumstances a developer may simply call either the {@link #getCache(String)}
    * or {@link #getCache(String, Class, Class)} methods to acquire a
-   * pre-configured {@link Cache}.
+   * previously established or pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the {@link Cache}
    * @param configuration the {@link javax.cache.configuration.Configuration}
@@ -133,7 +133,7 @@ public interface CacheManager extends Closeable {
    * @throws NullPointerException          if the cache configuration or name
    *                                       is null
    */
-  void createCache(String cacheName, Configuration configuration)
+  <K, V> Cache<K, V> createCache(String cacheName, Configuration<K, V> configuration)
       throws IllegalArgumentException;
 
   /**
