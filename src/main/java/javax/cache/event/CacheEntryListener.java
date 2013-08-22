@@ -33,7 +33,7 @@ import java.util.EventListener;
  * listener does not cause the cache operation to fail.
  * <p/>
  * Listeners can only throw {@link CacheEntryListenerException}. Caching implementations
- * must catch any other {@link Throwable} from a listener, then wrap and rethrow it as a
+ * must catch any other {@link Exception} from a listener, then wrap and rethrow it as a
  * {@link CacheEntryListenerException}.
  * <p/>
  * A listener which mutates a cache on the CacheManager may cause a deadlock.
