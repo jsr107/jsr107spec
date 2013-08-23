@@ -8,11 +8,12 @@
 package javax.cache.integration;
 
 import javax.cache.Cache;
+import javax.cache.configuration.Configuration;
 import java.util.Map;
 
 /**
  * Used when a cache is read-through or when loading data into a cache via the
- * {@link javax.cache.Cache#loadAll(java.util.Set, boolean,
+ * {@link Cache#loadAll(java.util.Set, boolean,
  * CompletionListener)} method.
  * <p/>
  * @param <K> the type of keys handled by this loader
@@ -20,7 +21,7 @@ import java.util.Map;
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @since 1.0
- * @see javax.cache.configuration.Configuration#isReadThrough()
+ * @see Configuration#isReadThrough()
  * @see CacheWriter
  */
 public interface CacheLoader<K, V> {

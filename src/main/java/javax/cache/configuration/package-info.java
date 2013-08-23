@@ -19,10 +19,10 @@
  *        .setStoreByValue(false)
  *        .setStatisticsEnabled(true)
  *        .setExpiryPolicyFactory(FactoryBuilder.factoryOf(
- *            new Accessed<String, Integer>(new Duration(TimeUnit.HOURS, 1))));
+ *            new AccessedExpiryPolicy<String>(new Duration(TimeUnit.HOURS, 1))));
  * </code></pre>
  * <p/>
- * {@link javax.cache.configuration.OptionalFeature}, though not specific to cache configuration, allows
+ * {@link OptionalFeature}, though not specific to cache configuration, allows
  * application to determine the optional features supported at runtime.
  *
  * @author Greg Luck

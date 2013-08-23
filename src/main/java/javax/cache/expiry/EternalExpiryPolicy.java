@@ -22,9 +22,9 @@ public final class EternalExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
   public static final long serialVersionUID = 201305101603L;
 
   /**
-   * Obtains a {@link javax.cache.configuration.Factory} for an Eternal {@link ExpiryPolicy}.
+   * Obtains a {@link Factory} for an Eternal {@link ExpiryPolicy}.
    *
-   * @return a {@link javax.cache.configuration.Factory} for an Eternal {@link ExpiryPolicy}.
+   * @return a {@link Factory} for an Eternal {@link ExpiryPolicy}.
    */
   public static <K> Factory<ExpiryPolicy<? super K>> factoryOf() {
     return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new EternalExpiryPolicy<K>());

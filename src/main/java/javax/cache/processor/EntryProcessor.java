@@ -1,6 +1,9 @@
 package javax.cache.processor;
 
 import javax.cache.Cache;
+import javax.cache.event.CacheEntryListener;
+import javax.cache.expiry.ExpiryPolicy;
+import javax.cache.integration.CacheWriter;
 
 
 /**
@@ -21,31 +24,30 @@ import javax.cache.Cache;
  * <p/>
  * <h3>Effect of {@link MutableEntry} operations</h3>
  * {@link Cache.Entry} access, via a call to
- * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
+ * {@link Cache.Entry#getValue()}, will behave as if
  * {@link Cache#get(Object)} was called for the key.  This includes updating
  * necessary statistics, consulting the configured
- * {@link javax.cache.expiry.ExpiryPolicy} and loading from a configured
+ * {@link ExpiryPolicy} and loading from a configured
  * {@link javax.cache.integration.CacheLoader}.
  * <p/>
  * {@link Cache.Entry} mutation, via a call to
  * {@link MutableEntry#setValue(Object)}, will behave
- * as if {@link Cache#put(Object, Object)} was called for the key.  This
- * includes updating necessary statistics, consulting the configured
- * {@link javax.cache.expiry.ExpiryPolicy}, notifying
- * {@link javax.cache.event.CacheEntryListener}s and a writing to a configured
- * {@link javax.cache.integration.CacheWriter}.
+ * as if {@link Cache#put(Object, Object)} was called for the key.  This includes
+ * updating necessary statistics, consulting the configured {@link ExpiryPolicy},
+ * notifying {@link CacheEntryListener}s and writing to a configured {@link
+ * CacheWriter}.
  * <p/>
  * {@link Cache.Entry} removal, via a call to
  * {@link MutableEntry#remove()}, will behave
  * as if {@link Cache#remove(Object)} was called for the key.  This
  * includes updating necessary statistics, notifying
- * {@link javax.cache.event.CacheEntryListener}s and causing a delete on a
- * configured {@link javax.cache.integration.CacheWriter}.
+ * {@link CacheEntryListener}s and causing a delete on a
+ * configured {@link CacheWriter}.
  * <p/>
  * As implementations may choose to execute {@link EntryProcessor}s remotely,
  * {@link EntryProcessor}s, together with specified parameters and return
  * values, may be required to implement {@link java.io.Serializable}.
- *
+ * <p/>
  * <h3>Effect of multiple {@link MutableEntry} operations performed by one {@link
  * EntryProcessor}</h3>
  * Only the net effect of multiple operations has visibility outside of the Entry
@@ -71,7 +73,7 @@ import javax.cache.Cache;
  * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- *
+ * <p/>
  * <h4>Example 2</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>
@@ -92,7 +94,7 @@ import javax.cache.Cache;
  * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- *
+ * <p/>
  * <h4>Example 3</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>
@@ -108,9 +110,8 @@ import javax.cache.Cache;
  * Statistics: one get and one remove as the second get and the two puts are
  * internal to the EntryProcessor.<br>
  * Listeners: remove if there was initial value in the cache, otherwise no listener
- * invoked.<br>
- * CacheLoader: Invoked by the first get only if a loader was registered.<br>
- * CacheWriter: Invoked by the remove only as the two puts are internal to the
+ * invoked.<br> CacheLoader: Invoked by the first get only if a loader was registered.
+ * <br> CacheWriter: Invoked by the remove only as the two puts are internal to the
  * Entry Processor.<br>
  * ExpiryPolicy: The first get only is visible to the ExpiryPolicy. There is no
  * remove event in ExpiryPolicy.
@@ -118,7 +119,6 @@ import javax.cache.Cache;
  * @param <K> the type of keys maintained by this cache
  * @param <V> the type of cached values
  * @param <T> the type of the return value
- *
  * @author Greg Luck
  * @since 1.0
  */
@@ -132,5 +132,6 @@ public abstract class EntryProcessor<K, V, T> {
    * @return the result of the processing, if any, which is user defined.
    * @throws EntryProcessorException if there is a failure in entry processing.
    */
-  public abstract T process(MutableEntry<K, V> entry, Object... arguments) throws EntryProcessorException;
+  public abstract T process(MutableEntry<K, V> entry, Object... arguments)
+      throws EntryProcessorException;
 }

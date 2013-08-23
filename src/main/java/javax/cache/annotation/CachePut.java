@@ -8,24 +8,27 @@
 
 package javax.cache.annotation;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Arrays;
 
 
 /**
  * When a method annotated with {@link CachePut} is invoked a {@link
- * GeneratedCacheKey} will be generated and {@link javax.cache.Cache#put(Object,
+ * GeneratedCacheKey} will be generated and {@link Cache#put(Object,
  * Object)} will be invoked on the specified cache storing the value marked with
  * {@link CacheValue}. Null values are cached by default but this behavior can be
  * disabled via the {@link #cacheNull()} property.
  * <p/>
- * The default behavior is to call {@link javax.cache.Cache#put(Object, Object)}
+ * The default behavior is to call {@link Cache#put(Object, Object)}
  * after the annotated method is invoked, this behavior can be changed by setting
  * {@link #afterInvocation()} to false in which case
- * {@link javax.cache.Cache#put(Object, Object)} will be called before the
+ * {@link Cache#put(Object, Object)} will be called before the
  * annotated method is invoked.
  * <p/>
  * Example of caching the Domain object with a key generated from the String and
@@ -77,10 +80,9 @@ public @interface CachePut {
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link javax.cache.Cache#put(Object, Object)} should be called. If true
-   * it is called after the annotated method
-   * invocation completes successfully. If false it is called before the annotated
-   * method is invoked.
+   * When {@link Cache#put(Object, Object)} should be called. If true it is called after
+   * the annotated method invocation completes successfully. If false it is called before
+   * the annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
@@ -104,7 +106,7 @@ public @interface CachePut {
    * use at runtime.
    * <p/>
    * The default resolver pair will resolve the cache by name from the default
-   * {@link javax.cache.CacheManager}
+   * {@link CacheManager}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
       default CacheResolverFactory.class;
@@ -113,12 +115,9 @@ public @interface CachePut {
    * The {@link CacheKeyGenerator} to use to generate the {@link
    * GeneratedCacheKey} for interacting with the specified Cache.
    * <p/>
-   * Defaults to a key generator that uses
-   * {@link java.util.Arrays#deepHashCode(Object[])}
-   * and
-   * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array
-   * returned by
-   * {@link CacheKeyInvocationContext#getKeyParameters()}
+   * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])}
+   * and {@link Arrays#deepEquals(Object[], Object[])} with the array
+   * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
    *
    * @see CacheKey
    */

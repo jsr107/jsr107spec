@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * Defines the configuration requirements for a
- * {@link javax.cache.event.CacheEntryListener} and a {@link Factory} for its
+ * {@link CacheEntryListener} and a {@link Factory} for its
  * creation.
  *
  * @param <K> the type of keys
@@ -23,10 +23,10 @@ import java.io.Serializable;
 public interface CacheEntryListenerConfiguration<K, V> extends Serializable {
   /**
    * Obtains the {@link Factory} for the
-   * {@link javax.cache.event.CacheEntryListener}.
+   * {@link CacheEntryListener}.
    *
    * @return the {@link Factory} for the
-   *         {@link javax.cache.event.CacheEntryListener}
+   *         {@link CacheEntryListener}
    */
   Factory<CacheEntryListener<? super K, ? super V>> getCacheEntryListenerFactory();
 
@@ -40,14 +40,14 @@ public interface CacheEntryListenerConfiguration<K, V> extends Serializable {
   boolean isOldValueRequired();
 
   /**
-   * Obtains the {@link Factory} for the
-   * {@link javax.cache.event.CacheEntryEventFilter} that
-   * should be applied prior to notifying the {@link CacheEntryListener}.
+   * Obtains the {@link Factory} for the {@link CacheEntryEventFilter} that should be
+   * applied prior to notifying the {@link CacheEntryListener}.
+   * <p/>
    * When <code>null</code> no filtering is applied and all appropriate events
    * are notified.
    *
    * @return the {@link Factory} for the
-   *         {@link javax.cache.event.CacheEntryEventFilter} or <code>null</code>
+   *         {@link CacheEntryEventFilter} or <code>null</code>
    *         if no filtering is required
    */
   Factory<CacheEntryEventFilter<? super K, ? super V>>

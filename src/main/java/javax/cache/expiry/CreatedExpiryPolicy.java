@@ -12,7 +12,7 @@ import javax.cache.configuration.FactoryBuilder;
 import java.io.Serializable;
 
 /**
- * An {@link javax.cache.expiry.ExpiryPolicy} that defines the expiry {@link Duration}
+ * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
  * of a Cache Entry based on when it was created. An update does not reset
  * the expiry time.
  *
@@ -31,7 +31,7 @@ public final class CreatedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
   private Duration expiryDuration;
 
   /**
-   * Constructs an {@link CreatedExpiryPolicy} {@link javax.cache.expiry.ExpiryPolicy}.
+   * Constructs an {@link CreatedExpiryPolicy} {@link ExpiryPolicy}.
    *
    * @param expiryDuration the {@link Duration} a Cache Entry should exist be
    *                       before it expires after being modified
@@ -41,9 +41,9 @@ public final class CreatedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
   }
 
   /**
-   * Obtains a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
+   * Obtains a {@link Factory} for a Created {@link ExpiryPolicy}.
    *
-   * @return a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
+   * @return a {@link Factory} for a Created {@link ExpiryPolicy}.
    */
   public static <K, V> Factory<ExpiryPolicy<? super K>> factoryOf(Duration duration) {
     return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new CreatedExpiryPolicy<K>(duration));

@@ -7,6 +7,7 @@
 
 package javax.cache.spi;
 
+import javax.cache.CacheException;
 import javax.cache.CacheManager;
 import javax.cache.configuration.OptionalFeature;
 import java.io.Closeable;
@@ -50,7 +51,7 @@ public interface CachingProvider extends Closeable {
    * @param properties  the {@link Properties} for the {@link CachingProvider}
    *                    to create the {@link CacheManager} (null means no
    *                    implementation specific Properties are required)
-   * @throws javax.cache.CacheException when a {@link CacheManager} for the
+   * @throws CacheException when a {@link CacheManager} for the
    *                                    specified arguments could not be produced
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader, Properties properties);
@@ -98,7 +99,7 @@ public interface CachingProvider extends Closeable {
    * @param classLoader the {@link ClassLoader}  to use for the
    *                    {@link CacheManager} (null means
    *                    use {@link #getDefaultClassLoader()})
-   * @throws javax.cache.CacheException when a {@link CacheManager} for the
+   * @throws CacheException when a {@link CacheManager} for the
    *                                    specified arguments could not be produced
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader);

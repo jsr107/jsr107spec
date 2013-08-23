@@ -8,6 +8,8 @@
 
 package javax.cache.annotation;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,18 +20,18 @@ import java.lang.annotation.Target;
 /**
  * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link
  * GeneratedCacheKey} will be generated and
- * {@link javax.cache.Cache#remove(Object)} will be invoked on the specified
+ * {@link Cache#remove(Object)} will be invoked on the specified
  * cache.
  * <p/>
- * The default behavior is to call {@link javax.cache.Cache#remove(Object)} after
+ * The default behavior is to call {@link Cache#remove(Object)} after
  * the annotated method is invoked, this behavior can be changed by setting
  * {@link #afterInvocation()} to false in which case
- * {@link javax.cache.Cache#remove(Object)} will be called before the annotated
+ * {@link Cache#remove(Object)} will be called before the annotated
  * method is invoked.
  * <p/>
  * Example of removing a specific Domain object from the "domainCache". A {@link
  * GeneratedCacheKey} will be generated from the String and int parameters and
- * used to call {@link javax.cache.Cache#remove(Object)} after the deleteDomain
+ * used to call {@link Cache#remove(Object)} after the deleteDomain
  * method completes successfully.
  * <p><blockquote><pre>
  * package my.app;
@@ -77,14 +79,13 @@ public @interface CacheRemoveEntry {
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link javax.cache.Cache#remove(Object)}  should be called. If true it
-   * is called after the annotated method invocation completes successfully. If
-   * false it is called before the annotated method is invoked.
+   * When {@link Cache#remove(Object)}  should be called. If true it is called after the
+   * annotated method invocation completes successfully. If false it is called before the
+   * annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
-   * If true and the annotated method throws an exception the put will not be
-   * executed.
+   * If true and the annotated method throws an exception the put will not be executed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
@@ -93,7 +94,7 @@ public @interface CacheRemoveEntry {
    * use at runtime.
    * <p/>
    * The default resolver pair will resolve the cache by name from the default
-   * {@link javax.cache.CacheManager}
+   * {@link CacheManager}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
       default CacheResolverFactory.class;

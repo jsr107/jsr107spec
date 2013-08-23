@@ -8,9 +8,11 @@
 package javax.cache;
 
 import javax.cache.configuration.Configuration;
+import javax.cache.management.CacheMXBean;
 import javax.cache.spi.CachingProvider;
 import javax.transaction.UserTransaction;
 import java.io.Closeable;
+import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.util.Properties;
 
@@ -31,20 +33,20 @@ import java.util.Properties;
  * provide other mechanisms to create, acquire, manage and configure
  * {@link CacheManager}s, including:
  * <ul>
- *    <li>making use of {@link java.util.ServiceLoader}s,</li>
- *    <li>permitting the use of the <code>new</code> operator to create a
- *        concrete implementation, </li>
- *    <li>providing the construction through the use of one or more
- *        builders, and</li>
- *    <li>through the use of dependency injection.</li>
+ * <li>making use of {@link java.util.ServiceLoader}s,</li>
+ * <li>permitting the use of the <code>new</code> operator to create a
+ * concrete implementation, </li>
+ * <li>providing the construction through the use of one or more
+ * builders, and</li>
+ * <li>through the use of dependency injection.</li>
  * </ul>
  * <p/>
  * The default {@link CacheManager} however can always be acquired using the
  * default configured {@link CachingProvider} obtained by the {@link Caching}
  * class.  For example:
  * <code>
- *    CachingProvider provider = Caching.getCachingProvider();
- *    CacheManager manager = provider.getCacheManager();
+ * CachingProvider provider = Caching.getCachingProvider();
+ * CacheManager manager = provider.getCacheManager();
  * </code>
  * <p/>
  * Within a Java process {@link CacheManager}s and the {@link Cache}s they
@@ -56,11 +58,10 @@ import java.util.Properties;
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @author Brian Oliver
- * @since 1.0
- *
  * @see Caching
  * @see CachingProvider
  * @see Cache
+ * @since 1.0
  */
 public interface CacheManager extends Closeable {
 
@@ -95,21 +96,18 @@ public interface CacheManager extends Closeable {
    * <p/>
    * If a {@link Cache} with the specified name is unknown the {@link CacheManager},
    * one is created according to the provided
-   * {@link javax.cache.configuration.Configuration} after which it becomes
-   * managed by the {@link CacheManager}.
+   * {@link Configuration} after which it becomes managed by the {@link CacheManager}.
    * <p/>
-   * Prior to a {@link Cache} being created the provided
-   * {@link javax.cache.configuration.Configuration}s is validated within the
-   * context of the {@link CacheManager} properties and implementation.
+   * Prior to a {@link Cache} being created the provided {@link Configuration}s is
+   * validated within the context of the {@link CacheManager} properties and
+   * implementation.
    * <p/>
-   * For example: Attempting to use a
-   * {@link javax.cache.configuration.Configuration} requiring transactional
-   * support with an implementation that does not support
-   * transactions will result in an {@link UnsupportedOperationException}.
+   * For example: Attempting to use a {@link Configuration} requiring transactional
+   * support with an implementation that does not support transactions will result in an
+   * {@link UnsupportedOperationException}.
    * <p/>
-   * Implementers should be aware that the
-   * {@link javax.cache.configuration.Configuration} may be used to configure
-   * other {@link Cache}s.
+   * Implementers should be aware that the {@link Configuration} may be used to
+   * configure other {@link Cache}s.
    * <p/>
    * There's no requirement on the part of a developer to call this method for
    * each {@link Cache} an application may use.  Implementations may support
@@ -120,7 +118,7 @@ public interface CacheManager extends Closeable {
    * previously established or pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the {@link Cache}
-   * @param configuration the {@link javax.cache.configuration.Configuration}
+   * @param configuration the {@link Configuration}
    *                      to use if the {@link Cache} is known
    * @throws IllegalStateException         if the {@link CacheManager}
    *                                       {@link #isClosed()}
@@ -157,9 +155,9 @@ public interface CacheManager extends Closeable {
    * @param keyType   the expected {@link Class} of the key
    * @param valueType the expected {@link Class} of the value
    * @return the Cache or null if it does exist or can't be pre-configured
-   * @throws IllegalStateException     if the CacheManager is {@link #isClosed()}
-   * @throws IllegalArgumentException  if the specified key and/or value types are
-   *                                   incompatible with the configured cache.
+   * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
+   * @throws IllegalArgumentException if the specified key and/or value types are
+   *                                  incompatible with the configured cache.
    */
   <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
@@ -184,9 +182,9 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the name of the cache to look for
    * @return the Cache or null if it does exist or can't be pre-configured
-   * @throws IllegalStateException if the CacheManager is {@link #isClosed()}
-   * @throws IllegalArgumentException    if the {@link Cache} was configured with
-   *                               specific types, this method cannot be used
+   * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
+   * @throws IllegalArgumentException if the {@link Cache} was configured with
+   *                                  specific types, this method cannot be used
    * @see #getCache(String, Class, Class)
    */
   Cache getCache(String cacheName);
@@ -212,8 +210,8 @@ public interface CacheManager extends Closeable {
    * <p/>
    * This is equivalent to the following sequence of method calls:
    * <ol>
-   *   <li>{@link javax.cache.Cache#clear()}</li>
-   *   <li>{@link javax.cache.Cache#close()}</li>
+   * <li>{@link Cache#clear()}</li>
+   * <li>{@link Cache#close()}</li>
    * </ol>
    * followed by allowing the name of the {@link Cache} to be used for other
    * {@link Cache} configurations.
@@ -237,13 +235,11 @@ public interface CacheManager extends Closeable {
   UserTransaction getUserTransaction();
 
   /**
-   * Controls whether management is enabled. If enabled the
-   * {@link javax.cache.management.CacheMXBean} for each cache is registered in
-   * the platform MBean server. The platform MBeanServer is obtained using
-   * {@link java.lang.management.ManagementFactory#getPlatformMBeanServer()}
+   * Controls whether management is enabled. If enabled the {@link CacheMXBean} for each
+   * cache is registered in the platform MBean server. The platform MBeanServer is
+   * obtained using {@link ManagementFactory#getPlatformMBeanServer()}.
    * <p/>
-   * Management information includes the name and configuration information for
-   * the cache.
+   * Management information includes the name and configuration information for the cache.
    * <p/>
    * Each cache's management object must be registered with an ObjectName that
    * is unique and has the following type and attributes:
@@ -289,11 +285,9 @@ public interface CacheManager extends Closeable {
    * Closes the {@link CacheManager}.
    * <p/>
    * For each {@link Cache} managed by the {@link CacheManager}, the
-   * {@link javax.cache.Cache#close()} method will be invoked, in no guaranteed
-   * order.
+   * {@link Cache#close()} method will be invoked, in no guaranteed order.
    * <p/>
-   * If a {@link javax.cache.Cache#close()} call throws an exception, the
-   * exception will be ignored.
+   * If a {@link Cache#close()} call throws an exception, the exception will be ignored.
    * <p/>
    * After executing this method, the {@link #isClosed()} method will return
    * <code>true</code>.
@@ -310,7 +304,7 @@ public interface CacheManager extends Closeable {
    * <li>the {@link #close()} method has been called</li>
    * <li>the associated {@link #getCachingProvider()} has been closed, or</li>
    * <li>the {@link CacheManager} has been closed using the associated
-   *     {@link #getCachingProvider()}</li>
+   * {@link #getCachingProvider()}</li>
    * </ol>
    * <p/>
    * This method generally cannot be called to determine whether the
@@ -333,7 +327,8 @@ public interface CacheManager extends Closeable {
    * @param clazz the proprietary class or interface of the underlying concrete
    *              {@link CacheManager}. It is this type which is returned.
    * @return an instance of the underlying concrete {@link CacheManager}
-   * @throws IllegalArgumentException if the caching provider doesn't support the specified class.
+   * @throws IllegalArgumentException if the caching provider doesn't support the
+   *                                  specified class.
    */
   <T> T unwrap(java.lang.Class<T> clazz);
 }

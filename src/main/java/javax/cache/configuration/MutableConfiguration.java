@@ -17,6 +17,9 @@
 
 package javax.cache.configuration;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.event.CacheEntryListener;
 import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
@@ -35,7 +38,7 @@ import java.util.List;
  * @author Greg Luck
  * @since 1.0
  */
-public class MutableConfiguration<K, V> implements Configuration<K, V> {
+public class MutableConfiguration<K, V> extends Configuration<K, V> {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -43,13 +46,13 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   public static final long serialVersionUID = 201306200821L;
 
   /**
-   * The type of keys for {@link javax.cache.Cache}s configured with this
+   * The type of keys for {@link Cache}s configured with this
    * {@link Configuration}.
    */
   protected Class<K> keyType;
 
   /**
-   * The type of values for {@link javax.cache.Cache}s configured with this
+   * The type of values for {@link Cache}s configured with this
    * {@link Configuration}.
    */
   protected Class<V> valueType;
@@ -61,17 +64,17 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
       V>> listenerConfigurations;
 
   /**
-   * The {@link Factory} for the {@link javax.cache.integration.CacheLoader}.
+   * The {@link Factory} for the {@link CacheLoader}.
    */
   protected Factory<CacheLoader<K, V>> cacheLoaderFactory;
 
   /**
-   * The {@link Factory} for the {@link javax.cache.integration.CacheWriter}.
+   * The {@link Factory} for the {@link CacheWriter}.
    */
   protected Factory<CacheWriter<? super K, ? super V>> cacheWriterFactory;
 
   /**
-   * The {@link Factory} for the {@link javax.cache.expiry.ExpiryPolicy}.
+   * The {@link Factory} for the {@link ExpiryPolicy}.
    */
   protected Factory<ExpiryPolicy<? super K>> expiryPolicyFactory;
 
@@ -194,7 +197,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Sets the expected type of keys and values for a {@link javax.cache.Cache}
+   * Sets the expected type of keys and values for a {@link Cache}
    * configured with this {@link Configuration}. Setting both to
    * <code>Object.class</code> means type-safety checks are not required.
    *
@@ -223,7 +226,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
   }
 
   /**
-   * Add a configuration for a {@link javax.cache.event.CacheEntryListener}.
+   * Add a configuration for a {@link CacheEntryListener}.
    *
    * @param cacheEntryListenerConfiguration the
    *  {@link CacheEntryListenerConfiguration}
@@ -427,7 +430,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * Sets whether statistics gathering is enabled on a cache.
    * <p/>
    * Statistics may be enabled or disabled at runtime via
-   * {@link javax.cache.CacheManager#enableStatistics(String, boolean)}.
+   * {@link CacheManager#enableStatistics(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
@@ -449,7 +452,7 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * Sets whether management is enabled on a cache.
    * <p/>
    * Management may be enabled or disabled at runtime via
-   * {@link javax.cache.CacheManager#enableManagement(String, boolean)}.
+   * {@link CacheManager#enableManagement(String, boolean)}.
    *
    * @param enabled true to enable statistics, false to disable.
    * @return the {@link MutableConfiguration} to permit fluent-style method calls

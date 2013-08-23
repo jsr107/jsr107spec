@@ -42,7 +42,7 @@ import java.util.WeakHashMap;
  * <p/>
  * Alternatively when the fully qualified class name of a
  * {@link CachingProvider} implementation is specified using the system property
- * <code>javax.cache.CachingProvider</code>, that implementation will be used
+ * <code>javax.cache.spi.cachingprovider</code>, that implementation will be used
  * as the default {@link CachingProvider}.
  * <p/>
  * All {@link CachingProvider}s that are automatically detected or explicitly
@@ -74,15 +74,16 @@ import java.util.WeakHashMap;
  * @author Brian Oliver
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @see java.util.ServiceLoader
- * @see javax.cache.spi.CachingProvider
+ * @see ServiceLoader
+ * @see CachingProvider
  */
 public final class Caching {
 
   /**
-   * The javax.cache.CachingProvider constant.
+   * The <code>javax.cache.spi.cachingprovider</code> constant.
    */
-  public static final String JAVAX_CACHE_CACHING_PROVIDER = "javax.cache.CachingProvider";
+  public static final String JAVAX_CACHE_CACHING_PROVIDER = "javax.cache" +
+      ".spi.CachingProvider";
 
   /**
    * The {@link CachingProviderRegistry} that tracks the {@link CachingProvider}s.
@@ -152,7 +153,7 @@ public final class Caching {
    * Obtains the {@link CachingProvider}s that are available via the
    * {@link #getDefaultClassLoader()}.
    * <p/>
-   * If a <code>javax.cache.cachingprovider</code> system property is defined,
+   * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
    * only that {@link CachingProvider} specified by that property is returned.
    * Otherwise all {@link CachingProvider}s that are available via a
    * {@link ServiceLoader} for {@link CachingProvider}s using the default
@@ -170,7 +171,7 @@ public final class Caching {
    * Obtains the {@link CachingProvider}s that are available via the specified
    * {@link ClassLoader}.
    * <p/>
-   * If a <code>javax.cache.cachingprovider</code> system property is defined,
+   * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
    * only that {@link CachingProvider} specified by that property is returned.
    * Otherwise all {@link CachingProvider}s that are available via a
    * {@link ServiceLoader} for {@link CachingProvider}s using the specified
@@ -363,7 +364,7 @@ public final class Caching {
      * Obtain the {@link CachingProvider}s that are available via the
      * {@link #getDefaultClassLoader()}.
      * <p/>
-     * If a <code>javax.cache.cachingprovider</code> system property is defined,
+     * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
      * only that {@link CachingProvider} specified by that property is returned.
      * Otherwise all {@link CachingProvider}s that are available via a
      * {@link ServiceLoader} for {@link CachingProvider}s using the default
@@ -381,7 +382,7 @@ public final class Caching {
      * Obtain the {@link CachingProvider}s that are available via the specified
      * {@link ClassLoader}.
      * <p/>
-     * If a <code>javax.cache.cachingprovider</code> system property is defined,
+     * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
      * only that {@link CachingProvider} specified by that property is returned.
      * Otherwise all {@link CachingProvider}s that are available via a
      * {@link ServiceLoader} for {@link CachingProvider}s using the specified

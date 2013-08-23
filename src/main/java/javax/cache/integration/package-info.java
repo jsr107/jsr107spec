@@ -8,8 +8,8 @@
 /**
  * This package contains interfaces for integration.
  * <p/>
- * It contains the {@link javax.cache.integration.CacheLoader} and
- * {@link javax.cache.integration.CacheWriter} interfaces which
+ * It contains the {@link CacheLoader} and
+ * {@link CacheWriter} interfaces which
  * allow loading from and writing to other systems respectively.
  * <p/>
  * A cache with a registered loader can be configured as a read-through cache, so
@@ -20,9 +20,10 @@
  * <p/>
  * In addition a common idiom is to use a loader to initially
  * populate or refresh a cache. For that purpose there is the {@link
- * javax.cache.Cache#loadAll(java.util.Set, boolean, CompletionListener)} method.
+ * Cache#loadAll(java.util.Set, boolean, CompletionListener)} method.
  *
  * @author Greg Luck
  * @since 1.0
  */
 package javax.cache.integration;
+

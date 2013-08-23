@@ -7,6 +7,8 @@
 
 package javax.cache.annotation;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,15 +19,15 @@ import java.lang.annotation.Target;
 /**
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in
  * the specified cache will be removed via the
- * {@link javax.cache.Cache#removeAll()} method
+ * {@link Cache#removeAll()} method
  * <p/>
- * The default behavior is to call {@link javax.cache.Cache#removeAll()} after the
+ * The default behavior is to call {@link Cache#removeAll()} after the
  * annotated method is invoked, this behavior can be changed by setting {@link
- * #afterInvocation()} to false in which case {@link javax.cache.Cache#removeAll()}
+ * #afterInvocation()} to false in which case {@link Cache#removeAll()}
  * will be called before the annotated method is invoked.
  * <p/>
  * Example of removing all Domain objects from the "domainCache". {@link
- * javax.cache.Cache#removeAll()} will be called after deleteAllDomains() returns
+ * Cache#removeAll()} will be called after deleteAllDomains() returns
  * successfully.
  * <p><blockquote><pre>
  * package my.app;
@@ -71,25 +73,22 @@ public @interface CacheRemoveAll {
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link javax.cache.Cache#removeAll()} should be called. If true it is
-   * called after the annotated method
-   * invocation completes successfully. If false it is called before the annotated
-   * method is invoked.
+   * When {@link Cache#removeAll()} should be called. If true it is called after the
+   * annotated method invocation completes successfully. If false it is called before the
+   * annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
-   * If true and the annotated method throws an exception the put will not be
-   * executed.
+   * If true and the annotated method throws an exception the put will not be executed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
-   * use
-   * at runtime.
+   * use at runtime.
    * <p/>
    * The default resolver pair will resolve the cache by name from the default
-   * {@link javax.cache.CacheManager}
+   * {@link CacheManager}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
       default CacheResolverFactory.class;

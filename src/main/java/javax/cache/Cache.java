@@ -9,6 +9,9 @@ package javax.cache;
 
 import javax.cache.configuration.CacheEntryListenerConfiguration;
 import javax.cache.configuration.Configuration;
+import javax.cache.event.CacheEntryListener;
+import javax.cache.expiry.ExpiryPolicy;
+import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
 import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
@@ -34,7 +37,7 @@ import java.util.Set;
  * <li>do not allow null keys or values.  Attempts to use <code>null</code>
  * will result in a {@link NullPointerException}</li>
  * <li>provide the ability to read values from a
- * {@link javax.cache.integration.CacheLoader} (read-through-caching)
+ * {@link CacheLoader} (read-through-caching)
  * when a value being requested is not in a cache</li>
  * <li>provide the ability to write values to a
  * {@link CacheWriter} (write-through-caching)
@@ -71,7 +74,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * If the cache is configured read-through, and get would return null because
    * the entry is missing from the cache, the Cache's
-   * {@link javax.cache.integration.CacheLoader} is called which will attempt
+   * {@link CacheLoader} is called which will attempt
    * to load the entry.
    *
    * @param key the key whose associated value is to be returned
@@ -92,7 +95,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * If the cache is configured read-through, and a get would return null
    * because an entry is missing from the cache, the Cache's
-   * {@link javax.cache.integration.CacheLoader} is called which will attempt
+   * {@link CacheLoader} is called which will attempt
    * to load the entry. This is done for each key in the set for which this is
    * the case. If an entry cannot be loaded for a given key, the key will not be
    * present in the returned Map.
@@ -135,7 +138,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Asynchronously loads the specified entries into the cache using the
-   * configured {@link javax.cache.integration.CacheLoader} for the given keys.
+   * configured {@link CacheLoader} for the given keys.
    * <p/>
    * If an entry for a key already exists in the Cache, a value will be loaded
    * if and only if <code>replaceExistingValues</code> is true.   If no loader
@@ -516,7 +519,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Obtains an immutable representation of the {@link Configuration} that
    * was used to configure the {@link Cache}.
    *
-   * @return the {@link javax.cache.configuration.Configuration}
+   * @return the {@link Configuration}
    */
   Configuration<K, V> getConfiguration();
 
@@ -616,13 +619,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <ul>
    * <li>must close and release all resources being coordinated on behalf of the
    * Cache by the {@link CacheManager}. This includes calling the <code>close
-   * </code> method on configured {@link javax.cache.integration.CacheLoader},
-   * {@link CacheWriter}, registered
-   * {@link javax.cache.event.CacheEntryListener}s and {@link
-   * javax.cache.expiry.ExpiryPolicy} instances that implement the
-   * java.io.Closeable interface.
-   * <li>prevent events being delivered to configured
-   * {@link javax.cache.event.CacheEntryListener}s registered on the {@link Cache}
+   * </code> method on configured {@link CacheLoader},
+   * {@link CacheWriter}, registered {@link CacheEntryListener}s and
+   * {@link ExpiryPolicy}
+   * instances that implement the java.io.Closeable interface.
+   * <li>prevent events being delivered to configured {@link CacheEntryListener}s
+   * registered on the {@link Cache}
    * </li>
    * <li>not return the name of the Cache when the CacheManager getCacheNames()
    * method is called</li>
@@ -667,7 +669,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   <T> T unwrap(java.lang.Class<T> clazz);
 
   /**
-   * Registers a {@link javax.cache.event.CacheEntryListener}. The supplied
+   * Registers a {@link CacheEntryListener}. The supplied
    * {@link CacheEntryListenerConfiguration} is used to instantiate a listener
    * and apply it to those events specified in the configuration.
    *
@@ -676,7 +678,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         for creating the listener
    * @throws IllegalArgumentException is the same CacheEntryListenerConfiguration
    *                                  is used more than once
-   * @see javax.cache.event.CacheEntryListener
+   * @see CacheEntryListener
    */
   void registerCacheEntryListener(
       CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration);

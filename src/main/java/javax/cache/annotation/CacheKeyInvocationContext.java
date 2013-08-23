@@ -18,9 +18,7 @@ import java.lang.annotation.Annotation;
  * to generate a {@link GeneratedCacheKey} for the invocation.
  *
  * @param <A> The type of annotation this context information is for. One of
- *            {@link javax.cache.annotation.CacheResult},
- *            {@link javax.cache.annotation.CachePut}, or
- *            {@link javax.cache.annotation.CacheRemoveEntry}
+ *            {@link CacheResult}, {@link CachePut}, or {@link CacheRemoveEntry}.
  * @author Eric Dalquist
  * @see CacheKeyGenerator
  */

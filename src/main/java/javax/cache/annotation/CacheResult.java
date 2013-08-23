@@ -7,6 +7,8 @@
 
 package javax.cache.annotation;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,7 +19,7 @@ import java.lang.annotation.Target;
 /**
  * When a method annotated with {@link CacheResult} is invoked a
  * {@link GeneratedCacheKey} will be generated and
- * {@link javax.cache.Cache#get(Object)} is called before the annotated method
+ * {@link Cache#get(Object)} is called before the annotated method
  * actually executes. If a value is found in the cache it is returned and the
  * annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache
@@ -36,7 +38,7 @@ import java.lang.annotation.Target;
  * <p/>
  * To always invoke the annotated method and still cache the result set
  * {@link #skipGet()} to true. This will disable the pre-invocation
- * {@link javax.cache.Cache#get(Object)} call. If {@link #exceptionCacheName()} is
+ * {@link Cache#get(Object)} call. If {@link #exceptionCacheName()} is
  * specified the pre-invocation exception check is also disabled. This feature is
  * useful for methods that create or update objects to be cached.
  * <p/>
@@ -105,7 +107,7 @@ public @interface CacheResult {
   @Nonbinding String cacheName() default "";
 
   /**
-   * If set to true the pre-invocation {@link javax.cache.Cache#get(Object)} is
+   * If set to true the pre-invocation {@link Cache#get(Object)} is
    * skipped and the annotated method is always executed with the returned value
    * being cached as normal. This is useful for create or update methods which
    * should always be executed and have their returned value placed in the cache.
@@ -133,7 +135,7 @@ public @interface CacheResult {
    * use at runtime.
    * <p/>
    * The default resolver pair will resolve the cache by name from the default
-   * {@link javax.cache.CacheManager}
+   * {@link CacheManager}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
       default CacheResolverFactory.class;

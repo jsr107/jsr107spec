@@ -7,11 +7,13 @@
 
 package javax.cache.annotation;
 
+import javax.cache.CacheManager;
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Arrays;
 
 
 /**
@@ -63,7 +65,7 @@ public @interface CacheDefaults {
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
    * <p/>
-   * The default resolver pair will resolve the cache by name from the default {@link javax.cache.CacheManager}
+   * The default resolver pair will resolve the cache by name from the default {@link CacheManager}
    * <p/>
    * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
    */
@@ -73,8 +75,8 @@ public @interface CacheDefaults {
    * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
    * with the specified Cache.
    * <p/>
-   * Defaults to a key generator that uses {@link java.util.Arrays#deepHashCode(Object[])} and
-   * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array returned by
+   * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])} and
+   * {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
    * {@link CacheKeyInvocationContext#getKeyParameters()}
    * <p/>
    * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemoveEntry}

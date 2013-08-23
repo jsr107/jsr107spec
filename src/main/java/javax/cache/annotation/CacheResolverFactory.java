@@ -8,6 +8,7 @@
 
 package javax.cache.annotation;
 
+import javax.cache.Cache;
 import java.lang.annotation.Annotation;
 
 /**
@@ -23,7 +24,7 @@ public interface CacheResolverFactory {
 
   /**
    * Get the {@link CacheResolver} used at runtime for resolution of the
-   * {@link javax.cache.Cache} for the {@link CacheResult}, {@link CachePut},
+   * {@link Cache} for the {@link CacheResult}, {@link CachePut},
    * {@link CacheRemoveEntry}, or {@link CacheRemoveAll} annotation.
    *
    * @param cacheMethodDetails The details of the annotated method to get the
@@ -36,7 +37,7 @@ public interface CacheResolverFactory {
 
   /**
    * Get the {@link CacheResolver} used at runtime for resolution of the {@link
-   * javax.cache.Cache} for the {@link CacheResult} annotation to cache exceptions.
+   * Cache} for the {@link CacheResult} annotation to cache exceptions.
    * <p/>
    * Will only be called if {@link CacheResult#exceptionCacheName()} is not empty.
    *

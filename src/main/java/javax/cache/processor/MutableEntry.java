@@ -23,7 +23,7 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
   /**
    * Removes the entry from the Cache.
    * <p/>
-   * This has the same semantics as calling {@link javax.cache.Cache#remove}.
+   * This has the same semantics as calling {@link Cache#remove}.
    */
   void remove();
 
@@ -40,7 +40,7 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
    *                            configured to perform runtime-type-checking,
    *                            and value type is incompatible with that
    *                            which has been configured for the
-   *                            {@link javax.cache.Cache}
+   *                            {@link Cache}
    */
   void setValue(V value);
 }

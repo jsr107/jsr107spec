@@ -21,11 +21,8 @@ import java.util.Set;
  * determine the {@link CacheResolver} to use with the method.
  *
  * @param <A> The type of annotation this context information is for. One of
- *            {@link
- *            javax.cache.annotation.CacheResult},
- *            {@link javax.cache.annotation.CachePut}, {@link
- *            javax.cache.annotation.CacheRemoveEntry}, or
- *            {@link javax.cache.annotation.CacheRemoveAll}.
+ *            {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or
+ *            {@link CacheRemoveAll}.
  * @author Eric Dalquist
  * @see CacheResolverFactory
  */
