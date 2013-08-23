@@ -1,6 +1,5 @@
 package javax.cache.expiry;
 
-import javax.cache.Cache;
 import javax.cache.configuration.Factory;
 import javax.cache.configuration.FactoryBuilder;
 import java.io.Serializable;
@@ -14,9 +13,8 @@ import static javax.cache.expiry.Duration.ETERNAL;
  * choose to expire entries that are not due to expire.
  *
  * @param <K> the type of cache keys
- * @param <V> the type of cache values
  */
-public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Serializable {
+public final class EternalExpiryPolicy<K> implements ExpiryPolicy<K>, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -28,15 +26,15 @@ public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    *
    * @return a {@link javax.cache.configuration.Factory} for an Eternal {@link ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf() {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new EternalExpiryPolicy<K, V>());
+  public static <K> Factory<ExpiryPolicy<? super K>> factoryOf() {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new EternalExpiryPolicy<K>());
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForCreatedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForCreatedEntry(L key) {
     return ETERNAL;
   }
 
@@ -44,7 +42,7 @@ public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForAccessedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForAccessedEntry(L key) {
     return null;
   }
 
@@ -52,7 +50,7 @@ public final class EternalExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForModifiedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForModifiedEntry(L key) {
     return null;
   }
 

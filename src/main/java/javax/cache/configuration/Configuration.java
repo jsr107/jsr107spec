@@ -201,6 +201,6 @@ public interface Configuration<K, V> extends Serializable {
    *
    * @return the {@link Factory} for {@link javax.cache.expiry.ExpiryPolicy} (must not be <code>null</code>)
    */
-  Factory<ExpiryPolicy<? super K, ? super V>> getExpiryPolicyFactory();
+  Factory<ExpiryPolicy<? super K>> getExpiryPolicyFactory();
 
 }

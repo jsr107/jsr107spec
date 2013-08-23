@@ -7,7 +7,6 @@
 
 package javax.cache.expiry;
 
-import javax.cache.Cache;
 import javax.cache.configuration.Factory;
 import javax.cache.configuration.FactoryBuilder;
 import java.io.Serializable;
@@ -18,9 +17,8 @@ import java.io.Serializable;
  * the expiry time.
  *
  * @param <K> the type of cache keys
- * @param <V> the type of cache values
  */
-public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Serializable {
+public final class CreatedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -47,15 +45,15 @@ public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    *
    * @return a {@link javax.cache.configuration.Factory} for a Created {@link javax.cache.expiry.ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<? super K, ? super V>> factoryOf(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K, ? super V>>(new CreatedExpiryPolicy<K, V>(duration));
+  public static <K, V> Factory<ExpiryPolicy<? super K>> factoryOf(Duration duration) {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new CreatedExpiryPolicy<K>(duration));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForCreatedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForCreatedEntry(L key) {
     //for newly created entries we use the specified expiry duration
     return expiryDuration;
   }
@@ -64,7 +62,7 @@ public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForAccessedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForAccessedEntry(L key) {
     //accessing a cache entry has no affect on the current expiry duration
     return null;
   }
@@ -73,7 +71,7 @@ public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
    * {@inheritDoc}
    */
   @Override
-  public Duration getExpiryForModifiedEntry(Cache.Entry<? extends K, ? extends V> entry) {
+  public <L extends K> Duration getExpiryForModifiedEntry(L key) {
     //accessing a cache entry has no affect on the current expiry duration
     return null;
   }
@@ -103,7 +101,7 @@ public final class CreatedExpiryPolicy<K, V> implements ExpiryPolicy<K, V>, Seri
     if (!(obj instanceof CreatedExpiryPolicy)) {
       return false;
     }
-    CreatedExpiryPolicy<?, ?> other = (CreatedExpiryPolicy<?, ?>) obj;
+    CreatedExpiryPolicy<?> other = (CreatedExpiryPolicy<?>) obj;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;

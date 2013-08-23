@@ -7,21 +7,20 @@
 
 package javax.cache.expiry;
 
-import javax.cache.Cache.Entry;
-
 /**
  * Defines functions to determine when cache entries will expire based on
  * creation, access and modification operations.
  * <p/>
- * Each of the functions return a new {@link Duration} that of which specifies the
+ * Each of the functions return a new {@link Duration}  which specifies the
  * amount of time that must pass before a cache entry is considered expired.
+ * {@link Duration} has constants defined for useful durations.
  *
  * @param <K> the type of keys
- * @param <V> the type of values
  * @author Brian Oliver
  * @author Greg Luck
+ * @see Duration
  */
-public interface ExpiryPolicy<K, V> {
+public interface ExpiryPolicy<K> {
 
   /**
    * Gets the duration before the newly Cache.Entry is considered expired.
@@ -35,10 +34,10 @@ public interface ExpiryPolicy<K, V> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
-   * @param entry the cache entry that was created
+   * @param key the key of the cache entry that was created
    * @return the new duration until the entry expires
    */
-  Duration getExpiryForCreatedEntry(Entry<? extends K, ? extends V> entry);
+  <L extends K> Duration getExpiryForCreatedEntry(L key);
 
   /**
    * Gets the duration before the accessed Cache.Entry is considered expired.
@@ -52,10 +51,10 @@ public interface ExpiryPolicy<K, V> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
-   * @param entry the cache entry that was accessed
+   * @param key the key of the cache entry that was accessed
    * @return the new duration until the entry expires
    */
-  Duration getExpiryForAccessedEntry(Entry<? extends K, ? extends V> entry);
+  <L extends K> Duration  getExpiryForAccessedEntry(L key);
 
   /**
    * Gets the duration before the modified Cache.Entry is considered expired.
@@ -69,9 +68,9 @@ public interface ExpiryPolicy<K, V> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
-   * @param entry the cache entry that was modified
+   * @param key the key of the cache entry that was modified
    * @return the new duration until the entry expires
    */
-  Duration getExpiryForModifiedEntry(Entry<? extends K, ? extends V> entry);
+  <L extends K> Duration getExpiryForModifiedEntry(L key);
 
 }
