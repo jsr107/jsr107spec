@@ -91,20 +91,22 @@ public interface CacheManager extends Closeable {
   /**
    * Creates a named {@link Cache} at runtime.
    * <p/>
-   * If a {@link Cache} with the specified name is known to the {@link CacheManager},
-   * a CacheException is thrown.
+   * If a {@link Cache} with the specified name is known to the {@link
+   * CacheManager}, a CacheException is thrown.
    * <p/>
-   * If a {@link Cache} with the specified name is unknown the {@link CacheManager},
+   * If a {@link Cache} with the specified name is unknown the {@link
+   * CacheManager},
    * one is created according to the provided
-   * {@link Configuration} after which it becomes managed by the {@link CacheManager}.
+   * {@link Configuration} after which it becomes managed by the {@link
+   * CacheManager}.
    * <p/>
    * Prior to a {@link Cache} being created the provided {@link Configuration}s is
    * validated within the context of the {@link CacheManager} properties and
    * implementation.
    * <p/>
-   * For example: Attempting to use a {@link Configuration} requiring transactional
-   * support with an implementation that does not support transactions will result in an
-   * {@link UnsupportedOperationException}.
+   * For example: Attempting to use a {@link Configuration} requiring
+   * transactional support with an implementation that does not support
+   * transactions will result in an {@link UnsupportedOperationException}.
    * <p/>
    * Implementers should be aware that the {@link Configuration} may be used to
    * configure other {@link Cache}s.
@@ -113,7 +115,8 @@ public interface CacheManager extends Closeable {
    * each {@link Cache} an application may use.  Implementations may support
    * the use of declarative mechanisms to pre-configure {@link Cache}s, thus
    * removing the requirement to configure them in an application.  In such
-   * circumstances a developer may simply call either the {@link #getCache(String)}
+   * circumstances a developer may simply call either the {@link
+   * #getCache(String)}
    * or {@link #getCache(String, Class, Class)} methods to acquire a
    * previously established or pre-configured {@link Cache}.
    *
@@ -173,8 +176,8 @@ public interface CacheManager extends Closeable {
    * <p/>
    * Implementations must check if key and value types were configured
    * for the requested {@link Cache}. If either the keyType or valueType of the
-   * configured {@link Cache} were specified (other than <code>Object.class</code>) an
-   * {@link IllegalArgumentException} will be thrown.
+   * configured {@link Cache} were specified (other than <code>Object.class</code>)
+   * an {@link IllegalArgumentException} will be thrown.
    * <p/>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
@@ -205,8 +208,8 @@ public interface CacheManager extends Closeable {
 
   /**
    * Destroys a specifically named and managed {@link Cache}.  Once destroyed
-   * a new {@link Cache} of the same name but with a different {@link Configuration}
-   * may be configured.
+   * a new {@link Cache} of the same name but with a different {@link
+   * Configuration} may be configured.
    * <p/>
    * This is equivalent to the following sequence of method calls:
    * <ol>
@@ -235,11 +238,14 @@ public interface CacheManager extends Closeable {
   UserTransaction getUserTransaction();
 
   /**
-   * Controls whether management is enabled. If enabled the {@link CacheMXBean} for each
-   * cache is registered in the platform MBean server. The platform MBeanServer is
-   * obtained using {@link ManagementFactory#getPlatformMBeanServer()}.
+   * Controls whether management is enabled. If enabled the {@link CacheMXBean}
+   * for
+   * each cache is registered in the platform MBean server. The platform
+   * MBeanServer is obtained using
+   * {@link ManagementFactory#getPlatformMBeanServer()}.
    * <p/>
-   * Management information includes the name and configuration information for the cache.
+   * Management information includes the name and configuration information for
+   * the cache.
    * <p/>
    * Each cache's management object must be registered with an ObjectName that
    * is unique and has the following type and attributes:
@@ -287,7 +293,8 @@ public interface CacheManager extends Closeable {
    * For each {@link Cache} managed by the {@link CacheManager}, the
    * {@link Cache#close()} method will be invoked, in no guaranteed order.
    * <p/>
-   * If a {@link Cache#close()} call throws an exception, the exception will be ignored.
+   * If a {@link Cache#close()} call throws an exception, the exception will be
+   * ignored.
    * <p/>
    * After executing this method, the {@link #isClosed()} method will return
    * <code>true</code>.

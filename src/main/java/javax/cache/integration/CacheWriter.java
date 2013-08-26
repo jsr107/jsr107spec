@@ -21,9 +21,10 @@ import java.util.Collection;
  * is not required to be atomic in {@link Cache} and is therefore not required to
  * be atomic in the writer. As individual writer operations can fail, cache
  * operations are not required to occur until after the writer batch method has
- * returned or, in the case of partial success, thrown an exception. In the case of
- * partial success, the collection of entries must contain only those entries which
- * failed.
+ * returned or, in the case of partial success, thrown an exception. In the case
+ * of
+ * partial success, the collection of entries must contain only those entries
+ * which failed.
  * <p/>
  * The semantics of Transactional Consistency are implementation specific.
  * <p/>
@@ -34,8 +35,8 @@ import java.util.Collection;
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  * @author Greg Luck
- * @since 1.0
  * @see CacheLoader
+ * @since 1.0
  */
 public interface CacheWriter<K, V> {
 
@@ -48,7 +49,7 @@ public interface CacheWriter<K, V> {
    *
    * @param entry the entry to be written
    * @throws CacheWriterException if the write fails. If thrown the
-   *                                    cache mutation will not occur.
+   *                              cache mutation will not occur.
    */
   void write(Cache.Entry<? extends K, ? extends V> entry) throws CacheWriterException;
 
@@ -69,8 +70,8 @@ public interface CacheWriter<K, V> {
    *                collection must only contain entries that were not
    *                successfully written. (see partial success above)
    * @throws CacheWriterException if one or more of the writes fail. If
-   *                                    thrown cache mutations will occur for
-   *                                    entries which succeeded.
+   *                              thrown cache mutations will occur for
+   *                              entries which succeeded.
    */
   void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws
       CacheWriterException;
@@ -85,8 +86,8 @@ public interface CacheWriter<K, V> {
    * This method is invoked even if no mapping for the key exists.
    *
    * @param key the key that is used for the delete operation
-   * @throws CacheWriterException if delete fails. If thrown the cache delete will not
-   * occur.
+   * @throws CacheWriterException if delete fails. If thrown the cache delete will
+   *                              not occur.
    */
   void delete(Object key) throws CacheWriterException;
 
@@ -113,7 +114,8 @@ public interface CacheWriter<K, V> {
    *             Upon return the collection must only contain the keys that were
    *             not successfully deleted. (see partial success above)
    * @throws CacheWriterException if one or more deletes fail. If thrown
-   *                      cache deletes will occur for entries which succeeded.
+   *                              cache deletes will occur for entries which
+   *                              succeeded.
    */
   void deleteAll(Collection<?> keys) throws CacheWriterException;
 

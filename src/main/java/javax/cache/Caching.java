@@ -88,7 +88,8 @@ public final class Caching {
   /**
    * The {@link CachingProviderRegistry} that tracks the {@link CachingProvider}s.
    */
-  private static final CachingProviderRegistry CACHING_PROVIDERS = new CachingProviderRegistry();
+  private static final CachingProviderRegistry CACHING_PROVIDERS =
+      new CachingProviderRegistry();
 
   /**
    * No public constructor as all methods are static.
@@ -183,7 +184,8 @@ public final class Caching {
    * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
    *         specified {@link ClassLoader}
    */
-  public static Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
+  public static Iterable<CachingProvider> getCachingProviders(
+      ClassLoader classLoader) {
     return CACHING_PROVIDERS.getCachingProviders(classLoader);
   }
 
@@ -217,8 +219,10 @@ public final class Caching {
    * @return the {@link CachingProvider}
    * @throws CacheException if the {@link CachingProvider} cannot be created
    */
-  public static CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
-    return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName, classLoader);
+  public static CachingProvider getCachingProvider(String fullyQualifiedClassName,
+                                                   ClassLoader classLoader) {
+    return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName,
+        classLoader);
   }
 
 
@@ -270,7 +274,8 @@ public final class Caching {
      * The {@link CachingProvider}s by Class Name organized by the
      * {@link ClassLoader} was used to load them.
      */
-    private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>> cachingProviders;
+    private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>
+        cachingProviders;
 
     /**
      * The default {@link ClassLoader}.  When <code>null</code> the
@@ -282,7 +287,8 @@ public final class Caching {
      * Constructs a CachingProviderManager.
      */
     public CachingProviderRegistry() {
-      this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>();
+      this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String,
+          CachingProvider>>();
       this.classLoader = null;
     }
 

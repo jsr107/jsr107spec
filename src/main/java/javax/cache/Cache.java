@@ -52,8 +52,7 @@ import java.util.Set;
  * String cacheName = "sampleCache";
  * CachingProvider provider = Caching.getCachingProvider();
  * CacheManager manager = provider.getCacheManager();
- * Cache&lt;Integer, Date&gt; cache = manager.getCache(cacheName,
- *                                                     Integer.class,
+ * Cache&lt;Integer, Date&gt; cache = manager.getCache(cacheName, Integer.class,
  *                                                     Date.class);
  * Date value1 = new Date();
  * Integer key = 1;
@@ -73,9 +72,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Gets an entry from the cache.
    * <p/>
    * If the cache is configured read-through, and get would return null because
-   * the entry is missing from the cache, the Cache's
-   * {@link CacheLoader} is called which will attempt
-   * to load the entry.
+   * the entry is missing from the cache, the Cache's {@link CacheLoader} is
+   * called
+   * which will attempt to load the entry.
    *
    * @param key the key whose associated value is to be returned
    * @return the element, or null, if it does not exist.
@@ -95,10 +94,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * If the cache is configured read-through, and a get would return null
    * because an entry is missing from the cache, the Cache's
-   * {@link CacheLoader} is called which will attempt
-   * to load the entry. This is done for each key in the set for which this is
-   * the case. If an entry cannot be loaded for a given key, the key will not be
-   * present in the returned Map.
+   * {@link CacheLoader} is called which will attempt to load the entry. This is
+   * done for each key in the set for which this is the case. If an entry cannot
+   * be
+   * loaded for a given key, the key will not be present in the returned Map.
    * <p/>
    *
    * @param keys The keys whose associated values are to be returned.
@@ -179,10 +178,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Associates the specified value with the specified key in the cache.
    * <p/>
    * If the {@link Cache} previously contained a mapping for the key, the old
-   * value is replaced by the specified value.  (A cache
-   * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
-   * if {@link #containsKey(Object) c.containsKey(k)} would return
-   * <tt>true</tt>.)
+   * value is replaced by the specified value.  (A cache <tt>c</tt> is said to
+   * contain a mapping for a key <tt>k</tt> if and only if {@link
+   * #containsKey(Object) c.containsKey(k)} would return <tt>true</tt>.)
    *
    * @param key   key with which the specified value is to be associated
    * @param value value to be associated with the specified key
@@ -298,8 +296,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * More formally, if this cache contains a mapping from key <tt>k</tt> to
    * value <tt>v</tt> such that
-   * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping
-   * is removed.  (The cache can contain at most one such mapping.)
+   * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping is removed.
+   * (The cache can contain at most one such mapping.)
    * <p/>
    * <p>Returns <tt>true</tt> if this cache previously associated the key,
    * or <tt>false</tt> if the cache contained no mapping for the key.
@@ -526,9 +524,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
    * the provided key. If an {@link Entry} does not exist for the specified key,
-   * an
-   * attempt is made to load it (if a loader is configured) or a surrogate {@link
-   * Entry}, consisting of the key with a null value is used instead.
+   * an attempt is made to load it (if a loader is configured) or a surrogate
+   * {@link Entry}, consisting of the key with a null value is used instead.
    * <p/>
    *
    * @param key            the key to the entry
@@ -545,13 +542,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *                                 with those that have been configured for the
    *                                 {@link Cache}
    * @throws EntryProcessorException if an exception is thrown by the {@link
-   *                                 EntryProcessor}, a Caching Implementation must wrap
-   *                                 any {@link Exception} thrown wrapped in an
-   *                                 {@link EntryProcessorException}.
+   *                                 EntryProcessor}, a Caching Implementation
+   *                                 must wrap any {@link Exception} thrown
+   *                                 wrapped
+   *                                 in an {@link EntryProcessorException}.
    * @see EntryProcessor
    */
   <T> T invoke(K key,
-               javax.cache.processor.EntryProcessor<K, V, T> entryProcessor,
+               EntryProcessor<K, V, T> entryProcessor,
                Object... arguments) throws EntryProcessorException;
 
   /**
@@ -587,13 +585,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *                                 with those that have been configured for the
    *                                 {@link Cache}
    * @throws EntryProcessorException if an exception is thrown by the {@link
-   *                                 EntryProcessor}, a Caching Implementation must wrap
-   *                                 any {@link Exception} thrown wrapped in an
-   *                                 {@link EntryProcessorException}.
+   *                                 EntryProcessor}, a Caching Implementation
+   *                                 must wrap any {@link Exception} thrown wrapped
+   *                                 in an {@link EntryProcessorException}.
    * @see EntryProcessor
    */
   <T> Map<K, T> invokeAll(Set<? extends K> keys,
-                          javax.cache.processor.EntryProcessor<K, V, T> entryProcessor,
+                          EntryProcessor<K, V, T> entryProcessor,
                           Object... arguments);
 
   /**
@@ -614,15 +612,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Closing a {@link Cache} signals to the {@link CacheManager} that produced or
    * owns the said {@link Cache} that it should no longer be managed. At this
-   * point
-   * in time the {@link CacheManager}:
+   * point in time the {@link CacheManager}:
    * <ul>
    * <li>must close and release all resources being coordinated on behalf of the
    * Cache by the {@link CacheManager}. This includes calling the <code>close
    * </code> method on configured {@link CacheLoader},
    * {@link CacheWriter}, registered {@link CacheEntryListener}s and
-   * {@link ExpiryPolicy}
-   * instances that implement the java.io.Closeable interface.
+   * {@link ExpiryPolicy} instances that implement the java.io.Closeable
+   * interface.
    * <li>prevent events being delivered to configured {@link CacheEntryListener}s
    * registered on the {@link Cache}
    * </li>

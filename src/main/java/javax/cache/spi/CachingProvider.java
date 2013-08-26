@@ -52,9 +52,10 @@ public interface CachingProvider extends Closeable {
    *                    to create the {@link CacheManager} (null means no
    *                    implementation specific Properties are required)
    * @throws CacheException when a {@link CacheManager} for the
-   *                                    specified arguments could not be produced
+   *                        specified arguments could not be produced
    */
-  CacheManager getCacheManager(URI uri, ClassLoader classLoader, Properties properties);
+  CacheManager getCacheManager(URI uri, ClassLoader classLoader,
+                               Properties properties);
 
   /**
    * Obtains the default {@link ClassLoader} that will be used by the
@@ -100,7 +101,7 @@ public interface CachingProvider extends Closeable {
    *                    {@link CacheManager} (null means
    *                    use {@link #getDefaultClassLoader()})
    * @throws CacheException when a {@link CacheManager} for the
-   *                                    specified arguments could not be produced
+   *                        specified arguments could not be produced
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader);
 
