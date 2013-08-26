@@ -187,7 +187,7 @@ public interface CacheManager extends Closeable {
    *                                  specific types, this method cannot be used
    * @see #getCache(String, Class, Class)
    */
-  Cache getCache(String cacheName);
+  <K, V> Cache<K, V> getCache(String cacheName);
 
   /**
    * Obtains an {@link Iterable} over the names of {@link Cache}s managed by the
