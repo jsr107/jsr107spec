@@ -10,6 +10,7 @@ About
 
 ## Releases
 
+* 26 August 2013:   0.10 Third Public Review Draft
 * 25 June 2013:     0.9 Second Public Review Draft
 * 25 June 2013:     0.8 Public Review Draft
 * 17 April 2013     0.7
@@ -24,7 +25,7 @@ Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.9</version>
+      <version>0.10</version>
     </dependency>
 
 
@@ -52,7 +53,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.10-SNAPSHOT</version>
+      <version>0.11-SNAPSHOT</version>
     </dependency>
 
 Javadoc

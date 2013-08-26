@@ -11,7 +11,7 @@
     </parent>
     <groupId>javax.cache</groupId>
     <artifactId>cache-api</artifactId>
-    <version>0.10-SNAPSHOT</version>
+    <version>0.10</version>
     <packaging>jar</packaging>
 
     <name>JSR107 API and SPI</name>
