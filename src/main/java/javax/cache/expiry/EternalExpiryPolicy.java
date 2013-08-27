@@ -26,31 +26,35 @@ public final class EternalExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
    *
    * @return a {@link Factory} for an Eternal {@link ExpiryPolicy}.
    */
-  public static <K> Factory<ExpiryPolicy<? super K>> factoryOf() {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new EternalExpiryPolicy<K>());
+  public static <K> Factory<ExpiryPolicy<K>> factoryOf() {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<K>>(
+        new EternalExpiryPolicy<K>());
   }
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForCreatedEntry(L key) {
+  public Duration getExpiryForCreatedEntry(K key) {
     return ETERNAL;
   }
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForAccessedEntry(L key) {
+  public Duration getExpiryForAccessedEntry(K key) {
     return null;
   }
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForModifiedEntry(L key) {
+  public Duration getExpiryForModifiedEntry(K key) {
     return null;
   }
 

@@ -76,7 +76,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
   /**
    * The {@link Factory} for the {@link ExpiryPolicy}.
    */
-  protected Factory<ExpiryPolicy<? super K>> expiryPolicyFactory;
+  protected Factory<ExpiryPolicy<K>> expiryPolicyFactory;
 
   /**
    * A flag indicating if "read-through" mode is required.
@@ -128,7 +128,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
         ArrayList<CacheEntryListenerConfiguration<K, V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
-    this.expiryPolicyFactory = EternalExpiryPolicy.<K>factoryOf();
+    this.expiryPolicyFactory = EternalExpiryPolicy.factoryOf();
     this.isReadThrough = false;
     this.isWriteThrough = false;
     this.isStatisticsEnabled = false;
@@ -300,7 +300,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
   /**
    * {@inheritDoc}
    */
-  public Factory<ExpiryPolicy<? super K>> getExpiryPolicyFactory() {
+  public Factory<ExpiryPolicy<K>> getExpiryPolicyFactory() {
     return this.expiryPolicyFactory;
   }
 
@@ -316,7 +316,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
     if (factory == null) {
       this.expiryPolicyFactory = EternalExpiryPolicy.<K>factoryOf();
     } else {
-      this.expiryPolicyFactory = (Factory<ExpiryPolicy<? super K>>) factory;
+      this.expiryPolicyFactory = (Factory<ExpiryPolicy<K>>) factory;
     }
     return this;
   }

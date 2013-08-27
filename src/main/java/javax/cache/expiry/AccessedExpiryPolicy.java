@@ -46,25 +46,27 @@ public final class AccessedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializa
    *
    * @return a {@link Factory} for an Accessed {@link ExpiryPolicy}.
    */
-  public static <K> Factory<ExpiryPolicy<? super K>> factoryOf(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<? super K>>(new
+  public static <K> Factory<ExpiryPolicy<K>> factoryOf(Duration duration) {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<K>>(new
         AccessedExpiryPolicy<K>(duration));
   }
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForCreatedEntry(L key) {
+  public Duration getExpiryForCreatedEntry(K key) {
     //for newly created entries we use the specified expiry duration
     return expiryDuration;
   }
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForAccessedEntry(L key) {
+  public Duration getExpiryForAccessedEntry(K key) {
     //when a cache entry is accessed, we return the specified expiry duration,
     //ignoring the current expiry duration
     return expiryDuration;
@@ -72,9 +74,10 @@ public final class AccessedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializa
 
   /**
    * {@inheritDoc}
+   * @param key
    */
   @Override
-  public <L extends K> Duration getExpiryForModifiedEntry(L key) {
+  public Duration getExpiryForModifiedEntry(K key) {
     //modifying a cache entry has no affect on the current expiry duration
     return null;
   }

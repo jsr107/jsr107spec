@@ -34,10 +34,11 @@ public interface ExpiryPolicy<K> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
+   *
    * @param key the key of the cache entry that was created
    * @return the new duration until the entry expires
    */
-  <L extends K> Duration getExpiryForCreatedEntry(L key);
+  Duration getExpiryForCreatedEntry(K key);
 
   /**
    * Gets the duration before the accessed Cache.Entry is considered expired.
@@ -51,10 +52,11 @@ public interface ExpiryPolicy<K> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
+   *
    * @param key the key of the cache entry that was accessed
    * @return the new duration until the entry expires
    */
-  <L extends K> Duration  getExpiryForAccessedEntry(L key);
+  Duration  getExpiryForAccessedEntry(K key);
 
   /**
    * Gets the duration before the modified Cache.Entry is considered expired.
@@ -68,9 +70,10 @@ public interface ExpiryPolicy<K> {
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
+   *
    * @param key the key of the cache entry that was modified
    * @return the new duration until the entry expires
    */
-  <L extends K> Duration getExpiryForModifiedEntry(L key);
+  Duration getExpiryForModifiedEntry(K key);
 
 }
