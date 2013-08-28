@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * Runtime information about an intercepted method invocation for a method
- * annotated with {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry},
+ * annotated with {@link CacheResult}, {@link CachePut}, {@link CacheRemove},
  * or {@link CacheRemoveAll}
  * <p/>
  * Used with {@link CacheResolver#resolveCache(CacheInvocationContext)} to
@@ -19,7 +19,7 @@ import java.lang.annotation.Annotation;
  * invocation.
  *
  * @param <A> The type of annotation this context information is for. One of
- *            {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, or {@link
+ *            {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, or {@link
  *            CacheRemoveAll}.
  * @author Eric Dalquist
  * @see CacheResolver

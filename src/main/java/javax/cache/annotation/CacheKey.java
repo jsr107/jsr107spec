@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @author Rick Hightower
  * @see CacheResult
  * @see CachePut
- * @see CacheRemoveEntry
+ * @see CacheRemove
  * @see CacheKeyInvocationContext#getKeyParameters()
  * @since 1.0
  */

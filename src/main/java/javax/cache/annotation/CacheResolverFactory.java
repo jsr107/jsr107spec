@@ -25,7 +25,7 @@ public interface CacheResolverFactory {
   /**
    * Get the {@link CacheResolver} used at runtime for resolution of the
    * {@link Cache} for the {@link CacheResult}, {@link CachePut},
-   * {@link CacheRemoveEntry}, or {@link CacheRemoveAll} annotation.
+   * {@link CacheRemove}, or {@link CacheRemoveAll} annotation.
    *
    * @param cacheMethodDetails The details of the annotated method to get the
    *                           {@link CacheResolver} for. @return The {@link

@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 /**
  * Allows the configuration of defaults for {@link CacheResult}, {@link CachePut},
- * {@link CacheRemoveEntry}, and {@link CacheRemoveAll} at the class level. Without
+ * {@link CacheRemove}, and {@link CacheRemoveAll} at the class level. Without
  * the method level annotations this annotation has no effect.
  * <p/>
  * Example of specifying a default cache name that is used by the annotations on the
@@ -34,7 +34,7 @@ import java.util.Arrays;
  *     ...
  *   }
  * <p/>
- *   &#64;CacheRemoveEntry
+ *   &#64;CacheRemove
  *   public void deleteDomain(String domainId, int index) {
  *     ...
  *   }
@@ -58,7 +58,7 @@ public @interface CacheDefaults {
    * <p/>
    * If not specified defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
    * <p/>
-   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
+   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
    */
   @Nonbinding String cacheName() default "";
 
@@ -67,7 +67,7 @@ public @interface CacheDefaults {
    * <p/>
    * The default resolver pair will resolve the cache by name from the default {@link CacheManager}
    * <p/>
-   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemoveEntry}, and {@link CacheRemoveAll}
+   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
 
@@ -79,7 +79,7 @@ public @interface CacheDefaults {
    * {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
    * {@link CacheKeyInvocationContext#getKeyParameters()}
    * <p/>
-   * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemoveEntry}
+   * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemove}
    *
    * @see CacheKey
    */

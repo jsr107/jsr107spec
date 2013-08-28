@@ -12,13 +12,13 @@ import java.lang.annotation.Annotation;
 /**
  * Runtime information about an intercepted method invocation for a method
  * annotated with {@link CacheResult}, {@link CachePut}, or
- * {@link CacheRemoveEntry}.
+ * {@link CacheRemove}.
  * <p/>
  * Used with {@link CacheKeyGenerator#generateCacheKey(CacheKeyInvocationContext)}
  * to generate a {@link GeneratedCacheKey} for the invocation.
  *
  * @param <A> The type of annotation this context information is for. One of
- *            {@link CacheResult}, {@link CachePut}, or {@link CacheRemoveEntry}.
+ *            {@link CacheResult}, {@link CachePut}, or {@link CacheRemove}.
  * @author Eric Dalquist
  * @see CacheKeyGenerator
  */

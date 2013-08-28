@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 
 /**
- * When a method annotated with {@link CacheRemoveEntry} is invoked a {@link
+ * When a method annotated with {@link CacheRemove} is invoked a {@link
  * GeneratedCacheKey} will be generated and
  * {@link Cache#remove(Object)} will be invoked on the specified
  * cache.
@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
  * package my.app;
  * <p/>
  * public class DomainDao {
- *   &#64;CacheRemoveEntry(cacheName="domainCache")
+ *   &#64;CacheRemove(cacheName="domainCache")
  *   public void deleteDomain(String domainId, int index) {
  *     ...
  *   }
@@ -62,12 +62,13 @@ import java.lang.annotation.Target;
  *
  * @author Eric Dalquist
  * @author Rick Hightower
+ * @author Greg Luck
  * @see CacheKey
  * @since 1.0
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheRemoveEntry {
+public @interface CacheRemove {
 
   /**
    * The name of the cache.
