@@ -13,8 +13,6 @@ import javax.cache.event.CacheEntryListener;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
-import javax.cache.transaction.IsolationLevel;
-import javax.cache.transaction.Mode;
 import java.io.Serializable;
 import java.util.List;
 
@@ -115,12 +113,6 @@ public abstract class Configuration<K, V> implements Serializable {
    * transformation
    * may not be reflected in the cache.
    * <p/>
-   * Additionally Store-By-Reference is only supported for non-transactional caches.
-   * Attempts
-   * to configure a cache using both transactions and Store-By-Reference will result in
-   * an
-   * in a CacheException.
-   * <p/>
    * When a cache is storeByValue, any mutation to the key or value does not affect the
    * key of value
    * stored in the cache.
@@ -148,36 +140,6 @@ public abstract class Configuration<K, V> implements Serializable {
    * @return true if management is enabled
    */
   public abstract boolean isManagementEnabled();
-
-  /**
-   * Checks whether transactions are enabled for this cache.
-   * <p/>
-   * Note that in a transactional cache, entries being mutated within a
-   * transaction cannot be expired by the cache.
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return true if transaction are enabled
-   */
-  public abstract boolean isTransactionsEnabled();
-
-  /**
-   * Gets the transaction isolation level.
-   * <p/>
-   * The default value is {@link IsolationLevel#NONE}.
-   *
-   * @return the isolation level.
-   */
-  public abstract IsolationLevel getTransactionIsolationLevel();
-
-  /**
-   * Gets the transaction mode.
-   * <p/>
-   * The default value is {@link Mode#NONE}.
-   *
-   * @return the mode of the cache.
-   */
-  public abstract Mode getTransactionMode();
 
   /**
    * Obtains the {@link CacheEntryListenerConfiguration}s for {@link CacheEntryListener}s

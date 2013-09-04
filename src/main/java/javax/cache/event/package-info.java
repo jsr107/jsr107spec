@@ -17,9 +17,7 @@
  <p/>
  Listeners are invoked <strong>after</strong> the cache is updated. If the listener throws
  an {@link javax.cache.event.CacheEntryCreatedListener} this will propagate back to the caller but it does not affect the cache update
- as it already completed before the listener was called. If the cache is transactional, transactions
- must commit <strong>before</strong> listeners are called. If an exception is thrown by a listener this does not
- affect the transaction as the transaction has already completed.
+ as it already completed before the listener was called.
  <p/>
  @author Greg Luck
  @author Yannis Cosmadopoulos

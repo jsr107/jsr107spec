@@ -24,8 +24,6 @@ import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
-import javax.cache.transaction.IsolationLevel;
-import javax.cache.transaction.Mode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,21 +97,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
   protected boolean isStoreByValue;
 
   /**
-   * A flag indicating if the cache will use transactions.
-   */
-  protected boolean isTransactionsEnabled;
-
-  /**
-   * The transaction {@link IsolationLevel}.
-   */
-  protected IsolationLevel txnIsolationLevel;
-
-  /**
-   * The transaction {@link Mode}.
-   */
-  protected Mode txnMode;
-
-  /**
    * Whether management is enabled
    */
   protected boolean isManagementEnabled;
@@ -134,9 +117,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
     this.isStatisticsEnabled = false;
     this.isStoreByValue = true;
     this.isManagementEnabled = false;
-    this.isTransactionsEnabled = false;
-    this.txnIsolationLevel = IsolationLevel.NONE;
-    this.txnMode = Mode.NONE;
   }
 
   /**
@@ -174,10 +154,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
     this.isStoreByValue = configuration.isStoreByValue();
 
     this.isManagementEnabled = configuration.isManagementEnabled();
-
-    this.isTransactionsEnabled = configuration.isTransactionsEnabled();
-    this.txnIsolationLevel = configuration.getTransactionIsolationLevel();
-    this.txnMode = configuration.getTransactionMode();
   }
 
   /**
@@ -325,38 +301,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
    * {@inheritDoc}
    */
   @Override
-  public IsolationLevel getTransactionIsolationLevel() {
-    return this.txnIsolationLevel;
-  }
-
-  /**
-   * Set the Transaction {@link IsolationLevel} and {@link Mode},
-   * which also sets {@link #isTransactionsEnabled()} to true.
-   *
-   * @param level the {@link IsolationLevel}
-   * @param mode  the {@link Mode}
-   * @return the {@link MutableConfiguration} to permit fluent-style method calls
-   */
-  public MutableConfiguration<K, V> setTransactions(IsolationLevel level,
-                                                    Mode mode) {
-    this.txnIsolationLevel = level;
-    this.txnMode = mode;
-    this.isTransactionsEnabled = true;
-    return this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Mode getTransactionMode() {
-    return this.txnMode;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public boolean isReadThrough() {
     return this.isReadThrough;
   }
@@ -467,14 +411,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
    * {@inheritDoc}
    */
   @Override
-  public boolean isTransactionsEnabled() {
-    return this.isTransactionsEnabled;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
@@ -494,11 +430,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
     result = prime * result + (isStatisticsEnabled ? 1231 : 1237);
     result = prime * result + (isStoreByValue ? 1231 : 1237);
     result = prime * result + (isWriteThrough ? 1231 : 1237);
-    result = prime
-        * result
-        + ((txnIsolationLevel == null) ? 0 : txnIsolationLevel
-        .hashCode());
-    result = prime * result + ((txnMode == null) ? 0 : txnMode.hashCode());
     return result;
   }
 
@@ -563,15 +494,6 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
       return false;
     }
     if (isWriteThrough != other.isWriteThrough) {
-      return false;
-    }
-    if (isTransactionsEnabled != other.isTransactionsEnabled) {
-      return false;
-    }
-    if (txnIsolationLevel != other.txnIsolationLevel) {
-      return false;
-    }
-    if (txnMode != other.txnMode) {
       return false;
     }
     return true;

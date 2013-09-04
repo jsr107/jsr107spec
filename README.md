@@ -79,7 +79,6 @@ The RI is there to ensure that the specification and API works.
 
 For example, some things that we leave out:
 
-- implementation of transactions.
 - tiered storage. A simple on-heap store is used.
 - replicated or distributed caching
 

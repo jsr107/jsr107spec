@@ -9,8 +9,6 @@ package javax.cache.management;
 import javax.cache.Cache;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
-import javax.cache.transaction.IsolationLevel;
-import javax.cache.transaction.Mode;
 import javax.management.MXBean;
 
 /**
@@ -125,35 +123,5 @@ public interface CacheMXBean {
    * @return true if management is enabled
    */
   boolean isManagementEnabled();
-
-  /**
-   * Checks whether transactions are enabled for this cache.
-   * <p/>
-   * Note that in a transactional cache, entries being mutated within a
-   * transaction cannot be expired by the cache.
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return true if transaction are enabled
-   */
-  boolean isTransactionsEnabled();
-
-  /**
-   * Gets the transaction isolation level.
-   * <p/>
-   * The default value is {@link IsolationLevel#NONE}.
-   *
-   * @return the isolation level.
-   */
-  IsolationLevel getTransactionIsolationLevel();
-
-  /**
-   * Gets the transaction mode.
-   * <p/>
-   * The default value is {@link Mode#NONE}.
-   *
-   * @return the mode of the cache.
-   */
-  Mode getTransactionMode();
 
 }

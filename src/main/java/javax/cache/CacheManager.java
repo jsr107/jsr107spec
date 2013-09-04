@@ -10,7 +10,6 @@ package javax.cache;
 import javax.cache.configuration.Configuration;
 import javax.cache.management.CacheMXBean;
 import javax.cache.spi.CachingProvider;
-import javax.transaction.UserTransaction;
 import java.io.Closeable;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
@@ -103,10 +102,6 @@ public interface CacheManager extends Closeable {
    * Prior to a {@link Cache} being created the provided {@link Configuration}s is
    * validated within the context of the {@link CacheManager} properties and
    * implementation.
-   * <p/>
-   * For example: Attempting to use a {@link Configuration} requiring
-   * transactional support with an implementation that does not support
-   * transactions will result in an {@link UnsupportedOperationException}.
    * <p/>
    * Implementers should be aware that the {@link Configuration} may be used to
    * configure other {@link Cache}s.
@@ -227,15 +222,6 @@ public interface CacheManager extends Closeable {
    * @throws NullPointerException if cacheName is null
    */
   void destroyCache(String cacheName);
-
-  /**
-   * Obtains a UserTransaction for transactional {@link Cache}s managed
-   * by the {@link CacheManager}.
-   *
-   * @return the UserTransaction
-   * @throws UnsupportedOperationException if JTA is not supported
-   */
-  UserTransaction getUserTransaction();
 
   /**
    * Controls whether management is enabled. If enabled the {@link CacheMXBean}

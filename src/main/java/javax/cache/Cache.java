@@ -44,7 +44,6 @@ import java.util.Set;
  * when a value being created/updated/removed from a cache</li>
  * <li>provide the ability to observe cache entry changes</li>
  * <li>may capture and measure operational statistics</li>
- * <li>may be transactional</li>
  * </ol>
  * <p/>
  * A simple example of how to use a cache is:
