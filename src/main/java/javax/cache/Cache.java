@@ -324,11 +324,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * This is equivalent to:
    * <code>
-   * if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(oldValue)) {
-   * cache.remove(key);
+   * if (cache.containsKey(key) &amp;&amp; equals(cache.get(key), oldValue) {
+   *  cache.remove(key);
    * return true;
    * } else {
-   * return false;
+   *  return false;
    * }
    * </code>
    * except that the action is performed atomically.
@@ -383,11 +383,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * This is equivalent to:
    * <code>
-   * if (cache.containsKey(key) &amp;&amp; cache.get(key).equals(oldValue)) {
-   * cache.put(key, newValue);
+   * if (cache.containsKey(key) &amp;&amp; equals(cache.get(key), oldValue)) {
+   *  cache.put(key, newValue);
    * return true;
    * } else {
-   * return false;
+   *  return false;
    * }
    * </code>
    * except that the action is performed atomically.
