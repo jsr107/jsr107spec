@@ -6,12 +6,15 @@ import java.io.Serializable;
 
 /**
  * An {@link ExpiryPolicy} that defines the expiry {@link Duration}
- * of a Cache Entry based on the last time it was modified. Modified
- * includes created and updated.
+ * of a Cache Entry based on the last time it was updated. Updating
+ * includes created and changing (updating) an entry.
  *
- * @param <K> the type of cache keys
+ * @author Greg Luck
+ * @author Brian Oliver
+ *
+ * @see ExpiryPolicy
  */
-public final class ModifiedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializable {
+public final class ModifiedExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -38,36 +41,32 @@ public final class ModifiedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializa
    *
    * @return a {@link Factory} for a Modified {@link ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<K>> factoryOf(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<K>>(new ModifiedExpiryPolicy<K>(duration));
+  public static Factory<ExpiryPolicy> factoryOf(Duration duration) {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy>(new ModifiedExpiryPolicy(duration));
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForCreatedEntry(K key) {
+  public Duration getExpiryForCreation() {
     //for newly created entries we use the specified expiry duration
-    return expiryDuration;
-  }
+    return expiryDuration;  }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForAccessedEntry(K key) {
+  public Duration getExpiryForAccess() {
     //accessing a cache entry has no affect on the current expiry duration
     return null;
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForModifiedEntry(K key) {
+  public Duration getExpiryForUpdate() {
     //when a cache entry is modified, we return the specified expiry duration,
     //ignoring the current expiry duration
     return expiryDuration;
@@ -88,17 +87,17 @@ public final class ModifiedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializa
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object object) {
+    if (this == object) {
       return true;
     }
-    if (obj == null) {
+    if (object == null) {
       return false;
     }
-    if (!(obj instanceof ModifiedExpiryPolicy)) {
+    if (!(object instanceof ModifiedExpiryPolicy)) {
       return false;
     }
-    ModifiedExpiryPolicy<?> other = (ModifiedExpiryPolicy<?>) obj;
+    ModifiedExpiryPolicy other = (ModifiedExpiryPolicy) object;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;

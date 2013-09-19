@@ -17,6 +17,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * A {@link java.io.Serializable} duration of time.
+ *
+ * @author Yannis Cosmadopoulos
+ * @author Greg Luck
+ * @author Brian Oliver
+ *
+ * @see ExpiryPolicy
  */
 public class Duration implements Serializable {
 

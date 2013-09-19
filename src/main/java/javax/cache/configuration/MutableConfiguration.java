@@ -74,7 +74,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
   /**
    * The {@link Factory} for the {@link ExpiryPolicy}.
    */
-  protected Factory<ExpiryPolicy<K>> expiryPolicyFactory;
+  protected Factory<ExpiryPolicy> expiryPolicyFactory;
 
   /**
    * A flag indicating if "read-through" mode is required.
@@ -141,7 +141,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
     this.cacheWriterFactory = configuration.getCacheWriterFactory();
 
     if (configuration.getExpiryPolicyFactory() == null) {
-      this.expiryPolicyFactory = EternalExpiryPolicy.<K>factoryOf();
+      this.expiryPolicyFactory = EternalExpiryPolicy.factoryOf();
     } else {
       this.expiryPolicyFactory = configuration.getExpiryPolicyFactory();
     }
@@ -276,7 +276,7 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
   /**
    * {@inheritDoc}
    */
-  public Factory<ExpiryPolicy<K>> getExpiryPolicyFactory() {
+  public Factory<ExpiryPolicy> getExpiryPolicyFactory() {
     return this.expiryPolicyFactory;
   }
 
@@ -288,11 +288,11 @@ public class MutableConfiguration<K, V> extends Configuration<K, V> {
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> setExpiryPolicyFactory(Factory<? extends
-      ExpiryPolicy<? super K>> factory) {
+      ExpiryPolicy> factory) {
     if (factory == null) {
-      this.expiryPolicyFactory = EternalExpiryPolicy.<K>factoryOf();
+      this.expiryPolicyFactory = EternalExpiryPolicy.factoryOf();
     } else {
-      this.expiryPolicyFactory = (Factory<ExpiryPolicy<K>>) factory;
+      this.expiryPolicyFactory = (Factory<ExpiryPolicy>) factory;
     }
     return this;
   }

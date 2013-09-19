@@ -9,9 +9,12 @@ import java.io.Serializable;
  * of a Cache Entry based on when it was last touched. A touch includes
  * creation, update or access.
  *
- * @param <K> the type of cache keys
+ * @author Greg Luck
+ * @author Brian Oliver
+ *
+ * @see ExpiryPolicy
  */
-public final class TouchedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializable {
+public final class TouchedExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -38,37 +41,34 @@ public final class TouchedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
    *
    * @return a {@link Factory} for a Touched {@link ExpiryPolicy}.
    */
-  public static <K, V> Factory<ExpiryPolicy<K>> factoryOf(Duration duration) {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<K>>(new TouchedExpiryPolicy<K>(duration));
+  public static Factory<ExpiryPolicy> factoryOf(Duration duration) {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy>(new TouchedExpiryPolicy(duration));
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForCreatedEntry(K key) {
+  public Duration getExpiryForCreation() {
     //for newly created entries we use the specified expiry duration.
     return expiryDuration;
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForAccessedEntry(K key) {
+  public Duration getExpiryForAccess() {
     //accessing a cache entry resets the duration.
     return expiryDuration;
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForModifiedEntry(K key) {
-    //accessing a cache entry resets the duration.
+  public Duration getExpiryForUpdate() {
+    //updating a cache entry resets the duration.
     return expiryDuration;
   }
 
@@ -87,17 +87,17 @@ public final class TouchedExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object object) {
+    if (this == object) {
       return true;
     }
-    if (obj == null) {
+    if (object == null) {
       return false;
     }
-    if (!(obj instanceof TouchedExpiryPolicy)) {
+    if (!(object instanceof TouchedExpiryPolicy)) {
       return false;
     }
-    TouchedExpiryPolicy<?> other = (TouchedExpiryPolicy<?>) obj;
+    TouchedExpiryPolicy other = (TouchedExpiryPolicy) object;
     if (expiryDuration == null) {
       if (other.expiryDuration != null) {
         return false;

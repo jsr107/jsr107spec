@@ -187,6 +187,6 @@ public abstract class Configuration<K, V> implements Serializable {
    * @return the {@link Factory} for {@link ExpiryPolicy} (must not be
    *         <code>null</code>)
    */
-  public abstract Factory<ExpiryPolicy<K>> getExpiryPolicyFactory();
+  public abstract Factory<ExpiryPolicy> getExpiryPolicyFactory();
 
 }

@@ -7,14 +7,17 @@ import java.io.Serializable;
 import static javax.cache.expiry.Duration.ETERNAL;
 
 /**
- * The eternal {@link ExpiryPolicy} specifies that Cache Entries
- * won't expire.  This however doesn't mean they won't be expired if an
+ * An eternal {@link ExpiryPolicy} specifies that Cache Entries
+ * won't expire.  This however doesn't mean they won't be evicted if an
  * underlying implementation needs to free-up resources where by it may
- * choose to expire entries that are not due to expire.
+ * choose to evict entries that are not due to expire.
  *
- * @param <K> the type of cache keys
+ * @author Greg Luck
+ * @author Brian Oliver
+ *
+ * @see ExpiryPolicy
  */
-public final class EternalExpiryPolicy<K> implements ExpiryPolicy<K>, Serializable {
+public final class EternalExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
@@ -26,35 +29,32 @@ public final class EternalExpiryPolicy<K> implements ExpiryPolicy<K>, Serializab
    *
    * @return a {@link Factory} for an Eternal {@link ExpiryPolicy}.
    */
-  public static <K> Factory<ExpiryPolicy<K>> factoryOf() {
-    return new FactoryBuilder.SingletonFactory<ExpiryPolicy<K>>(
-        new EternalExpiryPolicy<K>());
+  public static Factory<ExpiryPolicy> factoryOf() {
+    return new FactoryBuilder.SingletonFactory<ExpiryPolicy>(
+        new EternalExpiryPolicy());
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForCreatedEntry(K key) {
+  public Duration getExpiryForCreation() {
     return ETERNAL;
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForAccessedEntry(K key) {
+  public Duration getExpiryForAccess() {
     return null;
   }
 
   /**
    * {@inheritDoc}
-   * @param key
    */
   @Override
-  public Duration getExpiryForModifiedEntry(K key) {
+  public Duration getExpiryForUpdate() {
     return null;
   }
 
