@@ -109,7 +109,7 @@ public final class FactoryBuilder {
      * @param clazz the Class to instantiate
      */
     public ClassFactory(Class<T> clazz) {
-      this.className = clazz.getCanonicalName();
+      this.className = clazz.getName();
     }
 
     /**
