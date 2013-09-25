@@ -124,7 +124,7 @@ import javax.cache.integration.CacheWriter;
  * @author Greg Luck
  * @since 1.0
  */
-public abstract class EntryProcessor<K, V, T> {
+public interface EntryProcessor<K, V, T> {
 
   /**
    * Process an entry.
