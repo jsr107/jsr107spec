@@ -134,6 +134,6 @@ public interface EntryProcessor<K, V, T> {
    * @return the result of the processing, if any, which is user defined.
    * @throws EntryProcessorException if there is a failure in entry processing.
    */
-  public abstract T process(MutableEntry<K, V> entry, Object... arguments)
+  T process(MutableEntry<K, V> entry, Object... arguments)
       throws EntryProcessorException;
 }

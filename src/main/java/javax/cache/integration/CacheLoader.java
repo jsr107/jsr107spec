@@ -10,6 +10,7 @@ package javax.cache.integration;
 import javax.cache.Cache;
 import javax.cache.configuration.Configuration;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Used when a cache is read-through or when loading data into a cache via the
@@ -40,6 +41,8 @@ public interface CacheLoader<K, V> {
    */
   Cache.Entry<K, V> load(K key) throws CacheLoaderException;
 
+
+
   /**
    * Loads multiple objects. Application developers should implement this
    * method to customize the loading of cache entries. This method is called
@@ -51,4 +54,7 @@ public interface CacheLoader<K, V> {
    * @throws CacheLoaderException if there is problem executing the loader.
    */
   Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException;
+
+  Map<K, V> loadAll(Stream<? extends K> keys) throws CacheLoaderException;
+
 }
