@@ -146,6 +146,7 @@
                 <configuration>
                     <instructions>
                         <_include>bnd.bnd</_include>
+                        <Include-Resource>{maven-resources}</Include-Resource>
                     </instructions>
                 </configuration>
                 <executions>
@@ -268,5 +269,11 @@
         </plugins>
     </reporting>
 
+    <licenses>
+      <license>
+        <name>Terracotta Limited Evalution License</name>
+        <url>https://raw.github.com/jsr107/jsr107spec/master/src/main/resources/META-INF/LICENSE</url>
+      </license>
+    </licenses>
 
 </project>
