@@ -7,14 +7,12 @@
 
 package javax.cache.integration;
 
-import javax.cache.Cache;
 import javax.cache.configuration.Configuration;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Used when a cache is read-through or when loading data into a cache via the
- * {@link Cache#loadAll(java.util.Set, boolean,
+ * {@link javax.cache.Cache#loadAll(java.util.Set, boolean,
  * CompletionListener)} method.
  * <p/>
  *
@@ -30,16 +28,16 @@ public interface CacheLoader<K, V> {
 
   /**
    * Loads an object. Application developers should implement this
-   * method to customize the loading of cache entry. This method is called
-   * by the caching service when the requested object is not in the cache. If
+   * method to customize the loading of a value for a cache entry. This method
+   * is called by a cache when a requested entry is not in the cache. If
    * the object can't be loaded <code>null</code> should be returned.
    *
    * @param key the key identifying the object being loaded
-   * @return The entry for the object that is to be stored in the cache or
+   * @return The value for the entry that is to be stored in the cache or
    *         <code>null</code> if the object can't be loaded
    * @throws CacheLoaderException if there is problem executing the loader.
    */
-  Cache.Entry<K, V> load(K key) throws CacheLoaderException;
+  V load(K key) throws CacheLoaderException;
 
 
 
@@ -54,7 +52,4 @@ public interface CacheLoader<K, V> {
    * @throws CacheLoaderException if there is problem executing the loader.
    */
   Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException;
-
-  Map<K, V> loadAll(Stream<? extends K> keys) throws CacheLoaderException;
-
 }
