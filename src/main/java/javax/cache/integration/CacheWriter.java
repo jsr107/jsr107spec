@@ -33,6 +33,7 @@ import java.util.Collection;
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  * @author Greg Luck
+ * @author Brian Oliver
  * @see CacheLoader
  * @since 1.0
  */
@@ -105,7 +106,7 @@ public interface CacheWriter<K, V> {
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
    * <p/>
-   * This method is invoked even if no mapping for some or all of the keys exist.
+   * This method is only invoked for keys that exist in the cache.
    *
    * @param keys a mutable collection of keys for entries to delete. Upon
    *             invocation, it contains the keys to delete for write-through.
@@ -116,5 +117,4 @@ public interface CacheWriter<K, V> {
    *                              succeeded.
    */
   void deleteAll(Collection<?> keys) throws CacheWriterException;
-
 }
