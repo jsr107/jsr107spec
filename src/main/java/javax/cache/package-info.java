@@ -9,13 +9,14 @@
  * <p/>
  * This package contains the API for JCache.
  * <p/>
- * The entry point is the {@link Caching} class. {@link CacheManager} holds and controls
- * a collection of {@link Cache}s.
+ * The entry point is the {@link javax.cache.Caching} class.
+ * {@link javax.cache.CacheManager} holds and controls a collection of
+ * {@link javax.cache.Cache}s.
  * <p/>
  * A cache is an association of key to value.
  * <p/>
  * Implementations may optionally enforce security restrictions. In case of a
- * violation, a {@link SecurityException} must be thrown.
+ * violation, a {@link java.lang.SecurityException} must be thrown.
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos

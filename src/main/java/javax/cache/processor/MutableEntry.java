@@ -3,7 +3,7 @@ package javax.cache.processor;
 import javax.cache.Cache;
 
 /**
- * A mutable representation of a {@link Cache.Entry}.
+ * A mutable representation of a {@link javax.cache.Cache.Entry}.
  *
  * @param <K> the type of key
  * @param <V> the type of value
