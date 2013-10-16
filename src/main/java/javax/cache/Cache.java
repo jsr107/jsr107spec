@@ -475,6 +475,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Removes entries for the specified keys.
    * <p/>
    * The order in which the individual removes will occur is undefined.
+   * <p/>
+   * For every entry in the key set, the following are called:
+   * <ul>
+   *   <li>any registered {@link CacheEntryRemovedListener}s</li>
+   *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
+   * </ul>
+   * If the key set is empty, the {@link CacheWriter} is not called.
    *
    * @param keys the keys to remove
    * @throws NullPointerException  if keys is null or if it contains a null key
