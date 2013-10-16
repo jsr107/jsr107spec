@@ -10,7 +10,7 @@
  * This package contains the API for Entry Processors.
  * <p/>
  * Implementations may optionally enforce security restrictions. In case of a
- * violation, a {@link SecurityException} must be thrown.
+ * violation, a {@link java.lang.SecurityException} must be thrown.
  *
  * @author Greg Luck
  * @since 1.0

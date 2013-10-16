@@ -8,38 +8,40 @@ import javax.cache.integration.CacheWriter;
 
 /**
  * An invokable function that allows applications to perform compound
- * operations on a {@link Cache.Entry} atomically, according the defined
- * consistency of a {@link Cache}.
+ * operations on a {@link javax.cache.Cache.Entry} atomically, according the
+ * defined consistency of a {@link Cache}.
  * <p/>
- * Any {@link Cache.Entry} mutations will not take effect until after the
- * {@link EntryProcessor#process(MutableEntry, Object...)}
+ * Any {@link javax.cache.Cache.Entry} mutations will not take effect until
+ * after the {@link EntryProcessor#process(MutableEntry, Object...)}
  * method has completed execution.
  * <p/>
  * If an exception is thrown by an {@link EntryProcessor}, a Caching
  * Implementation must wrap any {@link Exception} thrown wrapped in an {@link
  * EntryProcessorException}. If this occurs no mutations will be made to the
- * {@link Cache.Entry}.
+ * {@link javax.cache.Cache.Entry}.
  * <p/>
  * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
  * locking, round-trips and expensive network transfers.
  * <p/>
  * <h3>Effect of {@link MutableEntry} operations</h3>
- * {@link Cache.Entry} access, via a call to {@link Cache.Entry#getValue()}, will
- * behave as if {@link Cache#get(Object)} was called for the key.  This includes
+ * {@link javax.cache.Cache.Entry} access, via a call to
+ * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
+ * {@link Cache#get(Object)} was called for the key.  This includes
  * updating necessary statistics, consulting the configured {@link ExpiryPolicy}
  * and loading from a configured {@link javax.cache.integration.CacheLoader}.
  * <p/>
- * {@link Cache.Entry} mutation, via a call to
+ * {@link javax.cache.Cache.Entry} mutation, via a call to
  * {@link MutableEntry#setValue(Object)}, will behave as if {@link
  * Cache#put(Object, Object)} was called for the key.
  * This includes updating necessary statistics, consulting the configured {@link
  * ExpiryPolicy}, notifying {@link CacheEntryListener}s and writing to a
  * configured {@link CacheWriter}.
  * <p/>
- * {@link Cache.Entry} removal, via a call to {@link MutableEntry#remove()}, will
- * behave as if {@link Cache#remove(Object)} was called for the key. This includes
- * updating necessary statistics, notifying {@link CacheEntryListener}s and
- * causing a delete on a configured {@link CacheWriter}.
+ * {@link javax.cache.Cache.Entry} removal, via a call to
+ * {@link MutableEntry#remove()}, will behave as if {@link Cache#remove(Object)}
+ * was called for the key. This includes updating necessary statistics, notifying
+ * {@link CacheEntryListener}s and causing a delete on a configured
+ * {@link CacheWriter}.
  * <p/>
  * As implementations may choose to execute {@link EntryProcessor}s remotely,
  * {@link EntryProcessor}s, together with specified parameters and return
