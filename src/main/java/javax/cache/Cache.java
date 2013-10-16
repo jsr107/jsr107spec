@@ -10,6 +10,7 @@ package javax.cache;
 import javax.cache.configuration.CacheEntryListenerConfiguration;
 import javax.cache.configuration.Configuration;
 import javax.cache.event.CacheEntryListener;
+import javax.cache.event.CacheEntryRemovedListener;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
@@ -492,9 +493,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p/>
    * The order in which the individual removes will occur is undefined.
    * <p/>
+   * For every mapping that exists the following are called:
+   * <ul>
+   *   <li>any registered {@link CacheEntryRemovedListener}s</li>
+   *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
+   * </ul>
+   * If the cache is empty, the {@link CacheWriter} is not called.
+   * <p/>
    * This is potentially an expensive operation as listeners are invoked.
    * Use {@link #clear()} to avoid this.
-   *
+   * <p/>
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the remove
    * @see #clear()
