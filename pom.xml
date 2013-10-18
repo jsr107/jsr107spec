@@ -267,12 +267,20 @@
                 </configuration>
 
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
         </plugins>
+
     </reporting>
 
     <licenses>
         <license>
-            <name>JSR-000107 JCACHE 2.9 Public Review - Updated Specification License</name>
+            <name>JSR-000107 JCACHE 2.9 Public Review - Updated Specification
+                License
+            </name>
             <url>https://raw.github.com/jsr107/jsr107spec/master/LICENSE.txt</url>
             <distribution>manual</distribution>
         </license>
