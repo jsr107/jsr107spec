@@ -141,8 +141,8 @@ public abstract class Configuration<K, V> implements Serializable {
   public abstract boolean isManagementEnabled();
 
   /**
-   * Obtains the {@link CacheEntryListenerConfiguration}s for {@link
-   * CacheEntryListener}s
+   * Obtains the {@link CacheEntryListenerConfiguration}s for
+   * {@link CacheEntryListener}s
    * to be configured on a {@link Cache}.
    *
    * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
