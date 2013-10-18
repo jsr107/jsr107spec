@@ -70,11 +70,10 @@ public abstract class Configuration<K, V> implements Serializable {
   /**
    * Determines if a {@link Cache} should operate in write-through mode.
    * <p/>
-   * When in "write-through" mode, cache updates that occur as a result of performing
-   * "put" operations called via one of {@link Cache#put(Object, Object)},
-   * {@link Cache#getAndRemove(Object)},
-   * {@link Cache#removeAll()}, {@link Cache#getAndPut(Object,
-   * Object)}
+   * When in "write-through" mode, cache updates that occur as a result of
+   * performing "put" operations called via one of
+   * {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
+   * {@link Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
    * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object,
    * Object)},
    * {@link Cache#invoke(Object, javax.cache.processor.EntryProcessor,
@@ -102,20 +101,20 @@ public abstract class Configuration<K, V> implements Serializable {
    * Caches stored by reference are capable of mutation by any threads holding
    * the reference. The effects are:
    * <ul>
-   * <li>if the key is mutated, then the key may not be retrievable or removable</li>
-   * <li>if the value is mutated, then all threads in the JVM can potentially observe
+   * <li>if the key is mutated, then the key may not be retrievable or
+   * removable</li>
+   * <li>if the value is mutated, then all threads in the JVM can potentially
+   * observe
    * those mutations,
    * subject to the normal Java Memory Model rules.</li>
    * </ul>
-   * Storage by reference only applies to the local heap. If an entry is moved off heap
-   * it will
-   * need to be transformed into a representation. Any mutations that occur after
-   * transformation
-   * may not be reflected in the cache.
+   * Storage by reference only applies to the local heap. If an entry is moved off
+   * heap it will need to be transformed into a representation. Any mutations that
+   * occur after transformation may not be reflected in the cache.
    * <p/>
-   * When a cache is storeByValue, any mutation to the key or value does not affect the
-   * key of value
-   * stored in the cache.
+   * When a cache is storeByValue, any mutation to the key or value does not
+   * affect
+   * the key of value stored in the cache.
    * <p/>
    * The default value is <code>true</code>.
    *
@@ -142,7 +141,8 @@ public abstract class Configuration<K, V> implements Serializable {
   public abstract boolean isManagementEnabled();
 
   /**
-   * Obtains the {@link CacheEntryListenerConfiguration}s for {@link CacheEntryListener}s
+   * Obtains the {@link CacheEntryListenerConfiguration}s for {@link
+   * CacheEntryListener}s
    * to be configured on a {@link Cache}.
    *
    * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
@@ -154,10 +154,9 @@ public abstract class Configuration<K, V> implements Serializable {
    * Gets the {@link Factory} for the {@link CacheLoader}, if
    * any.
    * <p/>
-   * A CacheLoader should be configured for "Read Through" caches
-   * to load values when a cache miss occurs using either the
-   * {@link Cache#get(Object)} and/or {@link Cache#getAll(java.util.Set)}
-   * methods.
+   * A CacheLoader should be configured for "Read Through" caches to load values
+   * when a cache miss occurs using either the {@link Cache#get(Object)} and/or
+   * {@link Cache#getAll(java.util.Set)} methods.
    * <p/>
    * The default value is <code>null</code>.
    *
@@ -167,22 +166,21 @@ public abstract class Configuration<K, V> implements Serializable {
   public abstract Factory<CacheLoader<K, V>> getCacheLoaderFactory();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheWriter}, if
-   * any.
+   * Gets the {@link Factory} for the {@link CacheWriter}, if any.
    * <p/>
    * The default value is <code>null</code>.
    *
-   * @return the {@link Factory} for the {@link CacheWriter} or
-   *         null if none has been set.
+   * @return the {@link Factory} for the {@link CacheWriter} or null if none has
+   *         been set.
    */
-  public abstract Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
+  public abstract Factory<CacheWriter<? super K,
+      ? super V>> getCacheWriterFactory();
 
   /**
-   * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used
-   * for caches.
+   * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used for caches.
    * <p/>
-   * The default value is a {@link Factory} that will produce a
-   * {@link javax.cache.expiry.EternalExpiryPolicy} instance.
+   * The default value is a {@link Factory} that will produce a {@link
+   * javax.cache.expiry.EternalExpiryPolicy} instance.
    *
    * @return the {@link Factory} for {@link ExpiryPolicy} (must not be
    *         <code>null</code>)
