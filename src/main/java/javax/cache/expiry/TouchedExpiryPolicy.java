@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Greg Luck
  * @author Brian Oliver
- *
+ * @since 1.0
  * @see ExpiryPolicy
  */
 public final class TouchedExpiryPolicy implements ExpiryPolicy, Serializable {

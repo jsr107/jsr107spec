@@ -20,6 +20,7 @@ import java.io.Serializable;
  *
  * @param <T> the type of factory constructed
  * @author Brian Oliver
+ * @since 1.0
  */
 public interface Factory<T> extends Serializable {
 

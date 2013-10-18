@@ -30,6 +30,7 @@ import java.io.Serializable;
  *
  * @author Brian Oliver
  * @author Greg Luck
+ * @since 1.0
  */
 public final class FactoryBuilder {
 

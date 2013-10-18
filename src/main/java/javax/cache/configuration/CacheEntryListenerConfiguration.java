@@ -19,6 +19,7 @@ import java.io.Serializable;
  * @param <V> the type of values
  * @author Brian Oliver
  * @author Greg Luck
+ * @since 1.0
  */
 public interface CacheEntryListenerConfiguration<K, V> extends Serializable {
   /**

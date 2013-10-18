@@ -21,7 +21,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
  * @author Brian Oliver
- *
+ * @since 1.0
  * @see ExpiryPolicy
  */
 public class Duration implements Serializable {

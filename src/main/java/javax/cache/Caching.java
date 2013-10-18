@@ -74,6 +74,7 @@ import java.util.WeakHashMap;
  * @author Brian Oliver
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
+ * @since 1.0
  * @see ServiceLoader
  * @see CachingProvider
  */

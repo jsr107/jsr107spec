@@ -45,6 +45,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Brian Oliver
  * @author Greg Luck
+ * @since 1.0
  */
 public class CompletionListenerFuture implements CompletionListener, Future<Void> {
 

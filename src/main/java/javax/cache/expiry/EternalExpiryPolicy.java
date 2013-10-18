@@ -14,7 +14,7 @@ import static javax.cache.expiry.Duration.ETERNAL;
  *
  * @author Greg Luck
  * @author Brian Oliver
- *
+ * @since 1.0
  * @see ExpiryPolicy
  */
 public final class EternalExpiryPolicy implements ExpiryPolicy, Serializable {

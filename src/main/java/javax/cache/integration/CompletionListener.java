@@ -23,6 +23,7 @@ package javax.cache.integration;
  * A CompletionListener will use an implementation specific thread for the call.
  *
  * @author Brian Oliver
+ * @since 1.0
  * @see CompletionListenerFuture
  */
 public interface CompletionListener {

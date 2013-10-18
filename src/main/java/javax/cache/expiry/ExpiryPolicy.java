@@ -17,6 +17,7 @@ package javax.cache.expiry;
  *
  * @author Brian Oliver
  * @author Greg Luck
+ * @since 1.0
  * @see Duration
  */
 public interface ExpiryPolicy {

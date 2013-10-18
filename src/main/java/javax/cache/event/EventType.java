@@ -11,6 +11,7 @@ package javax.cache.event;
  * The type of event received by the listener.
  *
  * @author Greg Luck
+ * @since 1.0
  */
 public enum EventType {
 
