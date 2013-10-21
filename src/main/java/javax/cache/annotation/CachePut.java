@@ -80,15 +80,14 @@ public @interface CachePut {
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link Cache#put(Object, Object)} should be called. If true it is called after
-   * the annotated method invocation completes successfully. If false it is called before
-   * the annotated method is invoked.
+   * When {@link Cache#put(Object, Object)} should be called. If true it is called
+   * after the annotated method invocation completes successfully. If false it is
+   * called before the annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
    * If true and the annotated method throws an exception the rules governing
-   * {@link #cacheFor()} and {@link #noCacheFor()}
-   * will be followed.
+   * {@link #cacheFor()} and {@link #noCacheFor()} will be followed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
@@ -135,9 +134,8 @@ public @interface CachePut {
   /**
    * Defines zero (0) or more exception {@link Class Classes}, which must be a
    * subclass of {@link Throwable}, indicating which exception types <b>must
-   * not</b>
-   * cause the parameter to be cached. Only used if {@link #afterInvocation()} is
-   * true.
+   * not</b> cause the parameter to be cached. Only used if
+   * {@link #afterInvocation()} is true.
    */
   @Nonbinding Class<? extends Throwable>[] noCacheFor() default {};
 }

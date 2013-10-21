@@ -73,13 +73,14 @@ public @interface CacheRemoveAll {
   @Nonbinding String cacheName() default "";
 
   /**
-   * When {@link Cache#removeAll()} should be called. If true it is called after the
-   * annotated method invocation completes successfully. If false it is called before the
-   * annotated method is invoked.
+   * When {@link Cache#removeAll()} should be called. If true it is called after
+   * the annotated method invocation completes successfully. If false it is called
+   * before the annotated method is invoked.
    * <p/>
    * Defaults to true.
    * <p/>
-   * If true and the annotated method throws an exception the put will not be executed.
+   * If true and the annotated method throws an exception the put will not be
+   * executed.
    */
   @Nonbinding boolean afterInvocation() default true;
 
