@@ -53,7 +53,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.11</version>
+      <version>0.12-SNAPSHOT</version>
     </dependency>
 
 Javadoc
