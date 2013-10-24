@@ -33,7 +33,7 @@ import java.util.List;
  * @author Brian Oliver
  * @since 1.0
  */
-public abstract class Configuration<K, V> implements Serializable {
+public interface Configuration<K, V> extends Serializable {
 
   /**
    * Determines the required type of keys for {@link Cache}s configured
@@ -41,7 +41,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return the key type or <code>Object.class</code> if the type is undefined
    */
-  public abstract Class<K> getKeyType();
+  Class<K> getKeyType();
 
   /**
    * Determines the required type of values for {@link Cache}s configured
@@ -49,7 +49,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return the value type or <code>Object.class</code> if the type is undefined
    */
-  public abstract Class<V> getValueType();
+  Class<V> getValueType();
 
   /**
    * Determines if a {@link Cache} should operate in read-through mode.
@@ -65,7 +65,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *         mode.
    * @see #getCacheLoaderFactory()
    */
-  public abstract boolean isReadThrough();
+  boolean isReadThrough();
 
   /**
    * Determines if a {@link Cache} should operate in write-through mode.
@@ -91,7 +91,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *         mode.
    * @see #getCacheWriterFactory()
    */
-  public abstract boolean isWriteThrough();
+  boolean isWriteThrough();
 
   /**
    * Whether storeByValue (true) or storeByReference (false).
@@ -120,7 +120,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return true if the cache is store by value
    */
-  public abstract boolean isStoreByValue();
+  boolean isStoreByValue();
 
   /**
    * Checks whether statistics collection is enabled in this cache.
@@ -129,7 +129,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return true if statistics collection is enabled
    */
-  public abstract boolean isStatisticsEnabled();
+  boolean isStatisticsEnabled();
 
   /**
    * Checks whether management is enabled on this cache.
@@ -138,7 +138,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return true if management is enabled
    */
-  public abstract boolean isManagementEnabled();
+  boolean isManagementEnabled();
 
   /**
    * Obtains the {@link CacheEntryListenerConfiguration}s for
@@ -147,7 +147,7 @@ public abstract class Configuration<K, V> implements Serializable {
    *
    * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
    */
-  public abstract List<CacheEntryListenerConfiguration<K,
+  List<CacheEntryListenerConfiguration<K,
       V>> getCacheEntryListenerConfigurations();
 
   /**
@@ -163,7 +163,7 @@ public abstract class Configuration<K, V> implements Serializable {
    * @return the {@link Factory} for the {@link CacheLoader} or
    *         null if none has been set.
    */
-  public abstract Factory<CacheLoader<K, V>> getCacheLoaderFactory();
+  Factory<CacheLoader<K, V>> getCacheLoaderFactory();
 
   /**
    * Gets the {@link Factory} for the {@link CacheWriter}, if any.
@@ -173,7 +173,7 @@ public abstract class Configuration<K, V> implements Serializable {
    * @return the {@link Factory} for the {@link CacheWriter} or null if none has
    *         been set.
    */
-  public abstract Factory<CacheWriter<? super K,
+  Factory<CacheWriter<? super K,
       ? super V>> getCacheWriterFactory();
 
   /**
@@ -185,6 +185,6 @@ public abstract class Configuration<K, V> implements Serializable {
    * @return the {@link Factory} for {@link ExpiryPolicy} (must not be
    *         <code>null</code>)
    */
-  public abstract Factory<ExpiryPolicy> getExpiryPolicyFactory();
+  Factory<ExpiryPolicy> getExpiryPolicyFactory();
 
 }

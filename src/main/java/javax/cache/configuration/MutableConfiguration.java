@@ -36,7 +36,7 @@ import java.util.List;
  * @author Greg Luck
  * @since 1.0
  */
-public class MutableConfiguration<K, V> extends Configuration<K, V> {
+public class MutableConfiguration<K, V> implements Configuration<K, V> {
 
   /**
    * The serialVersionUID required for {@link java.io.Serializable}.
