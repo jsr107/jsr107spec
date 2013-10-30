@@ -22,8 +22,7 @@ import java.util.Collection;
  * be atomic in the writer. As individual writer operations can fail, cache
  * operations are not required to occur until after the writer batch method has
  * returned or, in the case of partial success, thrown an exception. In the case
- * of
- * partial success, the collection of entries must contain only those entries
+ * of partial success, the collection of entries must contain only those entries
  * which failed.
  * <p/>
  * The entry passed into {@link #write(Cache.Entry)} is independent
