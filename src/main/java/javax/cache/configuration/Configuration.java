@@ -173,8 +173,7 @@ public interface Configuration<K, V> extends Serializable {
    * @return the {@link Factory} for the {@link CacheWriter} or null if none has
    *         been set.
    */
-  Factory<CacheWriter<? super K,
-      ? super V>> getCacheWriterFactory();
+  Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
 
   /**
    * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used for caches.
