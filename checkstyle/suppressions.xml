@@ -15,6 +15,7 @@
 
     <suppress checks="WhitespaceAround" files="[\\/]annotation[\\/]"/>
     <suppress checks="ParenPad" files="[\\/]annotation[\\/]"/>
+
     <suppress checks="MagicNumber" files=""/>
 
     <suppress checks="NPathComplexity" files="MutableCacheEntryListenerConfiguration.java"/>
@@ -23,4 +24,7 @@
     <suppress checks="NPathComplexity" files="MutableConfiguration.java"/>
 
     <suppress checks="IllegalType" files="Caching.java"/>
+
+    <!--Exclude Clover instrumented sources-->
+    <suppress checks="" files="[\\/]src-instrumented[\\/]"/>
 </suppressions>
