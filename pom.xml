@@ -290,14 +290,7 @@
                 <version>2.3</version>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<groupId>com.atlassian.maven.plugins</groupId>-->
-                <!--<artifactId>maven-clover2-plugin</artifactId>-->
-                <!--<version>3.1.12.1</version>-->
-                <!--<configuration>-->
-                    <!--<cloverDatabase>${java.io.tmpdir}/clover/clover.db</cloverDatabase>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+
         </plugins>
 
     </reporting>
