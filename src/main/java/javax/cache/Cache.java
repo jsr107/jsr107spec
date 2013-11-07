@@ -17,7 +17,6 @@ import javax.cache.integration.CacheWriter;
 import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorException;
-import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -67,7 +66,7 @@ import java.util.Set;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
+public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>> {
   /**
    * Gets an entry from the cache.
    * <p/>
