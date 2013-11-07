@@ -110,10 +110,9 @@ public interface CacheManager extends Closeable {
    * each {@link Cache} an application may use.  Implementations may support
    * the use of declarative mechanisms to pre-configure {@link Cache}s, thus
    * removing the requirement to configure them in an application.  In such
-   * circumstances a developer may simply call either the {@link
-   * #getCache(String)}
-   * or {@link #getCache(String, Class, Class)} methods to acquire a
-   * previously established or pre-configured {@link Cache}.
+   * circumstances a developer may simply call either the
+   * {@link #getCache(String)} or {@link #getCache(String, Class, Class)}
+   * methods to acquire a previously established or pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the {@link Cache}
    * @param configuration the {@link Configuration}
