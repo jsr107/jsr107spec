@@ -176,11 +176,19 @@ public class MutableConfiguration<K, V> implements Configuration<K, V> {
    * Sets the expected type of keys and values for a {@link Cache}
    * configured with this {@link Configuration}. Setting both to
    * <code>Object.class</code> means type-safety checks are not required.
+   * <p/>
+   * This is used by {@link CacheManager} to ensure that the key and value
+   * types are the same as those configured for the {@link Cache} prior to
+   * returning a requested cache from this method.
+   * <p/>
+   * Implementations may further perform type checking on mutative cache operations
+   * and throw a {@link ClassCastException} if said checks fail.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    * @throws NullPointerException should the key or value type be null
+   * @see CacheManager#getCache(String, Class, Class)
    */
   public MutableConfiguration<K, V> setTypes(Class<K> keyType, Class<V> valueType) {
     if (keyType == null || valueType == null) {
