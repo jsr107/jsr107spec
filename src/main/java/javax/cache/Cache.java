@@ -17,6 +17,7 @@ import javax.cache.integration.CacheWriter;
 import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorException;
+import javax.cache.processor.EntryProcessorResult;
 import java.io.Closeable;
 import java.util.Iterator;
 import java.util.Map;
@@ -522,7 +523,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * {@link CacheWriter}s.
    *
    * @throws IllegalStateException if the cache is {@link #isClosed()}
-   * @throws CacheException        if there is a problem during the remove
+   * @throws CacheException        if there is a problem during the clear
    */
   void clear();
 
@@ -549,6 +550,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         {@link EntryProcessor} implementation
    * @throws NullPointerException    if key or {@link EntryProcessor} is null
    * @throws IllegalStateException   if the cache is {@link #isClosed()}
+   * @throws CacheException          if there is a problem during the invoke
    * @throws ClassCastException      if the implementation supports and is
    *                                 configured to perform runtime-type-checking,
    *                                 and the key or value types are incompatible
@@ -567,45 +569,44 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
-   * specified by the set of keys.  If an {@link Entry} does not exist for the
-   * specified key, an attempt is made to load it (if a loader is configured) or a
-   * surrogate {@link Entry}, consisting of the key with a null value is used
-   * instead.
+   * specified by the set of keys.
+   * <p/>
+   * If an {@link Entry} does not exist for the specified key, an attempt is made
+   * to load it (if a loader is configured) or a surrogate {@link Entry}, consisting
+   * of the key and a value of null is provided.
    * <p/>
    * The order in which the entries for the keys are processed is undefined.
    * Implementations may choose to process the entries in any order, including
    * concurrently.  Furthermore there is no guarantee implementations will
    * use the same {@link EntryProcessor} instance to process each entry, as
    * the case may be in a non-local cache topology.
+   * <p/>
+   * The result of executing the {@link EntryProcessor} is returned as a {@link Map}
+   * of {@link EntryProcessorResult}s, one result per key.  Should the
+   * {@link EntryProcessor} or Caching implementation throw an exception, the
+   * exception is wrapped and re-throw when a call to {@link javax.cache.processor.EntryProcessorResult#get()}
+   * is made.
    *
    * @param keys           the set of keys for entries to process
    * @param entryProcessor the {@link EntryProcessor} to invoke
    * @param arguments      additional arguments to pass to the
    *                       {@link EntryProcessor}
-   * @return the map of results of the processing per key, if any, defined by the
-   *         {@link EntryProcessor} implementation.  No mappings will be
+   * @return the map of {@link EntryProcessorResult}s of the processing per key, if any,
+   *         defined by the {@link EntryProcessor} implementation.  No mappings will be
    *         returned for {@link EntryProcessor}s that return a <code>null</code>
    *         value for a key
    * @throws NullPointerException    if keys or {@link EntryProcessor} are null
    * @throws IllegalStateException   if the cache is {@link #isClosed()}
-   * @throws CacheException          if an exception occurred while executing
-   *                                 the {@link EntryProcessor} (the causing
-   *                                 exception will be wrapped by the
-   *                                 CacheException)
    * @throws ClassCastException      if the implementation supports and is
    *                                 configured to perform runtime-type-checking,
    *                                 and the key or value types are incompatible
    *                                 with those that have been configured for the
    *                                 {@link Cache}
-   * @throws EntryProcessorException if an exception is thrown by the {@link
-   *                                 EntryProcessor}, a Caching Implementation
-   *                                 must wrap any {@link Exception} thrown wrapped
-   *                                 in an {@link EntryProcessorException}.
    * @see EntryProcessor
    */
-  <T> Map<K, T> invokeAll(Set<? extends K> keys,
-                          EntryProcessor<K, V, T> entryProcessor,
-                          Object... arguments);
+  <T> Map<K, EntryProcessorResult<T>> invokeAll(Set<? extends K> keys,
+                                                EntryProcessor<K, V, T> entryProcessor,
+                                                Object... arguments);
 
   /**
    * Return the name of the cache.

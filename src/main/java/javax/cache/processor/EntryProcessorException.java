@@ -10,9 +10,10 @@ package javax.cache.processor;
 import javax.cache.CacheException;
 
 /**
- * An exception to indicate a problem has occurred executing an {@link EntryProcessor}.
+ * An exception to indicate a problem occurred attempting to execute an
+ * {@link EntryProcessor} against an entry.
  * <p/>
- * A Caching Implementation must wrap any {@link Exception} thrown by an
+ * An implementation must wrap any {@link Exception} thrown by an
  * {@link EntryProcessor} in this exception.
  *
  * @author Greg Luck
