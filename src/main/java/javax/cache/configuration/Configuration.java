@@ -9,12 +9,7 @@ package javax.cache.configuration;
 
 import javax.cache.Cache;
 import javax.cache.CacheManager;
-import javax.cache.event.CacheEntryListener;
-import javax.cache.expiry.ExpiryPolicy;
-import javax.cache.integration.CacheLoader;
-import javax.cache.integration.CacheWriter;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * A basic read-only representation of a {@link Cache} configuration.
@@ -29,8 +24,6 @@ import java.util.List;
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
  * @author Greg Luck
- * @author Yannis Cosmadopoulos
- * @author Brian Oliver
  * @since 1.0
  */
 public interface Configuration<K, V> extends Serializable {
@@ -50,44 +43,6 @@ public interface Configuration<K, V> extends Serializable {
    * @return the value type or <code>Object.class</code> if the type is undefined
    */
   Class<V> getValueType();
-
-  /**
-   * Determines if a {@link Cache} should operate in read-through mode.
-   * <p/>
-   * When in "read-through" mode, cache misses that occur due to cache entries
-   * not existing as a result of performing a "get" will appropriately
-   * cause the configured {@link CacheLoader} to be invoked.
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return <code>true</code> when a {@link Cache} is in "read-through"
-   *         mode.
-   * @see #getCacheLoaderFactory()
-   */
-  boolean isReadThrough();
-
-  /**
-   * Determines if a {@link Cache} should operate in write-through mode.
-   * <p/>
-   * When in "write-through" mode, cache updates that occur as a result of
-   * performing "put" operations called via one of
-   * {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
-   * {@link Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
-   * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object,
-   * Object)}, {@link Cache#invoke(Object, javax.cache.processor.EntryProcessor,
-   * Object...)}, {@link Cache#invokeAll(java.util.Set,
-   * javax.cache.processor.EntryProcessor, Object...)} will appropriately cause
-   * the configured {@link CacheWriter} to be invoked.
-   * <p/>
-   * <p/>
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return <code>true</code> when a {@link Cache} is in "write-through"
-   *         mode.
-   * @see #getCacheWriterFactory()
-   */
-  boolean isWriteThrough();
 
   /**
    * Whether storeByValue (true) or storeByReference (false).
@@ -114,67 +69,5 @@ public interface Configuration<K, V> extends Serializable {
    * @return true if the cache is store by value
    */
   boolean isStoreByValue();
-
-  /**
-   * Checks whether statistics collection is enabled in this cache.
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return true if statistics collection is enabled
-   */
-  boolean isStatisticsEnabled();
-
-  /**
-   * Checks whether management is enabled on this cache.
-   * <p/>
-   * The default value is <code>false</code>.
-   *
-   * @return true if management is enabled
-   */
-  boolean isManagementEnabled();
-
-  /**
-   * Obtains the {@link CacheEntryListenerConfiguration}s for
-   * {@link CacheEntryListener}s to be configured on a {@link Cache}.
-   *
-   * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
-   */
-  List<CacheEntryListenerConfiguration<K,
-      V>> getCacheEntryListenerConfigurations();
-
-  /**
-   * Gets the {@link Factory} for the {@link CacheLoader}, if any.
-   * <p/>
-   * A CacheLoader should be configured for "Read Through" caches to load values
-   * when a cache miss occurs using either the {@link Cache#get(Object)} and/or
-   * {@link Cache#getAll(java.util.Set)} methods.
-   * <p/>
-   * The default value is <code>null</code>.
-   *
-   * @return the {@link Factory} for the {@link CacheLoader} or
-   *         null if none has been set.
-   */
-  Factory<CacheLoader<K, V>> getCacheLoaderFactory();
-
-  /**
-   * Gets the {@link Factory} for the {@link CacheWriter}, if any.
-   * <p/>
-   * The default value is <code>null</code>.
-   *
-   * @return the {@link Factory} for the {@link CacheWriter} or null if none has
-   *         been set.
-   */
-  Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
-
-  /**
-   * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used for caches.
-   * <p/>
-   * The default value is a {@link Factory} that will produce a {@link
-   * javax.cache.expiry.EternalExpiryPolicy} instance.
-   *
-   * @return the {@link Factory} for {@link ExpiryPolicy} (must not be
-   *         <code>null</code>)
-   */
-  Factory<ExpiryPolicy> getExpiryPolicyFactory();
 
 }

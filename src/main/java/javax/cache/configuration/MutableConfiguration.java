@@ -121,11 +121,11 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
 
   /**
    * Constructs a {@link MutableConfiguration} based on another
-   * {@link Configuration}.
+   * {@link CompleteConfiguration}.
    *
-   * @param configuration the {@link Configuration}
+   * @param configuration the {@link CompleteConfiguration}
    */
-  public MutableConfiguration(Configuration<K, V> configuration) {
+  public MutableConfiguration(CompleteConfiguration<K, V> configuration) {
 
     this.keyType = configuration.getKeyType();
     this.valueType = configuration.getValueType();
