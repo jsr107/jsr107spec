@@ -528,12 +528,22 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   void clear();
 
   /**
-   * Obtains an immutable representation of the {@link Configuration} that
-   * was used to configure the {@link Cache}.
+   * Provides a standard way to access the configuration of a cache using
+   * JCache configuration or additional proprietary configuration.
+   * <p/>
+   * The returned value must be immutable.
+   * <p/>
+   * If the provider's implementation does not support the specified class,
+   * the {@link IllegalArgumentException} is thrown.
    *
-   * @return the {@link Configuration}
+   * @param clazz the configuration interface or class to return. This includes
+   *              {@link Configuration}.class and
+   *              {@link javax.cache.configuration.CompleteConfiguration}s.
+   * @return the requested sub-interface of {@link Configuration}
+   * @throws IllegalArgumentException if the caching provider doesn't support
+   *                                  the specified class.
    */
-  Configuration<K, V> getConfiguration();
+  <C extends Configuration> C getConfiguration(Class<C> clazz);
 
   /**
    * Invokes an {@link EntryProcessor} against the {@link Entry} specified by

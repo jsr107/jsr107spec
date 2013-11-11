@@ -113,7 +113,7 @@ public interface CacheManager extends Closeable {
    * methods to acquire a previously established or pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the {@link Cache}
-   * @param configuration the {@link Configuration}
+   * @param configuration a {@link Configuration} or sub-interface
    *                      to use if the {@link Cache} is known
    * @throws IllegalStateException         if the {@link CacheManager}
    *                                       {@link #isClosed()}
@@ -126,8 +126,10 @@ public interface CacheManager extends Closeable {
    * @throws NullPointerException          if the cache configuration or name
    *                                       is null
    */
-  <K, V> Cache<K, V> createCache(String cacheName, Configuration<K, V> configuration)
+  <K, V, C extends Configuration<K, V>> Cache<K, V> createCache(String cacheName,
+                                                                C configuration)
       throws IllegalArgumentException;
+
 
   /**
    * Looks up a managed {@link Cache} given it's name.

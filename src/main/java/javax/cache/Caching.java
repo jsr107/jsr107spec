@@ -240,8 +240,8 @@ public final class Caching {
    * Implementations must ensure that the key and value types are the same as
    * those configured for the {@link Cache} prior to returning from this method.
    * <p/>
-   * Implementations may further perform type checking on mutative cache operations and
-   * throw a {@link ClassCastException} if said checks fail.
+   * Implementations may further perform type checking on mutative cache operations
+   * and throw a {@link ClassCastException} if said checks fail.
    * <p/>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of

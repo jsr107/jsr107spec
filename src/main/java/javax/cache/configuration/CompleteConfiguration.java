@@ -7,9 +7,6 @@
 
 package javax.cache.configuration;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
-import javax.cache.event.CacheEntryListener;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
@@ -17,13 +14,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * A basic read-only representation of a {@link Cache} configuration.
+ * A read-only representation of the complete JCache {@link javax.cache.Cache}
+ * configuration.
  * <p/>
  * The properties provided by instances of this interface are used by
- * {@link CacheManager}s to configure {@link Cache}s.
+ * {@link javax.cache.CacheManager}s to configure {@link javax.cache.Cache}s.
  * <p/>
  * Implementations of this interface must override {@link Object#hashCode()} and
- * {@link Object#equals(Object)} as {@link Configuration}s are often compared at
+ * {@link Object#equals(Object)} as {@link javax.cache.configuration.CompleteConfiguration}s are often compared at
  * runtime.
  *
  * @param <K> the type of keys maintained the cache
@@ -33,57 +31,57 @@ import java.util.List;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface Configuration<K, V> extends Serializable {
+public interface CompleteConfiguration<K, V> extends Configuration, Serializable {
 
   /**
-   * Determines the required type of keys for {@link Cache}s configured
-   * with this {@link Configuration}.
+   * Determines the required type of keys for {@link javax.cache.Cache}s configured
+   * with this {@link javax.cache.configuration.CompleteConfiguration}.
    *
    * @return the key type or <code>Object.class</code> if the type is undefined
    */
   Class<K> getKeyType();
 
   /**
-   * Determines the required type of values for {@link Cache}s configured
-   * with this {@link Configuration}.
+   * Determines the required type of values for {@link javax.cache.Cache}s configured
+   * with this {@link javax.cache.configuration.CompleteConfiguration}.
    *
    * @return the value type or <code>Object.class</code> if the type is undefined
    */
   Class<V> getValueType();
 
   /**
-   * Determines if a {@link Cache} should operate in read-through mode.
+   * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
    * <p/>
    * When in "read-through" mode, cache misses that occur due to cache entries
    * not existing as a result of performing a "get" will appropriately
-   * cause the configured {@link CacheLoader} to be invoked.
+   * cause the configured {@link javax.cache.integration.CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
-   * @return <code>true</code> when a {@link Cache} is in "read-through"
+   * @return <code>true</code> when a {@link javax.cache.Cache} is in "read-through"
    *         mode.
    * @see #getCacheLoaderFactory()
    */
   boolean isReadThrough();
 
   /**
-   * Determines if a {@link Cache} should operate in write-through mode.
+   * Determines if a {@link javax.cache.Cache} should operate in write-through mode.
    * <p/>
    * When in "write-through" mode, cache updates that occur as a result of
    * performing "put" operations called via one of
-   * {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
-   * {@link Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
-   * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object,
-   * Object)}, {@link Cache#invoke(Object, javax.cache.processor.EntryProcessor,
-   * Object...)}, {@link Cache#invokeAll(java.util.Set,
+   * {@link javax.cache.Cache#put(Object, Object)}, {@link javax.cache.Cache#getAndRemove(Object)},
+   * {@link javax.cache.Cache#removeAll()}, {@link javax.cache.Cache#getAndPut(Object, Object)}
+   * {@link javax.cache.Cache#getAndRemove(Object)}, {@link javax.cache.Cache#getAndReplace(Object,
+   * Object)}, {@link javax.cache.Cache#invoke(Object, javax.cache.processor.EntryProcessor,
+   * Object...)}, {@link javax.cache.Cache#invokeAll(java.util.Set,
    * javax.cache.processor.EntryProcessor, Object...)} will appropriately cause
-   * the configured {@link CacheWriter} to be invoked.
+   * the configured {@link javax.cache.integration.CacheWriter} to be invoked.
    * <p/>
    * <p/>
    * <p/>
    * The default value is <code>false</code>.
    *
-   * @return <code>true</code> when a {@link Cache} is in "write-through"
+   * @return <code>true</code> when a {@link javax.cache.Cache} is in "write-through"
    *         mode.
    * @see #getCacheWriterFactory()
    */
@@ -134,45 +132,45 @@ public interface Configuration<K, V> extends Serializable {
   boolean isManagementEnabled();
 
   /**
-   * Obtains the {@link CacheEntryListenerConfiguration}s for
-   * {@link CacheEntryListener}s to be configured on a {@link Cache}.
+   * Obtains the {@link javax.cache.configuration.CacheEntryListenerConfiguration}s for
+   * {@link javax.cache.event.CacheEntryListener}s to be configured on a {@link javax.cache.Cache}.
    *
-   * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
+   * @return an {@link Iterable} over the {@link javax.cache.configuration.CacheEntryListenerConfiguration}s
    */
   List<CacheEntryListenerConfiguration<K,
       V>> getCacheEntryListenerConfigurations();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheLoader}, if any.
+   * Gets the {@link javax.cache.configuration.Factory} for the {@link javax.cache.integration.CacheLoader}, if any.
    * <p/>
    * A CacheLoader should be configured for "Read Through" caches to load values
-   * when a cache miss occurs using either the {@link Cache#get(Object)} and/or
-   * {@link Cache#getAll(java.util.Set)} methods.
+   * when a cache miss occurs using either the {@link javax.cache.Cache#get(Object)} and/or
+   * {@link javax.cache.Cache#getAll(java.util.Set)} methods.
    * <p/>
    * The default value is <code>null</code>.
    *
-   * @return the {@link Factory} for the {@link CacheLoader} or
+   * @return the {@link javax.cache.configuration.Factory} for the {@link javax.cache.integration.CacheLoader} or
    *         null if none has been set.
    */
   Factory<CacheLoader<K, V>> getCacheLoaderFactory();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheWriter}, if any.
+   * Gets the {@link javax.cache.configuration.Factory} for the {@link javax.cache.integration.CacheWriter}, if any.
    * <p/>
    * The default value is <code>null</code>.
    *
-   * @return the {@link Factory} for the {@link CacheWriter} or null if none has
+   * @return the {@link javax.cache.configuration.Factory} for the {@link javax.cache.integration.CacheWriter} or null if none has
    *         been set.
    */
   Factory<CacheWriter<? super K, ? super V>> getCacheWriterFactory();
 
   /**
-   * Gets the {@link Factory} for the {@link ExpiryPolicy} to be used for caches.
+   * Gets the {@link javax.cache.configuration.Factory} for the {@link javax.cache.expiry.ExpiryPolicy} to be used for caches.
    * <p/>
-   * The default value is a {@link Factory} that will produce a {@link
+   * The default value is a {@link javax.cache.configuration.Factory} that will produce a {@link
    * javax.cache.expiry.EternalExpiryPolicy} instance.
    *
-   * @return the {@link Factory} for {@link ExpiryPolicy} (must not be
+   * @return the {@link javax.cache.configuration.Factory} for {@link javax.cache.expiry.ExpiryPolicy} (must not be
    *         <code>null</code>)
    */
   Factory<ExpiryPolicy> getExpiryPolicyFactory();
