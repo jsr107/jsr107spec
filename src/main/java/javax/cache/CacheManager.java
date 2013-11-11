@@ -94,10 +94,8 @@ public interface CacheManager extends Closeable {
    * CacheManager}, a CacheException is thrown.
    * <p/>
    * If a {@link Cache} with the specified name is unknown the {@link
-   * CacheManager},
-   * one is created according to the provided
-   * {@link Configuration} after which it becomes managed by the {@link
-   * CacheManager}.
+   * CacheManager}, one is created according to the provided {@link Configuration}
+   * after which it becomes managed by the {@link CacheManager}.
    * <p/>
    * Prior to a {@link Cache} being created the provided {@link Configuration}s is
    * validated within the context of the {@link CacheManager} properties and

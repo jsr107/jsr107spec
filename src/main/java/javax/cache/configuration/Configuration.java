@@ -56,8 +56,7 @@ public interface Configuration<K, V> extends Serializable {
    * <p/>
    * When in "read-through" mode, cache misses that occur due to cache entries
    * not existing as a result of performing a "get" will appropriately
-   * cause
-   * the configured {@link CacheLoader} to be invoked.
+   * cause the configured {@link CacheLoader} to be invoked.
    * <p/>
    * The default value is <code>false</code>.
    *
@@ -75,13 +74,10 @@ public interface Configuration<K, V> extends Serializable {
    * {@link Cache#put(Object, Object)}, {@link Cache#getAndRemove(Object)},
    * {@link Cache#removeAll()}, {@link Cache#getAndPut(Object, Object)}
    * {@link Cache#getAndRemove(Object)}, {@link Cache#getAndReplace(Object,
-   * Object)},
-   * {@link Cache#invoke(Object, javax.cache.processor.EntryProcessor,
-   * Object...)},
-   * {@link Cache#invokeAll(java.util.Set, javax.cache.processor.EntryProcessor,
-   * Object...)}
-   * will appropriately cause the configured {@link CacheWriter}
-   * to be invoked.
+   * Object)}, {@link Cache#invoke(Object, javax.cache.processor.EntryProcessor,
+   * Object...)}, {@link Cache#invokeAll(java.util.Set,
+   * javax.cache.processor.EntryProcessor, Object...)} will appropriately cause
+   * the configured {@link CacheWriter} to be invoked.
    * <p/>
    * <p/>
    * <p/>
@@ -104,17 +100,14 @@ public interface Configuration<K, V> extends Serializable {
    * <li>if the key is mutated, then the key may not be retrievable or
    * removable</li>
    * <li>if the value is mutated, then all threads in the JVM can potentially
-   * observe
-   * those mutations,
-   * subject to the normal Java Memory Model rules.</li>
+   * observe those mutations, subject to the normal Java Memory Model rules.</li>
    * </ul>
    * Storage by reference only applies to the local heap. If an entry is moved off
    * heap it will need to be transformed into a representation. Any mutations that
    * occur after transformation may not be reflected in the cache.
    * <p/>
    * When a cache is storeByValue, any mutation to the key or value does not
-   * affect
-   * the key of value stored in the cache.
+   * affect the key of value stored in the cache.
    * <p/>
    * The default value is <code>true</code>.
    *
@@ -142,8 +135,7 @@ public interface Configuration<K, V> extends Serializable {
 
   /**
    * Obtains the {@link CacheEntryListenerConfiguration}s for
-   * {@link CacheEntryListener}s
-   * to be configured on a {@link Cache}.
+   * {@link CacheEntryListener}s to be configured on a {@link Cache}.
    *
    * @return an {@link Iterable} over the {@link CacheEntryListenerConfiguration}s
    */
@@ -151,8 +143,7 @@ public interface Configuration<K, V> extends Serializable {
       V>> getCacheEntryListenerConfigurations();
 
   /**
-   * Gets the {@link Factory} for the {@link CacheLoader}, if
-   * any.
+   * Gets the {@link Factory} for the {@link CacheLoader}, if any.
    * <p/>
    * A CacheLoader should be configured for "Read Through" caches to load values
    * when a cache miss occurs using either the {@link Cache#get(Object)} and/or
