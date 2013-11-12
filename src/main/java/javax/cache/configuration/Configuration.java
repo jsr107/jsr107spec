@@ -24,6 +24,7 @@ import java.io.Serializable;
  * @param <K> the type of keys maintained the cache
  * @param <V> the type of cached values
  * @author Greg Luck
+ * @author Brian Oliver
  * @since 1.0
  */
 public interface Configuration<K, V> extends Serializable {
@@ -69,5 +70,4 @@ public interface Configuration<K, V> extends Serializable {
    * @return true if the cache is store by value
    */
   boolean isStoreByValue();
-
 }

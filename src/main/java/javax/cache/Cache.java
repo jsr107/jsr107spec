@@ -539,11 +539,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @param clazz the configuration interface or class to return. This includes
    *              {@link Configuration}.class and
    *              {@link javax.cache.configuration.CompleteConfiguration}s.
-   * @return the requested sub-interface of {@link Configuration}
+   * @return the requested implementation of {@link Configuration}
    * @throws IllegalArgumentException if the caching provider doesn't support
    *                                  the specified class.
    */
-  <C extends Configuration> C getConfiguration(Class<C> clazz);
+  <C extends Configuration<K, V>> C getConfiguration(Class<C> clazz);
 
   /**
    * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
@@ -615,7 +615,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   <T> Map<K, EntryProcessorResult<T>> invokeAll(Set<? extends K> keys,
                                                 EntryProcessor<K, V, T>
                                                   entryProcessor,
-                                                  Object... arguments);
+                                                Object... arguments);
 
   /**
    * Return the name of the cache.

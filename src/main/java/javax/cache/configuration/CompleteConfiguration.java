@@ -32,23 +32,7 @@ import java.util.List;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface CompleteConfiguration<K, V> extends Configuration, Serializable {
-
-  /**
-   * Determines the required type of keys for {@link javax.cache.Cache}s configured
-   * with this {@link javax.cache.configuration.CompleteConfiguration}.
-   *
-   * @return the key type or <code>Object.class</code> if the type is undefined
-   */
-  Class<K> getKeyType();
-
-  /**
-   * Determines the required type of values for {@link javax.cache.Cache}s
-   * configured with this {@link javax.cache.configuration.CompleteConfiguration}.
-   *
-   * @return the value type or <code>Object.class</code> if the type is undefined
-   */
-  Class<V> getValueType();
+public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serializable {
 
   /**
    * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
@@ -93,32 +77,6 @@ public interface CompleteConfiguration<K, V> extends Configuration, Serializable
    * @see #getCacheWriterFactory()
    */
   boolean isWriteThrough();
-
-  /**
-   * Whether storeByValue (true) or storeByReference (false).
-   * When true, both keys and values are stored by value.
-   * <p/>
-   * When false, both keys and values are stored by reference.
-   * Caches stored by reference are capable of mutation by any threads holding
-   * the reference. The effects are:
-   * <ul>
-   * <li>if the key is mutated, then the key may not be retrievable or
-   * removable</li>
-   * <li>if the value is mutated, then all threads in the JVM can potentially
-   * observe those mutations, subject to the normal Java Memory Model rules.</li>
-   * </ul>
-   * Storage by reference only applies to the local heap. If an entry is moved off
-   * heap it will need to be transformed into a representation. Any mutations that
-   * occur after transformation may not be reflected in the cache.
-   * <p/>
-   * When a cache is storeByValue, any mutation to the key or value does not
-   * affect the key of value stored in the cache.
-   * <p/>
-   * The default value is <code>true</code>.
-   *
-   * @return true if the cache is store by value
-   */
-  boolean isStoreByValue();
 
   /**
    * Checks whether statistics collection is enabled in this cache.
