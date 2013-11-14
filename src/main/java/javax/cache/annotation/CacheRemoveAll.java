@@ -20,25 +20,26 @@ import java.lang.annotation.Target;
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in
  * the specified cache will be removed via the
  * {@link Cache#removeAll()} method
- * <p/>
+ * <p>
  * The default behavior is to call {@link Cache#removeAll()} after the
  * annotated method is invoked, this behavior can be changed by setting {@link
  * #afterInvocation()} to false in which case {@link Cache#removeAll()}
  * will be called before the annotated method is invoked.
- * <p/>
+ * <p>
  * Example of removing all Domain objects from the "domainCache". {@link
  * Cache#removeAll()} will be called after deleteAllDomains() returns
  * successfully.
- * <p><blockquote><pre>
+ * <pre><code>
  * package my.app;
- * <p/>
+ * 
  * public class DomainDao {
  *   &#64;CacheRemoveAll(cacheName="domainCache")
  *   public void deleteAllDomains() {
  *     ...
  *   }
  * }
- * </pre></blockquote></p>
+ * </code></pre>
+ * <p>
  * Exception Handling, only used if {@link #afterInvocation()} is true.
  * <ol>
  * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all
@@ -65,7 +66,7 @@ public @interface CacheRemoveAll {
   /**
    * /**
    * The name of the cache.
-   * <p/>
+   * <p>
    * If not specified defaults first to {@link CacheDefaults#cacheName()} an if
    * that is not set it defaults to:
    * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
@@ -76,9 +77,9 @@ public @interface CacheRemoveAll {
    * When {@link Cache#removeAll()} should be called. If true it is called after
    * the annotated method invocation completes successfully. If false it is called
    * before the annotated method is invoked.
-   * <p/>
+   * <p>
    * Defaults to true.
-   * <p/>
+   * <p>
    * If true and the annotated method throws an exception the put will not be
    * executed.
    */
@@ -87,7 +88,7 @@ public @interface CacheRemoveAll {
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
    * use at runtime.
-   * <p/>
+   * <p>
    * The default resolver pair will resolve the cache by name from the default
    * {@link CacheManager}
    */

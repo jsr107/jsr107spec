@@ -10,7 +10,7 @@ package javax.cache.expiry;
 /**
  * Defines functions to determine when cache entries will expire based on
  * creation, access and modification operations.
- * <p/>
+ * <p>
  * Each of the functions return a new {@link Duration}  which specifies the
  * amount of time that must pass before a cache entry is considered expired.
  * {@link Duration} has constants defined for useful durations.
@@ -25,13 +25,13 @@ public interface ExpiryPolicy {
   /**
    * Gets the {@link Duration} before a newly created Cache.Entry is considered
    * expired.
-   * <p/>
+   * <p>
    * This method is called by a caching implementation after a Cache.Entry is
    * created, but before a Cache.Entry is added to a cache, to determine the
    * {@link Duration} before a entry expires.  If a {@link Duration#ZERO}
    * is returned the new Cache.Entry is considered to be already expired and
    * will not be added to the Cache.
-   * <p/>
+   * <p>
    * Should an exception occur while determining the Duration, an implementation
    * specific default {@link Duration} will be used.
    *
@@ -42,13 +42,13 @@ public interface ExpiryPolicy {
   /**
    * Gets the {@link Duration} before an accessed Cache.Entry is
    * considered expired.
-   * <p/>
+   * <p>
    * This method is called by a caching implementation after a Cache.Entry is
    * accessed to determine the {@link Duration} before an entry expires.  If a
    * {@link Duration#ZERO} is returned a Cache.Entry will be
    * considered immediately expired.  Returning <code>null</code> will result
    * in no change to the previously understood expiry {@link Duration}.
-   * <p/>
+   * <p>
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *
@@ -59,13 +59,13 @@ public interface ExpiryPolicy {
   /**
    * Gets the {@link Duration} before an updated Cache.Entry is considered
    * expired.
-   * <p/>
+   * <p>
    * This method is called by the caching implementation after a Cache.Entry is
    * updated to determine the {@link Duration} before the updated entry expires.
    * If a {@link Duration#ZERO} is returned a Cache.Entry is considered
    * immediately expired.  Returning <code>null</code> will result in no change
    * to the previously understood expiry {@link Duration}.
-   * <p/>
+   * <p>
    * Should an exception occur while determining the Duration, an implementation
    * specific default Duration will be used.
    *

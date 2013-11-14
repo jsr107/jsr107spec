@@ -16,7 +16,7 @@ import java.util.Set;
  * Static information about a method annotated with one of:
  * {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, or {@link
  * CacheRemoveAll}
- * <p/>
+ * <p>
  * Used with {@link CacheResolverFactory#getCacheResolver(CacheMethodDetails)} to
  * determine the {@link CacheResolver} to use with the method.
  *
@@ -52,27 +52,28 @@ public interface CacheMethodDetails<A extends Annotation> {
 
   /**
    * The cache name resolved by the implementation.
-   * <p/>
+   * <p>
    * The cache name is determined by first looking at the cacheName attribute of
    * the method level annotation. If that attribute is not set then the class
    * level {@link CacheDefaults} annotation is checked. If that annotation does
    * not exist or does not have its cacheName attribute set then the following
    * cache name generation rules are followed:
-   * <p/>
+   * <p>
    * "fully qualified class name"."method name"("fully qualified parameter class
    * names")
-   * <p/>
+   * <p>
    * For example:
-   * <p><blockquote><pre>
+   * <pre><code>
    * package my.app;
-   * <p/>
+   * 
    * public class DomainDao {
    *   &#64;CacheResult
    *   public Domain getDomain(String domainId, int index) {
    *     ...
    *   }
    * }
-   * </pre></blockquote></p>
+   * </code></pre>
+   * <p>
    * Results in the cache name: "my.app.DomainDao.getDomain(java.lang.String,int)"
    *
    * @return The fully resolved cache name

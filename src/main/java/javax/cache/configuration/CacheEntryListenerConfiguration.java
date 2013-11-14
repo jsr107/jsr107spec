@@ -43,7 +43,7 @@ public interface CacheEntryListenerConfiguration<K, V> extends Serializable {
   /**
    * Obtains the {@link Factory} for the {@link CacheEntryEventFilter} that should be
    * applied prior to notifying the {@link CacheEntryListener}.
-   * <p/>
+   * <p>
    * When <code>null</code> no filtering is applied and all appropriate events
    * are notified.
    *

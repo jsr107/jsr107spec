@@ -12,7 +12,7 @@ import javax.cache.CacheException;
 /**
  * An exception to indicate a problem occurred attempting to execute an
  * {@link EntryProcessor} against an entry.
- * <p/>
+ * <p>
  * An implementation must wrap any {@link Exception} thrown by an
  * {@link EntryProcessor} in this exception.
  *

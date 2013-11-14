@@ -26,14 +26,14 @@ import java.util.Set;
 /**
  * A {@link Cache} is a Map-like data structure that provides temporary storage
  * of application data.
- * <p/>
+ * <p>
  * Like {@link Map}s, {@link Cache}s
  * <ol>
  * <li>store key-value pairs, each referred to as an {@link Entry}</li>
  * <li>allow use Java Generics to improve application type-safety</li>
  * <li>are {@link Iterable}</li>
  * </ol>
- * <p/>
+ * <p>
  * Unlike {@link Map}s, {@link Cache}s
  * <ol>
  * <li>do not allow null keys or values.  Attempts to use <code>null</code>
@@ -47,7 +47,7 @@ import java.util.Set;
  * <li>provide the ability to observe cache entry changes</li>
  * <li>may capture and measure operational statistics</li>
  * </ol>
- * <p/>
+ * <p>
  * A simple example of how to use a cache is:
  * <pre><code>
  * String cacheName = "sampleCache";
@@ -71,7 +71,7 @@ import java.util.Set;
 public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Gets an entry from the cache.
-   * <p/>
+   * <p>
    * If the cache is configured read-through, and get would return null because
    * the entry is missing from the cache, the Cache's {@link CacheLoader} is
    * called
@@ -92,13 +92,12 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Gets a collection of entries from the {@link Cache}, returning them as
    * {@link Map} of the values associated with the set of keys requested.
-   * <p/>
+   * <p>
    * If the cache is configured read-through, and a get would return null
    * because an entry is missing from the cache, the Cache's
    * {@link CacheLoader} is called which will attempt to load the entry. This is
    * done for each key in the set for which this is the case. If an entry cannot
    * be loaded for a given key, the key will not be present in the returned Map.
-   * <p/>
    *
    * @param keys The keys whose associated values are to be returned.
    * @return A map of entries that were found for the given keys. Keys not found
@@ -116,7 +115,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Determines if the {@link Cache} contains an entry for the specified key.
-   * <p/>
+   * <p>
    * More formally, returns <tt>true</tt> if and only if this cache contains a
    * mapping for a key <tt>k</tt> such that <tt>key.equals(k)</tt>.
    * (There can be at most one such mapping.)
@@ -138,18 +137,18 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Asynchronously loads the specified entries into the cache using the
    * configured {@link CacheLoader} for the given keys.
-   * <p/>
+   * <p>
    * If an entry for a key already exists in the Cache, a value will be loaded
    * if and only if <code>replaceExistingValues</code> is true.   If no loader
    * is configured for the cache, no objects will be loaded.  If a problem is
    * encountered during the retrieving or loading of the objects,
    * an exception is provided to the {@link CompletionListener}.  Once the
    * operation has completed, the specified CompletionListener is notified.
-   * <p/>
+   * <p>
    * Implementations may choose to load multiple keys from the provided
    * {@link Set} in parallel.  Iteration however must not occur in parallel,
    * thus allow for non-thread-safe {@link Set}s to be used.
-   * <p/>
+   * <p>
    * The thread on which the completion listener is called is implementation
    * dependent. An implementation may also choose to serialize calls to
    * different CompletionListeners rather than use a thread per
@@ -176,7 +175,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Associates the specified value with the specified key in the cache.
-   * <p/>
+   * <p>
    * If the {@link Cache} previously contained a mapping for the key, the old
    * value is replaced by the specified value.  (A cache <tt>c</tt> is said to
    * contain a mapping for a key <tt>k</tt> if and only if {@link
@@ -202,13 +201,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Associates the specified value with the specified key in this cache,
    * returning an existing value if one existed.
-   * <p/>
+   * <p>
    * If the cache previously contained a mapping for
    * the key, the old value is replaced by the specified value.  (A cache
    * <tt>c</tt> is said to contain a mapping for a key <tt>k</tt> if and only
    * if {@link #containsKey(Object) c.containsKey(k)} would return
    * <tt>true</tt>.)
-   * <p/>
+   * <p>
    * The previous value is returned, or null if there was no value associated
    * with the key previously.
    *
@@ -232,18 +231,18 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Copies all of the entries from the specified map to the {@link Cache}.
-   * <p/>
+   * <p>
    * The effect of this call is equivalent to that of calling
    * {@link #put(Object, Object) put(k, v)} on this cache once for each mapping
    * from key <tt>k</tt> to value <tt>v</tt> in the specified map.
-   * <p/>
+   * <p>
    * The order in which the individual puts occur is undefined.
-   * <p/>
+   * <p>
    * The behavior of this operation is undefined if entries in the cache
    * corresponding to entries in the map are modified or removed while this
    * operation is in progress. or if map is modified while the operation is in
    * progress.
-   * <p/>
+   * <p>
    * In Default Consistency mode, individual puts occur atomically but not
    * the entire putAll.  Listeners may observe individual updates.
    *
@@ -264,16 +263,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically associates the specified key with the given value if it is
    * not already associated with a value.
-   * <p/>
+   * <p>
    * This is equivalent to:
-   * <code>
+   * <pre><code>
    * if (!cache.containsKey(key)) {}
-   * cache.put(key, value);
-   * return true;
+   *   cache.put(key, value);
+   *   return true;
    * } else {
-   * return false;
+   *   return false;
    * }
-   * </code>
+   * </code></pre>
    * except that the action is performed atomically.
    *
    * @param key   key with which the specified value is to be associated
@@ -293,15 +292,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Removes the mapping for a key from this cache if it is present.
-   * <p/>
+   * <p>
    * More formally, if this cache contains a mapping from key <tt>k</tt> to
    * value <tt>v</tt> such that
    * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping is removed.
    * (The cache can contain at most one such mapping.)
-   * <p/>
+   * 
    * <p>Returns <tt>true</tt> if this cache previously associated the key,
    * or <tt>false</tt> if the cache contained no mapping for the key.
-   * <p/>
+   * <p>
    * The cache will not contain a mapping for the specified key once the
    * call returns.
    *
@@ -322,16 +321,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically removes the mapping for a key only if currently mapped to the
    * given value.
-   * <p/>
+   * <p>
    * This is equivalent to:
-   * <code>
+   * <pre><code>
    * if (cache.containsKey(key) &amp;&amp; equals(cache.get(key), oldValue) {
-   *  cache.remove(key);
-   * return true;
+   *   cache.remove(key);
+   *   return true;
    * } else {
-   *  return false;
+   *   return false;
    * }
-   * </code>
+   * </code></pre>
    * except that the action is performed atomically.
    *
    * @param key      key whose mapping is to be removed from the cache
@@ -352,17 +351,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically removes the entry for a key only if currently mapped to some
    * value.
-   * <p/>
+   * <p>
    * This is equivalent to:
-   * <code>
+   * <pre><code>
    * if (cache.containsKey(key)) {
-   * V oldValue = cache.get(key);
-   * cache.remove(key);
-   * return oldValue;
+   *   V oldValue = cache.get(key);
+   *   cache.remove(key);
+   *   return oldValue;
    * } else {
-   * return null;
+   *   return null;
    * }
-   * </code>
+   * </code></pre>
    * except that the action is performed atomically.
    *
    * @param key key with which the specified value is associated
@@ -381,16 +380,16 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically replaces the entry for a key only if currently mapped to a
    * given value.
-   * <p/>
+   * <p>
    * This is equivalent to:
-   * <code>
+   * <pre><code>
    * if (cache.containsKey(key) &amp;&amp; equals(cache.get(key), oldValue)) {
    *  cache.put(key, newValue);
    * return true;
    * } else {
    *  return false;
    * }
-   * </code>
+   * </code></pre>
    * except that the action is performed atomically.
    *
    * @param key      key with which the specified value is associated
@@ -412,15 +411,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically replaces the entry for a key only if currently mapped to some
    * value.
-   * <p/>
+   * <p>
    * This is equivalent to
-   * <code>
+   * <pre><code>
    * if (cache.containsKey(key)) {
-   * cache.put(key, value);
-   * return true;
+   *   cache.put(key, value);
+   *   return true;
    * } else {
-   * return false;
-   * }</code>
+   *   return false;
+   * }</code></pre>
    * except that the action is performed atomically.
    *
    * @param key   key with which the specified value is associated
@@ -442,17 +441,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Atomically replaces the value for a given key if and only if there is a
    * value currently mapped by the key.
-   * <p/>
+   * <p>
    * This is equivalent to
-   * <code>
+   * <pre><code>
    * if (cache.containsKey(key)) {
-   * V oldValue = cache.get(key);
-   * cache.put(key, value);
-   * return oldValue;
+   *   V oldValue = cache.get(key);
+   *   cache.put(key, value);
+   *   return oldValue;
    * } else {
-   * return null;
+   *   return null;
    * }
-   * </code>
+   * </code></pre>
    * except that the action is performed atomically.
    *
    * @param key   key with which the specified value is associated
@@ -474,9 +473,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Removes entries for the specified keys.
-   * <p/>
+   * <p>
    * The order in which the individual removes will occur is undefined.
-   * <p/>
+   * <p>
    * For every entry in the key set, the following are called:
    * <ul>
    *   <li>any registered {@link CacheEntryRemovedListener}s</li>
@@ -498,19 +497,19 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Removes all of the mappings from this cache.
-   * <p/>
+   * <p>
    * The order in which the individual removes will occur is undefined.
-   * <p/>
+   * <p>
    * For every mapping that exists the following are called:
    * <ul>
    *   <li>any registered {@link CacheEntryRemovedListener}s</li>
    *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
    * </ul>
    * If the cache is empty, the {@link CacheWriter} is not called.
-   * <p/>
+   * <p>
    * This is potentially an expensive operation as listeners are invoked.
    * Use {@link #clear()} to avoid this.
-   * <p/>
+   * 
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the remove
    * @see #clear()
@@ -530,9 +529,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Provides a standard way to access the configuration of a cache using
    * JCache configuration or additional proprietary configuration.
-   * <p/>
+   * <p>
    * The returned value must be immutable.
-   * <p/>
+   * <p>
    * If the provider's implementation does not support the specified class,
    * the {@link IllegalArgumentException} is thrown.
    *
@@ -550,7 +549,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * the provided key. If an {@link Entry} does not exist for the specified key,
    * an attempt is made to load it (if a loader is configured) or a surrogate
    * {@link Entry}, consisting of the key with a null value is used instead.
-   * <p/>
+   * <p>
    *
    * @param key            the key to the entry
    * @param entryProcessor the {@link EntryProcessor} to invoke
@@ -578,17 +577,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
    * specified by the set of keys.
-   * <p/>
+   * <p>
    * If an {@link Entry} does not exist for the specified key, an attempt is made
    * to load it (if a loader is configured) or a surrogate {@link Entry},
    * consisting of the key and a value of null is provided.
-   * <p/>
+   * <p>
    * The order in which the entries for the keys are processed is undefined.
    * Implementations may choose to process the entries in any order, including
    * concurrently.  Furthermore there is no guarantee implementations will
    * use the same {@link EntryProcessor} instance to process each entry, as
    * the case may be in a non-local cache topology.
-   * <p/>
+   * <p>
    * The result of executing the {@link EntryProcessor} is returned as a
    * {@link Map} of {@link EntryProcessorResult}s, one result per key.  Should the
    * {@link EntryProcessor} or Caching implementation throw an exception, the
@@ -663,7 +662,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <li>the Cache has been removed from the associated
    * {@link #getCacheManager()}</li>
    * </ol>
-   * <p/>
+   * <p>
    * This method generally cannot be called to determine whether a Cache instance
    * is valid or invalid. A typical client can determine that a Cache is invalid
    * by catching any exceptions that might be thrown when an operation is
@@ -676,7 +675,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Provides a standard way to access the underlying concrete caching
    * implementation to provide access to further, proprietary features.
-   * <p/>
+   * <p>
    * If the provider's implementation does not support the specified class,
    * the {@link IllegalArgumentException} is thrown.
    *
@@ -706,7 +705,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Deregisters a listener, using as its unique identifier the
    * {@link CacheEntryListenerConfiguration} which was used to register it.
-   * <p/>
+   * <p>
    * Both listeners registered at configuration time,
    * and those created at runtime with {@link #registerCacheEntryListener} can
    * be deregistered.
@@ -721,13 +720,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * {@inheritDoc}
-   * <p/>
+   * <p>
    * The ordering of iteration over entries is undefined.
-   * <p/>
+   * <p>
    * During iteration, any entries that are a). read will have their appropriate
    * CacheEntryReadListeners notified and b). removed will have their appropriate
    * CacheEntryRemoveListeners notified.
-   * <p/>
+   * <p>
    * {@link java.util.Iterator#next()} may return null if the entry is no
    * longer present, has expired or has been evicted.
    */
@@ -755,7 +754,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
     /**
      * Provides a standard way to access the underlying concrete cache entry
      * implementation in order to provide access to further, proprietary features.
-     * <p/>
+     * <p>
      * If the provider's implementation does not support the specified class,
      * the {@link IllegalArgumentException} is thrown.
      *

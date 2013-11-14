@@ -16,10 +16,10 @@ import java.util.List;
 /**
  * A read-only representation of the complete JCache {@link javax.cache.Cache}
  * configuration.
- * <p/>
+ * <p>
  * The properties provided by instances of this interface are used by
  * {@link javax.cache.CacheManager}s to configure {@link javax.cache.Cache}s.
- * <p/>
+ * <p>
  * Implementations of this interface must override {@link Object#hashCode()} and
  * {@link Object#equals(Object)} as
  * {@link javax.cache.configuration.CompleteConfiguration}s are often compared at
@@ -36,12 +36,12 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
 
   /**
    * Determines if a {@link javax.cache.Cache} should operate in read-through mode.
-   * <p/>
+   * <p>
    * When in "read-through" mode, cache misses that occur due to cache entries
    * not existing as a result of performing a "get" will appropriately
    * cause the configured {@link javax.cache.integration.CacheLoader} to be
    * invoked.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link javax.cache.Cache} is in
@@ -53,7 +53,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
   /**
    * Determines if a {@link javax.cache.Cache} should operate in write-through
    * mode.
-   * <p/>
+   * <p>
    * When in "write-through" mode, cache updates that occur as a result of
    * performing "put" operations called via one of
    * {@link javax.cache.Cache#put(Object, Object)},
@@ -67,9 +67,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
    * Object...)}, {@link javax.cache.Cache#invokeAll(java.util.Set,
    * javax.cache.processor.EntryProcessor, Object...)} will appropriately cause
    * the configured {@link javax.cache.integration.CacheWriter} to be invoked.
-   * <p/>
-   * <p/>
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link javax.cache.Cache} is in
@@ -80,7 +78,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
 
   /**
    * Checks whether statistics collection is enabled in this cache.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return true if statistics collection is enabled
@@ -89,7 +87,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
 
   /**
    * Checks whether management is enabled on this cache.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return true if management is enabled
@@ -110,12 +108,12 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
   /**
    * Gets the {@link javax.cache.configuration.Factory} for the
    * {@link javax.cache.integration.CacheLoader}, if any.
-   * <p/>
+   * <p>
    * A CacheLoader should be configured for "Read Through" caches to load values
    * when a cache miss occurs using either the
    * {@link javax.cache.Cache#get(Object)} and/or
    * {@link javax.cache.Cache#getAll(java.util.Set)} methods.
-   * <p/>
+   * <p>
    * The default value is <code>null</code>.
    *
    * @return the {@link javax.cache.configuration.Factory} for the
@@ -126,7 +124,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
   /**
    * Gets the {@link javax.cache.configuration.Factory} for the
    * {@link javax.cache.integration.CacheWriter}, if any.
-   * <p/>
+   * <p>
    * The default value is <code>null</code>.
    *
    * @return the {@link javax.cache.configuration.Factory} for the
@@ -137,7 +135,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
   /**
    * Gets the {@link javax.cache.configuration.Factory} for the
    * {@link javax.cache.expiry.ExpiryPolicy} to be used for caches.
-   * <p/>
+   * <p>
    * The default value is a {@link javax.cache.configuration.Factory} that will
    * produce a {@link javax.cache.expiry.EternalExpiryPolicy} instance.
    *

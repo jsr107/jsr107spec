@@ -22,7 +22,7 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
 
   /**
    * Removes the entry from the Cache.
-   * <p/>
+   * <p>
    * This has the same semantics as calling {@link Cache#remove}.
    */
   void remove();
@@ -33,7 +33,6 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
    * then a mapping is added to the cache visible once the EntryProcessor
    * completes. Moreover a second invocation of {@link #exists()}
    * will return true.
-   * <p/>
    *
    * @param value the value to update the entry with
    * @throws ClassCastException if the implementation supports and is

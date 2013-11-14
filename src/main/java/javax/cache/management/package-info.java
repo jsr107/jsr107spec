@@ -6,9 +6,9 @@
  */
 
 /**
- This package contains management interfaces.
- <p/>
- @author Greg Luck
- @since 1.0
+ * This package contains management interfaces.
+ * 
+ * @author Greg Luck
+ * @since 1.0
  */
 package javax.cache.management;

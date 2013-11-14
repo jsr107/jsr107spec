@@ -13,7 +13,7 @@ import java.lang.annotation.Annotation;
  * Runtime information about an intercepted method invocation for a method
  * annotated with {@link CacheResult}, {@link CachePut}, {@link CacheRemove},
  * or {@link CacheRemoveAll}
- * <p/>
+ * <p>
  * Used with {@link CacheResolver#resolveCache(CacheInvocationContext)} to
  * determine the {@link javax.cache.Cache} to use at runtime for the method
  * invocation.

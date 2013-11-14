@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 /**
  * Constructs and returns a fully configured instance of a specific factory type.
- * <p/>
+ * <p>
  * Implementations may choose not to construct a new instance, but instead
  * return a previously created instance.
- * <p/>
+ * <p>
  * Implementations must correctly implement {@link Object#equals(Object)} and
  * {@link Object#hashCode()} as {@link Factory}s are often compared with each
  * other for equivalence.

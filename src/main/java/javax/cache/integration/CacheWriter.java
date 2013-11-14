@@ -13,10 +13,10 @@ import java.util.Collection;
 
 /**
  * A CacheWriter is used for write-through to an external resource.
- * <p/>
+ * <p>
  * Under Default Consistency, the non-batch writer methods are atomic with respect
  * to the corresponding cache operation.
- * <p/>
+ * <p>
  * For batch methods under Default Consistency, the entire cache operation
  * is not required to be atomic in {@link Cache} and is therefore not required to
  * be atomic in the writer. As individual writer operations can fail, cache
@@ -24,7 +24,7 @@ import java.util.Collection;
  * returned or, in the case of partial success, thrown an exception. In the case
  * of partial success, the collection of entries must contain only those entries
  * which failed.
- * <p/>
+ * <p>
  * The entry passed into {@link #write(Cache.Entry)} is independent
  * of the cache mapping for that key, meaning that if the value changes in the
  * cache or is removed it does not change the said entry.
@@ -41,7 +41,7 @@ public interface CacheWriter<K, V> {
 
   /**
    * Write the specified value under the specified key to the external resource.
-   * <p/>
+   * <p>
    * This method is intended to support both key/value creation and value update
    * for a specific key.
    *
@@ -54,10 +54,10 @@ public interface CacheWriter<K, V> {
   /**
    * Write the specified entries to the external resource. This method is intended
    * to support both insert and update.
-   * <p/>
+   * <p>
    * The order in which individual writes occur is undefined, as
    * {@link Cache#putAll(java.util.Map)} also has undefined ordering.
-   * <p/>
+   * <p>
    * If this operation fails (by throwing an exception) after a partial success,
    * the writer must remove any successfully written entries from the entries
    * collection so that the caching implementation knows what succeeded and can
@@ -77,10 +77,10 @@ public interface CacheWriter<K, V> {
 
   /**
    * Delete the cache entry from the external resource.
-   * <p/>
+   * <p>
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
-   * <p/>
+   * <p>
    * This method is invoked even if no mapping for the key exists.
    *
    * @param key the key that is used for the delete operation
@@ -93,18 +93,18 @@ public interface CacheWriter<K, V> {
   /**
    * Remove data and keys from the external resource for the given collection of
    * keys, if present.
-   * <p/>
+   * <p>
    * The order in which individual deletes occur is undefined, as
    * {@link Cache#removeAll(java.util.Set)} also has undefined ordering.
-   * <p/>
+   * <p>
    * If this operation fails (by throwing an exception) after a partial success,
    * the writer must remove any successfully written entries from the entries
    * collection so that the caching implementation knows what succeeded and can
    * mutate the cache.
-   * <p/>
+   * <p>
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
-   * <p/>
+   * <p>
    * This method is only invoked for keys that exist in the cache.
    *
    * @param keys a mutable collection of keys for entries to delete. Upon

@@ -18,16 +18,16 @@ import java.util.WeakHashMap;
 /**
  * The {@link Caching} class provides a convenient means for an application to
  * acquire an appropriate {@link CachingProvider} implementation.
- * <p/>
+ * <p>
  * While defined as part of the specification, its use is not mandatory.
  * Applications and/or containers may instead choose to directly instantiate a
  * {@link CachingProvider} implementation based on implementation specific
  * instructions.
- * <p/>
+ * <p>
  * When using the {@link Caching} class, {@link CachingProvider} implementations
  * are automatically discovered when they follow the conventions outlined by the
  * Java Development Kit {@link ServiceLoader} class.
- * <p/>
+ * <p>
  * For a {@link CachingProvider} to be automatically discoverable by the
  * {@link Caching} class, the fully qualified class name of the
  * {@link CachingProvider} implementation must be declared in the following
@@ -36,26 +36,26 @@ import java.util.WeakHashMap;
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>
  * that of which is resolvable via the class path.
- * <p/>
+ * <p>
  * For example, in the reference implementation the contents of this file are:
  * <code>org.jsr107.ri.RICachingProvider</code>
- * <p/>
+ * <p>
  * Alternatively when the fully qualified class name of a
  * {@link CachingProvider} implementation is specified using the system property
  * <code>javax.cache.spi.cachingprovider</code>, that implementation will be used
  * as the default {@link CachingProvider}.
- * <p/>
+ * <p>
  * All {@link CachingProvider}s that are automatically detected or explicitly
  * declared and loaded by the {@link Caching} class are maintained in an
  * internal registry.  Consequently when a previously loaded
  * {@link CachingProvider} is requested, it will be simply returned from the
  * internal registry, without reloading and/or instantiating the said
  * implementation again.
- * <p/>
+ * <p>
  * As required by some applications and containers, multiple co-existing
  * {@link CachingProvider}s implementations, from the same or different
  * implementors are permitted at runtime.
- * <p/>
+ * <p>
  * To iterate through those that are currently registered a developer may use
  * the following methods:
  * <ol>
@@ -65,7 +65,7 @@ import java.util.WeakHashMap;
  * To request a specific {@link CachingProvider} implementation, a developer
  * should use either the {@link #getCachingProvider(String)} or
  * {@link #getCachingProvider(String, ClassLoader)} method.
- * <p/>
+ * <p>
  * Where multiple {@link CachingProvider}s are present, the
  * {@link CachingProvider} returned by getters {@link #getCachingProvider()} and
  * {@link #getCachingProvider(ClassLoader)} is undefined and as a result a
@@ -101,7 +101,7 @@ public final class Caching {
   /**
    * Obtains the {@link ClassLoader} to use for API methods that don't
    * explicitly require a {@link ClassLoader} but internally require one.
-   * <p/>
+   * <p>
    * By default this is the {@link Thread#getContextClassLoader()}.
    *
    * @return the default {@link ClassLoader}
@@ -154,7 +154,7 @@ public final class Caching {
   /**
    * Obtains the {@link CachingProvider}s that are available via the
    * {@link #getDefaultClassLoader()}.
-   * <p/>
+   * <p>
    * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
    * only that {@link CachingProvider} specified by that property is returned.
    * Otherwise all {@link CachingProvider}s that are available via a
@@ -172,7 +172,7 @@ public final class Caching {
   /**
    * Obtains the {@link CachingProvider}s that are available via the specified
    * {@link ClassLoader}.
-   * <p/>
+   * <p>
    * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
    * only that {@link CachingProvider} specified by that property is returned.
    * Otherwise all {@link CachingProvider}s that are available via a
@@ -232,17 +232,17 @@ public final class Caching {
    * name. using the default <code>CachingProvider</code> and <code>CacheManager
    * </code>. For the full range of <code>Cache</code> look up methods see
    * {@link CacheManager}.
-   * <p/>
+   * <p>
    * This method must be used for {@link Cache}s that were configured with
    * runtime key and value types. Use {@link CacheManager#getCache(String)} for
    * {@link Cache}s where these were not specified.
-   * <p/>
+   * <p>
    * Implementations must ensure that the key and value types are the same as
    * those configured for the {@link Cache} prior to returning from this method.
-   * <p/>
+   * <p>
    * Implementations may further perform type checking on mutative cache operations
    * and throw a {@link ClassCastException} if said checks fail.
-   * <p/>
+   * <p>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
    * <code>null</code>.

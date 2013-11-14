@@ -9,17 +9,17 @@ package javax.cache.integration;
 /**
  * A CompletionListener is implemented by an application when it needs to be
  * notified of the completion of some Cache operation.
- * <p/>
+ * <p>
  * When the operation is complete, the Cache provider notifies the application
  * by calling the {@link #onCompletion()} method of the {@link
  * CompletionListener}.
- * <p/>
+ * <p>
  * If the operation fails for any reason, the Cache provider calls the
  * {@link #onException(Exception)} method of the {@link CompletionListener}.
- * <p/>
+ * <p>
  * To support a Java Future-based approach to synchronously wait for a Cache
  * operation to complete, use a {@link CompletionListenerFuture}.
- * <p/>
+ * <p>
  * A CompletionListener will use an implementation specific thread for the call.
  *
  * @author Brian Oliver

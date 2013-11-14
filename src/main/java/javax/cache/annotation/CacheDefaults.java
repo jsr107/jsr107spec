@@ -20,31 +20,31 @@ import java.util.Arrays;
  * Allows the configuration of defaults for {@link CacheResult}, {@link CachePut},
  * {@link CacheRemove}, and {@link CacheRemoveAll} at the class level. Without
  * the method level annotations this annotation has no effect.
- * <p/>
+ * <p>
  * Example of specifying a default cache name that is used by the annotations on the
  * getDomain and deleteDomain methods. The annotation for getAllDomains would use the
  * "allDomains" cache name specified in the method level annotation.
- * <p><blockquote><pre>
+ * <pre><code>
  * package my.app;
- * <p/>
+ * 
  * &#64;CacheDefaults(cacheName="domainCache")
  * public class DomainDao {
  *   &#64;CacheResult
  *   public Domain getDomain(String domainId, int index) {
  *     ...
  *   }
- * <p/>
+ * 
  *   &#64;CacheRemove
  *   public void deleteDomain(String domainId, int index) {
  *     ...
  *   }
- * <p/>
+ * 
  *   &#64;CacheResult(cacheName="allDomains")
- *   public List&lt;Domain> getAllDomains() {
+ *   public List&lt;Domain&gt; getAllDomains() {
  *     ...
  *   }
  * }
- * </pre></blockquote></p>
+ * </code></pre>
  *
  * @author Rick Hightower
  * @since 1.0
@@ -55,18 +55,18 @@ public @interface CacheDefaults {
 
   /**
    * The default name of the cache for the annotated class
-   * <p/>
+   * <p>
    * If not specified defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
-   * <p/>
+   * <p>
    * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
    */
   @Nonbinding String cacheName() default "";
 
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
-   * <p/>
+   * <p>
    * The default resolver pair will resolve the cache by name from the default {@link CacheManager}
-   * <p/>
+   * <p>
    * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
    */
   @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
@@ -74,11 +74,11 @@ public @interface CacheDefaults {
   /**
    * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
    * with the specified Cache.
-   * <p/>
+   * <p>
    * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])} and
    * {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
    * {@link CacheKeyInvocationContext#getKeyParameters()}
-   * <p/>
+   * <p>
    * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemove}
    *
    * @see CacheKey

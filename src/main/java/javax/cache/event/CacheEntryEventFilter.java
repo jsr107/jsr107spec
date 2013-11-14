@@ -10,7 +10,7 @@ package javax.cache.event;
 /**
  * A function which may be used to check {@link CacheEntryEvent}s prior to being
  * dispatched to {@link CacheEntryListener}s.
- * <p/>
+ * <p>
  * A filter must not create side effects.
  *
  * @param <K> the type of key

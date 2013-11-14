@@ -14,7 +14,7 @@ import javax.cache.CacheException;
 public interface EntryProcessorResult<T> {
   /**
    * Obtain the result of processing an entry with an {@link EntryProcessor}.
-   * <p/>
+   * <p>
    * If an exception was thrown during the processing of an entry, either by
    * the {@link EntryProcessor} itself or by the Caching implementation,
    * said exceptions will be wrapped and re-thrown as a

@@ -10,7 +10,7 @@ package javax.cache;
 
 /**
  * Thrown to indicate an exception has occurred in the Cache.
- * <p/>
+ * <p>
  * This is the base class for all cache exceptions.
  *
  * @author Greg Luck

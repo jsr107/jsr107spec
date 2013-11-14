@@ -13,7 +13,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * Determines the {@link Cache} to use for an intercepted method invocation.
- * <p/>
+ * <p>
  * Implementations MUST be thread-safe.
  *
  * @author Eric Dalquist
