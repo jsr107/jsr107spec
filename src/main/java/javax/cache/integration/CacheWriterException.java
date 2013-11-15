@@ -11,7 +11,7 @@ import javax.cache.CacheException;
 
 /**
  * An exception to indicate a problem has occurred executing a {@link CacheWriter}.
- * <p/>
+ * <p>
  * A Caching Implementation must wrap any {@link Exception} thrown by a {@link
  * CacheWriter} in this exception.
  *

@@ -10,43 +10,43 @@ import javax.cache.integration.CacheWriter;
  * An invokable function that allows applications to perform compound
  * operations on a {@link javax.cache.Cache.Entry} atomically, according the
  * defined consistency of a {@link Cache}.
- * <p/>
+ * <p>
  * Any {@link javax.cache.Cache.Entry} mutations will not take effect until
  * after the {@link EntryProcessor#process(MutableEntry, Object...)}
  * method has completed execution.
- * <p/>
+ * <p>
  * If an exception is thrown by an {@link EntryProcessor}, a Caching
  * Implementation must wrap any {@link Exception} thrown wrapped in an {@link
  * EntryProcessorException}. If this occurs no mutations will be made to the
  * {@link javax.cache.Cache.Entry}.
- * <p/>
+ * <p>
  * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
  * locking, round-trips and expensive network transfers.
- * <p/>
+ * 
  * <h3>Effect of {@link MutableEntry} operations</h3>
  * {@link javax.cache.Cache.Entry} access, via a call to
  * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
  * {@link Cache#get(Object)} was called for the key.  This includes
  * updating necessary statistics, consulting the configured {@link ExpiryPolicy}
  * and loading from a configured {@link javax.cache.integration.CacheLoader}.
- * <p/>
+ * <p>
  * {@link javax.cache.Cache.Entry} mutation, via a call to
  * {@link MutableEntry#setValue(Object)}, will behave as if {@link
  * Cache#put(Object, Object)} was called for the key.
  * This includes updating necessary statistics, consulting the configured {@link
  * ExpiryPolicy}, notifying {@link CacheEntryListener}s and writing to a
  * configured {@link CacheWriter}.
- * <p/>
+ * <p>
  * {@link javax.cache.Cache.Entry} removal, via a call to
  * {@link MutableEntry#remove()}, will behave as if {@link Cache#remove(Object)}
  * was called for the key. This includes updating necessary statistics, notifying
  * {@link CacheEntryListener}s and causing a delete on a configured
  * {@link CacheWriter}.
- * <p/>
+ * <p>
  * As implementations may choose to execute {@link EntryProcessor}s remotely,
  * {@link EntryProcessor}s, together with specified parameters and return
  * values, may be required to implement {@link java.io.Serializable}.
- * <p/>
+ * 
  * <h3>Effect of multiple {@link MutableEntry} operations performed by one {@link
  * EntryProcessor}</h3>
  * Only the net effect of multiple operations has visibility outside of the Entry
@@ -74,7 +74,7 @@ import javax.cache.integration.CacheWriter;
  * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- * <p/>
+ * 
  * <h4>Example 2</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>
@@ -96,7 +96,7 @@ import javax.cache.integration.CacheWriter;
  * Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- * <p/>
+ * 
  * <h4>Example 3</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>

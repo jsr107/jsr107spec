@@ -18,7 +18,7 @@ import java.util.Properties;
  * Provides mechanisms to create, request and later manage the life-cycle of
  * configured {@link CacheManager}s, identified by {@link URI}s and scoped by
  * {@link ClassLoader}s.
- * <p/>
+ * <p>
  * The meaning and semantics of the {@link URI} used to identify a
  * {@link CacheManager} is implementation dependent.  For applications to remain
  * implementation independent, they should avoid attempting to create {@link URI}s
@@ -33,11 +33,11 @@ public interface CachingProvider extends Closeable {
    * Requests a {@link CacheManager} configured according to the implementation
    * specific {@link URI} be made available that uses the provided
    * {@link ClassLoader} for loading underlying classes.
-   * <p/>
+   * <p>
    * Multiple calls to this method with the same {@link URI} and
    * {@link ClassLoader} must return the same {@link CacheManager} instance,
    * except if a previously returned {@link CacheManager} has been closed.
-   * <p/>
+   * <p>
    * Properties are used in construction of a {@link CacheManager} and do not form
    * part of the identity of the CacheManager. i.e. if a second call is made to
    * with the same {@link URI} and {@link ClassLoader} but different properties,
@@ -68,7 +68,7 @@ public interface CachingProvider extends Closeable {
 
   /**
    * Obtains the default {@link URI} for the {@link CachingProvider}.
-   * <p/>
+   * <p>
    * Use this method to obtain a suitable {@link URI} for the
    * {@link CachingProvider}.
    *
@@ -78,7 +78,7 @@ public interface CachingProvider extends Closeable {
 
   /**
    * Obtains the default {@link Properties} for the {@link CachingProvider}.
-   * <p/>
+   * <p>
    * Use this method to obtain suitable {@link Properties} for the
    * {@link CachingProvider}.
    *
@@ -90,7 +90,7 @@ public interface CachingProvider extends Closeable {
    * Requests a {@link CacheManager} configured according to the implementation
    * specific {@link URI} that uses the provided {@link ClassLoader} for loading
    * underlying classes.
-   * <p/>
+   * <p>
    * Multiple calls to this method with the same {@link URI} and
    * {@link ClassLoader} must return the same {@link CacheManager} instance,
    * accept if a previously returned {@link CacheManager} has been closed.
@@ -111,8 +111,8 @@ public interface CachingProvider extends Closeable {
    * {@link #getDefaultURI()} and {@link #getDefaultProperties()} be made
    * available that using the {@link #getDefaultClassLoader()} for loading
    * underlying classes.
-   * <p/>
-   * Multiple calls to this method must> return the same {@link CacheManager}
+   * <p>
+   * Multiple calls to this method must return the same {@link CacheManager}
    * instance, accept if a previously returned {@link CacheManager} has been
    * closed.
    */
@@ -122,7 +122,7 @@ public interface CachingProvider extends Closeable {
    * Closes all of the {@link CacheManager} instances and associated resources
    * created and maintained by the {@link CachingProvider} across all
    * {@link ClassLoader}s.
-   * <p/>
+   * <p>
    * After closing the {@link CachingProvider} will still be operational.  It
    * may still be used for acquiring {@link CacheManager} instances, though
    * those will now be new.
@@ -132,7 +132,7 @@ public interface CachingProvider extends Closeable {
   /**
    * Closes all {@link CacheManager} instances and associated resources created
    * by the {@link CachingProvider} using the specified {@link ClassLoader}.
-   * <p/>
+   * <p>
    * After closing the {@link CachingProvider} will still be operational.  It
    * may still be used for acquiring {@link CacheManager} instances, though
    * those will now be new for the specified {@link ClassLoader} .
@@ -144,7 +144,7 @@ public interface CachingProvider extends Closeable {
   /**
    * Closes all {@link CacheManager} instances and associated resources created
    * by the {@link CachingProvider} for the specified {@link URI} and
-   * {@link ClassLoader} .
+   * {@link ClassLoader}.
    *
    * @param uri         the {@link URI} to release
    * @param classLoader the {@link ClassLoader}  to release

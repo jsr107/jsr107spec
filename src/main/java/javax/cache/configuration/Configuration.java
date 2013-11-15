@@ -13,10 +13,10 @@ import java.io.Serializable;
 
 /**
  * A basic read-only representation of a {@link Cache} configuration.
- * <p/>
+ * <p>
  * The properties provided by instances of this interface are used by
  * {@link CacheManager}s to configure {@link Cache}s.
- * <p/>
+ * <p>
  * Implementations of this interface must override {@link Object#hashCode()} and
  * {@link Object#equals(Object)} as {@link Configuration}s are often compared at
  * runtime.
@@ -48,7 +48,7 @@ public interface Configuration<K, V> extends Serializable {
   /**
    * Whether storeByValue (true) or storeByReference (false).
    * When true, both keys and values are stored by value.
-   * <p/>
+   * <p>
    * When false, both keys and values are stored by reference.
    * Caches stored by reference are capable of mutation by any threads holding
    * the reference. The effects are:
@@ -61,10 +61,10 @@ public interface Configuration<K, V> extends Serializable {
    * Storage by reference only applies to the local heap. If an entry is moved off
    * heap it will need to be transformed into a representation. Any mutations that
    * occur after transformation may not be reflected in the cache.
-   * <p/>
+   * <p>
    * When a cache is storeByValue, any mutation to the key or value does not
    * affect the key of value stored in the cache.
-   * <p/>
+   * <p>
    * The default value is <code>true</code>.
    *
    * @return true if the cache is store by value

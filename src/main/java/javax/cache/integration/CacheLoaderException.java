@@ -11,7 +11,7 @@ import javax.cache.CacheException;
 
 /**
  * An exception to indicate a problem has occurred executing a {@link CacheLoader}.
- * <p/>
+ * <p>
  * A Caching Implementation must wrap any {@link Exception} thrown by a {@link
  * CacheLoader} in this exception.
  *

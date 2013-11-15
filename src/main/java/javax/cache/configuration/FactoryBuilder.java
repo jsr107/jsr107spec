@@ -11,10 +11,10 @@ import java.io.Serializable;
 /**
  * A convenience class which defines generically typed static methods to aid in
  * the building of {@link Factory} instances.
- * <p/>
+ * <p>
  * {@link Factory} is used by {@link MutableConfiguration} to avoid adding
  * non-Serializable instances which would assume usage in the local JVM.
- * <p/>
+ * <p>
  * Two styles of builder are available:
  * <ul>
  *   <li>those taking a Class or className. A new instance will be created by
@@ -44,7 +44,7 @@ public final class FactoryBuilder {
   /**
    * Constructs a {@link Factory} that will produce factory instances of the
    * specified class.
-   * <p/>
+   * <p>
    * The specified class must have a no-args constructor.
    *
    * @param clazz the class of instances to be produced by the returned
@@ -59,7 +59,7 @@ public final class FactoryBuilder {
   /**
    * Constructs a {@link Factory} that will produce factory instances of the
    * specified class.
-   * <p/>
+   * <p>
    * The specified class must have a no-args constructor.
    *
    * @param className the class of instances to be produced by the returned
@@ -74,7 +74,7 @@ public final class FactoryBuilder {
   /**
    * Constructs a {@link Factory} that will return the specified factory
    * Serializable instance.
-   * <p/>
+   * <p>
    * If T is not Serializable use {@link #factoryOf(Class)} or
    * {@link #factoryOf(String)}.
    *

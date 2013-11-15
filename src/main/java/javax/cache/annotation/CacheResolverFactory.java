@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 /**
  * Determines the {@link CacheResolver} to use for an annotated method. The
  * {@link CacheResolver} will be retrieved once per annotated method.
- * <p/>
+ * <p>
  * Implementations MUST be thread-safe.
  *
  * @author Eric Dalquist
@@ -38,7 +38,7 @@ public interface CacheResolverFactory {
   /**
    * Get the {@link CacheResolver} used at runtime for resolution of the {@link
    * Cache} for the {@link CacheResult} annotation to cache exceptions.
-   * <p/>
+   * <p>
    * Will only be called if {@link CacheResult#exceptionCacheName()} is not empty.
    *
    * @param cacheMethodDetails The details of the annotated method to get the

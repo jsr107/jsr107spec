@@ -12,7 +12,7 @@ import java.lang.annotation.Annotation;
 /**
  * Generates a {@link GeneratedCacheKey} based on
  * a {@link CacheKeyInvocationContext}.
- * <p/>
+ * <p>
  * Implementations must be thread-safe.
  *
  * @author Eric Dalquist

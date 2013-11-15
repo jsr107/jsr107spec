@@ -22,27 +22,28 @@ import java.lang.annotation.Target;
  * GeneratedCacheKey} will be generated and
  * {@link Cache#remove(Object)} will be invoked on the specified
  * cache.
- * <p/>
+ * <p>
  * The default behavior is to call {@link Cache#remove(Object)} after
  * the annotated method is invoked, this behavior can be changed by setting
  * {@link #afterInvocation()} to false in which case
  * {@link Cache#remove(Object)} will be called before the annotated
  * method is invoked.
- * <p/>
+ * <p>
  * Example of removing a specific Domain object from the "domainCache". A {@link
  * GeneratedCacheKey} will be generated from the String and int parameters and
  * used to call {@link Cache#remove(Object)} after the deleteDomain
  * method completes successfully.
- * <p><blockquote><pre>
+ * <pre><code>
  * package my.app;
- * <p/>
+ * 
  * public class DomainDao {
  *   &#64;CacheRemove(cacheName="domainCache")
  *   public void deleteDomain(String domainId, int index) {
  *     ...
  *   }
  * }
- * </pre></blockquote></p>
+ * </code></pre>
+ * <p>
  * Exception Handling, only used if {@link #afterInvocation()} is true.
  * <ol>
  * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all
@@ -72,7 +73,7 @@ public @interface CacheRemove {
 
   /**
    * The name of the cache.
-   * <p/>
+   * <p>
    * If not specified defaults first to {@link CacheDefaults#cacheName()},
    * and if that is not set then to:
    * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
@@ -83,9 +84,9 @@ public @interface CacheRemove {
    * When {@link Cache#remove(Object)}  should be called. If true it is called
    * after the annotated method invocation completes successfully. If false it is
    * called before the annotated method is invoked.
-   * <p/>
+   * <p>
    * Defaults to true.
-   * <p/>
+   * <p>
    * If true and the annotated method throws an exception the put will not be
    * executed.
    */
@@ -94,7 +95,7 @@ public @interface CacheRemove {
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
    * use at runtime.
-   * <p/>
+   * <p>
    * The default resolver pair will resolve the cache by name from the default
    * {@link CacheManager}
    */
@@ -104,7 +105,7 @@ public @interface CacheRemove {
   /**
    * The {@link CacheKeyGenerator} to use to generate the {@link
    * GeneratedCacheKey} for interacting with the specified Cache.
-   * <p/>
+   * <p>
    * Defaults to a key generator that uses
    * {@link java.util.Arrays#deepHashCode(Object[])}
    * and {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array

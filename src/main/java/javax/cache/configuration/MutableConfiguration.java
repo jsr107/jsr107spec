@@ -176,11 +176,11 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
    * Sets the expected type of keys and values for a {@link Cache}
    * configured with this {@link Configuration}. Setting both to
    * <code>Object.class</code> means type-safety checks are not required.
-   * <p/>
+   * <p>
    * This is used by {@link CacheManager} to ensure that the key and value
    * types are the same as those configured for the {@link Cache} prior to
    * returning a requested cache from this method.
-   * <p/>
+   * <p>
    * Implementations may further perform type checking on mutative cache operations
    * and throw a {@link ClassCastException} if said checks fail.
    *
@@ -315,7 +315,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
 
   /**
    * Set if read-through caching should be used.
-   * <p/>
+   * <p>
    * It is an invalid configuration to set this to true without specifying a
    * {@link CacheLoader} {@link Factory}.
    *
@@ -337,7 +337,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
 
   /**
    * Set if write-through caching should be used.
-   * <p/>
+   * <p>
    * It is an invalid configuration to set this to true without specifying a
    * {@link CacheWriter} {@link Factory}.
    *
@@ -380,7 +380,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
 
   /**
    * Sets whether statistics gathering is enabled on a cache.
-   * <p/>
+   * <p>
    * Statistics may be enabled or disabled at runtime via
    * {@link CacheManager#enableStatistics(String, boolean)}.
    *
@@ -402,7 +402,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
 
   /**
    * Sets whether management is enabled on a cache.
-   * <p/>
+   * <p>
    * Management may be enabled or disabled at runtime via
    * {@link CacheManager#enableManagement(String, boolean)}.
    *

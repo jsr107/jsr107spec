@@ -11,13 +11,13 @@ import java.util.EventListener;
 
 /**
  * A tagging interface for cache entry listeners.
- * <p/>
+ * <p>
  * Sub-interfaces exist for the various cache events allowing a listener to be
  * created which implements only those listeners it is interested in.
- * <p/>
+ * <p>
  * Listeners should be implemented with care. In particular it is important to
  * consider their impact on performance and latency.
- * <p/>
+ * <p>
  * Listeners:
  * <ul>
  * <li>are fired after the entry is mutated in the cache</li>
@@ -31,14 +31,14 @@ import java.util.EventListener;
  * </ul>
  * Listeners follow the observer pattern. An exception thrown by a
  * listener does not cause the cache operation to fail.
- * <p/>
+ * <p>
  * Listeners can only throw {@link CacheEntryListenerException}. Caching implementations
  * must catch any other {@link Exception} from a listener, then wrap and rethrow it as a
  * {@link CacheEntryListenerException}.
- * <p/>
+ * <p>
  * A listener which mutates a cache on the CacheManager may cause a deadlock.
  * Detection and response to deadlocks is implementation specific.
- * <p/>
+ * 
  * @param <K> the type of key
  * @param <V> the type of value
  * @author Yannis Cosmadopoulos

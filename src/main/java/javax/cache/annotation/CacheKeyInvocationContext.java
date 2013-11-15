@@ -13,7 +13,7 @@ import java.lang.annotation.Annotation;
  * Runtime information about an intercepted method invocation for a method
  * annotated with {@link CacheResult}, {@link CachePut}, or
  * {@link CacheRemove}.
- * <p/>
+ * <p>
  * Used with {@link CacheKeyGenerator#generateCacheKey(CacheKeyInvocationContext)}
  * to generate a {@link GeneratedCacheKey} for the invocation.
  *
@@ -31,7 +31,7 @@ public interface CacheKeyInvocationContext<A extends Annotation>
    * CacheKeyGenerator} in creating a {@link GeneratedCacheKey}. The returned array
    * may be the same as or a subset of the array returned by
    * {@link #getAllParameters()}
-   * <p/>
+   * <p>
    * Parameters in this array are selected by the following rules:
    * <ul>
    * <li>If no parameters are annotated with {@link CacheKey} or {@link

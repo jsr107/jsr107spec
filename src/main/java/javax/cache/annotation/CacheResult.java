@@ -24,51 +24,53 @@ import java.lang.annotation.Target;
  * annotated method is never actually executed. If no value is found the
  * annotated method is invoked and the returned value is stored in the cache
  * with the generated key.
- * <p/>
+ * <p>
  * null return values are cached by default, this behavior can be disabled by
  * setting the {@link #cacheNull()} property to false.
- * <p/>
+ * <p>
  * Exceptions are not cached by default. Caching of exceptions can be enabled by
  * specifying an {@link #exceptionCacheName()}. If an exception cache is specified
  * it is checked before invoking the annotated method and if a cached exception is
  * found it is re-thrown.
- * <p/>
+ * <p>
  * The {@link #cachedExceptions()} and {@link #nonCachedExceptions()} properties
  * can be used to control which exceptions are cached and which are not.
- * <p/>
+ * <p>
  * To always invoke the annotated method and still cache the result set
  * {@link #skipGet()} to true. This will disable the pre-invocation
  * {@link Cache#get(Object)} call. If {@link #exceptionCacheName()} is
  * specified the pre-invocation exception check is also disabled. This feature is
  * useful for methods that create or update objects to be cached.
- * <p/>
+ * <p>
  * Example of caching the Domain object with a key generated from the
  * <code>String</code> and <code>int</code> parameters.
- * <p/>
+ * <p>
  * With no {@link #cacheName()} specified a cache name of
  * "my.app.DomainDao.getDomain(java.lang.String,int)" will be generated.
- * <p><blockquote><pre>
+ * <p><pre><code>
  * package my.app;
- * <p/>
+ * 
  * public class DomainDao {
  *   &#64;CacheResult
  *   public Domain getDomain(String domainId, int index) {
  *     ...
  *   }
  * }
- * </pre></blockquote></p>
+ * </code></pre>
+ * <p>
  * Example using the {@link GeneratedCacheKey} annotation so that only the domainId
  * parameter is used in key generation:
- * <p><blockquote><pre>
+ * <pre><code>
  * package my.app;
- * <p/>
+ * 
  * public class DomainDao {
  *   &#64;CacheResult
  *   public Domain getDomain(@CacheKey String domainId, Monitor mon) {
  *     ...
  *   }
  * }
- * </pre></blockquote></p>
+ * </code></pre>
+ * <p>
  * If exception caching is enabled via specification of
  * {@link #exceptionCacheName()} the following rules are used to determine if a
  * thrown exception is cached:
@@ -99,7 +101,7 @@ public @interface CacheResult {
 
   /**
    * The name of the cache.
-   * <p/>
+   * <p>
    * If not specified defaults first to {@link CacheDefaults#cacheName()} an if
    * that is not set it defaults to:
    * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
@@ -111,11 +113,11 @@ public @interface CacheResult {
    * skipped and the annotated method is always executed with the returned value
    * being cached as normal. This is useful for create or update methods which
    * should always be executed and have their returned value placed in the cache.
-   * <p/>
+   * <p>
    * If true and an {@link #exceptionCacheName()} is specified the pre-invocation
    * check for a thrown exception is also skipped. If an exception is thrown during
    * invocation it will be cached following the standard exception caching rules.
-   * <p/>
+   * <p>
    * Defaults to false.
    *
    * @see CachePut
@@ -125,7 +127,7 @@ public @interface CacheResult {
   /**
    * If set to false null return values will not be cached. If true (the default)
    * null return values will be cached.
-   * <p/>
+   * <p>
    * Defaults to true.
    */
   @Nonbinding boolean cacheNull() default true;
@@ -133,7 +135,7 @@ public @interface CacheResult {
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
    * use at runtime.
-   * <p/>
+   * <p>
    * The default resolver pair will resolve the cache by name from the default
    * {@link CacheManager}
    */
@@ -143,7 +145,7 @@ public @interface CacheResult {
   /**
    * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey}
    * for interacting with the specified Cache.
-   * <p/>
+   * <p>
    * Defaults to a key generator that uses
    * {@link java.util.Arrays#deepHashCode(Object[])} and
    * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array
@@ -156,7 +158,7 @@ public @interface CacheResult {
 
   /**
    * The name of the cache to cache exceptions.
-   * <p/>
+   * <p>
    * If not specified no exception caching is done.
    */
   @Nonbinding String exceptionCacheName() default "";

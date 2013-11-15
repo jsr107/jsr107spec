@@ -10,7 +10,6 @@ package javax.cache.event;
 /**
  * Invoked if an existing cache entry is updated, or if a batch call is made,
  * after the entries are updated.
- * <p/>
  *
  * @param <K> the type of key
  * @param <V> the type of value

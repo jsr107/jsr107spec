@@ -14,19 +14,18 @@ import javax.management.MXBean;
 /**
  * A management bean for cache. It provides configuration information. It does not
  * allow mutation of configuration or mutation of the cache.
- * <p/>
+ * <p>
  * Each cache's management object must be registered with an ObjectName that is
  * unique and has the following type and attributes:
- * <p/>
+ * <p>
  * Type:
  * <code>javax.cache:type=Cache</code>
- * <p/>
+ * <p>
  * Required Attributes:
  * <ul>
  * <li>CacheManager the URI of the CacheManager
  * <li>Cache the name of the Cache
  * </ul>
- * <p/>
  *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
@@ -37,7 +36,7 @@ public interface CacheMXBean {
 
   /**
    * Determines if a {@link Cache} should operate in read-through mode.
-   * <p/>
+   * <p>
    * When in read-through mode, cache misses that occur due to cache entries
    * not existing as a result of performing a "get" call via one of
    * {@link Cache#get},
@@ -46,7 +45,7 @@ public interface CacheMXBean {
    * {@link Cache#getAndReplace} will appropriately
    * cause the configured {@link CacheLoader} to be
    * invoked.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link Cache} is in
@@ -58,7 +57,7 @@ public interface CacheMXBean {
   /**
    * Determines if a {@link Cache} should operate in "write-through"
    * mode.
-   * <p/>
+   * <p>
    * When in "write-through" mode, cache updates that occur as a result of
    * performing "put" operations called via one of
    * {@link Cache#put},
@@ -69,10 +68,10 @@ public interface CacheMXBean {
    * {@link Cache#getAndReplace},
    * {@link Cache#invoke}
    * {@link Cache#invokeAll}
-   * <p/>
+   * <p>
    * will appropriately cause the configured
    * {@link CacheWriter} to be invoked.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return <code>true</code> when a {@link Cache} is in
@@ -84,7 +83,7 @@ public interface CacheMXBean {
   /**
    * Whether storeByValue (true) or storeByReference (false).
    * When true, both keys and values are stored by value.
-   * <p/>
+   * <p>
    * When false, both keys and values are stored by reference.
    * Caches stored by reference are capable of mutation by any threads holding
    * the reference. The effects are:
@@ -96,10 +95,10 @@ public interface CacheMXBean {
    * Storage by reference only applies to the local heap. If an entry is moved off
    * heap it will need to be transformed into a representation. Any mutations that occur
    * after transformation may not be reflected in the cache.
-   * <p/>
+   * <p>
    * When a cache is storeByValue, any mutation to the key or value does not affect
    * the key of value stored in the cache.
-   * <p/>
+   * <p>
    * The default value is <code>true</code>.
    *
    * @return true if the cache is store by value
@@ -108,7 +107,7 @@ public interface CacheMXBean {
 
   /**
    * Checks whether statistics collection is enabled in this cache.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return true if statistics collection is enabled
@@ -117,7 +116,7 @@ public interface CacheMXBean {
 
   /**
    * Checks whether management is enabled on this cache.
-   * <p/>
+   * <p>
    * The default value is <code>false</code>.
    *
    * @return true if management is enabled
