@@ -30,7 +30,7 @@ public interface CacheResolverFactory {
    * @param cacheMethodDetails The details of the annotated method to get the
    *                           {@link CacheResolver} for. @return The {@link
    *                           CacheResolver} instance to be
-   *                           used by the intercepter.
+   *                           used by the interceptor.
    */
   CacheResolver getCacheResolver(CacheMethodDetails<? extends Annotation>
                                      cacheMethodDetails);
@@ -43,7 +43,7 @@ public interface CacheResolverFactory {
    *
    * @param cacheMethodDetails The details of the annotated method to get the
    *                           {@link CacheResolver} for.
-   * @return The {@link CacheResolver} instance to be used by the intercepter.
+   * @return The {@link CacheResolver} instance to be used by the interceptor.
    */
   CacheResolver getExceptionCacheResolver(CacheMethodDetails<CacheResult>
                                               cacheMethodDetails);
