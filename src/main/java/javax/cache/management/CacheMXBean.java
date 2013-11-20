@@ -19,7 +19,7 @@ import javax.management.MXBean;
  * unique and has the following type and attributes:
  * <p>
  * Type:
- * <code>javax.cache:type=Cache</code>
+ * <code>javax.cache:type=CacheConfiguration</code>
  * <p>
  * Required Attributes:
  * <ul>
@@ -33,6 +33,21 @@ import javax.management.MXBean;
  */
 @MXBean
 public interface CacheMXBean {
+
+  /**
+   * Determines the required type of keys for this {@link Cache}, if any.
+   *
+   * @return the fully qualified class name of the key type,
+   * or "java.lang.Object" if the type is undefined.
+   */
+  String getKeyType();
+
+  /**
+   * Determines the required type of values for this {@link Cache}, if any.
+   * @return the fully qualified class name of the value type,
+   * or "java.lang.Object" if the type is undefined.
+   */
+  String getValueType();
 
   /**
    * Determines if a {@link Cache} should operate in read-through mode.
