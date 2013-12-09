@@ -118,7 +118,7 @@ public final class Caching {
    *                    calling {@link Thread#getContextClassLoader()} should
    *                    be used
    */
-  public void setDefaultClassLoader(ClassLoader classLoader) {
+  public static void setDefaultClassLoader(ClassLoader classLoader) {
     CACHING_PROVIDERS.setDefaultClassLoader(classLoader);
   }
 
