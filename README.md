@@ -64,8 +64,7 @@ The JavaDoc is available as a jar with the releases. We also have the latest Jav
 Specification
 -------------
 
-The specification is available online on as a [Google Doc](https://docs
-.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/edit?hl=en_US).
+The specification is available online on as a [Google Doc](https://docs.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/edit?hl=en_US).
 
 Reference Implementation
 ------------------------
