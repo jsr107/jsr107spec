@@ -81,6 +81,13 @@ public interface CacheManager extends Closeable {
   URI getURI();
 
   /**
+   * Get the {@link ClassLoader} used by the {@link CacheManager}.
+   *
+   * @return  the {@link ClassLoader} used by the {@link CacheManager}
+   */
+  ClassLoader getClassLoader();
+
+  /**
    * Get the Properties that were used to create this {@link CacheManager}.
    *
    * @return the Properties used to create the {@link CacheManager}
