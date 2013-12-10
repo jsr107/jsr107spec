@@ -10,6 +10,8 @@ About
 
 ## Releases
 
+* 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.
+Proposed Final Draft
 * 26 August 2013:   0.10 Third Public Review Draft
 * 25 June 2013:     0.9 Second Public Review Draft
 * 25 June 2013:     0.8 Public Review Draft
@@ -25,7 +27,7 @@ Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.10</version>
+      <version>1.0.0-PFD</version>
     </dependency>
 
 
@@ -64,8 +66,7 @@ The JavaDoc is available as a jar with the releases. We also have the latest Jav
 Specification
 -------------
 
-The specification is available online on as a [Google Doc](https://docs
-.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/edit?hl=en_US).
+The specification is available online on as a [Google Doc](https://docs.google.com/document/d/1MZQstO9GJo_MUMy5iD5sxCrstunnQ1f85ekCng8LcqM/edit?usp=sharing).
 
 Reference Implementation
 ------------------------
