@@ -120,8 +120,7 @@ public interface CacheManager extends Closeable {
    * methods to acquire a previously established or pre-configured {@link Cache}.
    *
    * @param cacheName     the name of the {@link Cache}
-   * @param configuration a {@link Configuration} or sub-interface
-   *                      to use if the {@link Cache} is known
+   * @param configuration a {@link Configuration} for the {@link Cache}
    * @throws IllegalStateException         if the {@link CacheManager}
    *                                       {@link #isClosed()}
    * @throws CacheException                if there was an error configuring the
