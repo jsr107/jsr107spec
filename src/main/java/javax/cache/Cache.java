@@ -650,6 +650,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * </ul>
    * Once closed any attempt to use an operational method on a Cache will throw an
    * {@link IllegalStateException}.
+   *
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void close();
 
@@ -684,6 +687,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @return an instance of the underlying concrete cache
    * @throws IllegalArgumentException if the caching provider doesn't support
    *                                  the specified class.
+   * @throws SecurityException        when the operation could not be performed
+   *                                  due to the current security settings
    */
   <T> T unwrap(java.lang.Class<T> clazz);
 

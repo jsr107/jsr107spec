@@ -131,6 +131,8 @@ public interface CacheManager extends Closeable {
    *                                       an unsupported feature
    * @throws NullPointerException          if the cache configuration or name
    *                                       is null
+   * @throws SecurityException             when the operation could not be performed
+   *                                       due to the current security settings
    */
   <K, V, C extends Configuration<K, V>> Cache<K, V> createCache(String cacheName,
                                                                 C configuration)
@@ -161,6 +163,8 @@ public interface CacheManager extends Closeable {
    * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
    * @throws IllegalArgumentException if the specified key and/or value types are
    *                                  incompatible with the configured cache.
+   * @throws SecurityException        when the operation could not be performed
+   *                                  due to the current security settings
    */
   <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
@@ -188,6 +192,8 @@ public interface CacheManager extends Closeable {
    * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
    * @throws IllegalArgumentException if the {@link Cache} was configured with
    *                                  specific types, this method cannot be used
+   * @throws SecurityException        when the operation could not be performed
+   *                                  due to the current security settings
    * @see #getCache(String, Class, Class)
    */
   <K, V> Cache<K, V> getCache(String cacheName);
@@ -201,6 +207,12 @@ public interface CacheManager extends Closeable {
    * raise an {@link IllegalStateException}.  If the {@link Cache}s managed by
    * the {@link CacheManager} change, the {@link Iterable} and
    * associated {@link java.util.Iterator}s are not affected.
+   * <p>
+   * {@link java.util.Iterator}s returned by the {@link Iterable} may not provide
+   * all of the {@link Cache}s managed by the {@link CacheManager}.  For example:
+   * Internally defined or platform specific {@link Cache}s that may be accessible
+   * by a call to {@link #getCache(String)} or {@link #getCache(String, Class, Class)}
+   * may not be present in an iteration.
    *
    * @return an {@link Iterable} over the names of managed {@link Cache}s.
    */
@@ -225,6 +237,8 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the cache to destroy
    * @throws NullPointerException if cacheName is null
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void destroyCache(String cacheName);
 
@@ -252,6 +266,8 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the name of the cache to register
    * @param enabled   true to enable management, false to disable.
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void enableManagement(String cacheName, boolean enabled);
 
@@ -275,6 +291,8 @@ public interface CacheManager extends Closeable {
    * @param enabled   true to enable statistics, false to disable.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws NullPointerException  if cacheName is null
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void enableStatistics(String cacheName, boolean enabled);
 
@@ -292,6 +310,9 @@ public interface CacheManager extends Closeable {
    * <p>
    * All attempts to close a previously closed {@link CacheManager} will be
    * ignored.
+   *
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void close();
 
@@ -327,6 +348,8 @@ public interface CacheManager extends Closeable {
    * @return an instance of the underlying concrete {@link CacheManager}
    * @throws IllegalArgumentException if the caching provider doesn't support the
    *                                  specified class.
+   * @throws SecurityException        when the operation could not be performed
+   *                                  due to the current security settings
    */
   <T> T unwrap(java.lang.Class<T> clazz);
 }

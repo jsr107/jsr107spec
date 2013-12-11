@@ -127,9 +127,11 @@ public final class Caching {
    * {@link ClassLoader}, which is {@link Thread#getContextClassLoader()}.
    *
    * @return the {@link CachingProvider}
-   * @throws CacheException should zero, or more than one
-   *                        {@link CachingProvider} be available on the
-   *                        classpath, or it could not be loaded
+   * @throws CacheException    should zero, or more than one
+   *                           {@link CachingProvider} be available on the
+   *                           classpath, or it could not be loaded
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   public static CachingProvider getCachingProvider() {
     return CACHING_PROVIDERS.getCachingProvider();
@@ -142,9 +144,11 @@ public final class Caching {
    * @param classLoader the {@link ClassLoader} to use for loading the
    *                    {@link CachingProvider}
    * @return the {@link CachingProvider}
-   * @throws CacheException should zero, or more than one
-   *                        {@link CachingProvider} be available on the
-   *                        classpath, or it could not be loaded
+   * @throws CacheException    should zero, or more than one
+   *                           {@link CachingProvider} be available on the
+   *                           classpath, or it could not be loaded
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    * @see #getCachingProviders(ClassLoader)
    */
   public static CachingProvider getCachingProvider(ClassLoader classLoader) {
@@ -200,7 +204,9 @@ public final class Caching {
    * @param fullyQualifiedClassName the fully qualified class name of the
    *                                {@link CachingProvider}
    * @return the {@link CachingProvider}
-   * @throws CacheException if the {@link CachingProvider} cannot be created
+   * @throws CacheException    if the {@link CachingProvider} cannot be created
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   public static CachingProvider getCachingProvider(String fullyQualifiedClassName) {
     return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName);
@@ -218,7 +224,9 @@ public final class Caching {
    * @param classLoader             the {@link ClassLoader} to load the
    *                                {@link CachingProvider}
    * @return the {@link CachingProvider}
-   * @throws CacheException if the {@link CachingProvider} cannot be created
+   * @throws CacheException    if the {@link CachingProvider} cannot be created
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   public static CachingProvider getCachingProvider(String fullyQualifiedClassName,
                                                    ClassLoader classLoader) {
@@ -255,6 +263,8 @@ public final class Caching {
    *                                  {@link CacheManager#isClosed()}
    * @throws IllegalArgumentException if the specified key and/or value types are
    *                                  incompatible with the configured cache.
+   * @throws SecurityException        when the operation could not be performed
+   *                                  due to the current security settings
    * @see CacheManager#getCache(String, Class, Class)
    * @see CacheManager#getCache(String)
    */

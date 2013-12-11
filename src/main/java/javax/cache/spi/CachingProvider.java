@@ -52,8 +52,10 @@ public interface CachingProvider extends Closeable {
    * @param properties  the {@link Properties} for the {@link CachingProvider}
    *                    to create the {@link CacheManager} (null means no
    *                    implementation specific Properties are required)
-   * @throws CacheException when a {@link CacheManager} for the
-   *                        specified arguments could not be produced
+   * @throws CacheException    when a {@link CacheManager} for the
+   *                           specified arguments could not be produced
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader,
                                Properties properties);
@@ -101,8 +103,10 @@ public interface CachingProvider extends Closeable {
    * @param classLoader the {@link ClassLoader}  to use for the
    *                    {@link CacheManager} (null means
    *                    use {@link #getDefaultClassLoader()})
-   * @throws CacheException when a {@link CacheManager} for the
-   *                        specified arguments could not be produced
+   * @throws CacheException    when a {@link CacheManager} for the
+   *                           specified arguments could not be produced
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   CacheManager getCacheManager(URI uri, ClassLoader classLoader);
 
@@ -115,6 +119,9 @@ public interface CachingProvider extends Closeable {
    * Multiple calls to this method must return the same {@link CacheManager}
    * instance, accept if a previously returned {@link CacheManager} has been
    * closed.
+   *
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   CacheManager getCacheManager();
 
@@ -126,6 +133,9 @@ public interface CachingProvider extends Closeable {
    * After closing the {@link CachingProvider} will still be operational.  It
    * may still be used for acquiring {@link CacheManager} instances, though
    * those will now be new.
+   *
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void close();
 
@@ -138,6 +148,8 @@ public interface CachingProvider extends Closeable {
    * those will now be new for the specified {@link ClassLoader} .
    *
    * @param classLoader the {@link ClassLoader}  to release
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void close(ClassLoader classLoader);
 
@@ -148,6 +160,8 @@ public interface CachingProvider extends Closeable {
    *
    * @param uri         the {@link URI} to release
    * @param classLoader the {@link ClassLoader}  to release
+   * @throws SecurityException when the operation could not be performed
+   *                           due to the current security settings
    */
   void close(URI uri, ClassLoader classLoader);
 
