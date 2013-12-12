@@ -19,7 +19,7 @@ import java.util.WeakHashMap;
  * The {@link Caching} class provides a convenient means for an application to
  * acquire an appropriate {@link CachingProvider} implementation.
  * <p>
- * While defined as part of the specification, its use is not mandatory.
+ * While defined as part of the specification, its use is optional.
  * Applications and/or containers may instead choose to directly instantiate a
  * {@link CachingProvider} implementation based on implementation specific
  * instructions.
@@ -123,8 +123,8 @@ public final class Caching {
   }
 
   /**
-   * Obtains the single {@link CachingProvider} visible to the default
-   * {@link ClassLoader}, which is {@link Thread#getContextClassLoader()}.
+   * Obtains the default {@link CachingProvider} available via the
+   * {@link #getDefaultClassLoader()}.
    *
    * @return the {@link CachingProvider}
    * @throws CacheException    should zero, or more than one
