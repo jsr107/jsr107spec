@@ -24,8 +24,7 @@ import javax.cache.expiry.EternalExpiryPolicy;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * A simple mutable implementation of a {@link Configuration}.
@@ -58,8 +57,8 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   /**
    * The {@link CacheEntryListenerConfiguration}s for the {@link Configuration}.
    */
-  protected ArrayList<CacheEntryListenerConfiguration<K,
-      V>> listenerConfigurations;
+  protected HashSet<CacheEntryListenerConfiguration<K,
+        V>> listenerConfigurations;
 
   /**
    * The {@link Factory} for the {@link CacheLoader}.
@@ -108,7 +107,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
     this.keyType = (Class<K>)Object.class;
     this.valueType = (Class<V>)Object.class;
     this.listenerConfigurations = new
-        ArrayList<CacheEntryListenerConfiguration<K, V>>();
+        HashSet<CacheEntryListenerConfiguration<K, V>>();
     this.cacheLoaderFactory = null;
     this.cacheWriterFactory = null;
     this.expiryPolicyFactory = EternalExpiryPolicy.factoryOf();
@@ -131,7 +130,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
     this.valueType = configuration.getValueType();
 
     listenerConfigurations = new
-        ArrayList<CacheEntryListenerConfiguration<K, V>>();
+        HashSet<CacheEntryListenerConfiguration<K, V>>();
     for (CacheEntryListenerConfiguration<K, V> definition : configuration
         .getCacheEntryListenerConfigurations()) {
       addCacheEntryListenerConfiguration(definition);
@@ -204,7 +203,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
    * {@inheritDoc}
    */
   @Override
-  public List<CacheEntryListenerConfiguration<K,
+  public Iterable<CacheEntryListenerConfiguration<K,
         V>> getCacheEntryListenerConfigurations() {
     return listenerConfigurations;
   }
@@ -238,6 +237,25 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
       throw new IllegalArgumentException("A CacheEntryListenerConfiguration can " +
           "be registered only once");
     }
+    return this;
+  }
+
+  /**
+   * Remove a configuration for a {@link CacheEntryListener}.
+   *
+   * @param cacheEntryListenerConfiguration  the {@link CacheEntryListenerConfiguration}
+   *                                         to remove
+   * @return the {@link MutableConfiguration} to permit fluent-style method calls
+   */
+  public MutableConfiguration<K, V> removeCacheEntryListenerConfiguration(
+      CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
+
+    if (cacheEntryListenerConfiguration == null) {
+      throw new NullPointerException("CacheEntryListenerConfiguration can't be null");
+    }
+
+    listenerConfigurations.remove(cacheEntryListenerConfiguration);
+
     return this;
   }
 
@@ -463,12 +481,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
     if (!valueType.equals(other.valueType)) {
       return false;
     }
-    if (listenerConfigurations == null) {
-      if (other.listenerConfigurations != null) {
-        return false;
-      }
-    } else if (!listenerConfigurations.equals(other
-        .listenerConfigurations)) {
+    if (!listenerConfigurations.equals(other.listenerConfigurations)) {
       return false;
     }
     if (cacheLoaderFactory == null) {

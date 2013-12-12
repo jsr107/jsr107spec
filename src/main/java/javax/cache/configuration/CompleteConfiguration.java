@@ -11,7 +11,6 @@ import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * A read-only representation of the complete JCache {@link javax.cache.Cache}
@@ -102,7 +101,7 @@ public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serial
    * @return an {@link Iterable} over the
    * {@link javax.cache.configuration.CacheEntryListenerConfiguration}s
    */
-  List<CacheEntryListenerConfiguration<K,
+  Iterable<CacheEntryListenerConfiguration<K,
       V>> getCacheEntryListenerConfigurations();
 
   /**
