@@ -28,7 +28,7 @@ public interface ExpiryPolicy {
    * <p>
    * This method is called by a caching implementation after a Cache.Entry is
    * created, but before a Cache.Entry is added to a cache, to determine the
-   * {@link Duration} before a entry expires.  If a {@link Duration#ZERO}
+   * {@link Duration} before an entry expires.  If a {@link Duration#ZERO}
    * is returned the new Cache.Entry is considered to be already expired and
    * will not be added to the Cache.
    * <p>

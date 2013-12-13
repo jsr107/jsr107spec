@@ -45,7 +45,7 @@ public interface CacheInvocationContext<A extends Annotation>
    * implementation does not support the specified class, the {@link
    * IllegalArgumentException} is thrown.
    *
-   * @param cls he class of the object to be returned. This is normally either the
+   * @param cls the class of the object to be returned. This is normally either the
    *            underlying implementation class or an interface that it
    *            implements.
    * @return an instance of the specified class

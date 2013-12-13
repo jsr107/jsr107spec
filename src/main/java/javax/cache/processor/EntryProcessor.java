@@ -7,7 +7,7 @@ import javax.cache.integration.CacheWriter;
 
 
 /**
- * An invokable function that allows applications to perform compound
+ * An invocable function that allows applications to perform compound
  * operations on a {@link javax.cache.Cache.Entry} atomically, according the
  * defined consistency of a {@link Cache}.
  * <p>

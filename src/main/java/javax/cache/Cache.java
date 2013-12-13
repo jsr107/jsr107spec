@@ -30,7 +30,7 @@ import java.util.Set;
  * Like {@link Map}s, {@link Cache}s
  * <ol>
  * <li>store key-value pairs, each referred to as an {@link Entry}</li>
- * <li>allow use Java Generics to improve application type-safety</li>
+ * <li>allow use of Java Generics to improve application type-safety</li>
  * <li>are {@link Iterable}</li>
  * </ol>
  * <p>

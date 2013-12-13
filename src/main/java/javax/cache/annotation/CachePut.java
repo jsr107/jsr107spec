@@ -73,7 +73,7 @@ public @interface CachePut {
   /**
    * The name of the cache.
    * <p>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()} an if
+   * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
    * that is not set it defaults to:
    * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
    */

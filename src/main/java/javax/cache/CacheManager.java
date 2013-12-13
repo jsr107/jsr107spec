@@ -109,7 +109,7 @@ public interface CacheManager extends Closeable {
    * CacheManager}, one is created according to the provided {@link Configuration}
    * after which it becomes managed by the {@link CacheManager}.
    * <p>
-   * Prior to a {@link Cache} being created the provided {@link Configuration}s is
+   * Prior to a {@link Cache} being created, the provided {@link Configuration}s is
    * validated within the context of the {@link CacheManager} properties and
    * implementation.
    * <p>
@@ -145,7 +145,7 @@ public interface CacheManager extends Closeable {
 
 
   /**
-   * Looks up a managed {@link Cache} given it's name.
+   * Looks up a managed {@link Cache} given its name.
    * <p>
    * This method must be used for {@link Cache}s that were configured with
    * runtime key and value types. Use {@link #getCache(String)} for
@@ -174,13 +174,13 @@ public interface CacheManager extends Closeable {
   <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
   /**
-   * Looks up a managed {@link Cache} given it's name.
+   * Looks up a managed {@link Cache} given its name.
    * <p>
    * This method may only be used to acquire {@link Cache}s that were
    * configured without runtime key and value types, or were configured
    * to use Object.class key and value types.
    * <p>
-   * Use the {@link #getCache(String, Class, Class)} method acquire
+   * Use the {@link #getCache(String, Class, Class)} method to acquire
    * {@link Cache}s that were configured with specific runtime types.
    * <p>
    * Implementations must check if key and value types were configured
@@ -271,6 +271,7 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the name of the cache to register
    * @param enabled   true to enable management, false to disable.
+   * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
    * @throws SecurityException when the operation could not be performed
    *                           due to the current security settings
    */
