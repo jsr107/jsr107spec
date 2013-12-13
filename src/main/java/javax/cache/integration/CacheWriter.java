@@ -105,7 +105,9 @@ public interface CacheWriter<K, V> {
    * Expiry of a cache entry is not a delete hence will not cause this method to
    * be invoked.
    * <p>
-   * This method is only invoked for keys that exist in the cache.
+   * This method may include keys even if there is no mapping for that key,
+   * in which case the data represented by that key should be removed from the
+   * underlying resource.
    *
    * @param keys a mutable collection of keys for entries to delete. Upon
    *             invocation, it contains the keys to delete for write-through.
