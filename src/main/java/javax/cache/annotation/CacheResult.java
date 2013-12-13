@@ -25,9 +25,6 @@ import java.lang.annotation.Target;
  * annotated method is invoked and the returned value is stored in the cache
  * with the generated key.
  * <p>
- * null return values are cached by default, this behavior can be disabled by
- * setting the {@link #cacheNull()} property to false.
- * <p>
  * Exceptions are not cached by default. Caching of exceptions can be enabled by
  * specifying an {@link #exceptionCacheName()}. If an exception cache is specified
  * it is checked before invoking the annotated method and if a cached exception is
@@ -123,14 +120,6 @@ public @interface CacheResult {
    * @see CachePut
    */
   @Nonbinding boolean skipGet() default false;
-
-  /**
-   * If set to false null return values will not be cached. If true (the default)
-   * null return values will be cached.
-   * <p>
-   * Defaults to true.
-   */
-  @Nonbinding boolean cacheNull() default true;
 
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
