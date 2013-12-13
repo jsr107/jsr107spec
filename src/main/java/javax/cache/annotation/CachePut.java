@@ -22,8 +22,7 @@ import java.util.Arrays;
  * When a method annotated with {@link CachePut} is invoked a {@link
  * GeneratedCacheKey} will be generated and {@link Cache#put(Object,
  * Object)} will be invoked on the specified cache storing the value marked with
- * {@link CacheValue}. Null values are cached by default but this behavior can be
- * disabled via the {@link #cacheNull()} property.
+ * {@link CacheValue}.
  * <p>
  * The default behavior is to call {@link Cache#put(Object, Object)}
  * after the annotated method is invoked, this behavior can be changed by setting
@@ -91,15 +90,6 @@ public @interface CachePut {
    * {@link #cacheFor()} and {@link #noCacheFor()} will be followed.
    */
   @Nonbinding boolean afterInvocation() default true;
-
-  /**
-   * If set to false null {@link CacheValue} values will not be cached. If true
-   * (the default) null {@link CacheValue}
-   * values will be cached.
-   * <p>
-   * Defaults to true
-   */
-  @Nonbinding boolean cacheNull() default true;
 
   /**
    * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
