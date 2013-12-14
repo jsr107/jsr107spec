@@ -165,7 +165,8 @@ public interface CacheManager extends Closeable {
    * @param keyType   the expected {@link Class} of the key
    * @param valueType the expected {@link Class} of the value
    * @return the Cache or null if it does exist or can't be pre-configured
-   * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
+   * @throws IllegalStateException    if the {@link CacheManager}
+   *                                  is {@link #isClosed()}
    * @throws IllegalArgumentException if the specified key and/or value types are
    *                                  incompatible with the configured cache.
    * @throws SecurityException        when the operation could not be performed
@@ -220,6 +221,10 @@ public interface CacheManager extends Closeable {
    * may not be present in an iteration.
    *
    * @return an {@link Iterable} over the names of managed {@link Cache}s.
+   * @throws IllegalStateException if the {@link CacheManager}
+   *                               is {@link #isClosed()}
+   * @throws SecurityException     when the operation could not be performed
+   *                               due to the current security settings
    */
   Iterable<String> getCacheNames();
 
@@ -241,9 +246,11 @@ public interface CacheManager extends Closeable {
    * the {@link Cache} will throw an {@link IllegalStateException}.
    *
    * @param cacheName the cache to destroy
-   * @throws NullPointerException if cacheName is null
-   * @throws SecurityException when the operation could not be performed
-   *                           due to the current security settings
+   * @throws IllegalStateException if the {@link CacheManager}
+   *                               {@link #isClosed()}
+   * @throws NullPointerException  if cacheName is null
+   * @throws SecurityException     when the operation could not be performed
+   *                               due to the current security settings
    */
   void destroyCache(String cacheName);
 
@@ -271,9 +278,10 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the name of the cache to register
    * @param enabled   true to enable management, false to disable.
-   * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
-   * @throws SecurityException when the operation could not be performed
-   *                           due to the current security settings
+   * @throws IllegalStateException if the {@link CacheManager} or
+   *                               {@link Cache} {@link #isClosed()}
+   * @throws SecurityException     when the operation could not be performed
+   *                               due to the current security settings
    */
   void enableManagement(String cacheName, boolean enabled);
 
@@ -295,7 +303,8 @@ public interface CacheManager extends Closeable {
    *
    * @param cacheName the name of the cache to register
    * @param enabled   true to enable statistics, false to disable.
-   * @throws IllegalStateException if the cache is {@link #isClosed()}
+   * @throws IllegalStateException if the {@link CacheManager} or
+   *                               {@link Cache} {@link #isClosed()}
    * @throws NullPointerException  if cacheName is null
    * @throws SecurityException when the operation could not be performed
    *                           due to the current security settings

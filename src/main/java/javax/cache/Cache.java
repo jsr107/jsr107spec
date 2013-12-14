@@ -702,6 +702,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         for creating the listener
    * @throws IllegalArgumentException is the same CacheEntryListenerConfiguration
    *                                  is used more than once
+   * @throws IllegalStateException    if the cache is {@link #isClosed()}
    * @see CacheEntryListener
    */
   void registerCacheEntryListener(
@@ -719,6 +720,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *         the factory and related configuration
    *         that was used to create the
    *         listener
+   * @throws IllegalStateException if the cache is {@link #isClosed()}
    */
   void deregisterCacheEntryListener(CacheEntryListenerConfiguration<K, V>
                                         cacheEntryListenerConfiguration);
@@ -734,6 +736,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * <p>
    * {@link java.util.Iterator#next()} may return null if the entry is no
    * longer present, has expired or has been evicted.
+   *
+   * @throws IllegalStateException if the cache is {@link #isClosed()}
    */
   Iterator<Cache.Entry<K, V>> iterator();
 
