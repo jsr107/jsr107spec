@@ -181,7 +181,7 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
    * returning a requested cache from this method.
    * <p>
    * Implementations may further perform type checking on mutative cache operations
-   * and throw a {@link ClassCastException} if said checks fail.
+   * and throw a {@link ClassCastException} if these checks fail.
    *
    * @param keyType   the expected key type
    * @param valueType the expected value type

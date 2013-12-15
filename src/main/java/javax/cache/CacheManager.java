@@ -155,7 +155,7 @@ public interface CacheManager extends Closeable {
    * those configured for the {@link Cache} prior to returning from this method.
    * <p>
    * Implementations may further perform type checking on mutative cache operations and
-   * throw a {@link ClassCastException} if said checks fail.
+   * throw a {@link ClassCastException} if these checks fail.
    * <p>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of

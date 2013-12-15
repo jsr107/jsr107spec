@@ -27,7 +27,7 @@ import java.util.Collection;
  * <p>
  * The entry passed into {@link #write(Cache.Entry)} is independent
  * of the cache mapping for that key, meaning that if the value changes in the
- * cache or is removed it does not change the said entry.
+ * cache or is removed it does not change the entry.
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values

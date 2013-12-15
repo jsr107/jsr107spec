@@ -633,7 +633,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
   /**
    * Closing a {@link Cache} signals to the {@link CacheManager} that produced or
-   * owns the said {@link Cache} that it should no longer be managed. At this
+   * owns the {@link Cache} that it should no longer be managed. At this
    * point in time the {@link CacheManager}:
    * <ul>
    * <li>must close and release all resources being coordinated on behalf of the

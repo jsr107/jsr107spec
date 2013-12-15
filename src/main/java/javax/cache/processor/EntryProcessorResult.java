@@ -17,7 +17,7 @@ public interface EntryProcessorResult<T> {
    * <p>
    * If an exception was thrown during the processing of an entry, either by
    * the {@link EntryProcessor} itself or by the Caching implementation,
-   * said exceptions will be wrapped and re-thrown as a
+   * the exceptions will be wrapped and re-thrown as a
    * {@link EntryProcessorException} when calling this method.
    *
    * @return  the result of processing
