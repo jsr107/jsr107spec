@@ -29,8 +29,8 @@ import java.util.WeakHashMap;
  * Java Development Kit {@link ServiceLoader} class.
  * <p>
  * Although automatically discovered, applications that choose to use this class
- * should not make assumptions regarding the order that implementations returned
- * by the {@link #getCachingProviders()} or
+ * should not make assumptions regarding the order in which implementations are
+ * returned by the {@link #getCachingProviders()} or
  * {@link #getCachingProviders(ClassLoader)} methods.
  * <p>
  * For a {@link CachingProvider} to be automatically discoverable by the
