@@ -45,13 +45,13 @@ import java.lang.annotation.Target;
  * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both empty then all
  * exceptions prevent the removeAll</li>
  * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not
- * specified then only exceptions which pass an instanceof check against the
+ * specified then only exceptions that pass an instanceof check against the
  * evictFor list result in a removeAll</li>
  * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not
- * specified then all exceptions which do not pass an instanceof check against the
+ * specified then all exceptions that do not pass an instanceof check against the
  * noEvictFor result in a removeAll</li>
  * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then
- * exceptions which pass an instanceof check against the evictFor list but do not
+ * exceptions that pass an instanceof check against the evictFor list but do not
  * pass an instanceof check against the noEvictFor list result in a removeAll</li>
  * </ol>
  *
@@ -96,17 +96,16 @@ public @interface CacheRemoveAll {
       default CacheResolverFactory.class;
 
   /**
-   * Defines zero (0) or more exception {@link Class classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types must cause
-   * a cache removeAll. Only used if {@link #afterInvocation()} is true.
+   * Defines zero (0) or more exception {@link Class classes}, that must be a
+   * subclass of {@link Throwable}, indicating the exception types that must
+   * cause a cache eviction. Only used if {@link #afterInvocation()} is true.
    */
   @Nonbinding Class<? extends Throwable>[] evictFor() default {};
 
   /**
-   * Defines zero (0) or more exception {@link Class Classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types must
-   * <b>not</b>
-   * cause a cache removeAll. Only used if {@link #afterInvocation()} is true.
+   * Defines zero (0) or more exception {@link Class Classes}, that must be a
+   * subclass of {@link Throwable}, indicating the exception types that must
+   * <b>not</b> cause a cache eviction. Only used if {@link #afterInvocation()} is true.
    */
   @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};
 }

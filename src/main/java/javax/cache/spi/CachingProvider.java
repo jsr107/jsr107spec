@@ -22,7 +22,7 @@ import java.util.Properties;
  * The meaning and semantics of the {@link URI} used to identify a
  * {@link CacheManager} is implementation dependent.  For applications to remain
  * implementation independent, they should avoid attempting to create {@link URI}s
- * and instead use that which is returned by {@link #getDefaultURI()}.
+ * and instead use those returned by {@link #getDefaultURI()}.
  *
  * @author Brian Oliver
  * @since 1.0

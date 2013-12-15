@@ -22,8 +22,8 @@ import java.util.Collection;
  * be atomic in the writer. As individual writer operations can fail, cache
  * operations are not required to occur until after the writer batch method has
  * returned or, in the case of partial success, thrown an exception. In the case
- * of partial success, the collection of entries must contain only those entries
- * which failed.
+ * of partial success, the collection of entries return must only contain
+ * those entries that failed.
  * <p>
  * The entry passed into {@link #write(Cache.Entry)} is independent
  * of the cache mapping for that key, meaning that if the value changes in the
@@ -55,7 +55,7 @@ public interface CacheWriter<K, V> {
    * Write the specified entries to the external resource. This method is intended
    * to support both insert and update.
    * <p>
-   * The order in which individual writes occur is undefined, as
+   * The order that individual writes occur is undefined, as
    * {@link Cache#putAll(java.util.Map)} also has undefined ordering.
    * <p>
    * If this operation fails (by throwing an exception) after a partial success,
@@ -69,7 +69,7 @@ public interface CacheWriter<K, V> {
    *                successfully written. (see partial success above)
    * @throws CacheWriterException if one or more of the writes fail. If
    *                              thrown cache mutations will occur for
-   *                              entries which succeeded.
+   *                              entries that succeeded.
    */
   void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws
       CacheWriterException;
@@ -94,7 +94,7 @@ public interface CacheWriter<K, V> {
    * Remove data and keys from the external resource for the given collection of
    * keys, if present.
    * <p>
-   * The order in which individual deletes occur is undefined, as
+   * The order that individual deletes occur is undefined, as
    * {@link Cache#removeAll(java.util.Set)} also has undefined ordering.
    * <p>
    * If this operation fails (by throwing an exception) after a partial success,
@@ -114,7 +114,7 @@ public interface CacheWriter<K, V> {
    *             Upon return the collection must only contain the keys that were
    *             not successfully deleted. (see partial success above)
    * @throws CacheWriterException if one or more deletes fail. If thrown
-   *                              cache deletes will occur for entries which
+   *                              cache deletes will occur for entries that
    *                              succeeded.
    */
   void deleteAll(Collection<?> keys) throws CacheWriterException;

@@ -130,7 +130,7 @@ public interface CacheManager extends Closeable {
    *                                       {@link #isClosed()}
    * @throws CacheException                if there was an error configuring the
    *                                       {@link Cache}, which includes trying
-   *                                       to create a cache which already exists.
+   *                                       to create a cache that already exists.
    * @throws IllegalArgumentException      if the configuration is invalid
    * @throws UnsupportedOperationException if the configuration specifies
    *                                       an unsupported feature
@@ -359,7 +359,7 @@ public interface CacheManager extends Closeable {
    * the {@link IllegalArgumentException} is thrown.
    *
    * @param clazz the proprietary class or interface of the underlying concrete
-   *              {@link CacheManager}. It is this type which is returned.
+   *              {@link CacheManager}. It is this type that is returned.
    * @return an instance of the underlying concrete {@link CacheManager}
    * @throws IllegalArgumentException if the caching provider doesn't support the
    *                                  specified class.

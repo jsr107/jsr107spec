@@ -11,7 +11,7 @@ package javax.cache.expiry;
  * Defines functions to determine when cache entries will expire based on
  * creation, access and modification operations.
  * <p>
- * Each of the functions return a new {@link Duration}  which specifies the
+ * Each of the functions return a new {@link Duration} that specifies the
  * amount of time that must pass before a cache entry is considered expired.
  * {@link Duration} has constants defined for useful durations.
  *

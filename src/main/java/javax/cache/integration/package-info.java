@@ -9,7 +9,7 @@
  * This package contains interfaces for integration.
  * <p>
  * It contains the {@link javax.cache.integration.CacheLoader} and
- * {@link javax.cache.integration.CacheWriter} interfaces which
+ * {@link javax.cache.integration.CacheWriter} interfaces that
  * allow loading from and writing to other systems respectively.
  * <p>
  * A cache with a registered loader can be configured as a read-through cache, so

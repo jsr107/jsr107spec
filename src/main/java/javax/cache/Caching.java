@@ -19,7 +19,7 @@ import java.util.WeakHashMap;
  * The {@link Caching} class provides a convenient means for an application to
  * acquire an appropriate {@link CachingProvider} implementation.
  * <p>
- * While defined as part of the specification, its use is optional.
+ * While defined as part of the specification, its use is not required.
  * Applications and/or containers may instead choose to directly instantiate a
  * {@link CachingProvider} implementation based on implementation specific
  * instructions.
@@ -28,6 +28,11 @@ import java.util.WeakHashMap;
  * are automatically discovered when they follow the conventions outlined by the
  * Java Development Kit {@link ServiceLoader} class.
  * <p>
+ * Although automatically discovered, applications that choose to use this class
+ * should not make assumptions regarding the order that implementations returned
+ * by the {@link #getCachingProviders()} or
+ * {@link #getCachingProviders(ClassLoader)} methods.
+ * <p>
  * For a {@link CachingProvider} to be automatically discoverable by the
  * {@link Caching} class, the fully qualified class name of the
  * {@link CachingProvider} implementation must be declared in the following
@@ -35,7 +40,7 @@ import java.util.WeakHashMap;
  * <pre>
  *   META-INF/services/javax.cache.spi.CachingProvider
  * </pre>
- * that of which is resolvable via the class path.
+ * This file must be resolvable via the class path.
  * <p>
  * For example, in the reference implementation the contents of this file are:
  * <code>org.jsr107.ri.RICachingProvider</code>
@@ -236,7 +241,7 @@ public final class Caching {
 
 
   /**
-   * A convenience which method that Looks up a managed {@link Cache} given its
+   * A convenience that method that looks up a managed {@link Cache} given its
    * name. using the default <code>CachingProvider</code> and <code>CacheManager
    * </code>. For the full range of <code>Cache</code> look up methods see
    * {@link CacheManager}.

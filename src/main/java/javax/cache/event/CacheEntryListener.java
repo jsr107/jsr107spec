@@ -13,7 +13,7 @@ import java.util.EventListener;
  * A tagging interface for cache entry listeners.
  * <p>
  * Sub-interfaces exist for the various cache events allowing a listener to be
- * created which implements only those listeners it is interested in.
+ * created that implements only those listeners it is interested in.
  * <p>
  * Listeners should be implemented with care. In particular it is important to
  * consider their impact on performance and latency.
@@ -21,12 +21,12 @@ import java.util.EventListener;
  * Listeners:
  * <ul>
  * <li>are fired after the entry is mutated in the cache</li>
- * <li>if synchronous are fired, for a given key, in the order in which events
+ * <li>if synchronous are fired, for a given key, in the order that events
  * occur</li>
  * <li>block the calling thread until the listener returns,
  * where the listener was registered as synchronous</li>
- * <li>which are asynchronous iterate through multiple events with an undefined
- * ordering, except that events on the same key are in the order in which the
+ * <li>that are asynchronous iterate through multiple events with an undefined
+ * ordering, except that events on the same key are in the order that the
  * events occur.</li>
  * </ul>
  * Listeners follow the observer pattern. An exception thrown by a
@@ -36,7 +36,7 @@ import java.util.EventListener;
  * must catch any other {@link Exception} from a listener, then wrap and rethrow it as a
  * {@link CacheEntryListenerException}.
  * <p>
- * A listener which mutates a cache on the CacheManager may cause a deadlock.
+ * A listener that mutates a cache on the CacheManager may cause a deadlock.
  * Detection and response to deadlocks is implementation specific.
  * 
  * @param <K> the type of key

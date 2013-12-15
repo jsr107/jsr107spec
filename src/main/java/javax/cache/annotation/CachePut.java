@@ -50,13 +50,13 @@ import java.util.Arrays;
  * <li>If {@link #cacheFor()} and {@link #noCacheFor()} are both empty then all
  * exceptions prevent the put</li>
  * <li>If {@link #cacheFor()} is specified and {@link #noCacheFor()} is not
- * specified then only exceptions which pass an instanceof check against the
+ * specified then only exceptions that pass an instanceof check against the
  * cacheFor list result in a put</li>
  * <li>If {@link #noCacheFor()} is specified and {@link #cacheFor()} is not
- * specified then all exceptions which do not pass an instanceof check against the
+ * specified then all exceptions that do not pass an instanceof check against the
  * noCacheFor result in a put</li>
  * <li>If {@link #cacheFor()} and {@link #noCacheFor()} are both specified then
- * exceptions which pass an instanceof check against the cacheFor list but do not
+ * exceptions that pass an instanceof check against the cacheFor list but do not
  * pass an instanceof check against the noCacheFor list result in a put</li>
  * </ol>
  *
@@ -115,10 +115,9 @@ public @interface CachePut {
       default CacheKeyGenerator.class;
 
   /**
-   * Defines zero (0) or more exception {@link Class classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types <b>must</b>
-   * cause
-   * the parameter to be cached. Only used if {@link #afterInvocation()} is true.
+   * Defines zero (0) or more exception {@link Class classes}, that must be a
+   * subclass of {@link Throwable}, indicating the exception types that <b>must</b>
+   * cause the parameter to be cached. Only used if {@link #afterInvocation()} is true.
    */
   @Nonbinding Class<? extends Throwable>[] cacheFor() default {};
 

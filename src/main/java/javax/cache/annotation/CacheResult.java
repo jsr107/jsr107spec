@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * found it is re-thrown.
  * <p>
  * The {@link #cachedExceptions()} and {@link #nonCachedExceptions()} properties
- * can be used to control which exceptions are cached and which are not.
+ * can be used to control the exceptions are cached and those that are not.
  * <p>
  * To always invoke the annotated method and still cache the result set
  * {@link #skipGet()} to true. This will disable the pre-invocation
@@ -76,13 +76,13 @@ import java.lang.annotation.Target;
  * empty then all exceptions are cached</li>
  * <li>If {@link #cachedExceptions()} is specified and
  * {@link #nonCachedExceptions()} is not specified then only exceptions
- * which pass an instanceof check against the cachedExceptions list are cached</li>
+ * that pass an instanceof check against the cachedExceptions list are cached</li>
  * <li>If {@link #nonCachedExceptions()} is specified and
  * {@link #cachedExceptions()} is not specified then all exceptions
- * which do not pass an instanceof check against the nonCachedExceptions list are
+ * that do not pass an instanceof check against the nonCachedExceptions list are
  * cached</li>
  * <li>If {@link #cachedExceptions()} and {@link #nonCachedExceptions()} are both
- * specified then exceptions which pass an instanceof check against the
+ * specified then exceptions that pass an instanceof check against the
  * cachedExceptions list but do not pass an instanceof check against the
  * nonCachedExceptions list are cached</li>
  * </ol>
@@ -108,7 +108,7 @@ public @interface CacheResult {
   /**
    * If set to true the pre-invocation {@link Cache#get(Object)} is
    * skipped and the annotated method is always executed with the returned value
-   * being cached as normal. This is useful for create or update methods which
+   * being cached as normal. This is useful for create or update methods that
    * should always be executed and have their returned value placed in the cache.
    * <p>
    * If true and an {@link #exceptionCacheName()} is specified the pre-invocation
@@ -153,16 +153,16 @@ public @interface CacheResult {
   @Nonbinding String exceptionCacheName() default "";
 
   /**
-   * Defines zero (0) or more exception {@link Class classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types which
+   * Defines zero (0) or more exception {@link Class classes}, that must be a
+   * subclass of {@link Throwable}, indicating the exception types that
    * <b>must</b> be cached. Only consulted if {@link #exceptionCacheName()} is
    * specified.
    */
   @Nonbinding Class<? extends Throwable>[] cachedExceptions() default {};
 
   /**
-   * Defines zero (0) or more exception {@link Class Classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types
+   * Defines zero (0) or more exception {@link Class Classes}, that must be a
+   * subclass of {@link Throwable}, indicating the exception types that
    * <b>must not</b> be cached. Only consulted if {@link #exceptionCacheName()}
    * is specified.
    */

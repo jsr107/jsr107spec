@@ -35,11 +35,8 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
    * will return true.
    *
    * @param value the value to update the entry with
-   * @throws ClassCastException if the implementation supports and is
-   *                            configured to perform runtime-type-checking,
-   *                            and value type is incompatible with that
-   *                            which has been configured for the
-   *                            {@link Cache}
+   * @throws ClassCastException  if the key type is incompatible with the
+   *                             {@link Cache} configuration
    */
   void setValue(V value);
 }

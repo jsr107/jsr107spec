@@ -70,7 +70,7 @@ public interface CacheStatisticsMXBean {
   float getCacheHitPercentage();
 
   /**
-   * A miss is a get request which is not satisfied.
+   * A miss is a get request that is not satisfied.
    * <p>
    * In a simple cache a miss occurs when the cache does not satisfy the request.
    * <p>
@@ -84,7 +84,7 @@ public interface CacheStatisticsMXBean {
    * In a caches with multiple tiered storage, a miss may be implemented as a miss
    * to the cache or to the first tier.
    * <p>
-   * In a read-through cache a miss is an absence of the key in the cache which
+   * In a read-through cache a miss is an absence of the key in the cache that
    * will trigger a call to a CacheLoader. So it is still a miss even though the
    * cache will load and return the value.
    * <p>
@@ -127,7 +127,7 @@ public interface CacheStatisticsMXBean {
    * Replaces, where a put occurs which overrides an existing mapping is counted
    * as a put.
    *
-   * @return the number of hits
+   * @return the number of puts
    */
   long getCachePuts();
 
@@ -135,7 +135,7 @@ public interface CacheStatisticsMXBean {
    * The total number of removals from the cache. This does not include evictions,
    * where the cache itself initiates the removal to make space.
    *
-   * @return the number of hits
+   * @return the number of removals
    */
   long getCacheRemovals();
 
@@ -144,7 +144,7 @@ public interface CacheStatisticsMXBean {
    * initiated by the cache itself to free up space. An eviction is not treated as
    * a removal and does not appear in the removal counts.
    *
-   * @return the number of evictions from the cache
+   * @return the number of evictions
    */
   long getCacheEvictions();
 

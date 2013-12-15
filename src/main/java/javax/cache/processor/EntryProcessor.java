@@ -133,7 +133,7 @@ public interface EntryProcessor<K, V, T> {
    *
    * @param entry     the entry
    * @param arguments a number of arguments to the process.
-   * @return the result of the processing, if any, which is user defined.
+   * @return the user-defined result of the processing, if any.
    * @throws EntryProcessorException if there is a failure in entry processing.
    */
   T process(MutableEntry<K, V> entry, Object... arguments)

@@ -8,7 +8,7 @@
 package javax.cache.event;
 
 /**
- * A function which may be used to check {@link CacheEntryEvent}s prior to being
+ * A function that may be used to check {@link CacheEntryEvent}s prior to being
  * dispatched to {@link CacheEntryListener}s.
  * <p>
  * A filter must not create side effects.

@@ -72,20 +72,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Gets an entry from the cache.
    * <p>
-   * If the cache is configured read-through, and get would return null because
-   * the entry is missing from the cache, the Cache's {@link CacheLoader} is
-   * called
-   * which will attempt to load the entry.
+   * If the cache is configured to use read-through, and get would return null
+   * because the entry is missing from the cache, the Cache's {@link CacheLoader} is
+   * called in an attempt to load the entry.
    *
    * @param key the key whose associated value is to be returned
    * @return the element, or null, if it does not exist.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws NullPointerException  if the key is null
    * @throws CacheException        if there is a problem fetching the value
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   * @throws ClassCastException    if the key type is incompatible with the
+   *                               {@link Cache} configuration
    */
   V get(K key);
 
@@ -93,11 +90,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Gets a collection of entries from the {@link Cache}, returning them as
    * {@link Map} of the values associated with the set of keys requested.
    * <p>
-   * If the cache is configured read-through, and a get would return null
-   * because an entry is missing from the cache, the Cache's
-   * {@link CacheLoader} is called which will attempt to load the entry. This is
-   * done for each key in the set for which this is the case. If an entry cannot
-   * be loaded for a given key, the key will not be present in the returned Map.
+   * If the cache is configured read-through, and a get for a key would
+   * return null because an entry is missing from the cache, the Cache's
+   * {@link CacheLoader} is called in an attempt to load the entry. If an
+   * entry cannot be loaded for a given key, the key will not be present in
+   * the returned Map.
    *
    * @param keys The keys whose associated values are to be returned.
    * @return A map of entries that were found for the given keys. Keys not found
@@ -105,11 +102,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @throws NullPointerException  if keys is null or if keys contains a null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem fetching the values
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and any key type is incompatible with that
-   *                               which has been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if key type is incompatible with the
+   *                               {@link Cache} configuration
    */
   Map<K, V> getAll(Set<? extends K> keys);
 
@@ -125,11 +119,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @throws NullPointerException  if key is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        it there is a problem checking the mapping
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key type is incompatible with that
-   *                               which has been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key type is incompatible with the
+   *                               {@link Cache} configuration
    * @see java.util.Map#containsKey(Object)
    */
   boolean containsKey(K key);
@@ -149,7 +140,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * {@link Set} in parallel.  Iteration however must not occur in parallel,
    * thus allow for non-thread-safe {@link Set}s to be used.
    * <p>
-   * The thread on which the completion listener is called is implementation
+   * The thread that the completion listener is called is implementation
    * dependent. An implementation may also choose to serialize calls to
    * different CompletionListeners rather than use a thread per
    * CompletionListener.
@@ -164,11 +155,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    *                               load. This may also be thrown on calling if
    *                               there are insufficient threads available to
    *                               perform the load.
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and any key type is incompatible with that
-   *                               which has been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key type is incompatible with the
+   *                               {@link Cache} configuration
    */
   void loadAll(Set<? extends K> keys, boolean replaceExistingValues,
                CompletionListener completionListener);
@@ -181,16 +169,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * contain a mapping for a key <tt>k</tt> if and only if {@link
    * #containsKey(Object) c.containsKey(k)} would return <tt>true</tt>.)
    *
-   * @param key   key with which the specified value is to be associated
+   * @param key   key that the specified value is to be associated
    * @param value value to be associated with the specified key
    * @throws NullPointerException  if key is null or if value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the put
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those which have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key or value type is incompatible
+   *                               with the {@link Cache} configuration
    * @see java.util.Map#put(Object, Object)
    * @see #getAndPut(Object, Object)
    * @see #getAndReplace(Object, Object)
@@ -211,18 +196,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * The previous value is returned, or null if there was no value associated
    * with the key previously.
    *
-   * @param key   key with which the specified value is to be associated
+   * @param key   key that the specified value is to be associated
    * @param value value to be associated with the specified key
    * @return the value associated with the key at the start of the operation or
    *         null if none was associated
    * @throws NullPointerException  if key is null or if value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the put
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those which have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if key or value type is incompatible with the
+   *                               {@link Cache} configuration
    * @see #put(Object, Object)
    * @see #getAndReplace(Object, Object)
    * @see CacheWriter#write
@@ -236,7 +218,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * {@link #put(Object, Object) put(k, v)} on this cache once for each mapping
    * from key <tt>k</tt> to value <tt>v</tt> in the specified map.
    * <p>
-   * The order in which the individual puts occur is undefined.
+   * The order that the individual puts occur is undefined.
    * <p>
    * The behavior of this operation is undefined if entries in the cache
    * corresponding to entries in the map are modified or removed while this
@@ -275,17 +257,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * </code></pre>
    * except that the action is performed atomically.
    *
-   * @param key   key with which the specified value is to be associated
+   * @param key   key that the specified value is to be associated
    * @param value value to be associated with the specified key
    * @return true if a value was set.
    * @throws NullPointerException  if key is null or value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the put
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those that have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key or value type is incompatible
+   *                               with the {@link Cache} configuration
    * @see CacheWriter#write
    */
   boolean putIfAbsent(K key, V value);
@@ -309,11 +288,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @throws NullPointerException  if key is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem doing the remove
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key type is incompatible with that
-   *                               which has been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key type is incompatible
+   *                               with the {@link Cache} configuration
    * @see CacheWriter#delete
    */
   boolean remove(K key);
@@ -364,15 +340,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * </code></pre>
    * except that the action is performed atomically.
    *
-   * @param key key with which the specified value is associated
+   * @param key key that the specified value is associated
    * @return the value if one existed or null if no mapping existed for this key
    * @throws NullPointerException  if the specified key or value is null.
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the remove
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   * @throws ClassCastException    if key type is incompatible with the
+   *                               {@link Cache} configuration
    * @see CacheWriter#delete
    */
   V getAndRemove(K key);
@@ -392,18 +366,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * </code></pre>
    * except that the action is performed atomically.
    *
-   * @param key      key with which the specified value is associated
+   * @param key      key that the specified value is associated
    * @param oldValue value expected to be associated with the specified key
    * @param newValue value to be associated with the specified key
    * @return <tt>true</tt> if the value was replaced
    * @throws NullPointerException  if key is null or if the values are null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the replace
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those which have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key or value type is incompatible
+   *                               with the {@link Cache} configuration
    * @see CacheWriter#write
    */
   boolean replace(K key, V oldValue, V newValue);
@@ -422,17 +393,14 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * }</code></pre>
    * except that the action is performed atomically.
    *
-   * @param key   key with which the specified value is associated
+   * @param key   key for the associated value
    * @param value value to be associated with the specified key
    * @return <tt>true</tt> if the value was replaced
    * @throws NullPointerException  if key is null or if value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the replace
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those that have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key or value type is incompatible
+   *                               with the {@link Cache} configuration
    * @see #getAndReplace(Object, Object)
    * @see CacheWriter#write
    */
@@ -454,18 +422,15 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * </code></pre>
    * except that the action is performed atomically.
    *
-   * @param key   key with which the specified value is associated
+   * @param key   key that the specified value is associated
    * @param value value to be associated with the specified key
    * @return the previous value associated with the specified key, or
    *         <tt>null</tt> if there was no mapping for the key.
    * @throws NullPointerException  if key is null or if value is null
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the replace
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and the key or value types are incompatible
-   *                               with those that have been configured for the
-   *                               {@link Cache}
+   * @throws ClassCastException    if the key or value type is incompatible with the
+   *                               {@link Cache} configuration
    * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
    * @see CacheWriter#write
    */
@@ -474,7 +439,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Removes entries for the specified keys.
    * <p>
-   * The order in which the individual removes will occur is undefined.
+   * The order that the individual entries are removes is undefined.
    * <p>
    * For every entry in the key set, the following are called:
    * <ul>
@@ -487,10 +452,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * @throws NullPointerException  if keys is null or if it contains a null key
    * @throws IllegalStateException if the cache is {@link #isClosed()}
    * @throws CacheException        if there is a problem during the remove
-   * @throws ClassCastException    if the implementation supports and is
-   *                               configured to perform runtime-type-checking,
-   *                               and any key type is incompatible with that
-   *                               which has been configured for the {@link Cache}
+   * @throws ClassCastException    if a key type is incompatible
+   *                               with the {@link Cache} configuration
    * @see CacheWriter#deleteAll
    */
   void removeAll(Set<? extends K> keys);
@@ -498,7 +461,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
   /**
    * Removes all of the mappings from this cache.
    * <p>
-   * The order in which the individual removes will occur is undefined.
+   * The order that the individual entries are removed is undefined.
    * <p>
    * For every mapping that exists the following are called:
    * <ul>
@@ -582,7 +545,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * to load it (if a loader is configured) or a surrogate {@link Entry},
    * consisting of the key and a value of null is provided.
    * <p>
-   * The order in which the entries for the keys are processed is undefined.
+   * The order that the entries for the keys are processed is undefined.
    * Implementations may choose to process the entries in any order, including
    * concurrently.  Furthermore there is no guarantee implementations will
    * use the same {@link EntryProcessor} instance to process each entry, as
@@ -683,7 +646,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * the {@link IllegalArgumentException} is thrown.
    *
    * @param clazz the proprietary class or interface of the underlying concrete
-   *              cache. It is this type which is returned.
+   *              cache. It is this type that is returned.
    * @return an instance of the underlying concrete cache
    * @throws IllegalArgumentException if the caching provider doesn't support
    *                                  the specified class.
@@ -709,8 +672,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
       CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration);
 
   /**
-   * Deregisters a listener, using as its unique identifier the
-   * {@link CacheEntryListenerConfiguration} which was used to register it.
+   * Deregisters a listener, using the
+   * {@link CacheEntryListenerConfiguration} that was used to register it.
    * <p>
    * Both listeners registered at configuration time,
    * and those created at runtime with {@link #registerCacheEntryListener} can
@@ -768,7 +731,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * the {@link IllegalArgumentException} is thrown.
      *
      * @param clazz the proprietary class or interface of the underlying
-     *              concrete cache. It is this type which is returned.
+     *              concrete cache. It is this type that is returned.
      * @return an instance of the underlying concrete cache
      * @throws IllegalArgumentException if the caching provider doesn't support
      *                                  the specified class.

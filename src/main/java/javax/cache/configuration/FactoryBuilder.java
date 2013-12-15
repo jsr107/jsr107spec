@@ -9,11 +9,11 @@ package javax.cache.configuration;
 import java.io.Serializable;
 
 /**
- * A convenience class which defines generically typed static methods to aid in
+ * A convenience class that defines generically typed static methods to aid in
  * the building of {@link Factory} instances.
  * <p>
  * {@link Factory} is used by {@link MutableConfiguration} to avoid adding
- * non-Serializable instances which would assume usage in the local JVM.
+ * non-Serializable instances that would assume usage in the local JVM.
  * <p>
  * Two styles of builder are available:
  * <ul>

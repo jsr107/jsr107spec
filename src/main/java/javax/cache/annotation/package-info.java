@@ -22,8 +22,8 @@
  * the same data would be returned. Annotations therefore provide an additional
  * API for interacting with caches.
  * <p>
- * In order to use these annotations, you'll need a library or framework which
- * processes these annotations and intercepts calls to your application objects
+ * To use these annotations you'll need a library or framework that processes
+ * these annotations and intercepts calls to your application objects
  * to provide the caching behaviour. This would commonly be provided by a
  * dependency injection framework such as defined by CDI in Java EE.
  *
