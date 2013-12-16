@@ -19,9 +19,8 @@ import java.lang.annotation.Target;
 
 /**
  * When a method annotated with {@link CacheRemove} is invoked a {@link
- * GeneratedCacheKey} will be generated and
- * {@link Cache#remove(Object)} will be invoked on the specified
- * cache.
+ * GeneratedCacheKey} will be generated and {@link Cache#remove(Object)} will be
+ * invoked on the specified cache.
  * <p>
  * The default behavior is to call {@link Cache#remove(Object)} after
  * the annotated method is invoked, this behavior can be changed by setting
@@ -50,12 +49,10 @@ import java.lang.annotation.Target;
  * exceptions prevent the remove</li>
  * <li>If {@link #evictFor()} is specified and {@link #noEvictFor()} is not
  * specified then only exceptions that pass an instanceof check against the
- * evictFor list result in a
- * remove</li>
+ * evictFor list result in a remove</li>
  * <li>If {@link #noEvictFor()} is specified and {@link #evictFor()} is not
  * specified then all exceptions that do not pass an instanceof check against the
- * noEvictFor result in a
- * remove</li>
+ * noEvictFor result in a remove</li>
  * <li>If {@link #evictFor()} and {@link #noEvictFor()} are both specified then
  * exceptions that pass an instanceof check against the evictFor list but do not
  * pass an instanceof check against the noEvictFor list result in a remove</li>

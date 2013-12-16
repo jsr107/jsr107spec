@@ -105,7 +105,8 @@ public @interface CacheRemoveAll {
   /**
    * Defines zero (0) or more exception {@link Class Classes}, that must be a
    * subclass of {@link Throwable}, indicating the exception types that must
-   * <b>not</b> cause a cache eviction. Only used if {@link #afterInvocation()} is true.
+   * <b>not</b> cause a cache eviction. Only used if {@link #afterInvocation()} is
+   * true.
    */
   @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};
 }

@@ -18,12 +18,11 @@ import java.lang.annotation.Target;
 
 /**
  * When a method annotated with {@link CacheResult} is invoked a
- * {@link GeneratedCacheKey} will be generated and
- * {@link Cache#get(Object)} is called before the annotated method
- * actually executes. If a value is found in the cache it is returned and the
- * annotated method is never actually executed. If no value is found the
- * annotated method is invoked and the returned value is stored in the cache
- * with the generated key.
+ * {@link GeneratedCacheKey} will be generated and {@link Cache#get(Object)} is
+ * called before the annotated method actually executes. If a value is found in the
+ * cache it is returned and the annotated method is never actually executed. If no
+ * value is found the annotated method is invoked and the returned value is stored
+ * in the cache with the generated key.
  * <p>
  * Exceptions are not cached by default. Caching of exceptions can be enabled by
  * specifying an {@link #exceptionCacheName()}. If an exception cache is specified
