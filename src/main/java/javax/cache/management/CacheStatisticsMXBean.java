@@ -44,15 +44,15 @@ public interface CacheStatisticsMXBean {
   /**
    * The number of get requests that were satisfied by the cache.
    * <p>
-   * {@link javax.cache.Cache#containsKey(Object)} is not a get request
-   * for statistics purposes.
+   * {@link javax.cache.Cache#containsKey(Object)} is not a get request for
+   * statistics purposes.
    * <p>
    * In a caches with multiple tiered storage, a hit may be implemented as a hit
    * to the cache or to the first tier.
    * <p>
    * For an {@link javax.cache.processor.EntryProcessor}, a hit occurs when the
-   * key exists and an entry processor can be invoked against it, even if
-   * no methods of {@link javax.cache.Cache.Entry} or
+   * key exists and an entry processor can be invoked against it, even if no
+   * methods of {@link javax.cache.Cache.Entry} or
    * {@link javax.cache.processor.MutableEntry} are called.
    *
    * @return the number of hits
@@ -74,8 +74,8 @@ public interface CacheStatisticsMXBean {
    * <p>
    * In a simple cache a miss occurs when the cache does not satisfy the request.
    * <p>
-   * {@link javax.cache.Cache#containsKey(Object)} is not a get request
-   * for statistics purposes.
+   * {@link javax.cache.Cache#containsKey(Object)} is not a get request for
+   * statistics purposes.
    * <p>
    * For an {@link javax.cache.processor.EntryProcessor}, a miss occurs when the
    * key does not exist and therefore an entry processor cannot be invoked

@@ -73,8 +73,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
    * Gets an entry from the cache.
    * <p>
    * If the cache is configured to use read-through, and get would return null
-   * because the entry is missing from the cache, the Cache's {@link CacheLoader} is
-   * called in an attempt to load the entry.
+   * because the entry is missing from the cache, the Cache's {@link CacheLoader}
+   * is called in an attempt to load the entry.
    *
    * @param key the key whose associated value is to be returned
    * @return the element, or null, if it does not exist.
@@ -760,5 +760,4 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      */
     <T> T unwrap(Class<T> clazz);
   }
-
 }

@@ -27,8 +27,8 @@ import java.util.Arrays;
  * The default behavior is to call {@link Cache#put(Object, Object)}
  * after the annotated method is invoked, this behavior can be changed by setting
  * {@link #afterInvocation()} to false in which case
- * {@link Cache#put(Object, Object)} will be called before the
- * annotated method is invoked.
+ * {@link Cache#put(Object, Object)} will be called before the annotated method is
+ * invoked.
  * <p>
  * Example of caching the Domain object with a key generated from the String and
  * int parameters. The {@link CacheValue} annotation is used to designate which

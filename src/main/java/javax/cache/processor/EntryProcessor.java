@@ -7,16 +7,16 @@ import javax.cache.integration.CacheWriter;
 
 
 /**
- * An invocable function that allows applications to perform compound
- * operations on a {@link javax.cache.Cache.Entry} atomically, according the
- * defined consistency of a {@link Cache}.
+ * An invocable function that allows applications to perform compound operations
+ * on a {@link javax.cache.Cache.Entry} atomically, according the defined
+ * consistency of a {@link Cache}.
  * <p>
- * Any {@link javax.cache.Cache.Entry} mutations will not take effect until
- * after the {@link EntryProcessor#process(MutableEntry, Object...)}
- * method has completed execution.
+ * Any {@link javax.cache.Cache.Entry} mutations will not take effect until after
+ * the {@link EntryProcessor#process(MutableEntry, Object...)} method has completed
+ * execution.
  * <p>
- * If an exception is thrown by an {@link EntryProcessor}, a Caching
- * Implementation must wrap any {@link Exception} thrown wrapped in an {@link
+ * If an exception is thrown by an {@link EntryProcessor}, a Caching Implementation
+ * must wrap any {@link Exception} thrown wrapped in an {@link
  * EntryProcessorException}. If this occurs no mutations will be made to the
  * {@link javax.cache.Cache.Entry}.
  * <p>
@@ -26,14 +26,14 @@ import javax.cache.integration.CacheWriter;
  * <h3>Effect of {@link MutableEntry} operations</h3>
  * {@link javax.cache.Cache.Entry} access, via a call to
  * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
- * {@link Cache#get(Object)} was called for the key.  This includes
- * updating necessary statistics, consulting the configured {@link ExpiryPolicy}
- * and loading from a configured {@link javax.cache.integration.CacheLoader}.
+ * {@link Cache#get(Object)} was called for the key.  This includes updating
+ * necessary statistics, consulting the configured {@link ExpiryPolicy} and loading
+ * from a configured {@link javax.cache.integration.CacheLoader}.
  * <p>
  * {@link javax.cache.Cache.Entry} mutation, via a call to
  * {@link MutableEntry#setValue(Object)}, will behave as if {@link
- * Cache#put(Object, Object)} was called for the key.
- * This includes updating necessary statistics, consulting the configured {@link
+ * Cache#put(Object, Object)} was called for the key. This includes updating
+ * necessary statistics, consulting the configured {@link
  * ExpiryPolicy}, notifying {@link CacheEntryListener}s and writing to a
  * configured {@link CacheWriter}.
  * <p>
@@ -64,14 +64,12 @@ import javax.cache.integration.CacheWriter;
  * <br>
  * Final value of the cache: last setValue<br>
  * Statistics: one get and one put as the second get and the first put are
- * internal
- * to the EntryProcessor.<br>
+ * internal to the EntryProcessor.<br>
  * Listeners: second put will cause either a put or an update depending on whether
  * there was an initial value for the entry.<br>
  * CacheLoader: Invoked by the first get only if a loader was registered.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to
- * the
- * Entry Processor.<br>
+ * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
  * 
@@ -92,8 +90,7 @@ import javax.cache.integration.CacheWriter;
  * there was an initial value for the entry.<br>
  * CacheLoader: Invoked by the first get only if a loader was registered.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to
- * the
- * Entry Processor.<br>
+ * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
  * 
@@ -112,8 +109,8 @@ import javax.cache.integration.CacheWriter;
  * Statistics: one get and one remove as the second get and the two puts are
  * internal to the EntryProcessor.<br>
  * Listeners: remove if there was initial value in the cache, otherwise no
- * listener
- * invoked.<br> CacheLoader: Invoked by the first get only if a loader was
+ * listener invoked.
+ * <br> CacheLoader: Invoked by the first get only if a loader was
  * registered.
  * <br> CacheWriter: Invoked by the remove only as the two puts are internal to
  * the Entry Processor.<br>

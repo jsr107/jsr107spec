@@ -50,7 +50,7 @@ import java.util.Properties;
  * <p>
  * Within a Java process {@link CacheManager}s and the {@link Cache}s they
  * manage are scoped and uniquely identified by a {@link URI},  the meaning of
- * which is implementation specific.   To obtain the default {@link URI},
+ * which is implementation specific. To obtain the default {@link URI},
  * {@link ClassLoader} and {@link Properties} for an implementation, consult the
  * {@link CachingProvider} class.
  *
@@ -154,8 +154,8 @@ public interface CacheManager extends Closeable {
    * Implementations must ensure that the key and value types are the same as
    * those configured for the {@link Cache} prior to returning from this method.
    * <p>
-   * Implementations may further perform type checking on mutative cache operations and
-   * throw a {@link ClassCastException} if these checks fail.
+   * Implementations may further perform type checking on mutative cache operations
+   * and throw a {@link ClassCastException} if these checks fail.
    * <p>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
@@ -172,7 +172,8 @@ public interface CacheManager extends Closeable {
    * @throws SecurityException        when the operation could not be performed
    *                                  due to the current security settings
    */
-  <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
+  <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType,
+                              Class<V> valueType);
 
   /**
    * Looks up a managed {@link Cache} given its name.
@@ -217,8 +218,8 @@ public interface CacheManager extends Closeable {
    * {@link java.util.Iterator}s returned by the {@link Iterable} may not provide
    * all of the {@link Cache}s managed by the {@link CacheManager}.  For example:
    * Internally defined or platform specific {@link Cache}s that may be accessible
-   * by a call to {@link #getCache(String)} or {@link #getCache(String, Class, Class)}
-   * may not be present in an iteration.
+   * by a call to {@link #getCache(String)} or {@link #getCache(String, Class,
+   * Class)} may not be present in an iteration.
    *
    * @return an {@link Iterable} over the names of managed {@link Cache}s.
    * @throws IllegalStateException if the {@link CacheManager}
@@ -256,8 +257,7 @@ public interface CacheManager extends Closeable {
 
   /**
    * Controls whether management is enabled. If enabled the {@link CacheMXBean}
-   * for
-   * each cache is registered in the platform MBean server. The platform
+   * for each cache is registered in the platform MBean server. The platform
    * MBeanServer is obtained using
    * {@link ManagementFactory#getPlatformMBeanServer()}.
    * <p>
@@ -326,8 +326,8 @@ public interface CacheManager extends Closeable {
    * All attempts to close a previously closed {@link CacheManager} will be
    * ignored.
    *
-   * @throws SecurityException when the operation could not be performed
-   *                           due to the current security settings
+   * @throws SecurityException when the operation could not be performed due to the
+   *         current security settings
    */
   void close();
 

@@ -38,10 +38,10 @@ public interface GeneratedCacheKey extends Serializable {
    * Compare this {@link GeneratedCacheKey} with another. If the two objects
    * are equal their {@link #hashCode()} values MUST be equal as well.
    *
-   * @param o The other object to compare to.
+   * @param object The other object to compare to.
    * @return true if the objects are equal
    * @see Object#equals(Object)
    */
   @Override
-  boolean equals(Object o);
+  boolean equals(Object object);
 }

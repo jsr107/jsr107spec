@@ -28,7 +28,8 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
   void remove();
 
   /**
-   * Sets or replaces the value associated with the key
+   * Sets or replaces the value associated with the key.
+   * <p>
    * If {@link #exists} is false and setValue is called
    * then a mapping is added to the cache visible once the EntryProcessor
    * completes. Moreover a second invocation of {@link #exists()}

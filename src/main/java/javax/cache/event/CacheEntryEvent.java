@@ -45,8 +45,7 @@ public abstract class CacheEntryEvent<K, V> extends EventObject
    * Returns the previous value, that existed prior to the
    * modification of the Entry value.
    *
-   * @return the previous value or <code>null</code> if there was no
-   *         previous value
+   * @return the previous value or <code>null</code> if there was no previous value
    */
   public abstract V getOldValue();
 

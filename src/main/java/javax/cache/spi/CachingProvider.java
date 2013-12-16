@@ -25,6 +25,7 @@ import java.util.Properties;
  * and instead use those returned by {@link #getDefaultURI()}.
  *
  * @author Brian Oliver
+ * @author Greg Luck
  * @since 1.0
  */
 public interface CachingProvider extends Closeable {

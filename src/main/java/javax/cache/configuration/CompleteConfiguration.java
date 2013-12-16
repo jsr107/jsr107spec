@@ -31,7 +31,8 @@ import java.io.Serializable;
  * @author Brian Oliver
  * @since 1.0
  */
-public interface CompleteConfiguration<K, V> extends Configuration<K, V>, Serializable {
+public interface CompleteConfiguration<K, V> extends Configuration<K, V>,
+    Serializable {
 
   /**
    * Determines if a {@link javax.cache.Cache} should operate in read-through mode.

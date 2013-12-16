@@ -46,12 +46,10 @@ public interface CacheInvocationContext<A extends Annotation>
    * IllegalArgumentException} is thrown.
    *
    * @param cls the class of the object to be returned. This is normally either the
-   *            underlying implementation class or an interface that it
-   *            implements.
+   *            underlying implementation class or an interface that it implements.
    * @return an instance of the specified class
-   * @throws IllegalArgumentException if the provider doesn't support the
-   *                                  specified
-   *                                  class.
+   * @throws IllegalArgumentException if the provider doesn't support the specified
+   *            class.
    */
   <T> T unwrap(java.lang.Class<T> cls);
 }

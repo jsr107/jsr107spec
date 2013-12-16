@@ -243,8 +243,8 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   /**
    * Remove a configuration for a {@link CacheEntryListener}.
    *
-   * @param cacheEntryListenerConfiguration  the {@link CacheEntryListenerConfiguration}
-   *                                         to remove
+   * @param cacheEntryListenerConfiguration  the
+   *     {@link CacheEntryListenerConfiguration} to remove
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
   public MutableConfiguration<K, V> removeCacheEntryListenerConfiguration(

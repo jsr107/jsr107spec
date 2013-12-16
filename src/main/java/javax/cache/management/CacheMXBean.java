@@ -84,13 +84,11 @@ public interface CacheMXBean {
    * {@link Cache#invoke}
    * {@link Cache#invokeAll}
    * <p>
-   * will appropriately cause the configured
-   * {@link CacheWriter} to be invoked.
+   * will appropriately cause the configured {@link CacheWriter} to be invoked.
    * <p>
    * The default value is <code>false</code>.
    *
-   * @return <code>true</code> when a {@link Cache} is in
-   *         "write-through" mode.
+   * @return <code>true</code> when a {@link Cache} is in "write-through" mode.
    * @see CacheWriter
    */
   boolean isWriteThrough();
@@ -103,13 +101,14 @@ public interface CacheMXBean {
    * Caches stored by reference are capable of mutation by any threads holding
    * the reference. The effects are:
    * <ul>
-   * <li>if the key is mutated, then the key may not be retrievable or removable</li>
-   * <li>if the value is mutated, then all threads in the JVM can potentially observe
-   * those mutations, subject to the normal Java Memory Model rules.</li>
+   * <li>if the key is mutated, then the key may not be retrievable or
+   * removable</li>
+   * <li>if the value is mutated, then all threads in the JVM can potentially
+   * observe those mutations, subject to the normal Java Memory Model rules.</li>
    * </ul>
    * Storage by reference only applies to the local heap. If an entry is moved off
-   * heap it will need to be transformed into a representation. Any mutations that occur
-   * after transformation may not be reflected in the cache.
+   * heap it will need to be transformed into a representation. Any mutations that
+   * occur after transformation may not be reflected in the cache.
    * <p>
    * When a cache is storeByValue, any mutation to the key or value does not affect
    * the key of value stored in the cache.

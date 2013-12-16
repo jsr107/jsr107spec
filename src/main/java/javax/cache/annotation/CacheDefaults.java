@@ -21,9 +21,10 @@ import java.util.Arrays;
  * {@link CacheRemove}, and {@link CacheRemoveAll} at the class level. Without
  * the method level annotations this annotation has no effect.
  * <p>
- * Example of specifying a default cache name that is used by the annotations on the
- * getDomain and deleteDomain methods. The annotation for getAllDomains would use the
- * "allDomains" cache name specified in the method level annotation.
+ * Following is an example of specifying a default cache name that is used by
+ * the annotations on the getDomain and deleteDomain methods. The annotation for
+ * getAllDomains would use the "allDomains" cache name specified in the method
+ * level annotation.
  * <pre><code>
  * package my.app;
  * 
@@ -56,32 +57,39 @@ public @interface CacheDefaults {
   /**
    * The default name of the cache for the annotated class
    * <p>
-   * If not specified defaults to: package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
+   * If not specified defaults to:
+   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
    * <p>
-   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
+   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove},
+   * and {@link CacheRemoveAll}
    */
   @Nonbinding String cacheName() default "";
 
   /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to use at runtime.
+   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+   * use at runtime.
    * <p>
-   * The default resolver pair will resolve the cache by name from the default {@link CacheManager}
+   * The default resolver pair will resolve the cache by name from the default
+   * {@link CacheManager}
    * <p>
-   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove}, and {@link CacheRemoveAll}
+   * Applicable for {@link CacheResult}, {@link CachePut}, {@link CacheRemove},
+   * and {@link CacheRemoveAll}
    */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory() default CacheResolverFactory.class;
+  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+      default CacheResolverFactory.class;
 
   /**
-   * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey} for interacting
-   * with the specified Cache.
+   * The {@link CacheKeyGenerator} to use to generate the
+   * {@link GeneratedCacheKey} for interacting with the specified Cache.
    * <p>
-   * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])} and
-   * {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
+   * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])}
+   * and {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
    * {@link CacheKeyInvocationContext#getKeyParameters()}
    * <p>
    * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemove}
    *
    * @see CacheKey
    */
-  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator() default CacheKeyGenerator.class;
+  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
+      default CacheKeyGenerator.class;
 }
