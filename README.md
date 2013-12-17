@@ -10,8 +10,8 @@ About
 
 ## Releases
 
-* 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.
-Proposed Final Draft
+* 16 December 2013:  1.0.0-RC1
+* 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.Proposed Final Draft
 * 26 August 2013:   0.10 Third Public Review Draft
 * 25 June 2013:     0.9 Second Public Review Draft
 * 25 June 2013:     0.8 Public Review Draft
@@ -27,7 +27,7 @@ Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>1.0.0-PFD</version>
+      <version>1.0.0-RC1</version>
     </dependency>
 
 
@@ -55,7 +55,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>0.12-SNAPSHOT</version>
+      <version>1.0.0-RC1</version>
     </dependency>
 
 Javadoc
@@ -146,14 +146,8 @@ All modules are built at http://jsr107.ci.cloudbees.com.
 Testing Implementions of JSR107
 -------------------------------
 
-The jsr107tck module contains a domain, tests and an implementation-tester. The implementation-tester allows an implementation, packaged
-as a Maven module, to be specified on the command line and tested. For example a fictional Acme company implementation could be tested as follows:
-
-    mvn -Dtest=CacheManagerFactoryTest \
-        -Dimplementation-groupId=acme.cache \
-        -Dimplementation-artifactId=acme-cache \
-        -Dimplementation-version=0.1-SNAPSHOT \
-        test
+See the [TCK User Guide](https://docs.google.com/document/d/1w3Ugj_oEqjMlhpCkGQOZkd9iPf955ZWHAVdZzEwYYdU/edit?usp=sharing)
+for instructions on how to use this TCK.
 
 Mailing list
 ------------
@@ -170,8 +164,7 @@ Please log issues to: <https://github.com/jsr107/jsr107spec/issues>
 Contributing
 ------------
 
-Admission to the Expert Group is closed, but please feel free to post to the
-mailing list.
+Admission to the Expert Group is closed, but please feel free to post to the mailing list.
 
 
 License
