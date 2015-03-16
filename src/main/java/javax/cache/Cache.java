@@ -992,11 +992,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                                 must wrap any {@link Exception} thrown
      *                                 wrapped in an {@link EntryProcessorException}.
      * @see EntryProcessor
-     * todo return type should be void
      */
-    <T> T invoke(K key,
+     <T> void invoke(K key,
                  EntryProcessor<K, V, T> entryProcessor,
-                 Collector<T> collector,
+                 Collector<? super T> collector,
                  Object... arguments) throws EntryProcessorException;
 
     /**
@@ -1075,10 +1074,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see EntryProcessor
+     * @since 1.1
      */
     <T> void invokeAll(Set<? extends K> keys,
                        EntryProcessor<K, V, T> entryProcessor,
-                       Collector<? extends Entry<K, T>> collector,
+                       Collector<? super Entry<K, T>> collector,
                        Object... arguments);
 
     /**
