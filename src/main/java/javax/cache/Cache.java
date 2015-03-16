@@ -25,9 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * todo consistency model including interactions between sycn and async
- * todo ordering guarantees
- * todo threading for Collector and CompletionListener
+ * todo define some out of the box collectors e.g. NullCollector, ValueCollector, Future versions
+ * todo define some out of the box CompletionListener e.g. NullCompletionListener
  * A {@link Cache} is a Map-like data structure that provides temporary storage
  * of application data.
  * <p>
@@ -64,6 +63,26 @@ import java.util.Set;
  * cache.put(key, value1);
  * Date value2 = cache.get(key);
  * </code></pre>
+ * <p/>
+ * This interface provides for synchronous and asynchronous versions of the same methods.
+ * todo behaviour table in spec examples in spec.
+ * Asynchronous methods have the following ordering semantics:
+ * <ul>
+ * <li>The order of application of repeated calls to asynchronous methods is ordered
+ * within the scope of the calling thread for the given keys, and undefined
+ * across threads. It is also undefined for method calls with non-overlapping keySets.</li>
+ * <li>
+ * The Default Consistency guarantee applies for consecutive asynchronous method
+ * calls on a thread per key, but not between threads.
+ * <li>
+ * The Default Consistency guarantee does not apply between consecutive synchronous
+ * and asynchronous methods on the same thread.
+ * </li>
+ * <li>
+ * The Default Consistency guarantee does not apply between consecutive synchronous
+ * and asynchronous method calls on the different threads.
+ * </li>
+ * </ul>
  *
  * @param <K> the type of key
  * @param <V> the type of value
@@ -108,8 +127,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               runtime-type-checking, and the key or value
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
+     * @since 1.1
      */
-    void get(K key, Collector<? extends Entry<? super K, ? super V>> collector);
+    void get(K key, Collector<? super Entry<? super K, ? super V>> collector);
 
 
     /**
@@ -155,8 +175,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               runtime-type-checking, and the key or value
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
+     * @since 1.1
      */
-    void getAll(Set<? extends K> keys, Collector<? extends Entry<? super K, ? super V>> collector);
+    void getAll(Set<? extends K> keys, Collector<? super Entry<? super K, ? super V>> collector);
 
     /**
      * Determines if the {@link Cache} contains an entry for the specified key.
@@ -250,10 +271,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * On completion, the CompletionListener is notified. The state of the entry
      * in the cache, until the CompletionListener is notified, is undefined.
-     * <p>
-     * The order of application of repeated calls to this method is monotonic
-     * within the scope of the calling thread, and undefined across threads.
-     *
      * @param key                key with which the specified value is to be associated
      * @param value              value to be associated with the specified key
      * @param completionListener notified on completion
@@ -268,6 +285,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * @see #getAndPut(Object, Object)
      * @see #getAndReplace(Object, Object)
      * @see CacheWriter#write
+     * @since 1.1
      */
     void put(K key, V value, CompletionListener completionListener);
 
@@ -328,8 +346,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * @see #put(Object, Object)
      * @see #getAndReplace(Object, Object)
      * @see CacheWriter#write
+     * @since 1.1
      */
-    void getAndPut(K key, V value, Collector<? extends Entry<? super K, ? super V>> collector);
+    void getAndPut(K key, V value, Collector<? super Entry<? super K, ? super V>> collector);
 
     /**
      * Copies all of the entries from the specified map to the {@link Cache}.
@@ -392,6 +411,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#writeAll
+     * @since 1.1
      */
     void putAll(Map<? extends K, ? extends V> map, CompletionListener completionListener);
 
@@ -449,6 +469,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#write
+     * @since 1.1
      */
     void putIfAbsent(K key, V value, Collector<Boolean> collector);
 
@@ -503,6 +524,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#delete
+     * @since 1.1
      */
     void remove(K key, Collector<Boolean> collector);
 
@@ -561,6 +583,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#delete
+     * @since 1.1
      */
     void remove(K key, V oldValue, Collector<Boolean> collector);
 
@@ -620,8 +643,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#delete
+     * @since 1.1
      */
-    void getAndRemove(K key, Collector<? extends Entry<? super K, ? super V>> collector);
+    void getAndRemove(K key, Collector<? super Entry<? super K, ? super V>> collector);
 
     /**
      * Atomically replaces the entry for a key only if currently mapped to a
@@ -680,6 +704,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#write
+     * @since 1.1
      */
     void replace(K key, V oldValue, V newValue, Collector<Boolean> collector);
 
@@ -738,6 +763,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               configured for the {@link Cache}
      * @see #getAndReplace(Object, Object)
      * @see CacheWriter#write
+     * @since 1.1
      */
     void replace(K key, V value, Collector<Boolean> collector);
 
@@ -802,8 +828,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               configured for the {@link Cache}
      * @see java.util.concurrent.ConcurrentMap#replace(Object, Object)
      * @see CacheWriter#write
+     * @since 1.1
      */
-    void getAndReplace(K key, V value, Collector<? extends Entry<? super K, ? super V>> collector);
+    void getAndReplace(K key, V value, Collector<? super Entry<? super K, ? super V>> collector);
 
 
     /**
@@ -852,6 +879,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      * @see CacheWriter#deleteAll
+     * @since 1.1
      */
     void removeAll(Set<? extends K> keys, CompletionListener listener);
 
@@ -897,6 +925,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * @throws CacheException        if there is a problem during the remove
      * @see #clear()
      * @see CacheWriter#deleteAll
+     * @since 1.1
      */
     void removeAll(CompletionListener listener);
 
@@ -916,6 +945,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * @param listener notified when complete
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws CacheException        if there is a problem during the clear
+     * @since 1.1
      */
     void clear(CompletionListener listener);
 
@@ -992,6 +1022,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                                 must wrap any {@link Exception} thrown
      *                                 wrapped in an {@link EntryProcessorException}.
      * @see EntryProcessor
+     * @since 1.1
      */
      <T> void invoke(K key,
                  EntryProcessor<K, V, T> entryProcessor,
