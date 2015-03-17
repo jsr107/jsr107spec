@@ -20,7 +20,8 @@ package javax.cache.integration;
  * To support a Java Future-based approach to synchronously wait for a Cache
  * operation to complete, use a {@link CompletionListenerFuture}.
  * <p>
- * A CompletionListener will use an implementation specific thread for the call.
+ * A Cache provider will use an implementation specific thread to call methods
+ * on this interface.
  *
  * @author Brian Oliver
  * @since 1.0
