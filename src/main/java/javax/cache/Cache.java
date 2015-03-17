@@ -65,7 +65,6 @@ import java.util.Set;
  * </code></pre>
  * <p/>
  * This interface provides for synchronous and asynchronous versions of the same methods.
- * todo behaviour table in spec examples in spec.
  * Asynchronous methods have the following ordering semantics:
  * <ul>
  * <li>The order of application of repeated calls to asynchronous methods is ordered
