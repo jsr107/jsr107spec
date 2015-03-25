@@ -4,13 +4,13 @@ JSR107 (JCache)
 About
 -----
 
-*JCache* is the API being defined in JSR107. It defines a standard Java Caching API for use by developers and a standard SPI ("Service
+*JCache* is Java caching API, It was defined by JSR107. It defines a standard Java Caching API for use by developers and a standard SPI ("Service
  Provider Interface") for use by implementers.
 
 
 ## Releases
 
-* 16 December 2013:  1.0.0-RC1
+* 16 December 2013:  1.0.0-RC1. This is the version matching the final specification and is what is up on https://jcp.org/aboutJava/communityprocess/final/jsr107/index.html.
 * 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.Proposed Final Draft
 * 26 August 2013:   0.10 Third Public Review Draft
 * 25 June 2013:     0.9 Second Public Review Draft
@@ -27,7 +27,7 @@ Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>1.0.0-RC1</version>
+      <version>1.0.0</version>
     </dependency>
 
 
