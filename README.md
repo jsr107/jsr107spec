@@ -4,7 +4,7 @@ JSR107 (JCache)
 About
 -----
 
-*JCache* is Java caching API, It was defined by JSR107. It defines a standard Java Caching API for use by developers and a standard SPI ("Service
+*JCache* is the Java caching API. It was defined by JSR107. It defines a standard Java Caching API for use by developers and a standard SPI ("Service
  Provider Interface") for use by implementers.
 
 
