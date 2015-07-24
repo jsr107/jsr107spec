@@ -1,7 +1,4 @@
-Export-Package: javax.cache;\
-	javax.cache.annotation;\
-	javax.cache.event;\
-	javax.cache.spi;\
+Export-Package: javax.cache.*;version="${project.version}"
 Bundle-SymbolicName: javax.cache
 Bundle-Version: ${project.version}
 
