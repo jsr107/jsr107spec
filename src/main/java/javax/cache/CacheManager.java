@@ -54,6 +54,7 @@ import java.util.Properties;
  * {@link ClassLoader} and {@link Properties} for an implementation, consult the
  * {@link CachingProvider} class.
  *
+ *
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
  * @author Brian Oliver
@@ -61,6 +62,7 @@ import java.util.Properties;
  * @see CachingProvider
  * @see Cache
  * @since 1.0
+ *
  */
 public interface CacheManager extends Closeable {
 
@@ -124,6 +126,9 @@ public interface CacheManager extends Closeable {
    * {@link #getCache(String)} or {@link #getCache(String, Class, Class)}
    * methods to acquire a previously established or pre-configured {@link Cache}.
    *
+   * @param <K> the type of key
+   * @param <V> the type of value
+   * @param <C> the type of the Configuration
    * @param cacheName     the name of the {@link Cache}
    * @param configuration a {@link Configuration} for the {@link Cache}
    * @throws IllegalStateException         if the {@link CacheManager}
@@ -161,6 +166,8 @@ public interface CacheManager extends Closeable {
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
    * <code>null</code>.
    *
+   * @param <K> the type of key
+   * @param <V> the type of value
    * @param cacheName the name of the managed {@link Cache} to acquire
    * @param keyType   the expected {@link Class} of the key
    * @param valueType the expected {@link Class} of the value
@@ -194,6 +201,8 @@ public interface CacheManager extends Closeable {
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
    * <code>null</code>.
    *
+   * @param <K> the type of key
+   * @param <V> the type of value
    * @param cacheName the name of the cache to look for
    * @return the Cache or null if it does exist or can't be pre-configured
    * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
@@ -358,6 +367,7 @@ public interface CacheManager extends Closeable {
    * If the provider's implementation does not support the specified class,
    * the {@link IllegalArgumentException} is thrown.
    *
+   * @param <T> the type of the underlying {@link CacheManager}
    * @param clazz the proprietary class or interface of the underlying concrete
    *              {@link CacheManager}. It is this type that is returned.
    * @return an instance of the underlying concrete {@link CacheManager}

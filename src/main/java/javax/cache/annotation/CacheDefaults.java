@@ -85,7 +85,7 @@ public @interface CacheDefaults {
    * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])}
    * and {@link Arrays#deepEquals(Object[], Object[])} with the array returned by
    * {@link CacheKeyInvocationContext#getKeyParameters()}
-   * <p>
+   * </p>
    * Applicable for {@link CacheResult}, {@link CachePut}, and {@link CacheRemove}
    *
    * @see CacheKey

@@ -27,6 +27,7 @@ public abstract class CacheEntryEvent<K, V> extends EventObject
    * Constructs a cache entry event from a given cache as source
    *
    * @param source the cache that originated the event
+   * @param eventType the event type for this event
    */
   public CacheEntryEvent(Cache source, EventType eventType) {
     super(source);

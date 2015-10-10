@@ -43,7 +43,8 @@ import java.lang.annotation.Target;
  * <p>
  * With no {@link #cacheName()} specified a cache name of
  * "my.app.DomainDao.getDomain(java.lang.String,int)" will be generated.
- * <p><pre><code>
+ * </p>
+ * <pre><code>
  * package my.app;
  * 
  * public class DomainDao {
@@ -96,8 +97,9 @@ import java.lang.annotation.Target;
 public @interface CacheResult {
 
   /**
-   * The name of the cache.
    * <p>
+   * The name of the cache.
+   * </p>
    * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
    * that is not set it defaults to:
    * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)

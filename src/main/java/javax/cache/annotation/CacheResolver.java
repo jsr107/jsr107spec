@@ -25,6 +25,8 @@ public interface CacheResolver {
   /**
    * Resolve the {@link Cache} to use for the {@link CacheInvocationContext}.
    *
+   * @param <K> the type of key
+   * @param <V> the type of value
    * @param cacheInvocationContext The context data for the intercepted method
    *                               invocation
    * @return The {@link Cache} instance to be used by the interceptor

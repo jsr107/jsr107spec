@@ -522,6 +522,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the provider's implementation does not support the specified class,
      * the {@link IllegalArgumentException} is thrown.
      *
+     * @param <C> the type of the Configuration
      * @param clazz the configuration interface or class to return. This includes
      *              {@link Configuration}.class and
      *              {@link javax.cache.configuration.CompleteConfiguration}s.
@@ -538,6 +539,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * {@link Entry}, consisting of the key with a null value is used instead.
      * <p>
      *
+     * @param <T>            the type of the return value
      * @param key            the key to the entry
      * @param entryProcessor the {@link EntryProcessor} to invoke
      * @param arguments      additional arguments to pass to the
@@ -580,6 +582,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * exception is wrapped and re-thrown when a call to
      * {@link javax.cache.processor.EntryProcessorResult#get()} is made.
      *
+     * @param <T>            the type of the return value
      * @param keys           the set of keys for entries to process
      * @param entryProcessor the {@link EntryProcessor} to invoke
      * @param arguments      additional arguments to pass to the
@@ -667,6 +670,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the provider's implementation does not support the specified class,
      * the {@link IllegalArgumentException} is thrown.
      *
+     * @param <T> the type of the underlying {@link Cache} implementation
      * @param clazz the proprietary class or interface of the underlying concrete
      *              cache. It is this type that is returned.
      * @return an instance of the underlying concrete cache
@@ -752,6 +756,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
          * If the provider's implementation does not support the specified class,
          * the {@link IllegalArgumentException} is thrown.
          *
+         * @param <T> the type of the underlying {@link Entry} implementation
          * @param clazz the proprietary class or interface of the underlying
          *              concrete cache. It is this type that is returned.
          * @return an instance of the underlying concrete cache

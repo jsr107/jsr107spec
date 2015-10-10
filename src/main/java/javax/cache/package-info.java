@@ -141,25 +141,25 @@
  * An implementation may provide support for different consistency models in
  * addition to the required <em>Default Consistency</em> mode
  * <h1>A Simple Example</h1>
- * This simple example creates a default {@link CacheManager}, configures a
+ * <p>This simple example creates a default {@link CacheManager}, configures a
  * {@link Cache} on it called “simpleCache” with a key type of String and a value
  * type of Integer and an expiry of one hour and then performs a some cache
  * operations.
- * <p>
+ * </p>
  * <pre><code>
  * //resolve a cache manager
  * CachingProvider cachingProvider = Caching.getCachingProvider();
  * CacheManager cacheManager = cachingProvider.getCacheManager();
  *
  * //configure the cache
- * MutableConfiguration<String, Integer> config =
- *    new MutableConfiguration<>()
+ * MutableConfiguration&lt;String, Integer&gt; config =
+ *    new MutableConfiguration&lt;&gt;()
  *    .setTypes(String.class, Integer.class)
  *    .setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(ONE_HOUR))
  *    .setStatisticsEnabled(true);
  *
  * //create the cache
- * Cache<String, Integer> cache = cacheManager.createCache("simpleCache", config);
+ * Cache&lt;String, Integer&gt; cache = cacheManager.createCache("simpleCache", config);
  *
  * //cache operations
  * String key = "key";

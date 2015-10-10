@@ -259,7 +259,8 @@ public final class Caching {
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
    * <code>null</code>.
-   *
+   * @param <K> the type of key
+   * @param <V> the type of value
    * @param cacheName the name of the managed {@link Cache} to acquire
    * @param keyType   the expected {@link Class} of the key
    * @param valueType the expected {@link Class} of the value
@@ -311,9 +312,9 @@ public final class Caching {
     /**
      * Obtains the {@link ClassLoader} to use for API methods that don't
      * explicitly require a {@link ClassLoader} but internally require one.
-     * <p/>
+     * <p>
      * By default this is the {@link Thread#getContextClassLoader()}.
-     *
+     * </p>
      * @return the default {@link ClassLoader}
      */
     public ClassLoader getDefaultClassLoader() {
@@ -336,10 +337,10 @@ public final class Caching {
     /**
      * Obtains the only {@link CachingProvider} defined by the
      * {@link #getDefaultClassLoader()}.
-     * <p/>
+     * <p>
      * Should zero or more than one {@link CachingProvider}s be available, a
      * CacheException is thrown.
-     *
+     * </p>
      * @return the {@link CachingProvider}
      * @throws CacheException should zero or more than one
      *                        {@link CachingProvider} be available
@@ -354,10 +355,10 @@ public final class Caching {
     /**
      * Obtains the only {@link CachingProvider} defined by the specified
      * {@link ClassLoader}.
-     * <p/>
+     * <p>
      * Should zero or more than one {@link CachingProvider}s be available, a
      * CacheException is thrown.
-     *
+     * </p>
      * @param classLoader the {@link ClassLoader} to use for loading the
      *                    {@link CachingProvider}
      * @return the {@link CachingProvider}
@@ -385,14 +386,14 @@ public final class Caching {
     /**
      * Obtain the {@link CachingProvider}s that are available via the
      * {@link #getDefaultClassLoader()}.
-     * <p/>
+     * <p>
      * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
      * only that {@link CachingProvider} specified by that property is returned.
      * Otherwise all {@link CachingProvider}s that are available via a
      * {@link ServiceLoader} for {@link CachingProvider}s using the default
      * {@link ClassLoader} (and those explicitly requested via
      * {@link #getCachingProvider(String)}) are returned.
-     *
+     * </p>
      * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
      *         default {@link ClassLoader}
      */
@@ -403,14 +404,14 @@ public final class Caching {
     /**
      * Obtain the {@link CachingProvider}s that are available via the specified
      * {@link ClassLoader}.
-     * <p/>
+     * <p>
      * If a <code>javax.cache.spi.cachingprovider</code> system property is defined,
      * only that {@link CachingProvider} specified by that property is returned.
      * Otherwise all {@link CachingProvider}s that are available via a
      * {@link ServiceLoader} for {@link CachingProvider}s using the specified
      * {@link ClassLoader} (and those explicitly requested via
      * {@link #getCachingProvider(String, ClassLoader)}) are returned.
-     *
+     * </p>
      * @param classLoader the {@link ClassLoader} of the returned
      *                    {@link CachingProvider}s
      * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
