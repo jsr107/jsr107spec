@@ -1,6 +1,11 @@
 Export-Package: javax.cache;\
 	javax.cache.annotation;\
+	javax.cache.configuration;\
 	javax.cache.event;\
+	javax.cache.expiry;\
+	javax.cache.integration;\
+	javax.cache.management;\
+	javax.cache.processor;\
 	javax.cache.spi;\
 Bundle-SymbolicName: javax.cache
 Bundle-Version: ${project.version}
