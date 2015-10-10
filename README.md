@@ -61,7 +61,7 @@ or use the following Maven snippet:
 Javadoc
 -------
 
-The JavaDoc is available as a jar with the releases. We also have the latest JavaDoc [online](https://jsr107.ci.cloudbees.com/job/jsr107api/ws/target/apidocs/index.html).
+The JavaDoc is available as a jar with the releases. You can find the JavaDoc [online](http://www.javadoc.io/doc/javax.cache/cache-api/1.0.0).
 
 Specification
 -------------
