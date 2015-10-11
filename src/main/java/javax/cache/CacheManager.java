@@ -277,11 +277,11 @@ public interface CacheManager extends Closeable {
    * is unique and has the following type and attributes:
    * <p>
    * Type:
-   * <code>javax.cache:type=Cache</code>
+   * <code>javax.cache:type=CacheConfiguration</code>
    * <p>
    * Required Attributes:
    * <ul>
-   * <li>CacheManager the name of the CacheManager
+   * <li>CacheManager the URI of the CacheManager
    * <li>Cache the name of the Cache
    * </ul>
    *
@@ -306,7 +306,7 @@ public interface CacheManager extends Closeable {
    * <p>
    * Required Attributes:
    * <ul>
-   * <li>CacheManager the name of the CacheManager
+   * <li>CacheManager the URI of the CacheManager
    * <li>Cache the name of the Cache
    * </ul>
    *
