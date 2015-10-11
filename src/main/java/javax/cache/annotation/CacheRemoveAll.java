@@ -80,7 +80,7 @@ public @interface CacheRemoveAll {
    * <p>
    * Defaults to true.
    * <p>
-   * If true and the annotated method throws an exception the put will not be
+   * If true and the annotated method throws an exception the removeAll will not be
    * executed.
    */
   @Nonbinding boolean afterInvocation() default true;
