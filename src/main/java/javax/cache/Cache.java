@@ -116,8 +116,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * More formally, returns <tt>true</tt> if and only if this cache contains a
      * mapping for a key <tt>k</tt> such that <tt>key.equals(k)</tt>.
-     * (There can be at most one such mapping.)
-     *
+     * (There can be at most one such mapping.)</p>
+     * <p>
+     * If the cache is configured read-through the associated {@link CacheLoader}
+     * is not called. Only the cache is checked.
+     * </p>
      * @param key key whose presence in this cache is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      * @throws NullPointerException  if key is null
@@ -176,6 +179,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * value is replaced by the specified value.  (A cache <tt>c</tt> is said to
      * contain a mapping for a key <tt>k</tt> if and only if {@link
      * #containsKey(Object) c.containsKey(k)} would return <tt>true</tt>.)
+     * <p>
+     * If the cache is configured write-through the
+     * {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      *
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
@@ -204,7 +211,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <tt>true</tt>.)
      * <p>
      * The previous value is returned, or null if there was no value associated
-     * with the key previously.
+     * with the key previously.</p>
+     * <p>
+     * If the cache is configured write-through the associated
+     * {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      *
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
@@ -239,6 +250,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * In Default Consistency mode, individual puts occur atomically but not
      * the entire putAll.  Listeners may observe individual updates.
+     * <p>
+     * If the cache is configured write-through the associated
+     * {@link CacheWriter#writeAll} method will be called.
+     * </p>
      *
      * @param map mappings to be stored in this cache
      * @throws NullPointerException  if map is null or if map contains null keys
@@ -267,7 +282,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * }
      * </code></pre>
      * except that the action is performed atomically.
-     *
+     * <p>
+     * If the cache is configured write-through, and this method returns true,
+     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return true if a value was set.
@@ -295,7 +313,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * The cache will not contain a mapping for the specified key once the
      * call returns.
-     *
+     * <p>
+     * If the cache is configured write-through the associated
+     * {@link CacheWriter#delete(Object)} method will be called.
+     * </p>
      * @param key key whose mapping is to be removed from the cache
      * @return returns false if there was no matching key
      * @throws NullPointerException  if key is null
@@ -323,7 +344,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * }
      * </code></pre>
      * except that the action is performed atomically.
-     *
+     * <p>
+     * If the cache is configured write-through, and this method returns true,
+     * the associated {@link CacheWriter#delete(Object)} method will be called.
+     * </p>
      * @param key      key whose mapping is to be removed from the cache
      * @param oldValue value expected to be associated with the specified key
      * @return returns false if there was no matching key
@@ -353,6 +377,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * }
      * </code></pre>
      * except that the action is performed atomically.
+     * <p>
+     * If the cache is configured write-through the associated
+     * {@link CacheWriter#delete(Object)} method will be called.
+     * </p>
      *
      * @param key key with which the specified value is associated
      * @return the value if one existed or null if no mapping existed for this key
@@ -381,7 +409,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * }
      * </code></pre>
      * except that the action is performed atomically.
-     *
+     * <p>
+     * If the cache is configured write-through, and this method returns true,
+     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      * @param key      key with which the specified value is associated
      * @param oldValue value expected to be associated with the specified key
      * @param newValue value to be associated with the specified key
@@ -410,7 +441,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *   return false;
      * }</code></pre>
      * except that the action is performed atomically.
-     *
+     * <p>
+     * If the cache is configured write-through, and this method returns true,
+     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      * @param key  the key with which the specified value is associated
      * @param value the value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
@@ -441,7 +475,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * }
      * </code></pre>
      * except that the action is performed atomically.
-     *
+     * <p>
+     * If the cache is configured write-through, and this method returns true,
+     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * </p>
      * @param key   key with which the specified value is associated
      * @param value value to be associated with the specified key
      * @return the previous value associated with the specified key, or
@@ -468,7 +505,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *   <li>any registered {@link CacheEntryRemovedListener}s</li>
      *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
      * </ul>
-     * If the key set is empty, the {@link CacheWriter} is not called.
      *
      * @param keys the keys to remove
      * @throws NullPointerException  if keys is null or if it contains a null key
