@@ -51,7 +51,7 @@ import javax.cache.integration.CacheWriter;
 
 /**
  * An invocable function that allows applications to perform compound operations
- * on a {@link javax.cache.Cache.Entry} atomically, according the defined
+ * on a {@link javax.cache.Cache.Entry} atomically, according to the defined
  * consistency of a {@link Cache}.
  * <p>
  * Any {@link javax.cache.Cache.Entry} mutations will not take effect until after
@@ -110,7 +110,8 @@ import javax.cache.integration.CacheWriter;
  * internal to the EntryProcessor.<br>
  * Listeners: second put will cause either a put or an update depending on whether
  * there was an initial value for the entry.<br>
- * CacheLoader: Invoked by the first get only if a loader was registered.<br>
+ * CacheLoader: Invoked by the first get only if the entry is not present, a
+ * loader was registered and read through is enabled.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to
  * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
@@ -131,7 +132,8 @@ import javax.cache.integration.CacheWriter;
  * internal to the EntryProcessor.<br>
  * Listeners: second put will cause either a put or an update depending on whether
  * there was an initial value for the entry.<br>
- * CacheLoader: Invoked by the first get only if a loader was registered.<br>
+ * CacheLoader: Invoked by the first get only if the entry is not present, a loader
+ * was registered and read through is enabled.<br>
  * CacheWriter: Invoked by the second put only as the first put was internal to
  * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
@@ -148,15 +150,15 @@ import javax.cache.integration.CacheWriter;
  * </ol>
  * This will have the following {@link Cache} effects:
  * <br>
- * Final value of the cache: last setValue<br>
+ * Final value of the cache: the entry is removed if it was present<br>
  * Statistics: one get and one remove as the second get and the two puts are
  * internal to the EntryProcessor.<br>
  * Listeners: remove if there was initial value in the cache, otherwise no
  * listener invoked.
- * <br> CacheLoader: Invoked by the first get only if a loader was
- * registered.
+ * <br> CacheLoader: Invoked by the first get only if the entry is not present,
+ * a loader was registered and read through is enabled.
  * <br> CacheWriter: Invoked by the remove only as the two puts are internal to
- * the Entry Processor.<br>
+ * the Entry Processor, provided that the first #getValue was non-null.<br>
  * ExpiryPolicy: The first get only is visible to the ExpiryPolicy. There is no
  * remove event in ExpiryPolicy.
  *
