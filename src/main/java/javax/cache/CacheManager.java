@@ -255,10 +255,9 @@ public interface CacheManager extends Closeable {
    * {@link CacheManager}.
    * <p>
    * {@link java.util.Iterator}s returned by the {@link Iterable} are immutable.
-   * Any modification of the {@link java.util.Iterator}, including remove, will
-   * raise an {@link IllegalStateException}.  If the {@link Cache}s managed by
-   * the {@link CacheManager} change, the {@link Iterable} and
-   * associated {@link java.util.Iterator}s are not affected.
+   * If the {@link Cache}s managed by the {@link CacheManager} change,
+   * the {@link Iterable} and associated {@link java.util.Iterator}s are not
+   * affected.
    * <p>
    * {@link java.util.Iterator}s returned by the {@link Iterable} may not provide
    * all of the {@link Cache}s managed by the {@link CacheManager}.  For example:
