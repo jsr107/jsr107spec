@@ -371,6 +371,17 @@ public interface CacheManager extends Closeable {
    * All attempts to close a previously closed {@link CacheManager} will be
    * ignored.
    *
+   * Closing a CacheManager does not necessarily destroy the contents of the
+   * Caches in the CacheManager.
+   * <p>
+   * It simply signals that the CacheManager is no longer required by the application
+   * and that future uses of a specific CacheManager instance should not be permitted.
+   * <p>
+   * Depending on the implementation and Cache topology,
+   * (e.g. a storage-backed or distributed cache), the contents of closed Caches
+   * previously referenced by the CacheManager, may still be available and accessible
+   * by other applications.
+   *
    * @throws SecurityException when the operation could not be performed due to the
    *         current security settings
    */

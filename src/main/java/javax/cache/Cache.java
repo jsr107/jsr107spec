@@ -710,6 +710,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * </ul>
      * Once closed any attempt to use an operational method on a Cache will throw an
      * {@link IllegalStateException}.
+     * <p>
+     * Closing a Cache does not necessarily destroy the contents of a Cache.
+     * It simply signals to the owning CacheManager that the Cache is no longer
+     * required by the application and that future uses of a specific Cache instance
+     * should not be permitted.
+     * <p>
+     * Depending on the implementation and Cache topology,
+     * (e.g. a storage-backed or distributed cache), the contents of a closed Cache
+     * may still be available and accessible by other applications, or, in fact, via
+     * the Cache Manager that previously owned the Cache, if an application calls
+     * getCache at some point in the future.
      *
      * @throws SecurityException when the operation could not be performed
      *                           due to the current security settings
