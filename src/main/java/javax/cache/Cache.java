@@ -802,12 +802,13 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * The ordering of iteration over entries is undefined.
      * <p>
-     * During iteration, any entries that are a). read will have their appropriate
-     * CacheEntryReadListeners notified and b). removed will have their appropriate
-     * CacheEntryRemoveListeners notified.
+     * During iteration, any entries that are removed will have their appropriate
+     * CacheEntryRemovedListeners notified.
      * <p>
-     * {@link java.util.Iterator#next()} may return null if the entry is no
-     * longer present, has expired or has been evicted.
+     * When iterating over a cache it must be assumed that the underlying
+     * cache may be changing, with entries being added, removed, evicted
+     * and expiring. {@link java.util.Iterator#next()} may therefore return
+     * null.
      *
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      */
