@@ -14,9 +14,7 @@
         <property name="allowLegacy" value="true"/>
     </module>
 
-    <!--
-    Commented out as Maven no longer seems to reocognise basedir. 
-    Header
+    <!-- Header 
     <module name="Header">
         <property name="headerFile" value="${basedir}/checkstyle/ClassHeader.txt"/>
     </module>-->
