@@ -768,11 +768,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * During iteration, any entries that are removed will have their appropriate
      * CacheEntryRemovedListeners notified.
-     * <p>
-     * When iterating over a cache it must be assumed that the underlying
-     * cache may be changing, with entries being added, removed, evicted
-     * and expiring. {@link java.util.Iterator#next()} may therefore return
-     * null.
      *
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      */
