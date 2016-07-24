@@ -45,10 +45,12 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Brian Oliver
  * @author Greg Luck
+ * @author Jens Wilke
  * @since 1.0
  */
 public class CompletionListenerFuture implements CompletionListener, Future<Void> {
 
+  private final Object lock = new Object();
   private boolean isCompleted;
   private Exception exception;
 
@@ -66,13 +68,11 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
    */
   @Override
   public void onCompletion() throws IllegalStateException {
-    synchronized (this) {
+    synchronized (lock) {
       if (isCompleted) {
         throw new IllegalStateException("Attempted to use a CompletionListenerFuture instance more than once");
-      } else {
-        isCompleted = true;
-        notify();
       }
+      markAsCompleted();
     }
   }
 
@@ -84,22 +84,39 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
    */
   @Override
   public void onException(Exception e) throws IllegalStateException {
-    synchronized (this) {
+    synchronized (lock) {
       if (isCompleted) {
         throw new IllegalStateException("Attempted to use a CompletionListenerFuture instance more than once");
-      } else {
-        isCompleted = true;
-        exception = e;
-        notify();
       }
+      exception = e;
+      markAsCompleted();
     }
   }
 
+  /**
+   * Mark operation as completed and wakeup all listeners, called under lock.
+   */
+  private void markAsCompleted() {
+    assert Thread.holdsLock(lock);
+    isCompleted = true;
+    lock.notifyAll();
+  }
+
+  /**
+   * Cancelling is mot supported, always throws exception.
+   *
+   * @throws UnsupportedOperationException
+   */
   @Override
   public boolean cancel(boolean b) {
     throw new UnsupportedOperationException("CompletionListenerFutures can't be cancelled");
   }
 
+  /**
+   * Cancelling is mot supported, always returns false
+   *
+   * @return always false.
+   */
   @Override
   public boolean isCancelled() {
     return false;
@@ -107,17 +124,15 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
 
   @Override
   public boolean isDone() {
-    synchronized (this) {
+    synchronized (lock) {
       return isCompleted;
     }
   }
 
   /**
-   * Waits if necessary for the computation to complete, and then
-   * retrieves its result.
+   * Waits if necessary for the operation to complete. Always returns {@code null}.
    *
-   * @return the computed result
-   * @throws java.util.concurrent.CancellationException if the computation was cancelled
+   * @return always {@code null}
    * @throws ExecutionException if the computation threw an
    * exception. This wraps the exception received by {@link #onException
    * (Exception)}
@@ -126,27 +141,24 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
    */
   @Override
   public Void get() throws InterruptedException, ExecutionException {
-    synchronized (this) {
+    synchronized (lock) {
       while (!isCompleted) {
-        wait();
+        lock.wait();
       }
-
-      if (exception == null) {
-        return null;
-      } else {
+      if (exception != null) {
         throw new ExecutionException(exception);
       }
     }
+    return null;
   }
 
   /**
-   * Waits if necessary for at most the given time for the computation
-   * to complete, and then retrieves its result, if available.
+   * Waits if necessary for at most the given time for the operation
+   * to complete.  Always returns {@code null}.
    *
    * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
-   * @return the computed result
-   * @throws java.util.concurrent.CancellationException if the computation was cancelled
+   * @return always {@code null}
    * @throws ExecutionException if the computation threw an
    * exception. This wraps the exception received by {@link #onException
    * (Exception)}
@@ -156,20 +168,20 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
    */
   @Override
   public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-    synchronized (this) {
-      if (!isCompleted) {
-        unit.timedWait(this, timeout);
-      }
-
-      if (isCompleted) {
-        if (exception == null) {
-          return null;
-        } else {
-          throw new ExecutionException(exception);
+    long endTime = System.currentTimeMillis() + unit.toMillis(timeout);
+    synchronized (lock) {
+      while (!isCompleted) {
+        long waitTime = endTime - System.currentTimeMillis();
+        if (waitTime <= 0) {
+          throw new TimeoutException();
         }
-      } else {
-        throw new TimeoutException();
+        lock.wait(waitTime);
+      }
+      if (exception != null) {
+        throw new ExecutionException(exception);
       }
     }
+    return null;
   }
+
 }
