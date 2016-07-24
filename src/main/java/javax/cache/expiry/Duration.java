@@ -18,6 +18,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * A {@link java.io.Serializable} duration of time.
  *
+ * <p>Although this class is not declared final, it is not intended for extension. The behavior
+ * is undefined when subclasses are created and used.
+ *
  * @author Yannis Cosmadopoulos
  * @author Greg Luck
  * @author Brian Oliver
@@ -89,7 +92,8 @@ public class Duration implements Serializable {
   private final long durationAmount;
 
   /**
-   * Constructs a Duration (that by default is Eternal).
+   * Constructs an eternal duration ({@link #isEternal} is true). Since the duration is immutable
+   * the constant {@link #ETERNAL} should be used alternatively.
    */
   public Duration() {
     this.timeUnit = null;
@@ -97,11 +101,12 @@ public class Duration implements Serializable {
   }
 
   /**
-   * Constructs a duration.
+   * Constructs a duration. The eternal duration ({@link #isEternal} is true) is represented by
+   * specifying {@code null} for {@code timeUnit} and {@code 0} for {@code durationAmount}.
    *
    * @param timeUnit       the unit of time to specify time in. The minimum time unit is milliseconds.
-   * @param durationAmount how long, in the specified units, the cache entries should live. 0 means eternal.
-   * @throws NullPointerException     if timeUnit is null
+   * @param durationAmount how long, in the specified units, the cache entries should live.
+   * @throws NullPointerException     if timeUnit is null and the {@code durationAmount} is not 0
    * @throws IllegalArgumentException if durationAmount is less than 0 or a TimeUnit less than milliseconds is specified
    */
   public Duration(TimeUnit timeUnit, long durationAmount) {
@@ -133,6 +138,9 @@ public class Duration implements Serializable {
   /**
    * Constructs a {@link Duration} based on the duration between two
    * specified points in time (since the Epoc), measured in milliseconds.
+   *
+   * <p>If either parameter is {@code Long.MAX_VALUE} an eternal duration ({@link #isEternal}
+   * is true) will be constructed.
    *
    * @param startTime the start time (since the Epoc)
    * @param endTime   the end time (since the Epoc)
@@ -190,8 +198,11 @@ public class Duration implements Serializable {
   }
 
   /**
-   * Calculates the adjusted time (from the Epoc) given a specified time
-   * (to be adjusted) by the duration.
+   * Calculates the adjusted time (represented in milliseconds from the Epoc)
+   * given a specified time in milliseconds (to be adjusted) by the duration.
+   *
+   * <p>In this instance represents an eternal duration ({@link #isEternal}
+   * is true), the value {@code Long.MAX_VALUE} is returned.
    *
    * @param time the time from which to adjust given the duration
    * @return the adjusted time
