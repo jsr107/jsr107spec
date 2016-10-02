@@ -174,8 +174,9 @@ public interface CacheManager extends Closeable {
    * @return the Cache or null if it does exist or can't be pre-configured
    * @throws IllegalStateException    if the {@link CacheManager}
    *                                  is {@link #isClosed()}
-   * @throws IllegalArgumentException if the specified key and/or value types are
+   * @throws ClassCastException       if the specified key and/or value types are
    *                                  incompatible with the configured cache.
+   * @throws NullPointerException     if either keyType or classType is null.
    * @throws SecurityException        when the operation could not be performed
    *                                  due to the current security settings
    */
