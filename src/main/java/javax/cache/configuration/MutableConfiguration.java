@@ -101,7 +101,20 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   protected boolean isManagementEnabled;
 
   /**
-   * Constructs a default {@link MutableConfiguration}.
+   * Constructs a default {@link MutableConfiguration}. The constructor sets the key and value type
+   * parameters of the cache to {@code Object.class}. In case the cache should use specific runtime types,
+   * these must be specified by calling {@link #setTypes}.
+   *
+   * <p>The typical usage pattern should first set the types according to the generic parameters
+   * of the class:
+   *
+   * <pre>{@code
+   * CacheConfiguration<Integer, String> = new MutableConfiguration<Integer, String>()
+   *     .setTypes(Integer.class, String.class)
+   *     .setReadThrough(true)
+   *      . . .
+   * }</pre>
+   * @see #setTypes(Class, Class)
    */
   public MutableConfiguration() {
     this.keyType = (Class<K>)Object.class;
