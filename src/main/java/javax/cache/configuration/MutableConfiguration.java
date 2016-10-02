@@ -101,10 +101,30 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   protected boolean isManagementEnabled;
 
   /**
-   * Constructs a default {@link MutableConfiguration}.
+   * Default JavaBean constructor.
+   * <p>
+   * The constructor sets the key and value type parameters of the cache to
+   * {@code Object.class}, due to type erasure.
+   * </p><p>
+   * To use specific runtime types, these must be specified by using
+   * the {@link MutableConfiguration(Class<K>, Class<V>)} constructor or by
+   * calling {@link #setTypes} after construction.
+   * </p><p>
+   * The typical usage pattern should first set the types according to the generic parameters
+   * of the class:
+   * </p>
+   * <pre>{@code
+   * CacheConfiguration<Integer, String> = new MutableConfiguration<Integer, String>()
+   *     .setTypes(Integer.class, String.class)
+   *     .setReadThrough(true)
+   *      . . .
+   * }</pre>
+   * @see #setTypes(Class, Class)
    */
   public MutableConfiguration() {
+    //Due to erasure in generics the type will always be Object.class. i.e. cast is ignored
     this.keyType = (Class<K>)Object.class;
+    //Due to erasure in generics the type will always be Object.class. i.e. cast is ignored
     this.valueType = (Class<V>)Object.class;
     this.listenerConfigurations = new
         HashSet<CacheEntryListenerConfiguration<K, V>>();
@@ -116,6 +136,15 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
     this.isStatisticsEnabled = false;
     this.isStoreByValue = true;
     this.isManagementEnabled = false;
+  }
+
+  /**
+   * Constructs a {@link MutableConfiguration} with types specified.
+   */
+  public MutableConfiguration(Class<K> keyType, Class<V> valueType) {
+    this();
+    this.keyType = (Class<K>)keyType;
+    this.valueType = (Class<V>)valueType;
   }
 
   /**

@@ -26,7 +26,7 @@ public final class EternalExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * Obtains a {@link Factory} for an Eternal {@link ExpiryPolicy}.
-   *
+
    * @return a {@link Factory} for an Eternal {@link ExpiryPolicy}.
    */
   public static Factory<ExpiryPolicy> factoryOf() {

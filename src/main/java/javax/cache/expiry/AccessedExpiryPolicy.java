@@ -45,7 +45,7 @@ public final class AccessedExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * Obtains a {@link Factory} for an Accessed {@link ExpiryPolicy}.
-   *
+   * @param duration The expiry duration
    * @return a {@link Factory} for an Accessed {@link ExpiryPolicy}.
    */
   public static Factory<ExpiryPolicy> factoryOf(Duration duration) {

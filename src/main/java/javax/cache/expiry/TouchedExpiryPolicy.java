@@ -38,7 +38,7 @@ public final class TouchedExpiryPolicy implements ExpiryPolicy, Serializable {
 
   /**
    * Obtains a {@link Factory} for a Touched {@link ExpiryPolicy}.
-   *
+   * @param duration The expiry duration
    * @return a {@link Factory} for a Touched {@link ExpiryPolicy}.
    */
   public static Factory<ExpiryPolicy> factoryOf(Duration duration) {
