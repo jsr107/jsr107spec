@@ -170,15 +170,14 @@ Admission to the Expert Group is closed, but please feel free to post to the mai
 License
 -------
 
-The API is available under the usual Java Community Process license.
+The API is available under the Apache 2.0 license.
 
-The TCK is available under a restricted TCK license and must be licensed from
-Oracle as is the usual case with JSRs.
+The TCK is available under a restricted Standalone TCK (SATCK) license and must be 
+licensed from Oracle as is the usual case with JSRs.
 
-The reference implementation is available under an Apache 2 license.
+The reference implementation is available under an Apache 2.0 license.
 
 For details please read the license in each source code file.
-
 
 Contributors
 ------------
