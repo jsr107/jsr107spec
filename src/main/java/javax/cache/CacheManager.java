@@ -138,7 +138,9 @@ public interface CacheManager extends Closeable {
    * @param <K> the type of key
    * @param <V> the type of value
    * @param <C> the type of the Configuration
-   * @param cacheName     the name of the {@link Cache}
+   * @param cacheName     the name of the {@link Cache}. Names should not use
+   *                      forward slashes(/) or colons(:), or start with
+   *                      java. or javax. These prefixes are reserved.
    * @param configuration a {@link Configuration} for the {@link Cache}
    * @throws IllegalStateException         if the {@link CacheManager}
    *                                       {@link #isClosed()}
