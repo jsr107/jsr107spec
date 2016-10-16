@@ -10,6 +10,7 @@ About
 
 ## Releases
 
+* 18 March 2014:  1.0.0. Final Release. Unchanged from 1.0.0-RC1.
 * 16 December 2013:  1.0.0-RC1. This is the version matching the final specification and is what is up on https://jcp.org/aboutJava/communityprocess/final/jsr107/index.html.
 * 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.Proposed Final Draft
 * 26 August 2013:   0.10 Third Public Review Draft
@@ -31,52 +32,41 @@ Maven snippet:
     </dependency>
 
 
-Snapshot Releases
------------------
+Maven Central Releases
+----------------------
 
-Snapshot releases of jars for binaries, source and javadoc are available.
+Releases of jars for binaries, source and javadoc are available on Maven central.
 
 Download the cache-api from <https://oss.sonatype.org/index.html#nexus-search;quick~javax-cache>
 
 or use the following Maven snippet:
 
-    <repository>
-        <id>sonatype-nexus-snapshots</id>
-        <name>Sonatype Nexus Snapshots</name>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>1.0.0-RC1</version>
+      <version>1.0.0</version>
     </dependency>
 
 Javadoc
 -------
 
-The JavaDoc is available as a jar with the releases. You can find the JavaDoc [online](http://www.javadoc.io/doc/javax.cache/cache-api/1.0.0).
+The JavaDoc is available as a jar with the releases. You can also find the JavaDoc [online](http://www.javadoc.io/doc/javax.cache/cache-api/1.0.0).
 
 Specification
 -------------
 
-The specification is available online on as a [Google Doc](https://docs.google.com/document/d/1MZQstO9GJo_MUMy5iD5sxCrstunnQ1f85ekCng8LcqM/edit?usp=sharing).
+The specification is available online as a [Google Doc](https://docs.google.com/document/d/1MZQstO9GJo_MUMy5iD5sxCrstunnQ1f85ekCng8LcqM/edit?usp=sharing).
 
 Reference Implementation
 ------------------------
 
 The reference implementation ("RI") source is available on [GitHub](https://github.com/jsr107/RI).
 
-This implementation is not meant for production use. For that we would refer you to one of the many open source and commercial
-implementations of JCache.
+This implementation is not meant for production use. For that we would refer you
+to one of the many high quality open source and commercial implementations of JCache. See the [official list of compatible implementions](https://jcp.org/aboutJava/communityprocess/implementations/jsr107/index.html),
+and also the community maintained [JSR107 Test Zoo](https://github.com/cruftex/jsr107-test-zoo/blob/master/report.md).
 
-The RI is there to ensure that the specification and API works.
+The RI is there to ensure that the specification and API works as its only purpose.
 
 For example, some things that we leave out:
 
@@ -92,7 +82,7 @@ implementations.
 Building From Source
 --------------------
 
-Building uses Maven in all modules. Maven 2.2.1 and 3.0.4 have been tested.
+Building uses Maven in all modules. Maven 2.2.1 - 3.1.1 have been tested.
 
 See each module's README.md for build instructions.
 
@@ -138,11 +128,6 @@ Please add the following to your settings.xml to enable the CDI RI to be sucked 
 
 
 
-Continuous Integration
-----------------------
-All modules are built at http://jsr107.ci.cloudbees.com.
-
-
 Testing Implementions of JSR107
 -------------------------------
 
@@ -159,6 +144,12 @@ Issue tracker
 -------------
 
 Please log issues to: <https://github.com/jsr107/jsr107spec/issues>
+
+
+User Questions
+--------------
+
+Some of the expert group monitor the tags "jcache" and "jsr107" on [stackoverflow](http://stackoverflow.com).
 
 
 Contributing
