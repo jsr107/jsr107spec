@@ -163,9 +163,9 @@ public interface CacheManager extends Closeable {
   /**
    * Looks up a managed {@link Cache} given its name.
    * <p>
-   * This method must be used for {@link Cache}s that were configured with
-   * runtime key and value types. Use {@link #getCache(String)} for
-   * {@link Cache}s where these were not specified.
+   * Use this method to check runtime key and value types.
+   * <p>
+   * Use {@link #getCache(String)} where this check is not required.
    * <p>
    * Implementations must ensure that the key and value types are the same as
    * those configured for the {@link Cache} prior to returning from this method.
@@ -202,12 +202,8 @@ public interface CacheManager extends Closeable {
    * to use Object.class key and value types.
    * <p>
    * Use the {@link #getCache(String, Class, Class)} method to acquire
-   * {@link Cache}s that were configured with specific runtime types.
-   * <p>
-   * Implementations must check if key and value types were configured
-   * for the requested {@link Cache}. If either the keyType or valueType of the
-   * configured {@link Cache} were specified (other than <code>Object.class</code>)
-   * an {@link IllegalArgumentException} will be thrown.
+   * {@link Cache}s with a check that the supplied key and value type parameters
+   * match the runtime types.
    * <p>
    * Implementations that support declarative mechanisms for pre-configuring
    * {@link Cache}s may return a pre-configured {@link Cache} instead of
@@ -218,8 +214,6 @@ public interface CacheManager extends Closeable {
    * @param cacheName the name of the cache to look for
    * @return the Cache or null if it does exist or can't be pre-configured
    * @throws IllegalStateException    if the CacheManager is {@link #isClosed()}
-   * @throws IllegalArgumentException if the {@link Cache} was configured with
-   *                                  specific types, this method cannot be used
    * @throws SecurityException        when the operation could not be performed
    *                                  due to the current security settings
    * @see #getCache(String, Class, Class)
