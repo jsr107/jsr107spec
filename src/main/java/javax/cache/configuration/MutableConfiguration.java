@@ -102,15 +102,13 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   /**
    * Default JavaBean constructor.
    * <p>
-   * The constructor sets the key and value type parameters of the cache to
-   * {@code Object.class}, due to type erasure.
+   * Creates a default configuration. Default configurations have no runtime type checking
+   * and are set for eternal expiry.
    * </p><p>
-   * To use specific runtime types, these must be specified by using
-   * the {@link #MutableConfiguration(Class, Class)} constructor or by
-   * calling {@link #setTypes} after construction.
+   * To enable runtime type enforcement, if supported by the implementation, call
+   * {@link #setTypes} after construction.
    * </p><p>
-   * The typical usage pattern should first set the types according to the generic parameters
-   * of the class:
+   * After construction set any other configuration parameters in the fluent style. e.g.
    * </p>
    * <pre>{@code
    * CacheConfiguration&lt;Integer, String&gt; = new MutableConfiguration&lt;Integer, String&gt;()
@@ -135,15 +133,6 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
     this.isStatisticsEnabled = false;
     this.isStoreByValue = true;
     this.isManagementEnabled = false;
-  }
-
-  /**
-   * Constructs a {@link MutableConfiguration} with types specified.
-   */
-  public MutableConfiguration(Class<K> keyType, Class<V> valueType) {
-    this();
-    this.keyType = (Class<K>)keyType;
-    this.valueType = (Class<V>)valueType;
   }
 
   /**
