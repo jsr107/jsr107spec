@@ -106,14 +106,14 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
    * {@code Object.class}, due to type erasure.
    * </p><p>
    * To use specific runtime types, these must be specified by using
-   * the {@link MutableConfiguration(Class<K>, Class<V>)} constructor or by
+   * the {@link #MutableConfiguration(Class, Class)} constructor or by
    * calling {@link #setTypes} after construction.
    * </p><p>
    * The typical usage pattern should first set the types according to the generic parameters
    * of the class:
    * </p>
    * <pre>{@code
-   * CacheConfiguration<Integer, String> = new MutableConfiguration<Integer, String>()
+   * CacheConfiguration&lt;Integer, String&gt; = new MutableConfiguration&lt;Integer, String&gt;()
    *     .setTypes(Integer.class, String.class)
    *     .setReadThrough(true)
    *      . . .

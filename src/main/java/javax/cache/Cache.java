@@ -190,7 +190,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * #containsKey(Object) c.containsKey(k)} would return <tt>true</tt>.)
      * <p>
      * If the cache is configured write-through the
-     * {@link CacheWriter#write(Entry)} method will be called.
+     * {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      *
      * @param key   key with which the specified value is to be associated
@@ -223,7 +223,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * with the key previously.</p>
      * <p>
      * If the cache is configured write-through the associated
-     * {@link CacheWriter#write(Entry)} method will be called.
+     * {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      *
      * @param key   key with which the specified value is to be associated
@@ -239,7 +239,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               configured for the {@link Cache}
      * @see #put(Object, Object)
      * @see #getAndReplace(Object, Object)
-     * @see CacheWriter#write
+     * @see CacheWriter#write(Cache.Entry)
      */
     V getAndPut(K key, V value);
 
@@ -293,7 +293,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * except that the action is performed atomically.
      * <p>
      * If the cache is configured write-through, and this method returns true,
-     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
@@ -420,7 +420,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * except that the action is performed atomically.
      * <p>
      * If the cache is configured write-through, and this method returns true,
-     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      * @param key      key with which the specified value is associated
      * @param oldValue value expected to be associated with the specified key
@@ -452,7 +452,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * except that the action is performed atomically.
      * <p>
      * If the cache is configured write-through, and this method returns true,
-     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      * @param key  the key with which the specified value is associated
      * @param value the value to be associated with the specified key
@@ -486,7 +486,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * except that the action is performed atomically.
      * <p>
      * If the cache is configured write-through, and this method returns true,
-     * the associated {@link CacheWriter#write(Entry)} method will be called.
+     * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      * @param key   key with which the specified value is associated
      * @param value value to be associated with the specified key
