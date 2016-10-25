@@ -17,15 +17,20 @@
 package javax.cache.processor;
 
 import javax.cache.Cache;
+import javax.cache.integration.CacheLoader;
 
 /**
  * A mutable representation of a {@link javax.cache.Cache.Entry}.
+ * <p/>
+ * Mutable entries are used by {@link EntryProcessor}s to mutate
+ * {@link Cache.Entry}s in place, atomically.
  *
  * @param <K> the type of key
  * @param <V> the type of value
  *
  * @author Greg Luck
  * @since 1.0
+ * @see EntryProcessor
  */
 public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
 
@@ -42,6 +47,18 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
    * This has the same semantics as calling {@link Cache#remove}.
    */
   void remove();
+
+  /**
+   * Returns the value stored in the cache.
+   * <p/>
+   * If the cache is configured to use read-through, and this method
+   * would return null because the entry is missing from the cache,
+   * the Cache's {@link CacheLoader} is called in an attempt to load
+   * the entry.
+   *
+   * @return the value corresponding to this entry
+   */
+  V getValue();
 
   /**
    * Sets or replaces the value associated with the key.
