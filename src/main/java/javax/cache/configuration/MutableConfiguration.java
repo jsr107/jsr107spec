@@ -326,7 +326,9 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   /**
    * Set the {@link Factory} for the {@link ExpiryPolicy}.  If <code>null</code>
    * is specified the default {@link ExpiryPolicy} is used.
-   *
+   * <p>
+   * Only one expiry policy can be set for a cache. The last policy applied before cache
+   * construction will be the one used.
    * @param factory the {@link ExpiryPolicy} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */
