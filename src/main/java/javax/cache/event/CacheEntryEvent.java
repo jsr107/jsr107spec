@@ -17,6 +17,7 @@
 package javax.cache.event;
 
 import javax.cache.Cache;
+import javax.cache.configuration.CacheEntryListenerConfiguration;
 import java.util.EventObject;
 
 /**
@@ -52,15 +53,31 @@ public abstract class CacheEntryEvent<K, V> extends EventObject
   }
 
   /**
+   * Returns the value stored in the cache when this entry was created.
+   * <p>
+   * The value will be available
+   * for {@link CacheEntryCreatedListener}, {@link CacheEntryExpiredListener}
+   * and {@link CacheEntryRemovedListener}
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
+   *
+   * @return the value corresponding to this entry
+   */
+  public abstract V getValue();
+
+  /**
    * Returns the previous value, that existed prior to the
-   * modification of the Entry value.
+   * modification of the Entry value. The old value will be available
+   * for {@link CacheEntryUpdatedListener}
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
    *
    * @return the previous value or <code>null</code> if there was no previous value
    */
   public abstract V getOldValue();
 
   /**
-   * Whether the old value is available.
+   * Whether the old value is available. The old value will be available
+   * for {@link CacheEntryUpdatedListener} 
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true. 
    *
    * @return true if the old value is populated
    */
