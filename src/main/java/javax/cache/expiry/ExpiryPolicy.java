@@ -40,9 +40,6 @@ public interface ExpiryPolicy {
    * {@link Duration} before an entry expires.  If a {@link Duration#ZERO}
    * is returned the new Cache.Entry is considered to be already expired and
    * will not be added to the Cache.
-   * <p>
-   * Should an exception occur while determining the Duration, an implementation
-   * specific default {@link Duration} will be used.
    *
    * @return the new {@link Duration} before a created entry expires
    */
@@ -57,9 +54,6 @@ public interface ExpiryPolicy {
    * {@link Duration#ZERO} is returned a Cache.Entry will be
    * considered immediately expired.  Returning <code>null</code> will result
    * in no change to the previously understood expiry {@link Duration}.
-   * <p>
-   * Should an exception occur while determining the Duration, an implementation
-   * specific default Duration will be used.
    *
    * @return the new {@link Duration} before an accessed entry expires
    */
@@ -74,9 +68,6 @@ public interface ExpiryPolicy {
    * If a {@link Duration#ZERO} is returned a Cache.Entry is considered
    * immediately expired.  Returning <code>null</code> will result in no change
    * to the previously understood expiry {@link Duration}.
-   * <p>
-   * Should an exception occur while determining the Duration, an implementation
-   * specific default Duration will be used.
    *
    * @return the new {@link Duration} before an updated entry expires
    */
