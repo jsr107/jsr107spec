@@ -46,10 +46,6 @@
                     <groupId>javax.annotation</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>jboss-interceptors-api_1.1_spec</artifactId>
-                    <groupId>org.jboss.spec.javax.interceptor</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>javax.inject</artifactId>
                     <groupId>javax.inject</groupId>
                 </exclusion>
