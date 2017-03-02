@@ -21,7 +21,7 @@ import javax.cache.integration.CacheLoader;
 
 /**
  * A mutable representation of a {@link javax.cache.Cache.Entry}.
- * <p/>
+ * <p>
  * Mutable entries are used by {@link EntryProcessor}s to mutate
  * {@link Cache.Entry}s in place, atomically.
  *
@@ -50,7 +50,7 @@ public interface MutableEntry<K, V> extends Cache.Entry<K, V> {
 
   /**
    * Returns the value stored in the cache.
-   * <p/>
+   * <p>
    * If the cache is configured to use read-through, and this method
    * would return null because the entry is missing from the cache,
    * the Cache's {@link CacheLoader} is called in an attempt to load
