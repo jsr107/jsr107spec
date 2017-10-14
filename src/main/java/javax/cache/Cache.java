@@ -579,10 +579,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
     /**
      * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
-     * the provided key. If an {@link Entry} does not exist for the specified key,
-     * an attempt is made to load it (if a loader is configured) or a surrogate
-     * {@link Entry}, consisting of the key with a null value is used instead.
-     * <p>
+     * the provided key. 
      *
      * @param <T>            the type of the return value
      * @param key            the key to the entry
@@ -610,10 +607,6 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
     /**
      * Invokes an {@link EntryProcessor} against the set of {@link Entry}s
      * specified by the set of keys.
-     * <p>
-     * If an {@link Entry} does not exist for the specified key, an attempt is made
-     * to load it (if a loader is configured) or a surrogate {@link Entry},
-     * consisting of the key and a value of null is provided.
      * <p>
      * The order that the entries for the keys are processed is undefined.
      * Implementations may choose to process the entries in any order, including
