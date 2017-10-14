@@ -10,6 +10,7 @@ About
 
 ## Releases
 
+* FIXME 2017: 1.1 Maintenance Release.
 * 18 March 2014:  1.0.0. Final Release. Unchanged from 1.0.0-RC1.
 * 16 December 2013:  1.0.0-RC1. This is the version matching the final specification and is what is up on https://jcp.org/aboutJava/communityprocess/final/jsr107/index.html.
 * 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.Proposed Final Draft
@@ -44,7 +45,7 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
     </dependency>
 
 Javadoc
@@ -82,7 +83,9 @@ implementations.
 Building From Source
 --------------------
 
-Building uses Maven in all modules. Maven 2.2.1 - 3.1.1 have been tested.
+Building uses Maven in all modules. Maven 3.3.9 - 3.5.0 have been tested.
+
+JCache is compatible with Java 6 to Java 9. We have tested building from Java 8 and Java 9.
 
 See each module's README.md for build instructions.
 
