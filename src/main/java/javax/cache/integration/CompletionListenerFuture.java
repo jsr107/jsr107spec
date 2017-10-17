@@ -101,9 +101,9 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
   }
 
   /**
-   * Cancelling is mot supported, always throws exception.
+   * Cancelling is not supported, always throws exception.
    *
-   * @throws UnsupportedOperationException
+   * @throws UnsupportedOperationException thrown always
    */
   @Override
   public boolean cancel(boolean b) {
@@ -111,7 +111,7 @@ public class CompletionListenerFuture implements CompletionListener, Future<Void
   }
 
   /**
-   * Cancelling is mot supported, always returns false
+   * Cancelling is not supported, always returns false
    *
    * @return always false.
    */
