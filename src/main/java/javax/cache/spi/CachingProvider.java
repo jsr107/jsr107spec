@@ -53,8 +53,11 @@ public interface CachingProvider extends Closeable {
    * with the same {@link URI} and {@link ClassLoader} but different properties,
    * the {@link CacheManager} created in the first call is returned.
    * <p>
-   * Properties are caching implementation specific. The behavior of mutating
-   * properties obtained from {@link CacheManager#getProperties()} is undefined.
+   * Properties names follow the same scheme as package names.
+   * The prefixes {@code java} and {@code javax} are reserved.
+   * Properties are passed through and can be retrieved via {@link CacheManager#getProperties()}.
+   * Properties within the package scope of a caching implementation may be used for
+   * additional configuration.
    *
    * @param uri         an implementation specific URI for the
    *                    {@link CacheManager} (null means use
