@@ -53,33 +53,47 @@ public abstract class CacheEntryEvent<K, V> extends EventObject
   }
 
   /**
-   * Returns the value stored in the cache when this entry was created.
+   * Returns the value stored in the cache when this entry was created or updated.
    * <p>
    * The value will be available
-   * for {@link CacheEntryCreatedListener}, {@link CacheEntryExpiredListener}
-   * and {@link CacheEntryRemovedListener}
-   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
+   * for {@link CacheEntryCreatedListener} and {@link CacheEntryUpdatedListener}.
+   * Returns the same value as {@link #getOldValue()} for {@link CacheEntryExpiredListener}
+   * and {@link CacheEntryRemovedListener}. Cache clients that need to maintain compatibility with
+   * JSR107 version 1.0 cache implementations, need to use this method for retrieving the expired
+   * or removed value. When using cache implementations compatible with JSR107 version 1.1,
+   * clients should prefer the method {@link #getOldValue()}.
    *
    * @return the value corresponding to this entry
+   * @see #getOldValue()
    */
+  @Override
   public abstract V getValue();
 
   /**
-   * Returns the previous value, that existed prior to the
-   * modification of the Entry value. The old value will be available
-   * for {@link CacheEntryUpdatedListener}
+   * Returns the previous value that existed for entry in the cache before modification or removal.
+   * The old value will be available
+   * for {@link CacheEntryUpdatedListener}, {@link CacheEntryExpiredListener}
+   * and {@link CacheEntryRemovedListener}
    * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
+   * The old value may be available for {@link CacheEntryUpdatedListener},
+   * {@link CacheEntryExpiredListener} and {@link CacheEntryRemovedListener}
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is false.
    *
-   * @return the previous value or <code>null</code> if there was no previous value
+   * @return the previous value or <code>null</code> if there was no previous value or
+   * the previous value is not available
    */
   public abstract V getOldValue();
 
   /**
    * Whether the old value is available. The old value will be available
-   * for {@link CacheEntryUpdatedListener} 
-   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true. 
+   * for {@link CacheEntryUpdatedListener}, {@link CacheEntryExpiredListener}
+   * and {@link CacheEntryRemovedListener}
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
+   * The old value may be available for {@link CacheEntryUpdatedListener},
+   * {@link CacheEntryExpiredListener} and {@link CacheEntryRemovedListener}
+   * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is false.
    *
-   * @return true if the old value is populated
+   * @return true if the old value is available
    */
   public abstract boolean isOldValueAvailable();
 
