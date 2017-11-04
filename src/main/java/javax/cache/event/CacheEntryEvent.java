@@ -89,11 +89,11 @@ public abstract class CacheEntryEvent<K, V> extends EventObject
    * for {@link CacheEntryUpdatedListener}, {@link CacheEntryExpiredListener}
    * and {@link CacheEntryRemovedListener}
    * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is true.
-   * The old value may be available for {@link CacheEntryUpdatedListener},
+   * The old value <b>may</b> be available for {@link CacheEntryUpdatedListener},
    * {@link CacheEntryExpiredListener} and {@link CacheEntryRemovedListener}
    * if {@link CacheEntryListenerConfiguration#isOldValueRequired()} is false.
    *
-   * @return true if the old value is available
+   * @return true if the old value is definitely available
    */
   public abstract boolean isOldValueAvailable();
 
