@@ -102,19 +102,20 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
   /**
    * Default JavaBean constructor.
    * <p>
-   * Creates a default configuration. Default configurations have no runtime type checking
-   * and are set for eternal expiry.
+   * Creates a default configuration. Default configurations have no
+   * runtime type checking and are set for eternal expiry.
    * </p><p>
    * To enable runtime type enforcement, if supported by the implementation, call
    * {@link #setTypes} after construction.
    * </p><p>
-   * After construction set any other configuration parameters in the fluent style. e.g.
+   * After construction set any other configuration parameters in the
+   * fluent style. e.g.
    * </p>
    * <pre>{@code
-   * CacheConfiguration&lt;Integer, String&gt; = new MutableConfiguration&lt;Integer, String&gt;()
-   *     .setTypes(Integer.class, String.class)
-   *     .setReadThrough(true)
-   *      . . .
+   * CacheConfiguration<Integer, String> = new MutableConfiguration<Integer, String>()
+   *             .setTypes(Integer.class, String.class)
+   *             .setReadThrough(true)
+   *             . . .
    * }</pre>
    * @see #setTypes(Class, Class)
    */
@@ -327,8 +328,8 @@ public class MutableConfiguration<K, V> implements CompleteConfiguration<K, V> {
    * Set the {@link Factory} for the {@link ExpiryPolicy}.  If <code>null</code>
    * is specified the default {@link ExpiryPolicy} is used.
    * <p>
-   * Only one expiry policy can be set for a cache. The last policy applied before cache
-   * construction will be the one used.
+   * Only one expiry policy can be set for a cache. The last policy applied
+   * before cache construction will be the one used.
    * @param factory the {@link ExpiryPolicy} {@link Factory}
    * @return the {@link MutableConfiguration} to permit fluent-style method calls
    */

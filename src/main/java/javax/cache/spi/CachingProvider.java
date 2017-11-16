@@ -55,7 +55,8 @@ public interface CachingProvider extends Closeable {
    * <p>
    * Properties names follow the same scheme as package names.
    * The prefixes {@code java} and {@code javax} are reserved.
-   * Properties are passed through and can be retrieved via {@link CacheManager#getProperties()}.
+   * Properties are passed through and can be retrieved via
+   * {@link CacheManager#getProperties()}.
    * Properties within the package scope of a caching implementation may be used for
    * additional configuration.
    *
