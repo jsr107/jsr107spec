@@ -10,7 +10,7 @@ About
 
 ## Releases
 
-* FIXME 2017: 1.1 Maintenance Release.
+* 16 December 2017: 1.1.0 Maintenance Release. 
 * 18 March 2014:  1.0.0. Final Release. Unchanged from 1.0.0-RC1.
 * 16 December 2013:  1.0.0-RC1. This is the version matching the final specification and is what is up on https://jcp.org/aboutJava/communityprocess/final/jsr107/index.html.
 * 21 October 2013:  1.0.0-PFD for the cache-api and 0.11 for other artifacts.Proposed Final Draft
