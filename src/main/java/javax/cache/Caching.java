@@ -433,8 +433,8 @@ public final class Caching {
 
       if (providers == null) {
 
-        if (System.getProperties().containsKey(JAVAX_CACHE_CACHING_PROVIDER)) {
-          String className = System.getProperty(JAVAX_CACHE_CACHING_PROVIDER);
+        String className = System.getProperty(JAVAX_CACHE_CACHING_PROVIDER);
+        if (className != null) {
           providers = new LinkedHashMap<String, CachingProvider>();
           providers.put(className, loadCachingProvider(className, serviceClassLoader));
 
