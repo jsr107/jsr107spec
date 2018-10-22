@@ -83,9 +83,9 @@ implementations.
 Building From Source
 --------------------
 
-Building uses Maven in all modules. Maven 3.3.9 - 3.5.0 have been tested.
+Building uses Maven in all modules. Maven 3.3.9 - 3.5.4 have been tested.
 
-JCache is compatible with Java 6 to Java 9. We have tested building from Java 8 and Java 9.
+JCache is compatible with Java 6 to Java 11. We have tested building from Java 8 and Java 11.
 
 See each module's README.md for build instructions.
 
