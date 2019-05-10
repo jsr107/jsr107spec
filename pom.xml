@@ -243,8 +243,10 @@
               <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                  <version>3.1.0</version>
                 <configuration>
-                  <additionalparam>-Xdoclint:all -Xdoclint:-missing</additionalparam>
+                    <doclint>all</doclint>
+                    <doclint>-missing</doclint>
                 </configuration>
               </plugin>
             </plugins>
