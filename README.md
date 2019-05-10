@@ -10,6 +10,7 @@ About
 
 ## Releases
 
+* 10 May 2019: 1.1.1 Maintenance Release.
 * 16 December 2017: 1.1.0 Maintenance Release. 
 * 18 March 2014:  1.0.0. Final Release. Unchanged from 1.0.0-RC1.
 * 16 December 2013:  1.0.0-RC1. This is the version matching the final specification and is what is up on https://jcp.org/aboutJava/communityprocess/final/jsr107/index.html.
@@ -45,18 +46,18 @@ or use the following Maven snippet:
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
     </dependency>
 
 Javadoc
 -------
 
-The JavaDoc is available as a jar with the releases. You can also find the JavaDoc [online](http://www.javadoc.io/doc/javax.cache/cache-api/1.0.0).
+The JavaDoc is available as a jar with the releases. You can also find the JavaDoc [online](http://www.javadoc.io/doc/javax.cache/cache-api/1.1.1).
 
 Specification
 -------------
 
-The specification is available online as a [Google Doc](https://docs.google.com/document/d/1MZQstO9GJo_MUMy5iD5sxCrstunnQ1f85ekCng8LcqM/edit?usp=sharing).
+The specification is available online as a [Google Doc](https://docs.google.com/document/d/1ijduF_tmHvBaUS7VBBU2ZN8_eEBiFaXXg9OI0_ZxCrA/edit?usp=sharing).
 
 Reference Implementation
 ------------------------
