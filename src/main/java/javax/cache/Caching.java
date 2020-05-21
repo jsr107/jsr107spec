@@ -56,7 +56,7 @@ import java.util.WeakHashMap;
  * <p>
  * Alternatively when the fully qualified class name of a
  * {@link CachingProvider} implementation is specified using the system property
- * <code>javax.cache.spi.cachingprovider</code>, that implementation will be used
+ * <code>javax.cache.spi.CachingProvider</code>, that implementation will be used
  * as the default {@link CachingProvider}.
  * <p>
  * All {@link CachingProvider}s that are automatically detected or explicitly
