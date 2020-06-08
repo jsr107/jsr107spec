@@ -256,10 +256,9 @@
     </profiles>
 
     <scm>
-        <connection>scm:git:git@github.com:juven/git-demo.git</connection>
-        <developerConnection>scm:git:git@github.com:juven/git-demo.git
-        </developerConnection>
-        <url>git@github.com:juven/git-demo.git</url>
+        <connection>scm:git:https://github.com/jsr107/jsr107spec.git</connection>
+        <developerConnection>scm:git:git@github.com:jsr107/jsr107spec.git</developerConnection>
+        <url>https://github.com/jsr107/jsr107spec</url>
     </scm>
 
 
